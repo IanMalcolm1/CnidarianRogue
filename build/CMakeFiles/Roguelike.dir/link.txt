@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/Roguelike.dir/main.cpp.o -o Roguelike  -L/usr/lib/x86_64-linux-gnu  -lSDL2 /usr/lib/x86_64-linux-gnu/libSDL2_image.so src/libSourceLib.a -L/usr/lib/x86_64-linux-gnu  -lSDL2 /usr/lib/x86_64-linux-gnu/libSDL2_image.so 
