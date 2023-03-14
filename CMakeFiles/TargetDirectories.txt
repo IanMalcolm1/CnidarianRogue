@@ -1,3 +1,0 @@
-/home/ian/Programming/SimpleRoguelike/CMakeFiles/Roguelike.dir
-/home/ian/Programming/SimpleRoguelike/CMakeFiles/edit_cache.dir
-/home/ian/Programming/SimpleRoguelike/CMakeFiles/rebuild_cache.dir
