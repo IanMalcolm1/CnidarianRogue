@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/Roguelike.dir/Game.cpp.o -o Roguelike  -L/usr/lib/x86_64-linux-gnu  -lSDL2 -lSourceLib 

@@ -1,0 +1,92 @@
+_____________________________________________________________________________________________
+TODOS:
+Current:
+Click to move in bresenham
+
+Next:
+Base all confirmerUI dimensions on fontsize
+
+Later:
+Remove all (or most) printf statements
+Start implementing an EC model
+Add player screen
+Add better creatures
+Better generation
+Item manager like ActorManager?
+Standardize UI screens?
+Centered text
+
+Eventually:
+Look into lua
+Add viewports for message log and basic character info
+Add openable UI screens
+Add save functionality
+
+_____________________________________________________________________________________________
+UI LAYOUT:
+Openable (cover whole screen): Full Character Sheet, Inventory, Level Up Dialogues, Settings
+Openable (small screen over map view): Use Ability, Take Items
+
+_____________________________________________________________________________________________
+GLOBAL MAP TILES:
+Local map tiles would probably include vectors for the entities that inhabit them.
+Also a timer value to manage regular cycling between which item/entity is shown.
+
+Global map tiles will actually be entire local maps. Will need arrays of local maps to
+account for z-levels, and a corresponding array for the buffermaps of each z-level (it would
+be cool to be able to see maps of underground areas)
+
+_____________________________________________________________________________________________
+COMPONENTS:
+Renderable component to include all tile location, tile image, and color values?
+(don't think we'd need something dedicated to location alone)
+
+_____________________________________________________________________________________________
+GEOGRAPHIC MEMORY:
+What I'm calling the system for player remembering only features of maps they've already seen,
+rather than just knowing where everything is from the beginning.
+
+Will want to add variables to keep track of the rectangle of area a player has seen. That way
+we can center only that area if they zoom out without giving them unnecessary knowledge of
+how large the area they're in actually is.
+
+_____________________________________________________________________________________________
+MOVEMENT:
+Include diagonal directions.
+
+Ensure multiple creatures can't occupy same tile on same turn unless one is flying.
+
+Friendly creatures switch places, otherwise a creature gets blocked when trying to move to a
+tile where another exists. Probably disallow npcs moving the player character either, only
+player character moving npcs. Otherwise high potential for bad gameplay experience.
+
+Maybe eventually include movement cost modifiers.
+
+_____________________________________________________________________________________________
+AI
+Necessary:
+- Creatures can either be hostile, wary, or passive towards other creatures (including the
+  player depending on alignments and threat levels).
+- Creatures should retreat when their health percentage is low compared to that of their
+  current assailant/would-be victim.
+- Creatures should use weapon with highest dps when attacking, potentially modified by a
+  'cowardice' stat or something that weights using ranged weapons over melee ones.
+- Creatures should be able to use any abilities they have.
+
+Superfluous (maybe add in a later game):
+- Have tool-wielding creatures to simulate doing work at workstations, congregate in taverns
+  or around campfires in the evening, go to sleep on beds/bedrolls at night.
+- Have animals to go to their dens or lairs at different times depending on their circadian
+  rhythms.
+- Creatures meant to guard things have a chance to fall asleep on the job
+- Support for house ownership
+
+_____________________________________________________________________________________________
+MODULAR AI
+Part 1.) Have a set of core/basic states, like idle, sleeping, attacking, and fleeing.
+Part 2.) Have component states that correspond to core states and have different weights.
+		 When an entity enters a main state, it immediately rolls one of the component sub-
+		 states to engage in. (Also includes some default sub-states like a standing around
+		 or wandering state.)
+Part 3.) For entity components like inventories, just do flag checks in various functions,
+		 so that we just modify possible state behaviors, rather than adding new ones.
