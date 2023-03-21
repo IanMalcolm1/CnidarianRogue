@@ -1,7 +1,6 @@
 _____________________________________________________________________________________________
 TODOS:
 Current:
-Click to move in bresenham
 
 Next:
 Base all confirmerUI dimensions on fontsize
