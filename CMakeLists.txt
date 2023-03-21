@@ -2,9 +2,52 @@ cmake_minimum_required(VERSION 3.16)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
 project(Roguelike LANGUAGES CXX)
+
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+
+add_executable(Roguelike
+   src/main.cpp
+   src/Actor.cpp
+   src/ActorPool.cpp
+   src/AI.cpp
+   src/AIStateLogic.cpp
+   src/ConfirmerUI.cpp
+   src/DebugLogger.cpp
+   src/FoV.cpp
+   src/Game.cpp
+   src/GameLog.cpp
+   src/GameText.cpp
+   src/GameWindow.cpp
+   src/GraphicsThings.cpp
+   src/InputConfirmer.cpp
+   src/InputManager.cpp
+   src/Item.cpp
+   src/LocalMap.cpp
+   src/MapDisplay.cpp
+   src/MapUI.cpp
+   src/MessagesUI.cpp
+   src/Pathfinding.cpp
+   src/PathfindingRoute.cpp
+   src/PlayerManager.cpp
+   src/PlayerUI.cpp
+   src/Scene.cpp
+   src/SceneUI.cpp
+   src/TerrainGenerators.cpp
+   src/TerrainMap.cpp
+   src/TextRenderer.cpp
+   src/TurnQueue.cpp)
+
+set_property(TARGET Roguelike PROPERTY CXX_STANDARD 20)
 
 add_subdirectory(src)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+target_link_libraries(Roguelike ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+
+include_directories(Roguelike ${PROJECT_SOURCE_DIR}/include
+    ${SDL2_INCLUDE_DIRS}
+    ${SDL2_IMAGE_INCLUDE_DIRS})

@@ -126,20 +126,19 @@ void ConfirmerUI::processKeyPress(SDL_Keycode keycode) {
 
 
 void ConfirmerUI::calcDimensions(const SDL_Rect& viewport) {
-	//TODO: Make these dimensions constant. No point in them being dynamic.
 	parentViewport.w = viewport.w;
 	parentViewport.h = viewport.h;
 
-	screenViewport.w = parentViewport.w / 3;
-	screenViewport.h = parentViewport.h / 3;
+	screenViewport.w = 2*textSpecs.margin + textSpecs.fontSizePixels*20;
+	screenViewport.h = 2*textSpecs.margin + textSpecs.fontSizePixels*12;
 	screenViewport.x = (parentViewport.w - screenViewport.w) / 2;
 	screenViewport.y = (parentViewport.h - screenViewport.h) / 2;
 
 	yesViewport.h = noViewport.h = textSpecs.fontSizePixels + 2 * textSpecs.margin;
 	yesViewport.w = noViewport.w = textSpecs.fontSizePixels*3 + 2*textSpecs.margin;
 
-	yesViewport.x = screenViewport.x + screenViewport.w/3 - yesViewport.w/2;
-	noViewport.x = screenViewport.x + 2*screenViewport.w/3 - noViewport.w/2;
+	yesViewport.x = screenViewport.x + screenViewport.w/4 - yesViewport.w/2;
+	noViewport.x = screenViewport.x + 3*screenViewport.w/4 - noViewport.w/2;
 
 	yesViewport.y = noViewport.y = screenViewport.y + screenViewport.h - (16 + yesViewport.h);
 }
