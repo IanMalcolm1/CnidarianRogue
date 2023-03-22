@@ -1,9 +1,11 @@
 _____________________________________________________________________________________________
 TODOS:
 Current:
+Add class to store functions for AI state logic. Include in Scene class. Keeps scene class
+clean while reducing number of circular dependencies to deal with (compared to putting them
+somewhere in Actors themselves)
 
 Next:
-Base all confirmerUI dimensions on fontsize
 
 Later:
 Remove all (or most) printf statements
@@ -27,27 +29,9 @@ Openable (cover whole screen): Full Character Sheet, Inventory, Level Up Dialogu
 Openable (small screen over map view): Use Ability, Take Items
 
 _____________________________________________________________________________________________
-GLOBAL MAP TILES:
-Local map tiles would probably include vectors for the entities that inhabit them.
-Also a timer value to manage regular cycling between which item/entity is shown.
-
-Global map tiles will actually be entire local maps. Will need arrays of local maps to
-account for z-levels, and a corresponding array for the buffermaps of each z-level (it would
-be cool to be able to see maps of underground areas)
-
-_____________________________________________________________________________________________
 COMPONENTS:
 Renderable component to include all tile location, tile image, and color values?
 (don't think we'd need something dedicated to location alone)
-
-_____________________________________________________________________________________________
-GEOGRAPHIC MEMORY:
-What I'm calling the system for player remembering only features of maps they've already seen,
-rather than just knowing where everything is from the beginning.
-
-Will want to add variables to keep track of the rectangle of area a player has seen. That way
-we can center only that area if they zoom out without giving them unnecessary knowledge of
-how large the area they're in actually is.
 
 _____________________________________________________________________________________________
 MOVEMENT:
