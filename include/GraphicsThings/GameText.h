@@ -21,7 +21,7 @@ private:
 	std::string text;
 
 public:
-	GameText() : colorNodes(NULL), text("") {};
+	GameText() : colorNodes(std::vector<GameTextColorNode>()), text("") {};
 	GameText(std::string text, std::vector<GameTextColorNode> colorNodes) : text(text),
 		colorNodes(colorNodes) {};
 
