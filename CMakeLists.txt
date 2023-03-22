@@ -43,8 +43,6 @@ add_executable(Roguelike
 
 set_property(TARGET Roguelike PROPERTY CXX_STANDARD 20)
 
-add_subdirectory(src)
-
 
 target_link_libraries(Roguelike ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
