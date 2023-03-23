@@ -12,9 +12,9 @@ find_package(SDL2_image REQUIRED)
 add_executable(Roguelike
    src/main.cpp
    src/Actor.cpp
+   src/ActorManager.cpp
    src/ActorPool.cpp
    src/AI.cpp
-   src/AIStateLogic.cpp
    src/ConfirmerUI.cpp
    src/DebugLogger.cpp
    src/FoV.cpp

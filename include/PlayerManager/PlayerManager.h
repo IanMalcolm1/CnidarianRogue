@@ -20,6 +20,7 @@ private:
 	PlayerInputState inputState;
 
 	LocalMap* map;
+   TurnQueue* turnQueue;
 
 	InputConfirmer* sceneConfirmer;
 
@@ -29,10 +30,10 @@ private:
 public:
 	bool autoActing;
 
-	PlayerManager() : player(Actor()), inputState(PLAYER_INPUT_MOVE), map(nullptr),
+	PlayerManager(TurnQueue* turnQueue) : player(Actor()), turnQueue(turnQueue), inputState(PLAYER_INPUT_MOVE), map(nullptr),
 		sceneConfirmer(nullptr), autoActing(false) {};
 
-	void initialize(LocalMap* map, InputConfirmer* sceneConfirmer, TurnQueue* queue);
+	void initialize(LocalMap* map, InputConfirmer* sceneConfirmer);
 
 	//returns whether the turn needs to be run
 	bool processDirectionalCommand(PlayerCommand command);
@@ -41,7 +42,7 @@ public:
 	void placePlayer(TileCoords location);
 
 	void updateInputState(PlayerCommand command);
-	int doAutoAct();
+	bool doAutoAct();
 	void clearAutoAct();
 	void startAutoMove();
 };

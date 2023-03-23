@@ -57,7 +57,7 @@ void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 
 
 	if (needToRunTurn) {
-		runTurn();
+		actorManager.runActorTurns();
 	}
 }
 
@@ -67,54 +67,19 @@ void Scene::updateMapDisplay() {
 
 void Scene::runTurnIfAutoMoving() {
 	if (!alreadyRanTurn && playerManager.autoActing) {
-		turnQueue.insert(playerManager.getPlayer(), playerManager.doAutoAct());
-		runTurn();
+		playerManager.doAutoAct();
+		actorManager.runActorTurns();
 	}
 	alreadyRanTurn = false;
 }
 
-void Scene::runTurn() {
-	Actor* currentActor = turnQueue.pop();
-	while (currentActor != nullptr && !currentActor->isPlayer()) {
-		int timeTaken = performAction(currentActor);
-		turnQueue.insert(currentActor, timeTaken);
-
-		currentActor = turnQueue.pop();
-	}
-
-	alreadyRanTurn = true;
-	map.flagNeedToUpdateDisplay();
-}
 
 void Scene::setPlayerAt(TileCoords location) {
 	playerManager.placePlayer(location);
 }
 
 void Scene::createActorAt(TileCoords location) {
-	Actor newActor = Actor();
-
-	newActor.setLocation(location);
-
-	Actor* newActorPointer = actorPool.insert(newActor);
-
-	map.setActorAt(location, newActorPointer);
-	turnQueue.insert(newActorPointer, 0);
-}
-
-void Scene::destroyActor(Actor* actor) {
-	map.setActorAt(actor->getLocation(), nullptr);
-
-	turnQueue.remove(actor);
-
-	actorPool.kill(actor);
-}
-
-void Scene::moveActor(Actor* actor, TileCoords newLocation) {
-	map.setActorAt(actor->getLocation(), nullptr);
-
-	actor->setLocation(newLocation);
-
-	map.setActorAt(newLocation, actor);
+   actorManager.createActorAt(location);
 }
 
 void Scene::startAutoMove() {
