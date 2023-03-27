@@ -1,0 +1,7 @@
+Type Idea:
+Types = like big components, but only one of them for each game object.
+Since game is turn-based, we normally want to get most of the information about an entity all at once, so little bitty components wouldn't work too well (there'd be all sorts of pointer traversals and therefore cache misses)
+
+Actors/Items would essentially just pointers to their type information + numbers indicating both where they have been allocated in the actors/items arenas and where their types have been allocated in the types arenas (so the arenas can no which slots can be reused when we delete an actor/item.
+
+Might need to make a GameObjectFactory class that handles making Actors/Items, registering their type data, and attaching the pointers.
