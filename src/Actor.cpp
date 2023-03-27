@@ -1,9 +1,10 @@
 #include "GameObjects/Actor.h"
+#include "GameObjects/Item.h"
 
 
 Item Actor::generateCorpse() {
 
-	return Item();
+	return Item(ITEM_MISC);
 }
 
 void Actor::setLocation(TileCoords coordinates) {

@@ -41,8 +41,8 @@ private:
 
 	PathingRoute currentRoute;
 
-	//std::vector<Ability> _abilities;
-	//std::vector<Item> _items;
+	//std::vector<Ability> abilities;
+	//std::vector<Item>  items;
 
 	//some sort of type/species identifier
 

@@ -1,11 +1,24 @@
 #pragma once
 
 #include "GraphicsThings/TileDisplay.h"
+#include "GameObjects/GeneralComponents.h"
 
-class Item {
-private:
-	TileDisplay display;
+enum ItemType {
+   ITEM_GENERIC,
+   ITEM_CONSUMABLE,
+   ITEM_MISC,
+   ITEM_TOOL,
+   ITEM_ARMOR
+};
 
-public:
-	TileDisplay* getDisplay();
+struct Item {
+   public:
+      ItemType type;
+      TileDisplay display;
+
+      Description description;
+
+      Item(ItemType type) : type(type) {};
+
+      TileDisplay* getDisplay();
 };
