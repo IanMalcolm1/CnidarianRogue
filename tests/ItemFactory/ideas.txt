@@ -1,6 +1,6 @@
 I'm finding it easier to think of different item types rather than actor types, so will need to rename these files;
 
 Thinking about modularity, perhaps types shouldn't be so hardcoded. Instead they can just be groups of regular small components, and can have pointers to additional components if more need to be added in the future. This way we can keep the data on an entity as packed as possible while still allowing for significant runtime modifications to their functionality.
-Kind of a middle ground between random tiny components all over the heap and making an arena for each actor.
+More cache friendly, but creates more fragmentation than making data arenas for every single type of component.
 
 To make this work we need AI logic to be based around the components an entity has. Entity types should have functions for checking whether or not they have particular components, and for retrieving the data on them. When retrieving components, if the component is hardcoded, pointer to component should be returned directly. Otherwise (if it's a dynamic component), it should refer to its lookup table to get the correct pointer (don't want to do this for hardcoded components, because a dynamic lookup table is an extra pointer. Though maybe it would be cached too?).
