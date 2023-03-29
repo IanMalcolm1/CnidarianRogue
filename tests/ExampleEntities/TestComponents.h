@@ -4,6 +4,12 @@
 #include <string>
 
 
+struct MyColor {
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+};
+
 enum DamageType {
    DAMAGE_NONE,
    DAMAGE_PHYSICAL,
@@ -44,6 +50,13 @@ enum ComponentType {
    COMPONENT_RENDERABLE = 1<<4,
 };
 struct Component {};
+
+
+struct TileDisplay : public Component {
+	uint8_t symbol;
+	MyColor symbolColor;
+	MyColor backColor;
+};
 
 
 struct DescribableComp : public Component {

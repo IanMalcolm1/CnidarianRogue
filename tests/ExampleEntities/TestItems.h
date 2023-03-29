@@ -16,7 +16,7 @@ enum ItemType {
 
 class ItemData {
 private:
-   //TileDisplay display;
+   TileDisplay display;
    DescribableComp description;
 
    uint dynamicComponents;
