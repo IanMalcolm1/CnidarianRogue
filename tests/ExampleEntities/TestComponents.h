@@ -17,12 +17,11 @@ enum DamageType {
    DAMAGE_COLD
 };
 struct Damage {
-   DamageType damageType;
-   int damageDice;
-   int damageConstant;
+   DamageType type;
+   int dice, constant;
 
-   Damage() : damageType(DAMAGE_NONE), damageDice(0),
-      damageConstant(0) {};
+   Damage(DamageType type = DAMAGE_NONE, int dice = 0, int constant = 0)
+      : type(type), dice(dice), constant(constant) {};
 };
 
 
@@ -38,16 +37,20 @@ struct Effect {
    int intensity;
    bool permanent;
 
-   Effect() : type(EFFECT_NONE), intensity(0), permanent(false) {};
+   Effect(EffectType type = EFFECT_NONE, int intensity = 0, bool permanent = false)
+      : type(type), intensity(intensity), permanent(permanent) {};
 };
 
 
 enum ComponentType {
-   COMPONENT_DURABILITY = 1<<0,
-   COMPONENT_CONSUMABLE = 1<<1,
-   COMPONENT_WEARABLE = 1<<2,
-   COMPONENT_DAMAGING = 1<<3,
-   COMPONENT_RENDERABLE = 1<<4,
+   COMPONENT_DURABILITY = 0,
+   COMPONENT_CONSUMABLE = 1,
+   COMPONENT_WEARABLE,
+   COMPONENT_DAMAGING,
+   COMPONENT_DISPLAY,
+   COMPONENT_DESCRIBABLE,
+
+   NUM_COMPONENT_TYPES
 };
 struct Component {};
 
@@ -61,37 +64,40 @@ struct TileDisplay : public Component {
 
 struct DescribableComp : public Component {
    std::string name;
-   std::string description;
+   std::string desc;
 
-   DescribableComp() : name(NULL), description(NULL) {};
+   DescribableComp(std::string name = "noname", std::string desc = "undescribable")
+      : name(name), desc(desc) {};
 };
 
 
 struct DurabilityComp : public Component {
-   int currentDurability;
-   int totalDurability;
+   int total, current;
+
+   DurabilityComp(int total, int current) : total(total), current(current) {};
 };
 
 
 struct WearableComp : public Component {
-   int armorDice;
-   int armorConstant;
+   int dice;
+   int constant;
+
+   WearableComp(int dice = 0, int constant = 0) :
+      dice(dice), constant(constant) {};
 };
 
 
 struct DamagingComp : public Component {
    Damage damage1, damage2, damage3;
+
+   DamagingComp(Damage damage1 = Damage(), Damage damage2 = Damage(), Damage damage3 = Damage())
+      : damage1(damage1), damage2(damage2), damage3(damage3) {};
 };
 
 
 struct ConsumableComp : public Component {
    Effect effect1, effect2, effect3;
+
+   ConsumableComp(Effect effect1 = Effect(), Effect effect2 = Effect(), Effect effect3 = Effect())
+      : effect1(effect1), effect2(effect2), effect3(effect3) {};
 };
-
-
-
-/*
-struct RenderableComp : public Component {
-   TileDisplay display;
-};
-*/

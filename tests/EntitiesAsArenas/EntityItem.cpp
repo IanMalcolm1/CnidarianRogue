@@ -1,21 +1,21 @@
 #include "EntityItem.h"
 
 Component* EntityItem::getComponent(ComponentType type) {
-   if (type == COMPONENT_DESCRIPTION) {
-      return &description;
+   if (type == COMPONENT_DESCRIBABLE) {
+      //return &description;
    }
    else if (type == COMPONENT_DISPLAY) {
-      return &description;
+      return &display;
    }
-   Entity::getComponent(type);
+   return Entity::getComponent(type);
 }
 
 
-void removeComponent(ComponentType type) {
-   if (type == COMPONENT_DESCRIPTION ||
+void EntityItem::removeComponent(ComponentType type) {
+   if (type == COMPONENT_DESCRIBABLE ||
          type == COMPONENT_DISPLAY) {
       return;
    }
-
-   Entity::removeComponent();
+   
+   Entity::removeComponent(type);
 }
