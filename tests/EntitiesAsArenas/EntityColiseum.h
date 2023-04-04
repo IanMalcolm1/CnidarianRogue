@@ -6,11 +6,12 @@
 #include <cwchar>
 
 
-#define EXTRA_BYTES 128
+#define EXTRA_BYTES 64
 
 /* WARNING: This number is tied to some manually-implemented
  * bitshifts, and should be changed with caution */
 #define ENTITIES_PER_ARENA 32
+//should be log2 of ENTITIES_PER_ARENA
 #define BITSHIFTS_FOR_DIVISION 5
 #define MASK_FOR_REMAINDER 0b11111
 
@@ -26,11 +27,13 @@ private:
 public:
    EntityColiseum() : bytesPerEntity(sizeof(EType)+EXTRA_BYTES),
       dirtySlots(0), reusableSlots(std::vector<int>()),
-      arenas(std::vector<void*>()) {};
+      arenas(std::vector<void*>()) {
+         bytesPerEntity += (8-(bytesPerEntity & 0b111)); //alignment
+      };
 
    ~EntityColiseum() {
       for (int i =0; i<dirtySlots; i++) {
-         get(i)->~EType();
+         getEntity(i)->~EType();
       }
 
       for (void* ptr : arenas) {
@@ -44,38 +47,37 @@ public:
          int i = reusableSlots.back();
          reusableSlots.pop_back();
 
-         EType* ptr = (EType*) arenas[i >> BITSHIFTS_FOR_DIVISION];
-         ptr += bytesPerEntity*(i&MASK_FOR_REMAINDER);
+         char* slotPtr = (char*) arenas[i >> BITSHIFTS_FOR_DIVISION];
+         slotPtr += bytesPerEntity*(i&MASK_FOR_REMAINDER);
 
-         (*ptr) = EType(sizeof(EType), bytesPerEntity);
-
-         return ptr;
+         return (EType*) slotPtr;
       }
 
       if ((dirtySlots&MASK_FOR_REMAINDER)==0 &&
       (dirtySlots >> BITSHIFTS_FOR_DIVISION) >= arenas.size()) {
-         arenas.push_back(malloc(bytesPerEntity>>BITSHIFTS_FOR_DIVISION));
+         arenas.push_back(malloc(bytesPerEntity<<BITSHIFTS_FOR_DIVISION));
       }
 
-      EType* ptr = (EType*) arenas[dirtySlots>>BITSHIFTS_FOR_DIVISION];
-      ptr += bytesPerEntity*(dirtySlots&MASK_FOR_REMAINDER);
+      char* dest = (char*) arenas[dirtySlots>>BITSHIFTS_FOR_DIVISION];
+      dest += bytesPerEntity*(dirtySlots&MASK_FOR_REMAINDER);
+
+      EType* newEntity = new(dest) EType(dirtySlots, sizeof(EType), bytesPerEntity);
 
       dirtySlots++;
 
-      (*ptr) = EType(sizeof(EType), bytesPerEntity);
-
-      return ptr;
+      return newEntity;
    };
 
 
-   EType* get(int id) {
-      EType* ptr = (EType*) arenas[id>>BITSHIFTS_FOR_DIVISION];
+   EType* getEntity(int id) {
+      char* ptr = (char*) arenas[id>>BITSHIFTS_FOR_DIVISION];
       ptr += bytesPerEntity*(id&MASK_FOR_REMAINDER);
 
-      return ptr;
+      return (EType*) ptr;
    };
 
-   void deleteItem(int id) {
+   void deleteEntity(int id) {
+      getEntity(id)->reset();
       reusableSlots.push_back(id);
    };
 };

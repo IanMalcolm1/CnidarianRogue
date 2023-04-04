@@ -5,11 +5,9 @@
 int main() {
    //sizeAndPointersTests();
 
-   //testEntities();
-   
    //testDynamicAllocation();
-
-   //std::cout << "\n\n\n\n";
    
    testEntities();
+   
+   testColiseums();
 }

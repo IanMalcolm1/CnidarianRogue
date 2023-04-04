@@ -10,6 +10,22 @@ struct MyColor {
 	uint8_t b;
 };
 
+struct TileDisplay {
+	uint8_t symbol;
+	MyColor symbolColor;
+	MyColor backColor;
+};
+
+
+struct Description {
+   std::string name;
+   std::string desc;
+
+   Description(std::string name = "noname", std::string desc = "undescribable")
+      : name(name), desc(desc) {};
+};
+
+
 enum DamageType {
    DAMAGE_NONE,
    DAMAGE_PHYSICAL,
@@ -41,34 +57,16 @@ struct Effect {
       : type(type), intensity(intensity), permanent(permanent) {};
 };
 
-
+/* Actual Components, lol */
 enum ComponentType {
    COMPONENT_DURABILITY = 0,
    COMPONENT_CONSUMABLE = 1,
    COMPONENT_WEARABLE,
    COMPONENT_DAMAGING,
-   COMPONENT_DISPLAY,
-   COMPONENT_DESCRIBABLE,
 
    NUM_COMPONENT_TYPES
 };
 struct Component {};
-
-
-struct TileDisplay : public Component {
-	uint8_t symbol;
-	MyColor symbolColor;
-	MyColor backColor;
-};
-
-
-struct DescribableComp : public Component {
-   std::string name;
-   std::string desc;
-
-   DescribableComp(std::string name = "noname", std::string desc = "undescribable")
-      : name(name), desc(desc) {};
-};
 
 
 struct DurabilityComp : public Component {
