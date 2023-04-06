@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "GameObjects/TileCoordinates.h"
+#include "Topography/TileCoordinates.h"
 
 class PathingRoute {
 private:
