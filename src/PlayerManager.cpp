@@ -1,22 +1,19 @@
 #include "PlayerManager/PlayerManager.h"
+#include "Entities/ActorEntity.h"
 #include "Scene/TurnQueue.h"
 
-void PlayerManager::initialize(LocalMap* map, InputConfirmer* sceneConfirmer) {
-   this->map = map;
-   this->sceneConfirmer = sceneConfirmer;
-
+void PlayerManager::initialize(ActorEntity* player) {
    TileDisplay playerDisp = { ASYM_AT, {255,255,255}, {0,0,0} };
-   player.setDisplay(&playerDisp);
-   player.makePlayer();
+   player->display = playerDisp;
 
-   turnQueue->insert(&player, 0);
+   turnQueue->insert(player, 0);
 }
 
 bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
    TileCoords oldCoords, newCoords;
 
    if (inputState == PLAYER_INPUT_MOVE) {
-      oldCoords = newCoords = player.getLocation();
+      oldCoords = newCoords = player->location;
    }
    else {
       oldCoords = newCoords = map->getFocusTileLocation();
@@ -41,7 +38,7 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
 
    if (inputState == PLAYER_INPUT_MOVE) {
       if (map->isTraversibleAt(newCoords) && !map->thereIsAnActorAt(newCoords)) {
-         map->setPlayerLocation(&player, newCoords);
+         map->setPlayerLocation(player, newCoords);
          return true;
       }
    }
@@ -54,12 +51,12 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
    }
 }
 
-Actor* PlayerManager::getPlayer() {
-   return &player;
+ActorEntity* PlayerManager::getPlayer() {
+   return player;
 }
 
 void PlayerManager::placePlayer(TileCoords location) {
-   map->setPlayerLocation(&player, location);
+   map->setPlayerLocation(player, location);
 }
 
 void PlayerManager::updateInputState(PlayerCommand command) {
@@ -69,7 +66,7 @@ void PlayerManager::updateInputState(PlayerCommand command) {
          inputState = PLAYER_INPUT_MOVE;
       }
       else {
-         map->setLookTile(player.getLocation());
+         map->setLookTile(player->location);
          inputState = PLAYER_INPUT_LOOK;
       }
    }
@@ -84,16 +81,16 @@ bool PlayerManager::doAutoAct() {
    if (!autoMoveRoute.hasNextTile()) {
       autoActing = false;
       autoMoveRoute.clear();
-      turnQueue->insert(&player, 0);
+      turnQueue->insert(player, 0);
       return false;
    }
 
    TileCoords newTile = autoMoveRoute.getNextTile();
 
    if (map->isTraversibleAt(newTile)) {
-      map->setPlayerLocation(&player, newTile);
+      map->setPlayerLocation(player, newTile);
       autoMoveRoute.incrementProgress();
-      turnQueue->insert(&player, player.getStats()->baseMoveSpeed);
+      turnQueue->insert(player, player->stats.baseMoveSpeed);
    }
    else {
       autoActing = false;

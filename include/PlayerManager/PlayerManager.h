@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObjects/Actor.h"
+#include "Entities/ActorEntity.h"
 #include "Enums/PlayerCommands.h"
 #include "Topography/LocalMap.h"
 #include "UIScreens/InputConfirmer.h"
@@ -15,7 +15,7 @@ enum PlayerInputState {
 
 class PlayerManager {
 private:
-	Actor player;
+	ActorEntity* player;
 
 	PlayerInputState inputState;
 
@@ -30,15 +30,17 @@ private:
 public:
 	bool autoActing;
 
-	PlayerManager(TurnQueue* turnQueue) : player(Actor()), turnQueue(turnQueue), inputState(PLAYER_INPUT_MOVE), map(nullptr),
-		sceneConfirmer(nullptr), autoActing(false) {};
+	PlayerManager(TurnQueue* queue, LocalMap* map, InputConfirmer* sceneConfirmer) :
+      turnQueue(queue), player(nullptr), map(map),
+      inputState(PLAYER_INPUT_MOVE), autoActing(false), 
+		sceneConfirmer(sceneConfirmer) {};
 
-	void initialize(LocalMap* map, InputConfirmer* sceneConfirmer);
+	void initialize(ActorEntity* player);
 
 	//returns whether the turn needs to be run
 	bool processDirectionalCommand(PlayerCommand command);
 
-	Actor* getPlayer();
+	ActorEntity* getPlayer();
 	void placePlayer(TileCoords location);
 
 	void updateInputState(PlayerCommand command);

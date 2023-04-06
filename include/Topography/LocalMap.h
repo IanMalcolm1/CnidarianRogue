@@ -4,7 +4,8 @@
 
 #include "TerrainMap.h"
 #include "MapDisplay.h"
-#include "GameObjects/Actor.h"
+#include "Entities/ActorEntity.h"
+#include "Entities/ItemEntity.h"
 #include "Enums/PlayerCommands.h"
 #include "Algorithms/PathfindingRoute.h"
 #include "Logs/DebugLogger.h"
@@ -29,8 +30,8 @@ private:
 
 	TerrainMap terrainMap;
 
-	std::vector<Actor*> actors;
-	std::vector<std::vector<Item*>> items;
+	std::vector<ActorEntity*> actors;
+	std::vector<std::vector<ItemEntity*>> items;
 
 	void updateHighlightedTiles();
 
@@ -70,11 +71,11 @@ public:
 
 	bool thereIsAnActorAt(int index);
 	bool thereIsAnActorAt(TileCoords location);
-	Actor* getActorAt(int index);
-	Actor* getActorAt(TileCoords location);
-	void setActorAt(int index, Actor* actor);
-	void setActorAt(TileCoords location, Actor* actor);
-	void setPlayerLocation(Actor* player, TileCoords newLocation);
+	ActorEntity* getActorAt(int index);
+	ActorEntity* getActorAt(TileCoords location);
+	void setActorAt(int index, ActorEntity* actor);
+	void setActorAt(TileCoords location, ActorEntity* actor);
+	void setPlayerLocation(ActorEntity* player, TileCoords newLocation);
 
 	TileCoords getFocusTileLocation();
 	void setFocusTileLocation(TileCoords location);

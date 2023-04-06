@@ -1,6 +1,10 @@
 #include "Entities/ActorFactory.h"
-#include "Enums/AsciiSymbols.h"
 
+
+void ActorFactory::registerActor(ActorEntity* actor) {
+	map->setActorAt(actor->location, actor);
+	turnQueue->insert(actor, 0);
+}
 
 ActorEntity* ActorFactory::makePlayer() {
    ActorEntity* player = actorColiseum->makeEntity();
@@ -14,11 +18,12 @@ ActorEntity* ActorFactory::makePlayer() {
 
    player->display.symbol = ASYM_AT;
 
+   registerActor(player);
    return player;
 }
 
 
-ActorEntity* ActorFactory::makeEvilSmileyFace() {
+ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    ActorEntity* evilSmiley = actorColiseum->makeEntity();
    ActorStatBlock* smileyStats = &evilSmiley->stats;
 
@@ -29,6 +34,9 @@ ActorEntity* ActorFactory::makeEvilSmileyFace() {
    evilSmiley->description.desc = "Its insipid grin unnerves you.";
 
    evilSmiley->display.symbol = ASYM_SMILE_THIN;
+
+   evilSmiley->location = location;
    
+   registerActor(evilSmiley);
    return evilSmiley;
 }

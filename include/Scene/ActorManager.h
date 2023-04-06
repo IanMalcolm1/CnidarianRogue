@@ -4,28 +4,36 @@
  * actor's state, and runs the corresponding logic function.
  * Logic functions will be private functions of this class */
 
-#include "GameObjects/Actor.h"
+#include "Entities/ActorEntity.h"
+#include "Entities/ActorFactory.h"
+#include "Entities/EntityColiseum.h"
 #include "Scene/TurnQueue.h"
 #include "Topography/LocalMap.h"
-#include "Scene/ActorPool.h"
 
 class ActorManager {
    private:
-      ActorPool actorPool;
-      TurnQueue* turnQueue;
+      EntityColiseum<ActorEntity> actorColiseum;
+      TurnQueue turnQueue;
       LocalMap* map;
 
-      int wander(Actor* actor);
+      int runAction(ActorEntity* actor);
 
-
-      int runAction(Actor* actor);
+      int wander(ActorEntity* actor);
 
    public:
-      ActorManager(LocalMap* map, TurnQueue* turnQueue) : actorPool(ActorPool()), turnQueue(turnQueue), map(map) {};
+      ActorManager(LocalMap* map) :
+         actorColiseum(EntityColiseum<ActorEntity>()),
+         turnQueue(TurnQueue()), map(map) {};
 
       void runActorTurns();
 
-      void createActorAt(TileCoords location);
-      void destroyActor(Actor* actor);
-      void moveActor(Actor* actor, TileCoords newLocation);
+      void destroyActor(ActorEntity* actor);
+      void moveActor(ActorEntity* actor, TileCoords newLocation);
+
+      ActorEntity* getActor(int id) {
+         return actorColiseum.getEntity(id);
+      };
+
+      ActorFactory makeFactory();
+      TurnQueue* getTurnQueue();
 };

@@ -163,7 +163,7 @@ void Quadrant::makeVisibleToActor(int cardinal, int tileDepth, int tileColumn) {
 
 /* Lighting Functions */
 
-void FoV::calcFoV(LocalMap* localMap, TileCoords origin, Actor* actor, void(Quadrant::*makeVisible)(int, int, int)) {
+void FoV::calcFoV(LocalMap* localMap, TileCoords origin, ActorEntity* actor, void(Quadrant::*makeVisible)(int, int, int)) {
 	/*
 	C++ Version of https://www.albertford.com/shadowcasting/
 	*/
@@ -235,7 +235,7 @@ void FoV::calcPlayerFoV(LocalMap* localMap, TileCoords playerLocation) {
 }
 
 
-void FoV::calcActorFoV(LocalMap* localMap, Actor* actor) {
+void FoV::calcActorFoV(LocalMap* localMap, ActorEntity* actor) {
 	actor->clearVisibilityArrays();
-	FoV::calcFoV(localMap, actor->getLocation(), actor, &Quadrant::makeVisibleToActor);
+	FoV::calcFoV(localMap, actor->location, actor, &Quadrant::makeVisibleToActor);
 }

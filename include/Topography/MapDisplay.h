@@ -3,7 +3,7 @@
 //?:#include <>
 #include <vector>
 #include "GraphicsThings/TileDisplay.h"
-#include "GameObjects/TileCoordinates.h"
+#include "Topography/TileCoordinates.h"
 
 
 struct MapDisplayTile {

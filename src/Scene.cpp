@@ -1,16 +1,13 @@
 #include "Scene/Scene.h"
+#include "Entities/ActorFactory.h"
 #include <random>
 
 
 LocalMap* Scene::getMap() {	return &map; }
+PlayerManager* Scene::getPlayerManager() { return &playerManager; }
+ActorFactory* Scene::getActorFactory() { return &actorFactory; }
 
-PlayerManager* Scene::getPlayerManager() {
-	return &playerManager;
-}
-
-InputConfirmer* Scene::presentConfirmationSignaller() {
-	return &confirmer;
-}
+InputConfirmer* Scene::presentConfirmationSignaller() { return &confirmer; }
 
 void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 	if (confirmer.isAwaiting()) {
@@ -38,16 +35,16 @@ void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 	if (command < 9) {
 		needToRunTurn = playerManager.processDirectionalCommand(command);
 
-		Actor* player = playerManager.getPlayer();
+		ActorEntity* player = playerManager.getPlayer();
 
 		if (needToRunTurn) {
-			turnQueue.insert(player, player->getStats()->baseMoveSpeed);
+			actorManager.getTurnQueue()->insert(player, player->stats.baseMoveSpeed);
 		}
 	}
 
 	else if (command == PC_WAIT) {
-		Actor* player = playerManager.getPlayer();
-		turnQueue.insert(player, FULL_TURN_TIME);
+		ActorEntity* player = playerManager.getPlayer();
+		actorManager.getTurnQueue()->insert(player, FULL_TURN_TIME);
 		needToRunTurn = true;
 	}
 
@@ -78,10 +75,8 @@ void Scene::setPlayerAt(TileCoords location) {
 	playerManager.placePlayer(location);
 }
 
-void Scene::createActorAt(TileCoords location) {
-   actorManager.createActorAt(location);
-}
-
 void Scene::startAutoMove() {
 	playerManager.startAutoMove();
 }
+
+

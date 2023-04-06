@@ -1,9 +1,7 @@
 #include "Scene/ActorManager.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
-#include "GameObjects/AI.h"
-#include "GameObjects/Actor.h"
-#include "Scene/ActorPool.h"
+#include "Entities/ActorFactory.h"
 #include "Scene/TurnQueue.h"
 #include <cwchar>
 #include <random>
@@ -11,20 +9,20 @@
 
 
 void ActorManager::runActorTurns() {
-	Actor* currentActor = turnQueue->pop();
-	while (currentActor != nullptr && !currentActor->isPlayer()) {
+	ActorEntity* currentActor = turnQueue.pop();
+	while (currentActor != nullptr && !currentActor->isPlayer) {
 		int timeTaken = runAction(currentActor);
-		turnQueue->insert(currentActor, timeTaken);
+		turnQueue.insert(currentActor, timeTaken);
 
-		currentActor = turnQueue->pop();
+		currentActor = turnQueue.pop();
 	}
 
 	map->flagNeedToUpdateDisplay();
 }
 
 
-int ActorManager::runAction(Actor* actor) {
-	AIStateID actorState = actor->getState();
+int ActorManager::runAction(ActorEntity* actor) {
+	AiStateId actorState = actor->getState();
 
 	FoV::calcActorFoV(map, actor);
 
@@ -42,34 +40,23 @@ int ActorManager::runAction(Actor* actor) {
 }
 
 
-void ActorManager::createActorAt(TileCoords location) {
-	Actor newActor = Actor();
+void ActorManager::destroyActor(ActorEntity* actor) {
+	map->setActorAt(actor->location, nullptr);
 
-	newActor.setLocation(location);
+	turnQueue.remove(actor);
 
-	Actor* newActorPointer = actorPool.insert(newActor);
-
-	map->setActorAt(location, newActorPointer);
-	turnQueue->insert(newActorPointer, 0);
+   actorColiseum.deleteEntity(actor->getId());
 }
 
-void ActorManager::destroyActor(Actor* actor) {
-	map->setActorAt(actor->getLocation(), nullptr);
-
-	turnQueue->remove(actor);
-
-	actorPool.kill(actor);
-}
-
-void ActorManager::moveActor(Actor* actor, TileCoords newLocation) {
-   map->setActorAt(actor->getLocation(), nullptr);
-   actor->setLocation(newLocation);
+void ActorManager::moveActor(ActorEntity* actor, TileCoords newLocation) {
+   map->setActorAt(actor->location, nullptr);
+   actor->location = newLocation;
    map->setActorAt(newLocation, actor);
 }
 
 
 
-int ActorManager::wander(Actor* actor) {
+int ActorManager::wander(ActorEntity* actor) {
 	PathingRoute* currentRoute = actor->getCurrentRoute();
 
 	if (currentRoute->hasNextTile()) {
@@ -95,7 +82,16 @@ int ActorManager::wander(Actor* actor) {
 		newLocation = visibleTiles->at(newTileIndex);
 	} while (!map->isTraversibleAt(newLocation));
 
-	Pathfinding::makeLineRoute(actor->getLocation(), visibleTiles->at(newTileIndex), map, &LocalMap::isTraversibleAt, actor->getCurrentRoute());
+	Pathfinding::makeLineRoute(actor->location, visibleTiles->at(newTileIndex), map, &LocalMap::isTraversibleAt, actor->getCurrentRoute());
 
-	return actor->getStats()->baseMoveSpeed;
+	return actor->stats.baseMoveSpeed;
+}
+
+
+ActorFactory ActorManager::makeFactory() {
+   return ActorFactory(&actorColiseum, &turnQueue, map);
+}
+
+TurnQueue* ActorManager::getTurnQueue() {
+   return &turnQueue;
 }

@@ -45,13 +45,13 @@ class Quadrant {
 private:
 	TileCoords origin;
 	LocalMap* localMap;
-	Actor* actor; //unused when calculating player fov
+	ActorEntity* actor; //unused when calculating player fov
 
 	//Cardinal represents direction. 0 is north (v), 1 is south (^), 2 is east (<), 3 west (>)
 	TileCoords quadrantToAbsolute(int cardinal, int tileDepth, int tileColumn);
 
 public:
-	Quadrant(TileCoords origin, LocalMap* localMap, Actor* actor = nullptr) :
+	Quadrant(TileCoords origin, LocalMap* localMap, ActorEntity* actor = nullptr) :
 		origin(origin), localMap(localMap), actor(actor) {};
 
 	
@@ -64,10 +64,10 @@ public:
 
 class FoV {
 private:
-	static void calcFoV(LocalMap* localMap, TileCoords origin, Actor* actor, void (Quadrant::*makeVisible)(int, int, int));
+	static void calcFoV(LocalMap* localMap, TileCoords origin, ActorEntity* actor, void (Quadrant::*makeVisible)(int, int, int));
 
 public:
 	static void calcPlayerFoV(LocalMap* localMap, TileCoords playerLocation);
 	
-	static void calcActorFoV(LocalMap* localMap, Actor* actor);
+	static void calcActorFoV(LocalMap* localMap, ActorEntity* actor);
 };
