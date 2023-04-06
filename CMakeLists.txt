@@ -11,12 +11,13 @@ find_package(SDL2_image REQUIRED)
 
 add_executable(Roguelike
    src/main.cpp
-   src/Actor.cpp
+   src/ActorEntity.cpp
+   src/ActorFactory.cpp
    src/ActorManager.cpp
-   src/ActorPool.cpp
    src/AI.cpp
    src/ConfirmerUI.cpp
    src/DebugLogger.cpp
+   src/Entity.cpp
    src/FoV.cpp
    src/Game.cpp
    src/GameLog.cpp
@@ -25,7 +26,6 @@ add_executable(Roguelike
    src/GraphicsThings.cpp
    src/InputConfirmer.cpp
    src/InputManager.cpp
-   src/Item.cpp
    src/LocalMap.cpp
    src/MapDisplay.cpp
    src/MapUI.cpp

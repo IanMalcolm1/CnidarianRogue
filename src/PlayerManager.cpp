@@ -3,10 +3,11 @@
 #include "Scene/TurnQueue.h"
 
 void PlayerManager::initialize(ActorEntity* player) {
+   this->player = player;
    TileDisplay playerDisp = { ASYM_AT, {255,255,255}, {0,0,0} };
-   player->display = playerDisp;
+   this->player->display = playerDisp;
 
-   turnQueue->insert(player, 0);
+   turnQueue->insert(this->player, 0);
 }
 
 bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {

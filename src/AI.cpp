@@ -3,6 +3,10 @@
 
 /* Private Functions */
 
+void AI::setState(AiStateId newState) {
+   currentState = newState;
+}
+
 bool AI::changeState(AiStateId newState) {
    currentState = newState;
    return (currentState==newState) ? false : true;

@@ -1,13 +1,12 @@
 #include "Topography/LocalMap.h"
 #include "Algorithms/FoV.h"
-#include "GameObjects/Actor.h"
 #include "Algorithms/Pathfinding.h"
 
 /* Local Map Functions */
 
 LocalMap::LocalMap(int width, int height) : mapDisplay(MapDisplay(width, height)),
 	terrainMap(TerrainMap(width, height)), actors(width*height, nullptr),
-	items(width*height, std::vector<Item*>()), pathToMouseTile(PathingRoute()) {
+	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(PathingRoute()) {
 	this->width = width;
 	this->height = height;
 
@@ -94,12 +93,12 @@ TileCoords LocalMap::tileIndexToCoords(int index) {
 
 TileDisplay* LocalMap::getDisplayAt(int index) {
 	if (actors[index] != nullptr) {
-		Actor* test = actors[index];
-		return actors[index]->getDisplay();
+		ActorEntity* test = actors[index];
+		return &actors[index]->display;
 	}
 
 	if (items[index].size() > 0) {
-		return items[index][0]->getDisplay();
+		return &items[index][0]->display;
 	}
 
 	return terrainMap.getDisplayAtIndex(index);
@@ -121,12 +120,12 @@ void LocalMap::setHasReticle(TileCoords tile, bool value) {
 	mapDisplay.setHasReticle(coordsToTileIndex(tile), value);
 }
 
-void LocalMap::setPlayerLocation(Actor* player, TileCoords newLocation) {
-	if (player->getLocation().x != -1) {
-		actors[coordsToTileIndex(player->getLocation())] = nullptr;
+void LocalMap::setPlayerLocation(ActorEntity* player, TileCoords newLocation) {
+	if (player->location.x != -1) {
+		actors[coordsToTileIndex(player->location)] = nullptr;
 	}
 
-	player->setLocation(newLocation);
+	player->location = newLocation;
 
 	playerTile = newLocation;
 	
@@ -207,8 +206,8 @@ bool LocalMap::thereIsAnActorAt(TileCoords location) {
 	return actors[coordsToTileIndex(location)] != nullptr;
 }
 
-Actor* LocalMap::getActorAt(int index) { return actors[index]; }
-Actor* LocalMap::getActorAt(TileCoords location) {
+ActorEntity* LocalMap::getActorAt(int index) { return actors[index]; }
+ActorEntity* LocalMap::getActorAt(TileCoords location) {
 	if (!isInMapBounds(location)) {
 		printf("getActorAt() coordinates out of bounds!\n");
 		return nullptr;
@@ -216,8 +215,8 @@ Actor* LocalMap::getActorAt(TileCoords location) {
 	return getActorAt( coordsToTileIndex(location) );
 }
 
-void LocalMap::setActorAt(int index, Actor* actor) { actors[index] = actor; }
-void LocalMap::setActorAt(TileCoords location, Actor* actor) {
+void LocalMap::setActorAt(int index, ActorEntity* actor) { actors[index] = actor; }
+void LocalMap::setActorAt(TileCoords location, ActorEntity* actor) {
 	if (!isInMapBounds(location)) {
 		printf("setActorAt() coordinates out of bounds!\n");
 		return;

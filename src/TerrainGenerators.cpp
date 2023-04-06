@@ -76,5 +76,5 @@ void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxS
 	}
 
 	scene->setPlayerAt({ prevCenterX, prevCenterY });
-	scene->createActorAt({prevCenterX-1, prevCenterY});
+	scene->getActorFactory()->makeEvilSmileyFace({prevCenterX-1, prevCenterY});
 }
