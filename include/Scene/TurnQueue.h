@@ -2,14 +2,14 @@
 
 #include <memory>
 #include <vector>
-#include "GameObjects/Actor.h"
+#include "Entities/ActorEntity.h"
 
 struct TurnQueueNode {
 	TurnQueueNode* next;
-	Actor* actor;
+	ActorEntity* actor;
 	int time;
 
-	TurnQueueNode(Actor* actor, int time) : actor(actor), time(time), next(nullptr) {};
+	TurnQueueNode(ActorEntity* actor, int time) : actor(actor), time(time), next(nullptr) {};
 };
 
 class TurnQueue {
@@ -24,7 +24,7 @@ public:
 	TurnQueue() : startTime(0), frontNode(nullptr) {};
 	~TurnQueue();
 
-	void insert(Actor* actor, int turnTime);
-	void remove(Actor* actor);
-	Actor* pop();
+	void insert(ActorEntity* actor, int turnTime);
+	void remove(ActorEntity* actor);
+	ActorEntity* pop();
 };

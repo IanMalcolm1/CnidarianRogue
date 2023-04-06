@@ -16,7 +16,7 @@ void TurnQueue::fullDeletion_Recursive(TurnQueueNode* node) {
 }
 
 
-void TurnQueue::insert(Actor* actor, int turnTime) {
+void TurnQueue::insert(ActorEntity* actor, int turnTime) {
 	if (frontNode == nullptr) {
 		startTime = 0;
 		frontNode = new TurnQueueNode(actor, 0);
@@ -42,11 +42,11 @@ void TurnQueue::insert(Actor* actor, int turnTime) {
 }
 
 
-void TurnQueue::remove(Actor* actor) {
+void TurnQueue::remove(ActorEntity* actor) {
 	if (frontNode == nullptr) {
 		return;
 	}
-	if (frontNode->actor->getPoolIndex() == actor->getPoolIndex()) {
+	if (frontNode->actor->getId() == actor->getId()) {
 		TurnQueueNode* temp = frontNode;
 		frontNode = temp->next;
 		delete temp;
@@ -57,7 +57,7 @@ void TurnQueue::remove(Actor* actor) {
 	TurnQueueNode* currentNode = frontNode->next;
 
 	while (currentNode != nullptr) {
-		if (frontNode->actor->getPoolIndex() == actor->getPoolIndex()) {
+		if (frontNode->actor->getId() == actor->getId()) {
 			lastNode->next = currentNode->next;
 			delete currentNode;
 			return;
@@ -69,7 +69,7 @@ void TurnQueue::remove(Actor* actor) {
 }
 
 
-Actor* TurnQueue::pop() {
+ActorEntity* TurnQueue::pop() {
 	if (frontNode == nullptr) {
 		return nullptr;
 	}
@@ -82,11 +82,11 @@ Actor* TurnQueue::pop() {
 	}
 
 	startTime = formerFrontNode->time;
-	Actor* returnActor = formerFrontNode->actor;
+	ActorEntity* returnActorEntity = formerFrontNode->actor;
 
 	delete formerFrontNode;
 
-	return returnActor;
+	return returnActorEntity;
 }
 
 
