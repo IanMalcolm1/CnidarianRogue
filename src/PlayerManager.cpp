@@ -42,6 +42,7 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
          map->setPlayerLocation(player, newCoords);
          return true;
       }
+      return false;
    }
    else if (inputState == PLAYER_INPUT_MOVE) {
       map->setLookTile(oldCoords, newCoords);

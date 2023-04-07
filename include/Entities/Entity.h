@@ -5,10 +5,30 @@
 #include <vector>
 #include "Entities/Components.h"
 
+/* An Entity (so far as I've designed them for this program)
+ * is essentially a data arena that allows for the addition
+ * and removal of variably-sized, c-style structs at runtime.
+ * It is recommended that Enitities not be created manually,
+ * and instead be allocated automatically by an
+ * EntityColiseum object. Otherwise the actual data arena
+ * controlled by the entity will need to be allocated
+ * manually.
+ *
+ * Note 1: Components should not contain pointers, whether
+ * directly or via a class such as std::string or
+ * std::vector. Neither should components contain their
+ * own logic.
+ *
+ * Note 2: Unless it exceeded the Entity's allocated space 
+ * and was thus allocated randomly to the heap, removing
+ * a component neither deletes its data nor repacks
+ * remaining components. I am making an assumption that
+ * additions will be more common than removals.
+ */
 
 class Entity {
 private:
-   int id;
+   int id; //Corresponds to index in an EntityColiseum
    int bytesUsed, totalSpace;
    uint32_t componentTypes;
    std::vector<Component*> componentPtrs;

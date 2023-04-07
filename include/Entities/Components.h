@@ -6,6 +6,21 @@
 #include "GraphicsThings/TileDisplay.h"
 
 
+/* Components inheriting from the actual Component class
+ * should not contain pointers, whether directly or via
+ * a class like std::string or std::vector. Otherwise
+ * memory leaks will abound.
+ *
+ * 'Components' that require pointers should not inherit
+ * from the Component struct and should be included
+ * directly as part of a subclass of Entity (see
+ * ActorEntity or ItemEntity).
+ *
+ * Neither official nor unofficial components should
+ * contain their own logic. That is the domain of the
+ * functions that correspond to AiStates.
+ */
+
 struct Description {
    std::string name;
    std::string desc;

@@ -66,9 +66,10 @@ std::pair<bool, AiStateId> AI::getState() {
          stateChanged = changeState(rollAttackingSubstate());
          break;
       default:
-         //substate functions should change state directly, not via this function
-         return {false, currentState};
+         stateChanged = false;
    }
+
+   return {stateChanged, currentState};
 }
 
 void AI::addIdleSubstate(AiState substate) {

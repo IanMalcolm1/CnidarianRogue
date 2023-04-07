@@ -3,6 +3,14 @@
 
 #include <vector>
 
+/* An AI consists of a set of AiStateIds that correspond
+ * to logic functions contained in the ActorManager class.
+ * Different states are given different weights that
+ * determine the likelihood they will be chosen. States
+ * may either be chosen off of a superstate or by
+ * direct modification from a logic function.
+ */
+
 enum AiStateId {
 	//Superstates and defaults, used to branch into substates
 
@@ -42,6 +50,7 @@ private:
 	std::vector<AiState> attackingSubstates;
 	int sumWeightsAttacking;
 
+   //Returns whether the state actually changed
    bool changeState(AiStateId newState);
 	AiStateId rollIdleSubstate();
 	AiStateId rollAttackingSubstate();
@@ -50,7 +59,7 @@ public:
 	AI() : currentState(AISTATE_IDLE), stateChanged(false),
    sumWeightsIdle(0), sumWeightsAttacking(0) {};
 
-   //returns bool to indicate whether the state changed
+   //Returns bool to indicate whether the state changed
 	std::pair<bool, AiStateId> getState();
    void setState(AiStateId newState);
 
