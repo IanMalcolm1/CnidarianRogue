@@ -23,7 +23,9 @@ AiStateId ActorEntity::getState() {
 }
 
 void ActorEntity::setState(AiStateId stateID) {
-   ai.setState(stateID);
+   if (ai.changeStateTo(stateID)) {
+      currentRoute.clear();
+   }
 }
 
 void ActorEntity::addIdleSubstate(AiState state) {
@@ -31,4 +33,58 @@ void ActorEntity::addIdleSubstate(AiState state) {
 }
 void ActorEntity::addAttackingSubstate(AiState state) {
 	ai.addAttackingSubstate(state);
+}
+
+
+bool ActorEntity::isHostileTo(ActorEntity* actor) {
+   if (faction == FACTION_BAD && actor->faction == FACTION_GOOD ||
+         actor->faction == FACTION_PACIFIST)
+      return true;
+   
+   else if (faction == FACTION_GOOD && actor->faction == FACTION_BAD)
+      return true;
+
+   else
+      return false;
+}
+
+bool ActorEntity::isTargetting(ActorEntity *actor) {
+   if (targetEntityId < 1)
+      return false;
+
+   if (actor->getId() == targetEntityId)
+      return true;
+
+   return false;
+}
+
+
+void ActorEntity::setTarget(ActorEntity* actor) {
+   if (actor)
+      targetEntityId = actor->getId();
+   else
+      targetEntityId = -1;
+}
+
+
+void ActorEntity::reset() {
+   isPlayer = false;
+   display = TileDisplay();
+   location = TileCoords();
+   description.desc = "ded";
+   description.name = "ded entity";
+   defaultAttack = DamagingComp();
+   faction = FACTION_PACIFIST;
+   targetEntityId = -1;
+   visibleTiles.clear();
+   visibleActorLocations.clear();
+   currentRoute.clear();
+   items.clear();
+
+   Entity::reset();
+}
+
+
+std::vector<ItemEntity*>* ActorEntity::getItems() {
+   return &items;
 }

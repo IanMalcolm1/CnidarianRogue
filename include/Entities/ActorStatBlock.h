@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Enums/TurnTime.h"
 
 
 struct ActorStatBlock {

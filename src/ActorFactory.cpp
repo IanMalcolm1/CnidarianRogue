@@ -1,4 +1,5 @@
 #include "Entities/ActorFactory.h"
+#include "Entities/ActorEntity.h"
 
 
 void ActorFactory::registerActor(ActorEntity* actor) {
@@ -18,6 +19,8 @@ ActorEntity* ActorFactory::makePlayer() {
 
    player->display.symbol = ASYM_AT;
 
+   player->faction = FACTION_GOOD;
+
    registerActor(player);
    return player;
 }
@@ -36,6 +39,8 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    evilSmiley->display.symbol = ASYM_SMILE_THIN;
 
    evilSmiley->location = location;
+
+   evilSmiley->faction = FACTION_BAD;
    
    registerActor(evilSmiley);
    return evilSmiley;

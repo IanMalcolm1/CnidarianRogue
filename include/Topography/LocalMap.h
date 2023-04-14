@@ -9,6 +9,7 @@
 #include "Enums/PlayerCommands.h"
 #include "Algorithms/PathfindingRoute.h"
 #include "Logs/DebugLogger.h"
+#include "Topography/TileCoordinates.h"
 
 
 /* Class for Local Maps */
@@ -76,6 +77,13 @@ public:
 	void setActorAt(int index, ActorEntity* actor);
 	void setActorAt(TileCoords location, ActorEntity* actor);
 	void setPlayerLocation(ActorEntity* player, TileCoords newLocation);
+
+   std::vector<ItemEntity*>* getItemsAt(int index);
+   std::vector<ItemEntity*>* getItemsAt(TileCoords coords);
+   void addItemAt(int index, ItemEntity* item);
+   void addItemAt(TileCoords coords, ItemEntity* item);
+   void removeItemAt(int index, ItemEntity* item);
+   void removeItemAt(TileCoords coords, ItemEntity* item);
 
 	TileCoords getFocusTileLocation();
 	void setFocusTileLocation(TileCoords location);

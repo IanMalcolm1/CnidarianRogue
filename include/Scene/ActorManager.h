@@ -19,6 +19,7 @@ class ActorManager {
       int runAction(ActorEntity* actor);
 
       int wander(ActorEntity* actor);
+      int approachAndWhack(ActorEntity* actor);
 
    public:
       ActorManager(LocalMap* map) :
@@ -29,6 +30,7 @@ class ActorManager {
 
       void destroyActor(ActorEntity* actor);
       void moveActor(ActorEntity* actor, TileCoords newLocation);
+      void doAttack(ActorEntity* attacker, ActorEntity* defender);
 
       ActorEntity* getActor(int id) {
          return actorColiseum.getEntity(id);

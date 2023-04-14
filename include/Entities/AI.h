@@ -12,20 +12,15 @@
  */
 
 enum AiStateId {
-	//Superstates and defaults, used to branch into substates
-
+	//Idle and substates
 	AISTATE_IDLE,
-	AISTATE_ATTACKING,
-
-	//Idle substates
-
 	AISTATE_SLEEPING,
 	AISTATE_WANDERING,
 
-
-	//Attacking substates
-
+	//Attacking and substates
+	AISTATE_ATTACKING,
 	AISTATE_FLEEING,
+   AISTATE_APPROACH_AND_WHACK,
 
 
 	//Total number of AI states
@@ -51,7 +46,6 @@ private:
 	int sumWeightsAttacking;
 
    //Returns whether the state actually changed
-   bool changeState(AiStateId newState);
 	AiStateId rollIdleSubstate();
 	AiStateId rollAttackingSubstate();
 	
@@ -61,7 +55,8 @@ public:
 
    //Returns bool to indicate whether the state changed
 	std::pair<bool, AiStateId> getState();
-   void setState(AiStateId newState);
+   //Returns whether state changed
+   bool changeStateTo(AiStateId newState);
 
 	void addIdleSubstate(AiState substate);
 	void removeIdleSubstate(AiStateId stateID);

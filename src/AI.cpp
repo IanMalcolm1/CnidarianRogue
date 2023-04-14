@@ -3,11 +3,7 @@
 
 /* Private Functions */
 
-void AI::setState(AiStateId newState) {
-   currentState = newState;
-}
-
-bool AI::changeState(AiStateId newState) {
+bool AI::changeStateTo(AiStateId newState) {
    currentState = newState;
    return (currentState==newState) ? false : true;
 }
@@ -60,10 +56,10 @@ std::pair<bool, AiStateId> AI::getState() {
    bool stateChanged;
    switch (currentState) {
       case AISTATE_IDLE:
-         stateChanged = changeState(rollIdleSubstate());
+         stateChanged = changeStateTo(rollIdleSubstate());
          break;
       case AISTATE_ATTACKING:
-         stateChanged = changeState(rollAttackingSubstate());
+         stateChanged = changeStateTo(rollAttackingSubstate());
          break;
       default:
          stateChanged = false;

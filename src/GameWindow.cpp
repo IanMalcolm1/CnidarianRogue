@@ -31,6 +31,9 @@ GameWindow::~GameWindow() {
 	SDL_DestroyWindow(window);
 	window = NULL;
 
+   SDL_DestroyRenderer(renderer);
+   renderer = NULL;
+
 	IMG_Quit();
 	SDL_Quit();
 }

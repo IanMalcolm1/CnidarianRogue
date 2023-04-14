@@ -42,6 +42,9 @@ public:
    };
 
 
+   int getDirtySlots() { return dirtySlots; };
+
+
    EType* makeEntity() {
       if (reusableSlots.size() > 0) {
          int i = reusableSlots.back();

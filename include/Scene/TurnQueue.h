@@ -18,7 +18,6 @@ private:
 	TurnQueueNode* frontNode;
 
 	void resetStartTime();
-	void fullDeletion_Recursive(TurnQueueNode* node);
 
 public:
 	TurnQueue() : startTime(0), frontNode(nullptr) {};

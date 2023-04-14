@@ -1,15 +1,13 @@
 _____________________________________________________________________________________________
 TODOS:
 Current:
-Add class to store functions for AI state logic. Include in Scene class. Keeps scene class
-clean while reducing number of circular dependencies to deal with (compared to putting them
-somewhere in Actors themselves)
+Add basic melee combat.
+   Targets added. Now to add actual attacking
 
 Next:
 
 Later:
 Remove all (or most) printf statements
-Start implementing an EC model
 Add player screen
 Add better creatures
 Better generation

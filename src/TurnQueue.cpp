@@ -2,17 +2,9 @@
 
 
 TurnQueue::~TurnQueue() {
-	if (frontNode != nullptr) {
-		fullDeletion_Recursive(frontNode);
+	while (frontNode != nullptr) {
+      pop();
 	}	
-}
-
-
-void TurnQueue::fullDeletion_Recursive(TurnQueueNode* node) {
-	if (node->next != nullptr) {
-		fullDeletion_Recursive(node->next);
-		delete node;
-	}
 }
 
 
@@ -23,16 +15,23 @@ void TurnQueue::insert(ActorEntity* actor, int turnTime) {
 		return;
 	}
 
-	if (startTime > 2000000000) {
+	if (startTime > 1500000000) {
 		resetStartTime();
 	}
+
+	int insertedTime = startTime + turnTime;
+
+   if (frontNode->time > insertedTime) {
+      TurnQueueNode* temp = new TurnQueueNode(actor, insertedTime);
+      temp->next = frontNode;
+      frontNode = temp;
+      return;
+   }
 
 	TurnQueueNode* current = frontNode->next;
 	TurnQueueNode* previous = frontNode;
 
-	int insertedTime = startTime + turnTime;
-
-	while (current != nullptr && current->time <= insertedTime) {
+	while (current != nullptr && current->time < insertedTime) {
 		previous = current;
 		current = current->next;
 	}
