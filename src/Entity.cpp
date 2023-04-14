@@ -33,8 +33,18 @@ void Entity::reset() {
       removeComponent((ComponentType) i);
    }
    componentTypes = 0;
+   dead = true;
 }
 
 Entity::~Entity() {
    reset();
+}
+
+void Entity::revive() {
+   dead = false;
+}
+
+
+bool Entity::isDead() {
+   return dead;
 }

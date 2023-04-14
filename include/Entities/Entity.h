@@ -30,17 +30,20 @@ class Entity {
 private:
    int id; //Corresponds to index in an EntityColiseum
    int bytesUsed, totalSpace;
+   bool dead; //Dead = slot was reset, and is unused
    uint32_t componentTypes;
    std::vector<Component*> componentPtrs;
 
 
 public:
-   Entity(int id, int bytesUsed, int totalSpace) : id(id), bytesUsed(bytesUsed), totalSpace(totalSpace), componentTypes(0), componentPtrs(std::vector<Component*>(NUM_COMPONENT_TYPES, nullptr)) {
+   Entity(int id, int bytesUsed, int totalSpace) : id(id), bytesUsed(bytesUsed), totalSpace(totalSpace), componentTypes(0), componentPtrs(std::vector<Component*>(NUM_COMPONENT_TYPES, nullptr)), dead(false) {
       bytesUsed += (8-(bytesUsed & 0b111)); //alignment
    };
    ~Entity();
 
    int getId();
+   bool isDead();
+   void revive();
    bool hasComponent(ComponentType types);
    Component* getComponent(ComponentType type);
 

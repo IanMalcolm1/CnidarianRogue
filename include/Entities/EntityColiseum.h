@@ -50,7 +50,10 @@ public:
          char* slotPtr = (char*) arenas[i >> BITSHIFTS_FOR_DIVISION];
          slotPtr += bytesPerEntity*(i&MASK_FOR_REMAINDER);
 
-         return (EType*) slotPtr;
+         EType* reusedSlot = (EType*) slotPtr;
+         reusedSlot->revive();
+
+         return reusedSlot;
       }
 
       if ((dirtySlots&MASK_FOR_REMAINDER)==0 &&
