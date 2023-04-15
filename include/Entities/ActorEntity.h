@@ -21,9 +21,9 @@ private:
 	AI ai;
 
 	std::vector<TileCoords> visibleTiles;
-	std::vector<TileCoords> visibleActorLocations;
+	std::vector<ActorEntity*> visibleActors;
 	PathingRoute currentRoute;
-   int targetEntityId;
+   ActorEntity* targetEntity;
 
 	//std::vector<Ability> abilities; (unimplemented)
 	std::vector<ItemEntity*>  items;
@@ -42,27 +42,32 @@ public:
 	ActorEntity(int id, int bytesUsed, int totalSpace)
       : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
       display(TileDisplay()), ai(AI()), isPlayer(false),
-      targetEntityId(-1) {};
+      targetEntity(nullptr) {};
 
    void reset();
 
    std::vector<ItemEntity*>* getItems();
 
 	std::vector<TileCoords>* getVisibleTiles();
-	std::vector<TileCoords>* getVisibleActorLocations();
+	std::vector<ActorEntity*>* getVisibleActors();
 	PathingRoute* getCurrentRoute();
 
    void setFaction(Faction newFaction);
    bool isHostileTo(ActorEntity* actor);
+   void checkForHostiles();
    bool isTargetting(ActorEntity* actor);
    void setTarget(ActorEntity* actor);
+   ActorEntity* getTarget();
+   bool canSeeTarget();
+   void chooseTarget();
 
 	void clearVisibilityArrays();
 	void addVisibleTile(TileCoords tile);
-	void addVisibleActorLocation(TileCoords location);
+	void addVisibleActor(ActorEntity* actor);
 
 	void addIdleSubstate(AiState state);
 	void addAttackingSubstate(AiState state);
+   bool isAggroed();
 	AiStateId getState();
 	void setState(AiStateId stateID);
 };

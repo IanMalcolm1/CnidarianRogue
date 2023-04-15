@@ -90,8 +90,8 @@ void MapUI::calcDataForAxis(const SDL_Rect& viewport, char axis) {
 
 	int* destinationStart;
 	int* destinationLength;
-	int16_t* startTileCoord;
-	int16_t* endTileCoord;
+	int* startTileCoord;
+	int* endTileCoord;
 
 	if (axis == 'x') {
 		mapLengthTiles = map->getWidth();

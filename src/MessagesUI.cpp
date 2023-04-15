@@ -72,23 +72,20 @@ void MessagesUI::processScroll(int x, int y, int offset, bool ctrlDown) {
 
 void MessagesUI::makeFormattedMessages() {
 	std::vector<GameText>* recentMessages = log->getRecentMessages();
-	int i, entriesAdded;
+	int entriesAdded;
 
 	textSpecs.calcMaxLettersPerLine(mainViewport.w);
 
 	entriesAdded = recentMessages->size() - formattedMsgs.size();
-	if (entriesAdded>0) {
-		i = formattedMsgs.size();
-	}
-	else {
+
+	if (entriesAdded<=0) {
 		formattedMsgs.clear();
 		totalHeight = 0;
 		entriesAdded = recentMessages->size();
-		i = 0;
 	}
 
 	std::pair<std::string, int> fMessage;
-	for (i = 0; i < recentMessages->size(); i++) {
+	for (int i = formattedMsgs.size(); i < recentMessages->size(); i++) {
 		fMessage = textRenderer.formatGameText(textSpecs, recentMessages->at(i));
 		totalHeight += fMessage.second;
 		formattedMsgs.push_back(fMessage);

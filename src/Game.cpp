@@ -21,7 +21,7 @@ Game::Game() {
 
 	terrainGenerator = TerrainGenerators();
 
-	scene = std::make_unique<Scene>();
+	scene = std::make_unique<Scene>(gameLog.get());
 
 	gameWindow = std::make_unique<GameWindow>(scene.get(), gameLog.get());
 

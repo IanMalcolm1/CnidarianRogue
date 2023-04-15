@@ -9,6 +9,7 @@
 #include "Entities/EntityColiseum.h"
 #include "Scene/TurnQueue.h"
 #include "Topography/LocalMap.h"
+#include "Logs/GameLog.h"
 
 class ActorManager {
    private:
@@ -16,13 +17,16 @@ class ActorManager {
       TurnQueue turnQueue;
       LocalMap* map;
 
+      GameLog* gameLog;
+
       int runAction(ActorEntity* actor);
 
       int wander(ActorEntity* actor);
       int approachAndWhack(ActorEntity* actor);
 
    public:
-      ActorManager(LocalMap* map) :
+      ActorManager(LocalMap* map, GameLog* gameLog) :
+         gameLog(gameLog),
          actorColiseum(EntityColiseum<ActorEntity>()),
          turnQueue(TurnQueue()), map(map) {};
 

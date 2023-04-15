@@ -7,6 +7,7 @@
 #include "UIScreens/InputConfirmer.h"
 #include "PlayerManager/PlayerManager.h"
 #include "Scene/ActorManager.h"
+#include "Logs/GameLog.h"
 
 
 class Scene {
@@ -21,13 +22,16 @@ private:
 
 	InputConfirmer confirmer;
 
+   GameLog* gameLog;
+
 	bool alreadyRanTurn;
 
 
 public:
-	Scene() : map(100, 100), alreadyRanTurn(false),
+	Scene(GameLog* gameLog) : map(100, 100),
+      alreadyRanTurn(false), gameLog(gameLog),
       confirmer(InputConfirmer()),
-      actorManager(ActorManager(&map)), 
+      actorManager(ActorManager(&map, gameLog)), 
 		playerManager(PlayerManager(actorManager.getTurnQueue(), &map, &confirmer)),
       actorFactory(actorManager.makeFactory()) {
 		   playerManager.initialize(actorFactory.makePlayer());

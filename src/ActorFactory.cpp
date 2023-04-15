@@ -1,4 +1,5 @@
 #include "Entities/ActorFactory.h"
+#include "Entities/AI.h"
 #include "Entities/ActorEntity.h"
 
 
@@ -41,6 +42,8 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    evilSmiley->location = location;
 
    evilSmiley->faction = FACTION_BAD;
+
+   evilSmiley->addAttackingSubstate(AiState(AISTATE_APPROACH_AND_WHACK));
    
    registerActor(evilSmiley);
    return evilSmiley;

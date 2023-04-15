@@ -34,17 +34,11 @@ void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 	//process player move
 	if (command < 9) {
 		needToRunTurn = playerManager.processDirectionalCommand(command);
-
-		ActorEntity* player = playerManager.getPlayer();
-
-		if (needToRunTurn) {
-			actorManager.getTurnQueue()->insert(player, player->stats.baseMoveSpeed);
-		}
 	}
 
 	else if (command == PC_WAIT) {
 		ActorEntity* player = playerManager.getPlayer();
-		actorManager.getTurnQueue()->insert(player, FULL_TURN_TIME);
+		actorManager.getTurnQueue()->insert(player, player->stats.baseMoveSpeed);
 		needToRunTurn = true;
 	}
 

@@ -30,9 +30,13 @@ public:
 
 
 class Pathfinding {
-public:
+private:
 	static std::vector<TileCoords> getSurroundingTiles(TileCoords center);
+
+public:
 	static void calcPlayerPathingRoute(TileCoords startTile, TileCoords endTile, LocalMap* map, PathingRoute* route);
+
 	static void makeLineRoute(TileCoords startTile, TileCoords endTile, LocalMap* map, bool (LocalMap::*traversible)(TileCoords), PathingRoute* route);
+
 	static void makeAStarRoute(TileCoords startTile, TileCoords endTile, LocalMap* map, PathingRoute& route);
 };

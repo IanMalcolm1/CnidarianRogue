@@ -1,8 +1,6 @@
 _____________________________________________________________________________________________
 TODOS:
 Current:
-Add basic melee combat.
-   Targets added. Now to add actual attacking
 
 Next:
 

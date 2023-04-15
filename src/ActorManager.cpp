@@ -6,6 +6,7 @@
 #include "Scene/TurnQueue.h"
 #include <cwchar>
 #include <random>
+#include <string>
 
 
 
@@ -25,19 +26,7 @@ void ActorManager::runActorTurns() {
 int ActorManager::runAction(ActorEntity* actor) {
 	FoV::calcActorFoV(map, actor);
 
-   if (actor->getState() < AISTATE_ATTACKING) {
-      for (auto location : (*actor->getVisibleActorLocations())) {
-         if (actor->isHostileTo(map->getActorAt(location))) {
-            actor->setState(AISTATE_ATTACKING);
-         }
-      }
-   }
-
-   else if (actor->getState() > AISTATE_ATTACKING) {
-      if (actor->getVisibleActorLocations()->empty()) {
-         actor->setState(AISTATE_IDLE);
-      }
-   }
+   actor->checkForHostiles();
 
 	switch (actor->getState()) {
       case AISTATE_WANDERING:
@@ -75,16 +64,29 @@ void ActorManager::moveActor(ActorEntity* actor, TileCoords newLocation) {
 
 
 void ActorManager::doAttack(ActorEntity* attacker, ActorEntity* defender) {
-   int damage = attacker->defaultAttack.damage1.constant;
-
+   int constant = attacker->defaultAttack.damage1.constant;
+   int diceRoll = 0;
    for (int i=0; i<attacker->defaultAttack.damage1.dice; i++) {
-      damage += rand()%6+1;
+      diceRoll += rand()%6+1;
    }
 
-   defender->stats.health -= damage;
+   
+   std::string message = attacker->description.name;
+   message.append(" attacks ");
+   message.append(defender->description.name);
+   message.append(" for ");
+   message.append(std::to_string(diceRoll));
+   message.append("+");
+   message.append(std::to_string(constant));
+   message.append(" = ");
+   message.append(std::to_string(constant+diceRoll));
+   message.append(" damage.");
+   gameLog->sendMessage(message);
 
-   if (defender->stats.health <= 0)
+   defender->stats.health -= (diceRoll + attacker->defaultAttack.damage1.constant);
+   if (defender->stats.health <= 0) {
       destroyActor(defender);
+   }
 }
 
 
@@ -97,12 +99,12 @@ int ActorManager::wander(ActorEntity* actor) {
 		if (map->isTraversibleAt(newTile)) {
 			moveActor(actor, newTile);
 			currentRoute->incrementProgress();
-			return FULL_TURN_TIME;
+			return actor->stats.baseMoveSpeed;
 		}
 	}
 
 	if (rand() % 50 > 2) {
-		return FULL_TURN_TIME;
+		return actor->stats.baseMoveSpeed;
 	}
 
 	std::vector<TileCoords>* visibleTiles = actor->getVisibleTiles();
@@ -123,8 +125,38 @@ int ActorManager::wander(ActorEntity* actor) {
 
 
 int ActorManager::approachAndWhack(ActorEntity* actor) {
-   
+   //find target
+   if (!actor->canSeeTarget()) {
+      actor->chooseTarget();
+   }
+   auto targetActor = actor->getTarget();
 
+   //do attack if next to target
+   if (actor->location.isAdjacentTo(targetActor->location)) {
+      doAttack(actor, targetActor);
+      return actor->stats.baseAttackSpeed;
+   }
+
+   //continue route if already goies to 
+   auto route = actor->getCurrentRoute();
+   route->clear();
+
+	Pathfinding::makeLineRoute(actor->location, targetActor->location, map, &LocalMap::isTraversibleAt, route);
+
+	if (route->hasNextTile()) {
+      moveActor(actor, route->getNextTile());
+      return actor->stats.baseMoveSpeed;
+   }
+
+   Pathfinding::makeAStarRoute(actor->location, targetActor->location, map, (*route));
+   if (route->hasNextTile()) {
+      moveActor(actor, route->getNextTile());
+      return actor->stats.baseMoveSpeed;
+   }
+
+   
+   //this should only be hit if the actor is completely stuck
+   return actor->stats.baseMoveSpeed;
 }
 
 

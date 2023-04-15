@@ -40,11 +40,12 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
    if (inputState == PLAYER_INPUT_MOVE) {
       if (map->isTraversibleAt(newCoords) && !map->thereIsAnActorAt(newCoords)) {
          map->setPlayerLocation(player, newCoords);
+         turnQueue->insert(player, player->stats.baseMoveSpeed);
          return true;
       }
       return false;
    }
-   else if (inputState == PLAYER_INPUT_MOVE) {
+   else if (inputState == PLAYER_INPUT_LOOK) {
       map->setLookTile(oldCoords, newCoords);
       return false;
    }

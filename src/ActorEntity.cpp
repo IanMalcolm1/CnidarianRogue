@@ -1,17 +1,17 @@
 #include "Entities/ActorEntity.h"
-
+#include "Entities/AI.h"
 
 std::vector<TileCoords>* ActorEntity::getVisibleTiles() { return &visibleTiles; }
-std::vector<TileCoords>* ActorEntity::getVisibleActorLocations() { return &visibleActorLocations; }
+std::vector<ActorEntity*>* ActorEntity::getVisibleActors() { return &visibleActors; }
 
 PathingRoute* ActorEntity::getCurrentRoute() { return &currentRoute; }
 
 void ActorEntity::clearVisibilityArrays() {
 	visibleTiles.clear();
-	visibleActorLocations.clear();
+	visibleActors.clear();
 }
 void ActorEntity::addVisibleTile(TileCoords tile) { visibleTiles.push_back(tile); }
-void ActorEntity::addVisibleActorLocation(TileCoords location) { visibleActorLocations.push_back(location); }
+void ActorEntity::addVisibleActor(ActorEntity* actor) { visibleActors.push_back(actor); }
 
 AiStateId ActorEntity::getState() {
 	auto stuff = ai.getState();
@@ -36,6 +36,12 @@ void ActorEntity::addAttackingSubstate(AiState state) {
 }
 
 
+bool ActorEntity::isAggroed() {
+   AiStateId state = getState();
+   return (state > AISTATE_ATTACKING && state < AISTATE_TOTAL_STATES);
+}
+
+
 bool ActorEntity::isHostileTo(ActorEntity* actor) {
    if (faction == FACTION_BAD && actor->faction == FACTION_GOOD ||
          actor->faction == FACTION_PACIFIST)
@@ -48,23 +54,58 @@ bool ActorEntity::isHostileTo(ActorEntity* actor) {
       return false;
 }
 
-bool ActorEntity::isTargetting(ActorEntity *actor) {
-   if (targetEntityId < 1)
-      return false;
+void ActorEntity::checkForHostiles() {
+   bool canSeeHostile = false;
+   for (auto visibleActor : visibleActors) {
+      if (isHostileTo(visibleActor)) {
+         canSeeHostile = true;
+         break;
+      }
+   }
 
-   if (actor->getId() == targetEntityId)
+   if (canSeeHostile && !isAggroed()) {
+      setState(AISTATE_ATTACKING);
+   }
+   else if (!canSeeHostile && isAggroed()) {
+      setState(AISTATE_IDLE);
+   }
+}
+
+bool ActorEntity::isTargetting(ActorEntity *actor) {
+   if (targetEntity && actor==targetEntity)
       return true;
 
    return false;
 }
 
-
 void ActorEntity::setTarget(ActorEntity* actor) {
-   if (actor)
-      targetEntityId = actor->getId();
-   else
-      targetEntityId = -1;
+   targetEntity = actor;
 }
+
+ActorEntity* ActorEntity::getTarget() {
+   return targetEntity;
+}
+
+bool ActorEntity::canSeeTarget() {
+   if (targetEntity == nullptr)
+      return false;
+
+   for (auto visibleActor : visibleActors) {
+      if (visibleActor == targetEntity) {
+         return true;
+      }
+   }
+   return false;
+}
+
+void ActorEntity::chooseTarget() {
+   for (auto visibleActor : visibleActors) {
+      if (isHostileTo(visibleActor)) {
+         setTarget(visibleActor);
+      }
+   }
+}
+      
 
 
 void ActorEntity::reset() {
@@ -75,9 +116,9 @@ void ActorEntity::reset() {
    description.name = "ded entity";
    defaultAttack = DamagingComp();
    faction = FACTION_PACIFIST;
-   targetEntityId = -1;
+   targetEntity = nullptr;
    visibleTiles.clear();
-   visibleActorLocations.clear();
+   visibleActors.clear();
    currentRoute.clear();
    items.clear();
 

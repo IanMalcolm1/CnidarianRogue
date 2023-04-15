@@ -155,7 +155,7 @@ void Quadrant::makeVisibleToActor(int cardinal, int tileDepth, int tileColumn) {
 	TileCoords absoluteCoords = quadrantToAbsolute(cardinal, tileDepth, tileColumn);
 	actor->addVisibleTile(absoluteCoords);
 	if (localMap->thereIsAnActorAt(absoluteCoords)) {
-		actor->addVisibleActorLocation(absoluteCoords);
+		actor->addVisibleActor(localMap->getActorAt(absoluteCoords));
 	}
 }
 
