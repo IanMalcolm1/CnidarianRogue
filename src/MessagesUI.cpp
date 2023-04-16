@@ -65,7 +65,7 @@ void MessagesUI::processScroll(int x, int y, int offset, bool ctrlDown) {
 	if (textSpecs.scrollOffset < 0 || totalHeight < mainViewport.h - 2 * textSpecs.margin) {
 		textSpecs.scrollOffset = 0;
 	}
-	else if (totalHeight < textSpecs.scrollOffset + mainViewport.h - textSpecs.margin) {
+	else if (totalHeight < textSpecs.scrollOffset + mainViewport.h - 2*textSpecs.margin) {
 		textSpecs.scrollOffset = totalHeight - (mainViewport.h - 2*textSpecs.margin);
 	}
 }
@@ -91,5 +91,10 @@ void MessagesUI::makeFormattedMessages() {
 		formattedMsgs.push_back(fMessage);
 	}
 
-	totalHeight += (entriesAdded - 1) * textSpecs.messageSpacing;
+   if (entriesAdded == recentMessages->size()) {
+	   totalHeight += (entriesAdded-1) * textSpecs.messageSpacing;
+   }
+   else {
+	   totalHeight += entriesAdded * textSpecs.messageSpacing;
+   }
 }

@@ -23,6 +23,7 @@ public:
 	GameLog();
 	~GameLog();
 
+   //See GameText.h for formatting guidelines
 	void sendMessage(std::string text);
 
 	std::vector<GameText>* getRecentMessages();

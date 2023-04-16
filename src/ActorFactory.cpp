@@ -15,7 +15,7 @@ ActorEntity* ActorFactory::makePlayer() {
    player->stats.maxHealth = 10 + rand()%5;
    player->stats.health = player->stats.maxHealth;
 
-   player->description.name = "The Player";
+   player->description.name = "</gold:The Player/>";
    player->description.desc = "It's you.";
 
    player->display.symbol = ASYM_AT;
@@ -34,7 +34,7 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    smileyStats->maxHealth = 10 + rand()%5;
    smileyStats->health = smileyStats->maxHealth;
 
-   evilSmiley->description.name = "Evil Smiley Face";
+   evilSmiley->description.name = "</red:Evil Smiley Face/>";
    evilSmiley->description.desc = "Its insipid grin unnerves you.";
 
    evilSmiley->display.symbol = ASYM_SMILE_THIN;
