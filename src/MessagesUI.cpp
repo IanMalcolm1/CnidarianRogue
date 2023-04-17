@@ -30,7 +30,7 @@ void MessagesUI::render(const SDL_Rect& viewport) {
 		makeFormattedMessages();
 	}
 	
-	int startY = viewport.h - textSpecs.margin + textSpecs.scrollOffset;
+	int startY = viewport.h + textSpecs.startOffset;
 
 	for (int i = formattedMsgs.size()-1; i >= 0; i--) {
 		if (startY < 0) {
@@ -59,14 +59,14 @@ void MessagesUI::processScroll(int x, int y, int offset, bool ctrlDown) {
 		makeFormattedMessages();
 	}
 	else {
-		textSpecs.scrollOffset += offset * textSpecs.fontSizePixels;
+		textSpecs.startOffset += offset * textSpecs.fontSizePixels;
 	}
 
-	if (textSpecs.scrollOffset < 0 || totalHeight < mainViewport.h - 2 * textSpecs.margin) {
-		textSpecs.scrollOffset = 0;
+	if (textSpecs.startOffset < -textSpecs.margin || totalHeight < mainViewport.h - textSpecs.margin) {
+		textSpecs.startOffset = -textSpecs.margin;
 	}
-	else if (totalHeight < textSpecs.scrollOffset + mainViewport.h - 2*textSpecs.margin) {
-		textSpecs.scrollOffset = totalHeight - (mainViewport.h - 2*textSpecs.margin);
+	else if (totalHeight < textSpecs.startOffset + mainViewport.h - textSpecs.margin) {
+		textSpecs.startOffset = totalHeight - mainViewport.h + textSpecs.margin;
 	}
 }
 
