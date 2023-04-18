@@ -3,21 +3,20 @@ TODOS:
 Current:
 
 Next:
-
-Later:
-Remove all (or most) printf statements
+Fix logs and remove all (or most) printf statements
 Add player screen
+Add game over
+Add look functionality
+Save functionality
 Add better creatures
-Better generation
-Item manager like ActorManager?
-Standardize UI screens?
-Centered text
+Implement items properly (ItemManager class necessary)
+Implement stats
 
-Eventually:
+Optional:
+Better generation
+Standardize UI screens
+Centered text
 Look into lua
-Add viewports for message log and basic character info
-Add openable UI screens
-Add save functionality
 
 _____________________________________________________________________________________________
 UI LAYOUT:

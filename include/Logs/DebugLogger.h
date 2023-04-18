@@ -10,7 +10,7 @@
 // threads at some point)
 class DebugLogger {
 private:
-	std::unique_ptr<std::fstream> debugFile;
+	std::fstream debugFile;
 
 public:
 	DebugLogger();

@@ -1,23 +1,26 @@
 #include "Logs/DebugLogger.h"
+#include <filesystem>
 
 DebugLogger::DebugLogger() {
-	debugFile = std::make_unique<std::fstream>();
+   if (!std::filesystem::is_directory("logs")) {
+      std::filesystem::create_directory("logs");
+   }
 
-	debugFile->open(DEBUG_LOG_FILEPATH, std::ios::out | std::ios::app);
+	debugFile = std::fstream("logs/debug_log.txt");
+	debugFile.open("logs/debug_log.txt", std::ios::in | std::ios::out | std::ios::trunc);
 
-	if (!debugFile->is_open()) {
+	if (!debugFile.is_open()) {
 		printf("Failed to open debug log file.");
-		return;
 	}
 }
 
 DebugLogger::~DebugLogger() {
-	debugFile->close();
+	debugFile.close();
 }
 
 void DebugLogger::log(std::string text) {
 	printf("%s\n\n", text.c_str());
 
-	debugFile->write(text.c_str(), text.size());
-	debugFile->write("\n\n",2);
+	debugFile.write(text.c_str(), text.size());
+	debugFile.write("\n\n",2);
 }

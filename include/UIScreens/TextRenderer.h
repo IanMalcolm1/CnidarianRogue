@@ -14,7 +14,7 @@ struct TextRenderingSpecs {
 
 	TextRenderingSpecs(int fontSize = 2, int margin = 16) : fontSize(fontSize),
 		fontSizePixels(8 * fontSize), margin(margin), lineSpacing(fontSizePixels / 4),
-		messageSpacing(fontSizePixels / 2), startOffset(0), maxLettersPerLine(0) {};
+		messageSpacing(fontSizePixels / 2), startOffset(-margin), maxLettersPerLine(0) {};
 
 	void modifyFontSize(int modification);
 	void calcMaxLettersPerLine(int viewportWidth);

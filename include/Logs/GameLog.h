@@ -11,13 +11,9 @@
 
 class GameLog {
 private:
-	std::unique_ptr<DebugLogger> debugLogger;
-
-	std::unique_ptr<std::fstream> messageFile;
-
+	std::fstream messageFile;
 	std::vector<GameText> recentMessages;
-
-	std::unique_ptr<GameTextMaker> gameTextMaker;
+	GameTextMaker gameTextMaker;
 
 public:
 	GameLog();

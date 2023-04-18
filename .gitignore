@@ -2,3 +2,4 @@ build/*
 debug/*
 .cache/*
 *.gch
+logs/*
