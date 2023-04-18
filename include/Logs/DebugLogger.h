@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <fstream>
 #include <memory>
 
@@ -10,6 +11,9 @@
 // threads at some point)
 class DebugLogger {
 private:
+   static inline bool startTimeRecorded = false;
+   static inline std::chrono::time_point<std::chrono::steady_clock> startTime;
+
 	std::fstream debugFile;
 
 public:
