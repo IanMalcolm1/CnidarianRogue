@@ -16,30 +16,28 @@ private:
 
    ActorManager actorManager;
    ActorFactory actorFactory;
-	PlayerManager playerManager;
 
 	PathingRoute pathToMouseTile;
 
 	InputConfirmer confirmer;
 
    GameLog* gameLog;
+   PlayerManager* playerManager;
 
 	bool alreadyRanTurn;
 
 
 public:
-	Scene(GameLog* gameLog) : map(100, 100),
-      alreadyRanTurn(false), gameLog(gameLog),
+	Scene(GameLog* gameLog, PlayerManager* playerManager) :
+      map(100, 100), alreadyRanTurn(false), gameLog(gameLog),
       confirmer(InputConfirmer()),
       actorManager(ActorManager(&map, gameLog)), 
-		playerManager(PlayerManager(actorManager.getTurnQueue(), &map, &confirmer)),
-      actorFactory(actorManager.makeFactory()) {
-		   playerManager.initialize(actorFactory.makePlayer());
-	};
+      playerManager(playerManager),
+      actorFactory(actorManager.makeFactory()) {};
 
 	LocalMap* getMap();
-	PlayerManager* getPlayerManager();
    ActorFactory* getActorFactory();
+   TurnQueue* getTurnQueue();
 
 	InputConfirmer* presentConfirmationSignaller();
 

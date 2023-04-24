@@ -8,7 +8,6 @@
 #include "Entities/ItemEntity.h"
 #include "Enums/PlayerCommands.h"
 #include "Algorithms/PathfindingRoute.h"
-#include "Logs/DebugLogger.h"
 #include "Topography/TileCoordinates.h"
 
 
@@ -20,8 +19,6 @@ private:
 
 	TileCoords mouseTile;
 	TileCoords playerTile;
-
-	DebugLogger debugLogger;
 
 	PathingRoute pathToMouseTile;
 
@@ -50,7 +47,12 @@ private:
 	void setHasReticle(TileCoords tile, bool hasReticle);
 
 public:
-	LocalMap(int width, int height);
+	LocalMap(int width, int height) : mapDisplay(MapDisplay(width, height)),
+	terrainMap(TerrainMap(width, height)), actors(width*height, nullptr),
+	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(PathingRoute()),
+   width(width), height(height), needToUpdateDisplay(false),
+   mouseTile(TileCoords(-1,-1)) {};
+
 
 	MapDisplay* getMapDisplay();
 	void updateMapDisplay();

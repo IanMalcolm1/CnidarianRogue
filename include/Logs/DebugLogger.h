@@ -14,11 +14,6 @@ private:
    static inline bool startTimeRecorded = false;
    static inline std::chrono::time_point<std::chrono::steady_clock> startTime;
 
-	std::fstream debugFile;
-
 public:
-	DebugLogger();
-	~DebugLogger();
-
-	void log(std::string text);
+	static void log(std::string text);
 };

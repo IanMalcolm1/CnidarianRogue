@@ -1,13 +1,24 @@
 #include "PlayerManager/PlayerManager.h"
+#include "Algorithms/PathfindingRoute.h"
 #include "Entities/ActorEntity.h"
 #include "Scene/TurnQueue.h"
 
-void PlayerManager::initialize(ActorEntity* player) {
-   this->player = player;
-   TileDisplay playerDisp = { ASYM_AT, {255,255,255}, {0,0,0} };
-   this->player->display = playerDisp;
+PlayerManager::PlayerManager() :
+turnQueue(nullptr), player(nullptr), map(nullptr),
+inputState(PLAYER_INPUT_MOVE), autoActing(false), 
+confirmer(nullptr) {
+   
+   playerArena = malloc(sizeof(ActorEntity) + 64);
+   player = new(playerArena)
+      ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64);
 
-   turnQueue->insert(this->player, 0);
+   TileDisplay playerDisp = { ASYM_AT, {255,255,255}, {0,0,0} };
+   player->display = playerDisp;
+}
+
+PlayerManager::~PlayerManager() {
+   player->~ActorEntity();
+   free(playerArena);
 }
 
 bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
@@ -108,8 +119,17 @@ void PlayerManager::clearAutoAct() {
    autoActing = false;
 }
 
-void PlayerManager::startAutoMove() {
-   autoMoveRoute = map->getRouteToMouseTile();
+void PlayerManager::startAutoMove(PathingRoute route) {
+   autoMoveRoute = route;
    autoMoveRoute.resetProgress();
    autoActing = true;
+}
+
+
+void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, InputConfirmer* adventureConfirmer) {
+   turnQueue = queue;
+   map = localMap;
+   confirmer = adventureConfirmer;
+
+   turnQueue->insert(player, 0);
 }

@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include "ColorMap.h"
-#include "Logs/DebugLogger.h"
 
 
 struct GameTextColorNode {
@@ -32,7 +31,6 @@ public:
 
 class GameTextMaker {
 	std::unique_ptr<ColorMap> colorMap;
-	std::unique_ptr<DebugLogger> debugLogger;
 
 	MyColor readColor(int& index, std::string& text);
 	MyColor readColorByRGB(int& index, std::string& text);

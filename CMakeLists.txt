@@ -14,6 +14,7 @@ add_executable(Roguelike
    src/ActorEntity.cpp
    src/ActorFactory.cpp
    src/ActorManager.cpp
+   src/Adventure.cpp
    src/AI.cpp
    src/ConfirmerUI.cpp
    src/DebugLogger.cpp

@@ -1,10 +1,17 @@
 _____________________________________________________________________________________________
 TODOS:
 Current:
+Restructure things such that PlayerManager is outside of Scene class. Probably make player
+separate from other ActorEntities while I'm at it (atleast insofar as the player not being
+in a Coliseum, if not making a new Player class).
+Overarching class called Adventure that holds Scenes, PlayerManager, and MessageLog.
+Reasoning being that eventually I want players to be able to move between Scenes that save
+both the map and actors.
 
 Next:
-Fix logs and remove all (or most) printf statements
-Add player screen
+Add AdventureUI class for rendering scene, message log, and player ui
+   Should offload calculating viewport dimensions to this overarching ui class
+Implement player ui
 Add game over
 Add look functionality
 Save functionality
@@ -24,14 +31,7 @@ Openable (cover whole screen): Full Character Sheet, Inventory, Level Up Dialogu
 Openable (small screen over map view): Use Ability, Take Items
 
 _____________________________________________________________________________________________
-COMPONENTS:
-Renderable component to include all tile location, tile image, and color values?
-(don't think we'd need something dedicated to location alone)
-
-_____________________________________________________________________________________________
 MOVEMENT:
-Include diagonal directions.
-
 Ensure multiple creatures can't occupy same tile on same turn unless one is flying.
 
 Friendly creatures switch places, otherwise a creature gets blocked when trying to move to a

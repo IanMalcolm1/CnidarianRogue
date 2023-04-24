@@ -1,6 +1,7 @@
 #include "GraphicsThings/MyColor.h"
 #include "GraphicsThings/TileDisplay.h"
 #include "GraphicsThings/ColorMap.h"
+#include "Logs/DebugLogger.h"
 #include <stdexcept>
 
 /* MyColor */
@@ -24,8 +25,6 @@ void TileDisplay::copy(TileDisplay* display) {
 /* ColorMap */
 
 ColorMap::ColorMap() {
-	debugLogger = std::make_unique<DebugLogger>();
-
 	initializeColorMap();
 }
 
@@ -52,7 +51,7 @@ MyColor ColorMap::getColorByName(std::string name) {
 		return colorMap[name];
 	}
 	catch (std::out_of_range e) {
-		debugLogger->log("Game message format error: Color name '" + name + "' is unrecognized");
+      DebugLogger::log("Game message format error: Color name '" + name + "' is unrecognized");
 		return MyColor(255, 255, 255);
 	}
 }

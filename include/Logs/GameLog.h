@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <chrono>
 #include "GraphicsThings/MyColor.h"
-#include "DebugLogger.h"
 #include "GraphicsThings/ColorMap.h"
 #include "GraphicsThings/GameText.h"
 

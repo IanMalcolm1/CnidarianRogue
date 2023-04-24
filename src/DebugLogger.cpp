@@ -1,31 +1,26 @@
 #include "Logs/DebugLogger.h"
 #include <chrono>
 #include <filesystem>
+#include <fstream>
 #include <string>
 
-DebugLogger::DebugLogger() {
+void DebugLogger::log(std::string text) {
    if (!DebugLogger::startTimeRecorded) {
       DebugLogger::startTime = std::chrono::steady_clock::now();
       DebugLogger::startTimeRecorded = true;
    }
-
    if (!std::filesystem::is_directory("logs")) {
       std::filesystem::create_directory("logs");
    }
 
-	debugFile = std::fstream();
-	debugFile.open("logs/debug_log.txt", std::ios::in | std::ios::out | std::ios::trunc);
 
+   std::fstream debugFile = std::fstream();
+	debugFile.open("logs/debug_log.txt", std::ios::in | std::ios::out | std::ios::trunc);
 	if (!debugFile.is_open()) {
 		printf("Failed to open debug log file.");
 	}
-}
 
-DebugLogger::~DebugLogger() {
-	debugFile.close();
-}
 
-void DebugLogger::log(std::string text) {
    auto now = std::chrono::steady_clock::now();
    std::string timeText = std::string();
    std::chrono::duration<double> diff = now-startTime;
@@ -39,4 +34,6 @@ void DebugLogger::log(std::string text) {
 	debugFile.write("\n\n",2);
 
 	printf("%s\n\n", text.c_str());
+
+	debugFile.close();
 }

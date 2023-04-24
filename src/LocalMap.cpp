@@ -1,19 +1,7 @@
 #include "Topography/LocalMap.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
-
-LocalMap::LocalMap(int width, int height) : mapDisplay(MapDisplay(width, height)),
-	terrainMap(TerrainMap(width, height)), actors(width*height, nullptr),
-	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(PathingRoute()),
-   debugLogger(DebugLogger()) {
-	this->width = width;
-	this->height = height;
-
-	needToUpdateDisplay = true;
-
-	mouseTile.x = mouseTile.y = -1;
-}
-
+#include "Logs/DebugLogger.h"
 
 
 /* Graphics */
@@ -62,7 +50,7 @@ void LocalMap::updateHighlightedTiles() {
 
 void LocalMap::makeVisible(TileCoords location) {
 	if (!isInMapBounds(location)) {
-		debugLogger.log("setVisible() coordinates out of bounds");
+      DebugLogger::log("setVisible() coordinates out of bounds");
 		return;
 	}
 
@@ -199,7 +187,7 @@ void LocalMap::setTerrainAt(int index, TileDisplay* display, bool traversible, b
 }
 void LocalMap::setTerrainAt(TileCoords location, TileDisplay* display, bool traversible, bool opaque) {
 	if (!isInMapBounds(location)) {
-		debugLogger.log("setTerrainAt() coordinates out of bounds");
+		DebugLogger::log("setTerrainAt() coordinates out of bounds");
 		return;
 	}
 	setTerrainAt(coordsToTileIndex(location), display, traversible, opaque);
@@ -210,7 +198,7 @@ bool LocalMap::isTraversibleAt(int index) {
 }
 bool LocalMap::isTraversibleAt(TileCoords location) {
 	if (!isInMapBounds(location)) {
-		debugLogger.log("isTraversibleAt() coordinates out of bounds");
+		DebugLogger::log("isTraversibleAt() coordinates out of bounds");
 		return false;
 	}
 	return isTraversibleAt(coordsToTileIndex(location));
@@ -219,7 +207,7 @@ bool LocalMap::isTraversibleAt(TileCoords location) {
 bool LocalMap::isOpaqueAt(int index) { return terrainMap.isOpaqueAtIndex(index); }
 bool LocalMap::isOpaqueAt(TileCoords location) {
 	if (!isInMapBounds(location)) {
-		debugLogger.log("isOpaqueAt() coordinates out of bounds");
+		DebugLogger::log("isOpaqueAt() coordinates out of bounds");
 		return false;
 	}
 	return terrainMap.isOpaqueAtIndex(coordsToTileIndex(location));
@@ -229,7 +217,7 @@ bool LocalMap::isOpaqueAt(TileCoords location) {
 bool LocalMap::thereIsAnActorAt(int index) { return actors[index] != nullptr; }
 bool LocalMap::thereIsAnActorAt(TileCoords location) {
 	if (!isInMapBounds(location)) {
-		debugLogger.log("thereIsAnActorAt() coordinates out of bounds");
+		DebugLogger::log("thereIsAnActorAt() coordinates out of bounds");
 		return false;
 	}
 	return actors[coordsToTileIndex(location)] != nullptr;
@@ -239,7 +227,7 @@ bool LocalMap::thereIsAnActorAt(TileCoords location) {
 ActorEntity* LocalMap::getActorAt(int index) { return actors[index]; }
 ActorEntity* LocalMap::getActorAt(TileCoords location) {
 	if (!isInMapBounds(location)) {
-		debugLogger.log("getActorAt() coordinates out of bounds");
+		DebugLogger::log("getActorAt() coordinates out of bounds");
 		return nullptr;
 	}
 	return getActorAt( coordsToTileIndex(location) );
@@ -249,7 +237,7 @@ ActorEntity* LocalMap::getActorAt(TileCoords location) {
 void LocalMap::setActorAt(int index, ActorEntity* actor) { actors[index] = actor; }
 void LocalMap::setActorAt(TileCoords location, ActorEntity* actor) {
 	if (!isInMapBounds(location)) {
-		debugLogger.log("setActorAt() coordinates out of bounds");
+		DebugLogger::log("setActorAt() coordinates out of bounds");
 		return;
 	}
 	setActorAt(coordsToTileIndex(location), actor);
@@ -261,7 +249,7 @@ std::vector<ItemEntity*>* LocalMap::getItemsAt(int index) {
 }
 std::vector<ItemEntity*>* LocalMap::getItemsAt(TileCoords coords) {
    if (!isInMapBounds(coords)) {
-      debugLogger.log("getItemsAt() out of bounds");
+      DebugLogger::log("getItemsAt() out of bounds");
       return nullptr;
    }
    return getItemsAt(coordsToTileIndex(coords));
@@ -273,7 +261,7 @@ void LocalMap::addItemAt(int index, ItemEntity* item) {
 }
 void LocalMap::addItemAt(TileCoords coords, ItemEntity* item) {
    if (!isInMapBounds(coords)) {
-      debugLogger.log("addItemAt() out of bounds");
+      DebugLogger::log("addItemAt() out of bounds");
       return;
    }
    return addItemAt(coordsToTileIndex(coords), item);
@@ -289,7 +277,7 @@ void LocalMap::removeItemAt(int index, ItemEntity* item) {
 }
 void LocalMap::removeItemAt(TileCoords coords, ItemEntity* item) {
    if (!isInMapBounds(coords)) {
-      debugLogger.log("removeItemAt() out of bounds");
+      DebugLogger::log("removeItemAt() out of bounds");
       return;
    }
    removeItemAt(coordsToTileIndex(coords), item);
@@ -306,7 +294,7 @@ int LocalMap::getHeight() { return height; }
 
 int LocalMap::coordsToTileIndex(TileCoords coordinates) {
 	if (coordinates.x < 0 || coordinates.y < 0 || coordinates.x >= width || coordinates.x >= height) {
-		debugLogger.log("Coords to tile ID out of bounds");
+		DebugLogger::log("Coords to tile ID out of bounds");
 		return -1;
 	}
 

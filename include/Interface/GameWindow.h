@@ -5,10 +5,10 @@
 #include <SDL2/SDL_image.h>
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
-#include "Logs/DebugLogger.h"
 #include "UIScreens/MessagesUI.h"
 #include "UIScreens/MapUI.h"
 #include "UIScreens/ConfirmerUI.h"
+#include "UIScreens/PlayerUI.h"
 #include "UIScreens/SceneUI.h"
 
 
@@ -29,8 +29,6 @@ struct MapViewports {
 
 class GameWindow {
 private:
-	DebugLogger debugLogger;
-
 	GameWindowState state = WINDOW_STATE_MAP;
 
 	SDL_Rect screenDimensions;

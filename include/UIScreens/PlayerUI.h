@@ -5,15 +5,13 @@
 
 class PlayerUI {
 private:
-	PlayerManager* playerMan;
+	ActorEntity* player;
 
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
 
 public:
-	bool hidden;
-
-	PlayerUI() : playerMan(NULL), renderer(NULL), spritesheet(NULL), hidden(false) {};
+	PlayerUI() : player(NULL), renderer(NULL), spritesheet(NULL) {};
 
 	void initialize(PlayerManager* playerManager, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 

@@ -75,7 +75,7 @@ int GameTextMaker::readColorRGBValue(int& index, std::string& text) {
 
 	for (int counter = 0; counter < 3; counter++) {
 		if (index >= text.size()) {
-			debugLogger->log("Game message format error: Reading RGB values exceeded length of string\n" + text);
+			DebugLogger::log("Game message format error: Reading RGB values exceeded length of string\n" + text);
 			return 0;
 		}
 		else {
@@ -111,7 +111,7 @@ MyColor GameTextMaker::readColorByColorName(int& index, std::string& text) {
 		index++;
 	}
 
-	debugLogger->log("Game message format error: End of string reached while trying to parse color name\n" + text);
+	DebugLogger::log("Game message format error: End of string reached while trying to parse color name\n" + text);
 	return MyColor(255, 255, 255);
 }
 

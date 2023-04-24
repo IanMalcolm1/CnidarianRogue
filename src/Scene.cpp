@@ -4,7 +4,6 @@
 
 
 LocalMap* Scene::getMap() {	return &map; }
-PlayerManager* Scene::getPlayerManager() { return &playerManager; }
 ActorFactory* Scene::getActorFactory() { return &actorFactory; }
 
 InputConfirmer* Scene::presentConfirmationSignaller() { return &confirmer; }
@@ -20,12 +19,12 @@ void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 		}
 	}
 
-	if (playerManager.autoActing) {
+	if (playerManager->autoActing) {
 		if (command == PC_ESCAPEKEY) {
-			playerManager.clearAutoAct();
+			playerManager->clearAutoAct();
 			return;
 		}
-		playerManager.doAutoAct();
+		playerManager->doAutoAct();
 		return;
 	}
 
@@ -33,17 +32,17 @@ void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 
 	//process player move
 	if (command < 9) {
-		needToRunTurn = playerManager.processDirectionalCommand(command);
+		needToRunTurn = playerManager->processDirectionalCommand(command);
 	}
 
 	else if (command == PC_WAIT) {
-		ActorEntity* player = playerManager.getPlayer();
+		ActorEntity* player = playerManager->getPlayer();
 		actorManager.getTurnQueue()->insert(player, player->stats.baseMoveSpeed);
 		needToRunTurn = true;
 	}
 
 	else if (command == PC_TOGGLE_LOOK) {
-		playerManager.updateInputState(command);
+		playerManager->updateInputState(command);
 	}
 
 
@@ -57,20 +56,19 @@ void Scene::updateMapDisplay() {
 }
 
 void Scene::runTurnIfAutoMoving() {
-	if (!alreadyRanTurn && playerManager.autoActing) {
-		playerManager.doAutoAct();
+	if (!alreadyRanTurn && playerManager->autoActing) {
+		playerManager->doAutoAct();
 		actorManager.runActorTurns();
 	}
 	alreadyRanTurn = false;
 }
 
 
-void Scene::setPlayerAt(TileCoords location) {
-	playerManager.placePlayer(location);
-}
-
 void Scene::startAutoMove() {
-	playerManager.startAutoMove();
+	playerManager->startAutoMove(map.getRouteToMouseTile());
 }
 
 
+TurnQueue* Scene::getTurnQueue() {
+   return actorManager.getTurnQueue();
+}

@@ -16,13 +16,14 @@ enum PlayerInputState {
 class PlayerManager {
 private:
 	ActorEntity* player;
+   void* playerArena;
 
 	PlayerInputState inputState;
 
 	LocalMap* map;
    TurnQueue* turnQueue;
 
-	InputConfirmer* sceneConfirmer;
+	InputConfirmer* confirmer;
 
 	PathingRoute autoMoveRoute;
 
@@ -30,12 +31,8 @@ private:
 public:
 	bool autoActing;
 
-	PlayerManager(TurnQueue* queue, LocalMap* map, InputConfirmer* sceneConfirmer) :
-      turnQueue(queue), player(nullptr), map(map),
-      inputState(PLAYER_INPUT_MOVE), autoActing(false), 
-		sceneConfirmer(sceneConfirmer) {};
-
-	void initialize(ActorEntity* player);
+   PlayerManager();
+   ~PlayerManager();
 
 	//returns whether the turn needs to be run
 	bool processDirectionalCommand(PlayerCommand command);
@@ -46,5 +43,7 @@ public:
 	void updateInputState(PlayerCommand command);
 	bool doAutoAct();
 	void clearAutoAct();
-	void startAutoMove();
+	void startAutoMove(PathingRoute route);
+
+   void setSceneDependencies(TurnQueue* queue, LocalMap* localMap, InputConfirmer* adventureConfirmer);
 };

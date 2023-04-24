@@ -1,11 +1,13 @@
 #include "Interface/GameWindow.h"
+#include "UIScreens/PlayerUI.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
 
-GameWindow::GameWindow(Scene* scene, GameLog* log,
-	int windowWidth, int windowHeight) : sceneUI(scene), messagesUI(log),
-	exitConfirmerUI(ConfirmerUI(4)) {
+GameWindow::GameWindow(Scene* scene, GameLog* log,	int windowWidth,
+int windowHeight) : sceneUI(scene), messagesUI(log),
+exitConfirmerUI(ConfirmerUI(4)) {
+
 	screenDimensions.x = screenDimensions.y = 0;
 	screenDimensions.w = windowWidth;
 	screenDimensions.h = windowHeight;
