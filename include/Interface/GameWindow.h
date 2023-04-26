@@ -6,12 +6,12 @@
 #include "Adventure/Adventure.h"
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
-#include "UIScreens/AdventureUI.h"
-#include "UIScreens/MessagesUI.h"
-#include "UIScreens/MapUI.h"
-#include "UIScreens/ConfirmerUI.h"
-#include "UIScreens/PlayerUI.h"
-#include "UIScreens/SceneUI.h"
+#include "Interface/UIScreens/AdventureUI.h"
+#include "Interface/UIScreens/MessagesUI.h"
+#include "Interface/UIScreens/MapUI.h"
+#include "Interface/UIScreens/ConfirmerUI.h"
+#include "Interface/UIScreens/PlayerUI.h"
+#include "Interface/UIScreens/SceneUI.h"
 
 
 class GameWindow {

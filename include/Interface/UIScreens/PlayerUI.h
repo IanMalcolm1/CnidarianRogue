@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "PlayerManager/PlayerManager.h"
+#include "Adventure/PlayerManager.h"
 
 class PlayerUI {
 private:

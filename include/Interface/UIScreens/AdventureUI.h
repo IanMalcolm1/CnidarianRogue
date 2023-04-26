@@ -3,9 +3,9 @@
 
 #include "Adventure/Adventure.h"
 #include "SDL_render.h"
-#include "UIScreens/MessagesUI.h"
-#include "UIScreens/PlayerUI.h"
-#include "UIScreens/SceneUI.h"
+#include "Interface/UIScreens/MessagesUI.h"
+#include "Interface/UIScreens/PlayerUI.h"
+#include "Interface/UIScreens/SceneUI.h"
 #include <locale>
 
 

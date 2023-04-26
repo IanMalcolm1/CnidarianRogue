@@ -1,5 +1,5 @@
-#include "UIScreens/MapUI.h"
-#include "UIScreens/RectFiller.h"
+#include "Interface/UIScreens/MapUI.h"
+#include "GraphicsThings/RectFiller.h"
 
 void MapUI::initialize(LocalMap* map, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	this->map = map;

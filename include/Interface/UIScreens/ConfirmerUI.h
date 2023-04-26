@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UIScreens/TextRenderer.h"
+#include "Interface/UIScreens/TextRenderer.h"
 #include "InputConfirmer.h"
 #include <SDL.h>
 

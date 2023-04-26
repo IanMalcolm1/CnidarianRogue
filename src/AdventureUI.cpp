@@ -1,4 +1,4 @@
-#include "UIScreens/AdventureUI.h"
+#include "Interface/UIScreens/AdventureUI.h"
 
 
 void AdventureUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {

@@ -1,4 +1,4 @@
-#include "UIScreens/SceneUI.h"
+#include "Interface/UIScreens/SceneUI.h"
 
 
 void SceneUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {

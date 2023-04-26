@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Algorithms/TerrainGenerators.h"
-#include "Scene/Scene.h"
+#include "Adventure/Scene/Scene.h"
 #include "Logs/GameLog.h"
-#include "PlayerManager/PlayerManager.h"
-#include "UIScreens/InputConfirmer.h"
+#include "Adventure/PlayerManager.h"
+#include "Interface/UIScreens/InputConfirmer.h"
 
 
 class Adventure {

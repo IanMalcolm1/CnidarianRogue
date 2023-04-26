@@ -1,7 +1,7 @@
-#include "PlayerManager/PlayerManager.h"
+#include "Adventure/PlayerManager.h"
 #include "Algorithms/PathfindingRoute.h"
 #include "Entities/ActorEntity.h"
-#include "Scene/TurnQueue.h"
+#include "Adventure/Scene/TurnQueue.h"
 
 PlayerManager::PlayerManager() :
 turnQueue(nullptr), player(nullptr), map(nullptr),

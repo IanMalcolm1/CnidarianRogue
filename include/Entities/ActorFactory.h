@@ -2,7 +2,7 @@
 
 #include "Entities/EntityColiseum.h"
 #include "Entities/ActorEntity.h"
-#include "Scene/TurnQueue.h"
+#include "Adventure/Scene/TurnQueue.h"
 #include "Topography/LocalMap.h"
 
 

@@ -2,11 +2,11 @@
 
 #include "Entities/ActorFactory.h"
 #include "Topography/LocalMap.h"
-#include "TurnQueue.h"
+#include "Adventure/Scene/TurnQueue.h"
 #include <SDL.h>
-#include "UIScreens/InputConfirmer.h"
-#include "PlayerManager/PlayerManager.h"
-#include "Scene/ActorManager.h"
+#include "Interface/UIScreens/InputConfirmer.h"
+#include "Adventure/PlayerManager.h"
+#include "Adventure/Scene/ActorManager.h"
 #include "Logs/GameLog.h"
 
 

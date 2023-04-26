@@ -1,5 +1,5 @@
 #include "Interface/GameWindow.h"
-#include "UIScreens/PlayerUI.h"
+#include "Interface/UIScreens/PlayerUI.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>

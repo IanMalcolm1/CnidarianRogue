@@ -1,4 +1,4 @@
-#include "UIScreens/InputConfirmer.h"
+#include "Interface/UIScreens/InputConfirmer.h"
 
 void InputConfirmer::signalPopup(PlayerCommand command, std::string message) {
 	awaiting = true;

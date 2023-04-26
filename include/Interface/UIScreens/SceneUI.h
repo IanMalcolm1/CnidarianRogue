@@ -1,11 +1,11 @@
 #pragma once
 
 #include <SDL.h>
-#include "UIScreens/MapUI.h"
-#include "UIScreens/MessagesUI.h"
-#include "UIScreens/PlayerUI.h"
-#include "UIScreens/ConfirmerUI.h"
-#include "Scene/Scene.h"
+#include "Interface/UIScreens/MapUI.h"
+#include "Interface/UIScreens/MessagesUI.h"
+#include "Interface/UIScreens/PlayerUI.h"
+#include "Interface/UIScreens/ConfirmerUI.h"
+#include "Adventure/Scene/Scene.h"
 
 class SceneUI {
 private:

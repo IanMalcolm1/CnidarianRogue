@@ -7,7 +7,7 @@
 #include "Entities/ActorEntity.h"
 #include "Entities/ActorFactory.h"
 #include "Entities/EntityColiseum.h"
-#include "Scene/TurnQueue.h"
+#include "Adventure/Scene/TurnQueue.h"
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
 

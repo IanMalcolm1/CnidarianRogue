@@ -1,5 +1,5 @@
-#include "UIScreens/ConfirmerUI.h"
-#include "UIScreens/RectFiller.h"
+#include "Interface/UIScreens/ConfirmerUI.h"
+#include "GraphicsThings/RectFiller.h"
 
 
 void ConfirmerUI::initialize(InputConfirmer* signaller, SDL_Renderer* renderer, SDL_Texture* spritesheet) {

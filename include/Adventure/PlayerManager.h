@@ -3,8 +3,8 @@
 #include "Entities/ActorEntity.h"
 #include "Enums/PlayerCommands.h"
 #include "Topography/LocalMap.h"
-#include "UIScreens/InputConfirmer.h"
-#include "Scene/TurnQueue.h"
+#include "Interface/UIScreens/InputConfirmer.h"
+#include "Adventure/Scene/TurnQueue.h"
 
 
 enum PlayerInputState {

@@ -1,4 +1,4 @@
-#include "Scene/Scene.h"
+#include "Adventure/Scene/Scene.h"
 #include "Entities/ActorFactory.h"
 #include <random>
 

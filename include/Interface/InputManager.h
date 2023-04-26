@@ -4,8 +4,8 @@
 #include "Adventure/Adventure.h"
 #include "GameWindow.h"
 #include "Enums/PlayerCommands.h"
-#include "UIScreens/InputConfirmer.h"
-#include "Scene/Scene.h"
+#include "Interface/UIScreens/InputConfirmer.h"
+#include "Adventure/Scene/Scene.h"
 #include <unordered_map>
 #include <SDL_events.h>
 

@@ -1,5 +1,4 @@
 #include "Adventure/Adventure.h"
-#include "PlayerManager/PlayerManager.h"
 
 void Adventure::linkPlayerAndScene() {
    playerMan.setSceneDependencies(scene.getTurnQueue(), scene.getMap(), scene.getInputConfirmer());

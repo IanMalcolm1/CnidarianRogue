@@ -1,9 +1,9 @@
-#include "Scene/ActorManager.h"
+#include "Adventure/Scene/ActorManager.h"
 #include "Entities/AI.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
 #include "Entities/ActorFactory.h"
-#include "Scene/TurnQueue.h"
+#include "Adventure/Scene/TurnQueue.h"
 #include <cwchar>
 #include <random>
 #include <string>

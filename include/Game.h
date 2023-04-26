@@ -6,7 +6,7 @@
 #include <memory>
 #include "Adventure/Adventure.h"
 #include "Interface/GameWindow.h"
-#include "Scene/Scene.h"
+#include "Adventure/Scene/Scene.h"
 #include "Interface/InputManager.h"
 #include "Algorithms/TerrainGenerators.h"
 #include "Logs/GameLog.h"
