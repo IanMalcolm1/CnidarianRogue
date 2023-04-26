@@ -1,4 +1,5 @@
 #include "GraphicsThings/GameText.h"
+#include "Logs/DebugLogger.h"
 #include <stack>
 
 

@@ -21,6 +21,5 @@ public:
       actorColiseum(actorColiseum) {};
 
 
-   ActorEntity* makePlayer();
    ActorEntity* makeEvilSmileyFace(TileCoords location);
 };

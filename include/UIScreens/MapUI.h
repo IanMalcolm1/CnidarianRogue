@@ -33,7 +33,7 @@ private:
 	SDL_Rect mainViewport;
 
 	void calculateMapRenderingData();
-	void calcDataForAxis(const SDL_Rect& viewport, char axis);
+	void calcDataForAxis(const SDL_Rect& viewport, char axis); //as in x/y axis
 
 	void renderTile(int index, SDL_Rect dstrect);
 

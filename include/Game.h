@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <memory>
+#include "Adventure/Adventure.h"
 #include "Interface/GameWindow.h"
 #include "Scene/Scene.h"
 #include "Interface/InputManager.h"
@@ -22,10 +23,7 @@ private:
 
 	std::unique_ptr<GameWindow> gameWindow;
 	std::unique_ptr<InputManager> inputManager;
-	std::unique_ptr<Scene> scene;
-	std::unique_ptr<GameLog> gameLog;
-
-	TerrainGenerators terrainGenerator;
+	std::unique_ptr<Adventure> adventure;
 
 public:
 	Game();

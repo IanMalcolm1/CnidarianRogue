@@ -6,7 +6,7 @@
 LocalMap* Scene::getMap() {	return &map; }
 ActorFactory* Scene::getActorFactory() { return &actorFactory; }
 
-InputConfirmer* Scene::presentConfirmationSignaller() { return &confirmer; }
+InputConfirmer* Scene::getInputConfirmer() { return &confirmer; }
 
 void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 	if (confirmer.isAwaiting()) {
@@ -71,4 +71,8 @@ void Scene::startAutoMove() {
 
 TurnQueue* Scene::getTurnQueue() {
    return actorManager.getTurnQueue();
+}
+
+void Scene::setPlayerAt(TileCoords location) {
+   playerManager->placePlayer(location);
 }

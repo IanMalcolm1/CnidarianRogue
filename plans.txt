@@ -1,4 +1,12 @@
 _____________________________________________________________________________________________
+IMPORTANT:
+In an effort to ever finish this thing it would probably be best to define some hard limits
+on gameplay scope. The game loop should only consist of a single armor slot and a single
+weapons slot without a proper inventory that would require me to make an new dedicated UI
+screen. Stats should probably also be limited, though maybe there could be certain
+consumables that increase them on pickup. No player creation screen--if a game is found,
+load it. If not, do new game. Maaaaybe still do perlin noise.
+
 TODOS:
 Current:
 Restructure things such that PlayerManager is outside of Scene class. Probably make player

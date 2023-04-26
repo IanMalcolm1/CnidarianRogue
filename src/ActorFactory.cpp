@@ -8,24 +8,6 @@ void ActorFactory::registerActor(ActorEntity* actor) {
 	turnQueue->insert(actor, 0);
 }
 
-ActorEntity* ActorFactory::makePlayer() {
-   ActorEntity* player = actorColiseum->makeEntity();
-   player->isPlayer = true;
-
-   player->stats.maxHealth = 10 + rand()%5;
-   player->stats.health = player->stats.maxHealth;
-
-   player->description.name = "</gold:The Player/>";
-   player->description.desc = "It's you.";
-
-   player->display.symbol = ASYM_AT;
-
-   player->faction = FACTION_GOOD;
-
-   registerActor(player);
-   return player;
-}
-
 
 ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    ActorEntity* evilSmiley = actorColiseum->makeEntity();

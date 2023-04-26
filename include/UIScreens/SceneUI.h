@@ -12,22 +12,21 @@ private:
 	Scene* scene;
 
 	MapUI mapUI;
-	PlayerUI playerUI;
 	ConfirmerUI confirmerUI;
 
-	SDL_Rect mapViewport, playerViewport;
+	SDL_Rect mapViewport;
 
 
 public:
 	bool hidden;
 
-	SceneUI(Scene* scene) : hidden(false), mapUI(MapUI()), playerUI(PlayerUI()),
-		confirmerUI(ConfirmerUI(3)), scene(scene), mapViewport({ 0,0,0,0 }),
-		playerViewport({ 0,0,0,0 }) {};
+	SceneUI(Scene* scene) : hidden(false), mapUI(MapUI()),
+		confirmerUI(ConfirmerUI(3)), scene(scene),
+      mapViewport({ 0,0,0,0 }) {};
 
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
-	void render(const SDL_Rect& mapViewport, const SDL_Rect& playerViewport);
+	void render(const SDL_Rect& mapViewport);
 
 	void processCursorLocation(int x, int y);
 	void processScroll(int x, int y, int offset, bool ctrlDown);

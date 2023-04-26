@@ -2,17 +2,14 @@
 
 
 void SceneUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
-	confirmerUI.initialize(scene->presentConfirmationSignaller(), renderer, spritesheet);
+	confirmerUI.initialize(scene->getInputConfirmer(), renderer, spritesheet);
 	mapUI.initialize(scene->getMap(), renderer, spritesheet);
-	playerUI.initialize(scene->getPlayerManager(), renderer, spritesheet);
 }
 
-void SceneUI::render(const SDL_Rect& mapViewport, const SDL_Rect& playerViewport) {
+void SceneUI::render(const SDL_Rect& mapViewport) {
 	this->mapViewport = mapViewport;
-	this->playerViewport = playerViewport;
 
 	mapUI.render(mapViewport);
-	playerUI.render(playerViewport);
 	confirmerUI.render(mapViewport);
 }
 

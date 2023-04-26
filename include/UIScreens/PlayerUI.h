@@ -5,19 +5,15 @@
 
 class PlayerUI {
 private:
-	ActorEntity* player;
+	PlayerManager* playerMan;
 
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
 
 public:
-	PlayerUI() : player(NULL), renderer(NULL), spritesheet(NULL) {};
+	PlayerUI(PlayerManager* playerMan) : playerMan(playerMan), renderer(NULL), spritesheet(NULL) {};
 
-	void initialize(PlayerManager* playerManager, SDL_Renderer* renderer, SDL_Texture* spritesheet);
+	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
 	void render(const SDL_Rect& viewport);
-
-	void processCursorLocation(int x, int y);
-	void processScroll(int x, int y, int offset, bool ctrlDown);
-	void processClick(int x, int y, bool ctrlDown);
 };

@@ -1,8 +1,7 @@
 #include "UIScreens/PlayerUI.h"
 #include "PlayerManager/PlayerManager.h"
 
-void PlayerUI::initialize(PlayerManager* playerMan, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
-   player = playerMan->getPlayer();
+void PlayerUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	this->renderer = renderer;
 	this->spritesheet = spritesheet;
 }

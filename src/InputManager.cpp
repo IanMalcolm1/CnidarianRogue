@@ -2,8 +2,8 @@
 #include <stdexcept>
 
 
-InputManager::InputManager(GameWindow* window, Scene* scene) :
-	gameWindow(window), scene(scene), confirmer(InputConfirmer()) {
+InputManager::InputManager(GameWindow* window, Adventure* adventure) :
+	gameWindow(window), adventure(adventure), confirmer(InputConfirmer()) {
 
 	keyMappings = std::unordered_map<SDL_Keycode, PlayerCommand>();
 
@@ -31,11 +31,8 @@ InputManager::InputManager(GameWindow* window, Scene* scene) :
 
 }
 
-void InputManager::setScene(Scene* scene) {
-	this->scene = scene;
-}
 
-InputConfirmer* InputManager::presentConfirmer() {
+InputConfirmer* InputManager::getInputConfirmer() {
 	return &confirmer;
 }
 
@@ -101,11 +98,9 @@ void InputManager::processKeyPress(SDL_Keycode keycode, Uint16 modification) {
 
 	command = keyMappings.at(keycode);
 
-	if (gameWindow->getState() == WINDOW_STATE_MAP) {
-		if (command < PC_END_OF_PLAYER_ACTIONS) {
-			scene->processCommand(command, modification);
-		}
-	}
+	if (command < PC_END_OF_PLAYER_ACTIONS) {
+      adventure->processCommand(command, modification);
+   }
 }
 
 bool InputManager::testControlDown() {

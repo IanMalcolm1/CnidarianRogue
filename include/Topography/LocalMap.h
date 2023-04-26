@@ -50,7 +50,7 @@ public:
 	LocalMap(int width, int height) : mapDisplay(MapDisplay(width, height)),
 	terrainMap(TerrainMap(width, height)), actors(width*height, nullptr),
 	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(PathingRoute()),
-   width(width), height(height), needToUpdateDisplay(false),
+   width(width), height(height), needToUpdateDisplay(true),
    mouseTile(TileCoords(-1,-1)) {};
 
 

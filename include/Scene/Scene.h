@@ -39,7 +39,7 @@ public:
    ActorFactory* getActorFactory();
    TurnQueue* getTurnQueue();
 
-	InputConfirmer* presentConfirmationSignaller();
+	InputConfirmer* getInputConfirmer();
 
 	void processCommand(PlayerCommand command, Uint16 modification);
 	void updateMapDisplay();

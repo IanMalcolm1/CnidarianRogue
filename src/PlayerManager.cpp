@@ -9,11 +9,19 @@ inputState(PLAYER_INPUT_MOVE), autoActing(false),
 confirmer(nullptr) {
    
    playerArena = malloc(sizeof(ActorEntity) + 64);
-   player = new(playerArena)
-      ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64);
+   player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64);
 
-   TileDisplay playerDisp = { ASYM_AT, {255,255,255}, {0,0,0} };
-   player->display = playerDisp;
+   player->isPlayer = true;
+
+   player->stats.maxHealth = 15;
+   player->stats.health = player->stats.maxHealth;
+
+   player->description.name = "</gold:The Player/>";
+   player->description.desc = "It's you.";
+
+   player->display.symbol = ASYM_AT;
+
+   player->faction = FACTION_GOOD;
 }
 
 PlayerManager::~PlayerManager() {
@@ -109,6 +117,7 @@ bool PlayerManager::doAutoAct() {
    else {
       autoActing = false;
       autoMoveRoute.clear();
+      turnQueue->insert(player, 0);
    }
 
    return autoActing;
