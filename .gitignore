@@ -3,3 +3,4 @@ debug/*
 .cache/*
 *.gch
 logs/*
+githubToken.txt
