@@ -9,10 +9,9 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 
 TODOS:
 Current:
-Implement player ui
+Add game over
 
 Next:
-Add game over
 Add look functionality
 Save functionality
 Add better creatures
