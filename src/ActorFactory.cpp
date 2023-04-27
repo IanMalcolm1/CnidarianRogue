@@ -25,6 +25,9 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
 
    evilSmiley->faction = FACTION_BAD;
 
+   evilSmiley->defaultAttack.damage1.dice = 1;
+   evilSmiley->defaultAttack.damage1.constant = 1;
+
    evilSmiley->addAttackingSubstate(AiState(AISTATE_APPROACH_AND_WHACK));
    
    registerActor(evilSmiley);

@@ -73,6 +73,8 @@ ActorEntity* TurnQueue::pop() {
 		return nullptr;
 	}
 
+   startTime = frontNode->time;
+
 	TurnQueueNode* formerFrontNode = frontNode;
 	frontNode = formerFrontNode->next;
 	ActorEntity* returnActorEntity = formerFrontNode->actor;

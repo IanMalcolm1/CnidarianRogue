@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 #include "Adventure/PlayerManager.h"
+#include "GraphicsThings/GameText.h"
+#include "Interface/UIScreens/TextRenderer.h"
 
 class PlayerUI {
 private:
@@ -10,8 +12,12 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
 
+   GameTextMaker textMaker;
+	TextRenderer textRenderer;
+	TextRenderingSpecs textSpecs;
+
 public:
-	PlayerUI(PlayerManager* playerMan) : playerMan(playerMan), renderer(NULL), spritesheet(NULL) {};
+	PlayerUI(PlayerManager* playerMan, int fontSize = 3) : playerMan(playerMan), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize) {};
 
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
 

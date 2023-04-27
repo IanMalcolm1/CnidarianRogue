@@ -2,6 +2,7 @@
 #include "Algorithms/PathfindingRoute.h"
 #include "Entities/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "Enums/TurnTime.h"
 
 PlayerManager::PlayerManager() :
 turnQueue(nullptr), player(nullptr), map(nullptr),
@@ -22,6 +23,9 @@ confirmer(nullptr) {
    player->display.symbol = ASYM_AT;
 
    player->faction = FACTION_GOOD;
+
+   player->stats.baseMoveSpeed = FULL_TURN_TIME + FULL_TURN_TIME/2;
+   player->stats.baseAttackSpeed = FULL_TURN_TIME + FULL_TURN_TIME/2;
 }
 
 PlayerManager::~PlayerManager() {
