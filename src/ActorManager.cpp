@@ -74,13 +74,13 @@ void ActorManager::doAttack(ActorEntity* attacker, ActorEntity* defender) {
    std::string message = attacker->description.name;
    message.append(" attacks ");
    message.append(defender->description.name);
-   message.append(" for ");
+   message.append(" for (");
    message.append(std::to_string(diceRoll));
    message.append("+");
    message.append(std::to_string(constant));
    message.append(" = ");
    message.append(std::to_string(constant+diceRoll));
-   message.append(" damage.");
+   message.append(") damage.");
    gameLog->sendMessage(message);
 
    defender->stats.health -= (diceRoll + attacker->defaultAttack.damage1.constant);

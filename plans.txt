@@ -10,13 +10,14 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 TODOS:
 Current:
 Add game over
+   Maybe need an event-listener system?
+   Need to make game-over popup with a Fucking Shit button
 
 Next:
 Add look functionality
 Save functionality
 Add better creatures
 Implement items properly (ItemManager class necessary)
-Implement stats
 
 Optional:
 Better generation

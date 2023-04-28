@@ -11,7 +11,9 @@
 #include "Topography/TileCoordinates.h"
 
 
-/* Class for Local Maps */
+/* Should be pretty obvious what this class does. The
+ * 'Local' part is just because I was thinking to also
+ * have a 'Global' version at one point */
 class LocalMap {
 private:
 	int width;
