@@ -18,6 +18,7 @@ add_executable(Roguelike
    src/Adventure.cpp
    src/AdventureUI.cpp
    src/AI.cpp
+   src/Blabber.cpp
    src/ConfirmerUI.cpp
    src/DebugLogger.cpp
    src/Entity.cpp

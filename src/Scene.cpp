@@ -76,3 +76,9 @@ TurnQueue* Scene::getTurnQueue() {
 void Scene::setPlayerAt(TileCoords location) {
    playerManager->placePlayer(location);
 }
+
+
+
+void Scene::hookupInputManagerListener(Listener* listener) {
+   actorManager.addListener(listener);
+}

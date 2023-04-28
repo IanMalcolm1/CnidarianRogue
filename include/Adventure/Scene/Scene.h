@@ -48,4 +48,6 @@ public:
 
    void startAutoMove();
    void runTurnIfAutoMoving();
+
+   void hookupInputManagerListener(Listener* listener);
 };

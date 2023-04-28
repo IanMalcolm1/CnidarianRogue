@@ -4,6 +4,7 @@
 #include "Algorithms/Pathfinding.h"
 #include "Entities/ActorFactory.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "EventListener/Listener.h"
 #include <cwchar>
 #include <random>
 #include <string>
@@ -45,6 +46,12 @@ void ActorManager::destroyActor(ActorEntity* actor) {
 
    for (auto item : (*actor->getItems())) {
       map->addItemAt(actor->location, item);
+   }
+
+   if (actor->isPlayer) {
+      notifyListeners(EVENT_PLAYERDED);
+      turnQueue.insert(actor, 0);
+      return;
    }
 
    for (int i=0; i<actorColiseum.getDirtySlots(); i++) {

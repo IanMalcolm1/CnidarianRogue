@@ -8,10 +8,11 @@
 #include "Entities/ActorFactory.h"
 #include "Entities/EntityColiseum.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "EventListener/Blabber.h"
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
 
-class ActorManager {
+class ActorManager : public Blabber {
    private:
       EntityColiseum<ActorEntity> actorColiseum;
       TurnQueue turnQueue;

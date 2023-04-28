@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Adventure/Adventure.h"
+#include "EventListener/Listener.h"
 #include "Logs/DebugLogger.h"
 #include <iostream>
 #include <SDL.h>
@@ -33,6 +34,8 @@ bool Game::Initialize() {
 	InputConfirmer* inputConfirmer = inputManager->getInputConfirmer();
 	InputConfirmer* adventureConfirmer = adventure->getScene()->getInputConfirmer();
 	success = gameWindow->initialize(inputConfirmer, adventureConfirmer);
+
+   adventure->hookupInputManagerListener((Listener*) inputManager.get());
 
 	return success;
 }

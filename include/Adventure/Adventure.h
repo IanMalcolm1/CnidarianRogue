@@ -2,9 +2,11 @@
 
 #include "Algorithms/TerrainGenerators.h"
 #include "Adventure/Scene/Scene.h"
+#include "EventListener/Listener.h"
 #include "Logs/GameLog.h"
 #include "Adventure/PlayerManager.h"
 #include "Interface/UIScreens/InputConfirmer.h"
+#include <cwchar>
 
 
 class Adventure {
@@ -22,9 +24,7 @@ public:
       linkPlayerAndScene();
 	   terrainGenerator.rectangleRooms(&scene, 20, 20);
       updateMapDisplay();
-      log.sendMessage("Test");
    };
-
 
    Scene* getScene();
    void changeScene();
@@ -36,4 +36,6 @@ public:
 
    void runTurnIfAutoMoving();
 	void updateMapDisplay();
+
+   void hookupInputManagerListener(Listener* listener);
 };

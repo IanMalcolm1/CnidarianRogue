@@ -2,6 +2,7 @@
 #define INPUTMANAGER_H
 
 #include "Adventure/Adventure.h"
+#include "EventListener/Listener.h"
 #include "GameWindow.h"
 #include "Enums/PlayerCommands.h"
 #include "Interface/UIScreens/InputConfirmer.h"
@@ -9,12 +10,14 @@
 #include <unordered_map>
 #include <SDL_events.h>
 
-class InputManager {
+class InputManager : public Listener {
 private:
 	InputConfirmer confirmer;
 
 	GameWindow* gameWindow;
 	Adventure* adventure;
+
+   bool playerDied;
 
 	std::unordered_map<SDL_Keycode, PlayerCommand> keyMappings;
 
@@ -26,6 +29,8 @@ public:
 
 	//Returns false if game needs to be closed
 	bool processInput();
+
+   void processEvent(EventType event);
 
 	InputConfirmer* getInputConfirmer();
 };

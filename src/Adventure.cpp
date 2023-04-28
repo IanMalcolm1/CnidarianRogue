@@ -33,3 +33,9 @@ void Adventure::runTurnIfAutoMoving() {
 void Adventure::updateMapDisplay() {
    scene.updateMapDisplay();
 }
+
+
+
+void Adventure::hookupInputManagerListener(Listener* listener) {
+   scene.hookupInputManagerListener(listener);
+}

@@ -1,9 +1,10 @@
 #include "Interface/InputManager.h"
+#include "EventListener/Listener.h"
 #include <stdexcept>
 
 
 InputManager::InputManager(GameWindow* window, Adventure* adventure) :
-	gameWindow(window), adventure(adventure), confirmer(InputConfirmer()) {
+gameWindow(window), adventure(adventure), confirmer(), playerDied(false) {
 
 	keyMappings = std::unordered_map<SDL_Keycode, PlayerCommand>();
 
@@ -37,6 +38,9 @@ InputConfirmer* InputManager::getInputConfirmer() {
 }
 
 bool InputManager::processInput() {
+   if (playerDied)
+      return false;
+
 	if (confirmer.isAwaiting()) {
 		if (confirmer.getConfirmation() == CONF_CONFIRMED) {
 			if (confirmer.commandEquals(PC_QUITGAME)) {
@@ -110,4 +114,12 @@ bool InputManager::testControlDown() {
 		return true;
 	}
 	return false;
+}
+
+
+
+void InputManager::processEvent(EventType event) {
+   if (event == EVENT_PLAYERDED) {
+      playerDied = true;
+   }
 }
