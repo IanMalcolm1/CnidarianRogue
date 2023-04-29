@@ -9,7 +9,7 @@
 struct TextRenderingSpecs {
 	int fontSize, fontSizePixels;
 	int margin, lineSpacing, messageSpacing;
-	int maxLettersPerLine;
+	int viewportWidth, maxLettersPerLine;
 	int startOffset;
 
 	TextRenderingSpecs(int fontSize = 2, int margin = 16) : fontSize(fontSize),
@@ -17,7 +17,15 @@ struct TextRenderingSpecs {
 		messageSpacing(fontSizePixels / 2), startOffset(-margin), maxLettersPerLine(0) {};
 
 	void modifyFontSize(int modification);
-	void calcMaxLettersPerLine(int viewportWidth);
+	void setViewportWidth(int viewportWidth);
+};
+
+
+enum TextRenderingOptions {
+   TEXT_ALIGN_LEFT = 0b1,
+   TEXT_ALIGN_CENTER = 0b10,
+   TEXT_RENDER_DOWN = 0b100, //Render down starting from startY
+   TEXT_RENDER_UP = 0b1000 //Render up starting from startY
 };
 
 
@@ -26,22 +34,34 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
 
-	void renderFormattedText(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY);
+	void renderTextLeftAligned(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY);
+   void renderTextCentered(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY);
+
+	int renderFormattedTextDown(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options);
+	int renderFormattedTextUp(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options);
+
+   //Start index should be -1 for the first line
+   int calcLineLength(TextRenderingSpecs& specs,std::string& text, int startIndex);
+
 
 public:
 	TextRenderer() : renderer(NULL), spritesheet(NULL) {};
 
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spriteSheet);
 
-	//Renders a GameText object down from startY. Returns the ending y coordinate.
-	int renderGameTextDown(TextRenderingSpecs& specs, GameText& gameText, int startY);
-	//Renders a GameText object up from startY. Returns the ending y coordinate.
-	int renderGameTextUp(TextRenderingSpecs& specs, GameText& gameText, int startY);
+   /* Renders a GameText object to the screen.
+    * Takes a bitmask of TextRenderingOptions in options argument.
+    * Returns ending y coordinate. */
+	int renderGameText(TextRenderingSpecs& specs, GameText& gameText, int startY, int options = (TEXT_ALIGN_LEFT | TEXT_RENDER_DOWN));
 
-	//Renders a formatted GameText (a string and a height) down from startY. Returns ending y coordinate.
-	int renderFormattedTextDown(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY);
-	//Renders a formatted GameText (a string and a height) up from startY. Returns ending y coordinate.
-	int renderFormattedTextUp(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY);
+   /* Renders a formatted GameText object (a string and a height).
+    * Takes a bitmask of TextRenderingOptions in options argument.
+    * Returns ending y coordinate. */
+	int renderFormattedText(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options = (TEXT_ALIGN_LEFT | TEXT_RENDER_DOWN));
 
+
+   /* Adds newline characters as necessary to keep text from exceeding
+    * specs.maxLettersPerLine. Returns modified string with the calculated
+    * height of the message. */
 	std::pair<std::string, int> formatGameText(TextRenderingSpecs& specs, GameText& gameText);
 };

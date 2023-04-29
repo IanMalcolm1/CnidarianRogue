@@ -1,4 +1,5 @@
 #include "Interface/UIScreens/MessagesUI.h"
+#include "Interface/UIScreens/TextRenderer.h"
 
 
 void MessagesUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
@@ -42,7 +43,7 @@ void MessagesUI::render(const SDL_Rect& viewport) {
 			continue;
 		}
 
-		startY = textRenderer.renderFormattedTextUp(textSpecs, formattedMsgs.at(i), recentMessages->at(i), startY);
+		startY = textRenderer.renderFormattedText(textSpecs, formattedMsgs.at(i), recentMessages->at(i), startY, (TEXT_RENDER_UP|TEXT_ALIGN_LEFT));
 		startY -= textSpecs.messageSpacing;
 	}
 }
@@ -74,7 +75,7 @@ void MessagesUI::makeFormattedMessages() {
 	std::vector<GameText>* recentMessages = log->getRecentMessages();
 	int entriesAdded;
 
-	textSpecs.calcMaxLettersPerLine(mainViewport.w);
+	textSpecs.setViewportWidth(mainViewport.w);
 
 	entriesAdded = recentMessages->size() - formattedMsgs.size();
 

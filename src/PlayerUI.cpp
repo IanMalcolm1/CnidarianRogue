@@ -16,16 +16,16 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    GameText moveSpeed = textMaker.makeGameText(player->stats.getMoveSpeedAsString());
    GameText attackSpeed = textMaker.makeGameText(player->stats.getAttackSpeedAsString());
 
-   textSpecs.calcMaxLettersPerLine(viewport.w);
+   textSpecs.setViewportWidth(viewport.w);
 
    int startY = textSpecs.margin;
-   startY = textRenderer.renderGameTextDown(textSpecs, health, startY);
+   startY = textRenderer.renderGameText(textSpecs, health, startY);
    startY += textSpecs.fontSizePixels;
-   startY = textRenderer.renderGameTextDown(textSpecs, strength, startY);
+   startY = textRenderer.renderGameText(textSpecs, strength, startY);
    startY += textSpecs.fontSizePixels;
-   startY = textRenderer.renderGameTextDown(textSpecs, intelligence, startY);
+   startY = textRenderer.renderGameText(textSpecs, intelligence, startY);
    startY += textSpecs.fontSizePixels;
-   startY = textRenderer.renderGameTextDown(textSpecs, moveSpeed, startY);
+   startY = textRenderer.renderGameText(textSpecs, moveSpeed, startY);
    startY += textSpecs.fontSizePixels;
-   startY = textRenderer.renderGameTextDown(textSpecs, attackSpeed, startY);
+   startY = textRenderer.renderGameText(textSpecs, attackSpeed, startY);
 }

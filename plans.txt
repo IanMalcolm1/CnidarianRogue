@@ -10,8 +10,8 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 TODOS:
 Current:
 Add game over
-   Maybe need an event-listener system?
-   Need to make game-over popup with a Fucking Shit button
+   Make "Game Over" screen with "Quit" button
+   Add "Restart" button to Game Over Screen
 
 Next:
 Add look functionality

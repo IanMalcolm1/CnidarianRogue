@@ -1,5 +1,6 @@
 #include "Interface/UIScreens/ConfirmerUI.h"
 #include "GraphicsThings/RectFiller.h"
+#include "Interface/UIScreens/TextRenderer.h"
 
 
 void ConfirmerUI::initialize(InputConfirmer* signaller, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
@@ -50,19 +51,19 @@ void ConfirmerUI::render(const SDL_Rect& viewport) {
 
 	//main message
 	SDL_RenderSetViewport(renderer, &screenViewport);
-	textSpecs.calcMaxLettersPerLine(screenViewport.w);
+	textSpecs.setViewportWidth(screenViewport.w);
 	GameText message = textMaker.makeGameText(signaller->message);
-	textRenderer.renderGameTextDown(textSpecs, message, textSpecs.margin);
+	textRenderer.renderGameText(textSpecs, message, textSpecs.margin, TEXT_ALIGN_CENTER | TEXT_RENDER_DOWN);
 
 	//yes
 	SDL_RenderSetViewport(renderer, &yesViewport);
-	textSpecs.calcMaxLettersPerLine(yesViewport.w);
-	textRenderer.renderGameTextDown(textSpecs, yes, textSpecs.margin);
+	textSpecs.setViewportWidth(yesViewport.w);
+	textRenderer.renderGameText(textSpecs, yes, textSpecs.margin, TEXT_ALIGN_CENTER | TEXT_RENDER_DOWN);
 
 	//no
 	SDL_RenderSetViewport(renderer, &noViewport);
-	textSpecs.calcMaxLettersPerLine(noViewport.w);
-	textRenderer.renderGameTextDown(textSpecs, no, textSpecs.margin);
+	textSpecs.setViewportWidth(noViewport.w);
+	textRenderer.renderGameText(textSpecs, no, textSpecs.margin, TEXT_ALIGN_CENTER | TEXT_RENDER_DOWN);
 
 	//borders
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
