@@ -3,7 +3,7 @@
 #include "Entities/ActorEntity.h"
 #include "Enums/PlayerCommands.h"
 #include "Topography/LocalMap.h"
-#include "Interface/UIScreens/InputConfirmer.h"
+#include "Interface/InputConfirmer.h"
 #include "Adventure/Scene/TurnQueue.h"
 
 

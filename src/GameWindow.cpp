@@ -1,11 +1,14 @@
 #include "Interface/GameWindow.h"
+#include "EventListener/Listener.h"
+#include "Interface/UIScreens/ConfirmerUI.h"
+#include "Interface/UIScreens/GameOverUI.h"
 #include "Interface/UIScreens/PlayerUI.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
 
 GameWindow::GameWindow(Adventure* adventure, int windowWidth, int windowHeight) :
-adventureUI(adventure), exitConfirmerUI(4) {
+adventureUI(adventure), exitConfirmerUI(4), gameOverUI(4) {
 	screenDimensions.x = screenDimensions.y = 0;
 	screenDimensions.w = windowWidth;
 	screenDimensions.h = windowHeight;
@@ -31,7 +34,7 @@ GameWindow::~GameWindow() {
 	SDL_Quit();
 }
 
-bool GameWindow::initialize(InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller) {
+bool GameWindow::initialize(Listener* gameListener, InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller) {
 	bool success = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -65,6 +68,7 @@ bool GameWindow::initialize(InputConfirmer* inputSignaller, InputConfirmer* scen
 	//UI screens
    adventureUI.initialize(renderer, spritesheet);
 	exitConfirmerUI.initialize(inputSignaller, renderer, spritesheet);
+   gameOverUI.initialize(gameListener, renderer, spritesheet);
 
 	return success;
 }
@@ -83,6 +87,8 @@ void GameWindow::update() {
    resetRenderer();
 	exitConfirmerUI.render(screenDimensions);
    resetRenderer();
+   gameOverUI.render(screenDimensions);
+   resetRenderer();
 
 	SDL_RenderPresent(renderer);
 }
@@ -95,24 +101,61 @@ void GameWindow::updateWindowDimensions(int width, int height) {
 
 
 void GameWindow::processCursorLocation(int x, int y) {
-	exitConfirmerUI.processMouseLocation(x, y);
-	adventureUI.processCursorLocation(x, y);
+   if (!gameOverUI.hidden) {
+      gameOverUI.processMouseLocation(x, y);
+   }
+   else if (!exitConfirmerUI.hidden) {
+      exitConfirmerUI.processMouseLocation(x, y);
+   }
+   else {
+      adventureUI.processCursorLocation(x, y);
+   }
 }
 
 void GameWindow::processClick(int x, int y, bool ctrlDown) {
-	exitConfirmerUI.processMouseClick(x,y);
-	adventureUI.processClick(x, y, ctrlDown);
+
+   if (!gameOverUI.hidden) {
+      gameOverUI.processMouseClick(x, y);
+   }
+   else if (!exitConfirmerUI.hidden) {
+      exitConfirmerUI.processMouseClick(x,y);
+   }
+   else {
+      adventureUI.processClick(x, y, ctrlDown);
+   }
 }
 
 void GameWindow::processScroll(int x, int y, int scrollOffset, bool ctrlDown) {
-	adventureUI.processScroll(x, y, scrollOffset, ctrlDown);
+   adventureUI.processScroll(x, y, scrollOffset, ctrlDown);
 }
 
 void GameWindow::processKeyPress(SDL_Keycode keycode) {
-	if (!exitConfirmerUI.hidden) {
-		exitConfirmerUI.processKeyPress(keycode);
-	}
-	else {
-		adventureUI.processKeyPress(keycode);
-	}
+   if (!gameOverUI.hidden) {
+      gameOverUI.processKeyPress(keycode);
+   }
+   else if (!exitConfirmerUI.hidden) {
+      exitConfirmerUI.processKeyPress(keycode);
+   }
+   else {
+      adventureUI.processKeyPress(keycode);
+   }
+}
+
+
+void GameWindow::processEvent(EventType event) {
+   if (event == EVENT_PLAYERDED) {
+      gameOverUI.hidden = false;
+   }
+}
+
+
+void GameWindow::reset(Adventure* adventure, Listener* gameListener, InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller) {
+   adventureUI = AdventureUI(adventure);
+   adventureUI.initialize(renderer, spritesheet);
+
+   exitConfirmerUI = ConfirmerUI(4);
+	exitConfirmerUI.initialize(inputSignaller, renderer, spritesheet);
+
+   gameOverUI = GameOverUI(4);
+   gameOverUI.initialize(gameListener, renderer, spritesheet);
 }

@@ -25,6 +25,7 @@ add_executable(Roguelike
    src/FoV.cpp
    src/Game.cpp
    src/GameLog.cpp
+   src/GameOverUI.cpp
    src/GameText.cpp
    src/GameWindow.cpp
    src/GraphicsThings.cpp

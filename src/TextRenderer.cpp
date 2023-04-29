@@ -1,4 +1,4 @@
-#include "Interface/UIScreens/TextRenderer.h"
+#include "GraphicsThings/TextRenderer.h"
 #include "Enums/AsciiSymbols.h"
 
 

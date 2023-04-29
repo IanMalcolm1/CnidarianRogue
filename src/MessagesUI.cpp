@@ -1,5 +1,4 @@
 #include "Interface/UIScreens/MessagesUI.h"
-#include "Interface/UIScreens/TextRenderer.h"
 
 
 void MessagesUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {

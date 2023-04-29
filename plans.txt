@@ -9,9 +9,7 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 
 TODOS:
 Current:
-Add game over
-   Make "Game Over" screen with "Quit" button
-   Add "Restart" button to Game Over Screen
+Modify ExitConfirmerUI to use event-listener like GameOverUI does
 
 Next:
 Add look functionality

@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Interface/UIScreens/TextRenderer.h"
+#include "GraphicsThings/TextRenderer.h"
 #include "Logs/GameLog.h"
 
 

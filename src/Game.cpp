@@ -10,6 +10,7 @@
 
 Game::Game() {
 	isRunning = false;
+   needsToDie = false;
 	millisecsPrevFrame = 0;
 
 	adventure = std::make_unique<Adventure>();
@@ -33,15 +34,15 @@ bool Game::Initialize() {
 
 	InputConfirmer* inputConfirmer = inputManager->getInputConfirmer();
 	InputConfirmer* adventureConfirmer = adventure->getScene()->getInputConfirmer();
-	success = gameWindow->initialize(inputConfirmer, adventureConfirmer);
+	success = gameWindow->initialize((Listener*)this, inputConfirmer, adventureConfirmer);
 
-   adventure->hookupInputManagerListener((Listener*) inputManager.get());
+   adventure->hookupInputManagerListener((Listener*) gameWindow.get());
 
 	return success;
 }
 
 void Game::Run() {
-	while (isRunning) {
+	while (isRunning && !needsToDie) {
 		//wasting time between frames
 		int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - millisecsPrevFrame);
 		if (timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME) {
@@ -52,6 +53,10 @@ void Game::Run() {
 
 		millisecsPrevFrame = SDL_GetTicks();
 	}
+
+   if (needToRestart) {
+      restart();
+   }
 }
 
 
@@ -62,4 +67,35 @@ void Game::Update() {
 
 	adventure->runTurnIfAutoMoving();
 	adventure->updateMapDisplay();
+}
+
+
+void Game::restart() {
+   adventure.reset();
+   adventure = std::make_unique<Adventure>();
+
+   inputManager.reset();
+   inputManager = std::make_unique<InputManager>(gameWindow.get(), adventure.get());
+
+	InputConfirmer* inputConfirmer = inputManager->getInputConfirmer();
+	InputConfirmer* adventureConfirmer = adventure->getScene()->getInputConfirmer();
+   gameWindow->reset(adventure.get(), (Listener*)this, inputConfirmer, adventureConfirmer);
+
+   adventure->hookupInputManagerListener((Listener*) gameWindow.get());
+
+   needToRestart = false;
+   needsToDie = false;
+
+   Run();
+}
+
+
+void Game::processEvent(EventType event) {
+   if (event == EVENT_QUIT_GAME) {
+      needsToDie = true;
+   }
+   else if (event == EVENT_RESTART_GAME) {
+      needsToDie = true;
+      needToRestart = true;
+   }
 }

@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Adventure/Adventure.h"
+#include "Interface/UIScreens/GameOverUI.h"
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
 #include "Interface/UIScreens/AdventureUI.h"
@@ -14,7 +15,7 @@
 #include "Interface/UIScreens/SceneUI.h"
 
 
-class GameWindow {
+class GameWindow : public Listener {
 private:
 	SDL_Rect screenDimensions;
 
@@ -24,6 +25,7 @@ private:
 
    AdventureUI adventureUI;
 	ConfirmerUI exitConfirmerUI;
+   GameOverUI gameOverUI;
 
 
 	void resetRenderer();
@@ -32,7 +34,7 @@ public:
 	GameWindow(Adventure* adventure, int windowWidth = 1600, int windowHeight = 1200);
 	~GameWindow();
 
-	bool initialize(InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller);
+	bool initialize(Listener* gameListener, InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller);
 	void update();
 
 	void updateWindowDimensions(int width, int height);
@@ -41,6 +43,10 @@ public:
 	void processClick(int x, int y, bool ctrlDown);
 	void processScroll(int x, int y, int scrollOffset, bool ctrlDown);
 	void processKeyPress(SDL_Keycode keycode);
+
+   void reset(Adventure* adventure, Listener* gameListener, InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller);
+
+   void processEvent(EventType event);
 };
 
 #endif

@@ -4,7 +4,7 @@
 #include "Topography/LocalMap.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include <SDL.h>
-#include "Interface/UIScreens/InputConfirmer.h"
+#include "Interface/InputConfirmer.h"
 #include "Adventure/PlayerManager.h"
 #include "Adventure/Scene/ActorManager.h"
 #include "Logs/GameLog.h"

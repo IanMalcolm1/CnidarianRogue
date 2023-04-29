@@ -2,7 +2,9 @@
 
 enum EventType {
    EVENT_NULL,
-   EVENT_PLAYERDED
+   EVENT_PLAYERDED,
+   EVENT_QUIT_GAME,
+   EVENT_RESTART_GAME
 };
 
 class Listener {

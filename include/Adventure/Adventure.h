@@ -5,7 +5,7 @@
 #include "EventListener/Listener.h"
 #include "Logs/GameLog.h"
 #include "Adventure/PlayerManager.h"
-#include "Interface/UIScreens/InputConfirmer.h"
+#include "Interface/InputConfirmer.h"
 #include <cwchar>
 
 

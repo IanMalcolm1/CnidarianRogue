@@ -5,12 +5,12 @@
 #include "EventListener/Listener.h"
 #include "GameWindow.h"
 #include "Enums/PlayerCommands.h"
-#include "Interface/UIScreens/InputConfirmer.h"
+#include "Interface/InputConfirmer.h"
 #include "Adventure/Scene/Scene.h"
 #include <unordered_map>
 #include <SDL_events.h>
 
-class InputManager : public Listener {
+class InputManager {
 private:
 	InputConfirmer confirmer;
 

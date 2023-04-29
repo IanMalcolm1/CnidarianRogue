@@ -115,11 +115,3 @@ bool InputManager::testControlDown() {
 	}
 	return false;
 }
-
-
-
-void InputManager::processEvent(EventType event) {
-   if (event == EVENT_PLAYERDED) {
-      playerDied = true;
-   }
-}

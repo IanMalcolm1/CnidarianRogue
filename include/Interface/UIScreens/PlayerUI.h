@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include "Adventure/PlayerManager.h"
 #include "GraphicsThings/GameText.h"
-#include "Interface/UIScreens/TextRenderer.h"
+#include "GraphicsThings/TextRenderer.h"
 
 class PlayerUI {
 private:

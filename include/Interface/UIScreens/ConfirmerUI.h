@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Interface/UIScreens/TextRenderer.h"
-#include "InputConfirmer.h"
+#include "GraphicsThings/TextRenderer.h"
+#include "Interface/InputConfirmer.h"
 #include <SDL.h>
 
 class ConfirmerUI {
@@ -26,11 +26,10 @@ private:
 public:
 	bool hidden;
 
-	ConfirmerUI(int fontSize) : signaller(NULL), renderer(NULL), spritesheet(NULL), parentViewport({ 0,0,0,0 }),
-		yesViewport({ 0,0,0,0 }), noViewport({ 0,0,0,0 }), screenViewport({ 0,0,0,0 }),
-		highlightYes(false), highlightNo(false), textRenderer(TextRenderer()),
-		textSpecs(TextRenderingSpecs(fontSize)), yes(GameText()), no(GameText()),
-		textMaker(GameTextMaker()), hidden(true) {};
+	ConfirmerUI(int fontSize = 4) : signaller(NULL), renderer(NULL), spritesheet(NULL),
+   parentViewport({ 0,0,0,0 }), yesViewport({ 0,0,0,0 }), noViewport({ 0,0,0,0 }),
+   screenViewport({ 0,0,0,0 }), highlightYes(false), highlightNo(false),
+   textRenderer(), textSpecs(fontSize), yes(), no(), textMaker(), hidden(true) {};
 
 	void initialize(InputConfirmer* signaller, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
