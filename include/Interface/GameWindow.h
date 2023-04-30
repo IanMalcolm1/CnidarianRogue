@@ -10,7 +10,7 @@
 #include "Interface/UIScreens/AdventureUI.h"
 #include "Interface/UIScreens/MessagesUI.h"
 #include "Interface/UIScreens/MapUI.h"
-#include "Interface/UIScreens/ConfirmerUI.h"
+#include "Interface/UIScreens/ExitConfirmerUI.h"
 #include "Interface/UIScreens/PlayerUI.h"
 #include "Interface/UIScreens/SceneUI.h"
 
@@ -24,7 +24,7 @@ private:
 	SDL_Texture* spritesheet;
 
    AdventureUI adventureUI;
-	ConfirmerUI exitConfirmerUI;
+	ExitConfirmerUI exitConfirmerUI;
    GameOverUI gameOverUI;
 
 	void resetRenderer();
@@ -33,7 +33,7 @@ public:
 	GameWindow(Adventure* adventure, int windowWidth = 1600, int windowHeight = 1200);
 	~GameWindow();
 
-	bool initialize(Listener* gameListener, InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller);
+	bool initialize(Listener* gameListener);
 	void update();
 
 	void updateWindowDimensions(int width, int height);
@@ -43,9 +43,12 @@ public:
 	void processScroll(int x, int y, int scrollOffset, bool ctrlDown);
 	void processKeyPress(SDL_Keycode keycode);
 
-   void reset(Adventure* adventure, Listener* gameListener, InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller);
+   void reset(Adventure* adventure, Listener* gameListener);
 
    void processEvent(EventType event);
+
+   bool isShowingPopups();
+   void showExitConfirmationPopup();
 };
 
 #endif

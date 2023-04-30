@@ -22,6 +22,7 @@ add_executable(Roguelike
    src/ConfirmerUI.cpp
    src/DebugLogger.cpp
    src/Entity.cpp
+   src/ExitConfirmerUI.cpp
    src/FoV.cpp
    src/Game.cpp
    src/GameLog.cpp

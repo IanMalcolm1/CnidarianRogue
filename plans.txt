@@ -9,12 +9,9 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 
 TODOS:
 Current:
-Modify the on-exit ConfirmerUI:
-   Make new class called ExitConfirmerUI
-   Use event-listener like GameOverUI does
+Add look functionality
 
 Next:
-Add look functionality
 Add better creatures
 Add items (ItemManager class necessary)
 Save functionality (maybe in free time)

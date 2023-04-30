@@ -11,6 +11,7 @@
 Game::Game() {
 	isRunning = false;
    needsToDie = false;
+   needToRestart = false;
 	millisecsPrevFrame = 0;
 
 	adventure = std::make_unique<Adventure>();
@@ -32,9 +33,7 @@ bool Game::Initialize() {
 	bool success;
 
 
-	InputConfirmer* inputConfirmer = inputManager->getInputConfirmer();
-	InputConfirmer* adventureConfirmer = adventure->getScene()->getInputConfirmer();
-	success = gameWindow->initialize((Listener*)this, inputConfirmer, adventureConfirmer);
+	success = gameWindow->initialize((Listener*)this);
 
    adventure->hookupInputManagerListener((Listener*) gameWindow.get());
 
@@ -77,9 +76,7 @@ void Game::restart() {
    inputManager.reset();
    inputManager = std::make_unique<InputManager>(gameWindow.get(), adventure.get());
 
-	InputConfirmer* inputConfirmer = inputManager->getInputConfirmer();
-	InputConfirmer* adventureConfirmer = adventure->getScene()->getInputConfirmer();
-   gameWindow->reset(adventure.get(), (Listener*)this, inputConfirmer, adventureConfirmer);
+   gameWindow->reset(adventure.get(), (Listener*)this);
 
    adventure->hookupInputManagerListener((Listener*) gameWindow.get());
 

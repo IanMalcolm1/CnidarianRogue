@@ -4,7 +4,7 @@
 
 
 InputManager::InputManager(GameWindow* window, Adventure* adventure) :
-gameWindow(window), adventure(adventure), confirmer(), playerDied(false) {
+gameWindow(window), adventure(adventure) {
 
 	keyMappings = std::unordered_map<SDL_Keycode, PlayerCommand>();
 
@@ -33,22 +33,7 @@ gameWindow(window), adventure(adventure), confirmer(), playerDied(false) {
 }
 
 
-InputConfirmer* InputManager::getInputConfirmer() {
-	return &confirmer;
-}
-
 bool InputManager::processInput() {
-   if (playerDied)
-      return false;
-
-	if (confirmer.isAwaiting()) {
-		if (confirmer.getConfirmation() == CONF_CONFIRMED) {
-			if (confirmer.commandEquals(PC_QUITGAME)) {
-				return false;
-			}
-		}
-	}
-
 	SDL_Event sdlEvent;
 	bool controlDown = testControlDown();
 
@@ -79,8 +64,8 @@ bool InputManager::processInput() {
 			gameWindow->processClick(x, y, controlDown);
 			break;
 
-		case SDL_QUIT: //user closes window using the red x
-			confirmer.signalPopup(PC_QUITGAME, "Quit Game?");
+		case SDL_QUIT: //user closes the window
+         gameWindow->showExitConfirmationPopup();
 			break;
 		}
 	}
@@ -91,9 +76,6 @@ bool InputManager::processInput() {
 void InputManager::processKeyPress(SDL_Keycode keycode, Uint16 modification) {
 	gameWindow->processKeyPress(keycode);
 
-	if (confirmer.isAwaiting()) {
-		return;
-	}
 
 	PlayerCommand command;
 	if (keyMappings.find(keycode) == keyMappings.end()) {
@@ -102,7 +84,7 @@ void InputManager::processKeyPress(SDL_Keycode keycode, Uint16 modification) {
 
 	command = keyMappings.at(keycode);
 
-	if (command < PC_END_OF_PLAYER_ACTIONS) {
+	if (command < PC_END_OF_PLAYER_ACTIONS && !gameWindow->isShowingPopups()) {
       adventure->processCommand(command, modification);
    }
 }

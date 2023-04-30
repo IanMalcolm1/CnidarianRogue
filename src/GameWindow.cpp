@@ -36,7 +36,7 @@ GameWindow::~GameWindow() {
 	SDL_Quit();
 }
 
-bool GameWindow::initialize(Listener* gameListener, InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller) {
+bool GameWindow::initialize(Listener* gameListener) {
 	bool success = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -49,7 +49,7 @@ bool GameWindow::initialize(Listener* gameListener, InputConfirmer* inputSignall
 	}
 
 	window = SDL_CreateWindow(
-		"The Simple Roguelike",
+		"A Simple Roguelike",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		screenDimensions.w, screenDimensions.h, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
 	);
@@ -69,7 +69,7 @@ bool GameWindow::initialize(Listener* gameListener, InputConfirmer* inputSignall
 
 	//UI screens
    adventureUI.initialize(renderer, spritesheet);
-	exitConfirmerUI.initialize(inputSignaller, renderer, spritesheet);
+	exitConfirmerUI.initialize(gameListener, renderer, spritesheet);
    gameOverUI.initialize(gameListener, renderer, spritesheet);
 
 	return success;
@@ -87,9 +87,11 @@ void GameWindow::update() {
 
 	adventureUI.render(screenDimensions);
    resetRenderer();
-	exitConfirmerUI.render(screenDimensions);
-   resetRenderer();
+
    gameOverUI.render(screenDimensions);
+   resetRenderer();
+   
+	exitConfirmerUI.render(screenDimensions);
    resetRenderer();
    
 	SDL_RenderPresent(renderer);
@@ -103,11 +105,11 @@ void GameWindow::updateWindowDimensions(int width, int height) {
 
 
 void GameWindow::processCursorLocation(int x, int y) {
-   if (!gameOverUI.hidden) {
-      gameOverUI.processMouseLocation(x, y);
-   }
-   else if (!exitConfirmerUI.hidden) {
+   if (!exitConfirmerUI.hidden) {
       exitConfirmerUI.processMouseLocation(x, y);
+   }
+   else if (!gameOverUI.hidden) {
+      gameOverUI.processMouseLocation(x, y);
    }
    else {
       adventureUI.processCursorLocation(x, y);
@@ -115,11 +117,11 @@ void GameWindow::processCursorLocation(int x, int y) {
 }
 
 void GameWindow::processClick(int x, int y, bool ctrlDown) {
-   if (!gameOverUI.hidden) {
-      gameOverUI.processMouseClick(x, y);
-   }
-   else if (!exitConfirmerUI.hidden) {
+   if (!exitConfirmerUI.hidden) {
       exitConfirmerUI.processMouseClick(x,y);
+   }
+   else if (!gameOverUI.hidden) {
+      gameOverUI.processMouseClick(x, y);
    }
    else {
       adventureUI.processClick(x, y, ctrlDown);
@@ -131,11 +133,11 @@ void GameWindow::processScroll(int x, int y, int scrollOffset, bool ctrlDown) {
 }
 
 void GameWindow::processKeyPress(SDL_Keycode keycode) {
-   if (!gameOverUI.hidden) {
-      gameOverUI.processKeyPress(keycode);
-   }
-   else if (!exitConfirmerUI.hidden) {
+   if (!exitConfirmerUI.hidden) {
       exitConfirmerUI.processKeyPress(keycode);
+   }
+   else if (!gameOverUI.hidden) {
+      gameOverUI.processKeyPress(keycode);
    }
    else {
       adventureUI.processKeyPress(keycode);
@@ -150,13 +152,22 @@ void GameWindow::processEvent(EventType event) {
 }
 
 
-void GameWindow::reset(Adventure* adventure, Listener* gameListener, InputConfirmer* inputSignaller, InputConfirmer* sceneSignaller) {
+void GameWindow::reset(Adventure* adventure, Listener* gameListener) {
    adventureUI = AdventureUI(adventure);
    adventureUI.initialize(renderer, spritesheet);
 
-   exitConfirmerUI = ConfirmerUI(4);
-	exitConfirmerUI.initialize(inputSignaller, renderer, spritesheet);
+   exitConfirmerUI = ExitConfirmerUI(4);
+	exitConfirmerUI.initialize(gameListener, renderer, spritesheet);
 
    gameOverUI = GameOverUI(4);
    gameOverUI.initialize(gameListener, renderer, spritesheet);
+}
+
+
+bool GameWindow::isShowingPopups() {
+   return !(exitConfirmerUI.hidden && gameOverUI.hidden);
+}
+
+void GameWindow::showExitConfirmationPopup() {
+   exitConfirmerUI.hidden = false;
 }

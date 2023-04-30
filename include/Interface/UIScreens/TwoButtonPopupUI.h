@@ -24,8 +24,8 @@ private:
 
 	void calcDimensions(const SDL_Rect& viewport);
 
-   void onLeftButtonSelect();
-   void onRightButtonSelect();
+   virtual void onLeftButtonSelect();
+   virtual void onRightButtonSelect();
 
 public:
 	bool hidden;
@@ -48,5 +48,4 @@ public:
 
 	void processMouseLocation(int x, int y);
 	void processMouseClick(int x, int y);
-	void processKeyPress(SDL_Keycode keycode);
 };

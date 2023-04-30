@@ -102,21 +102,6 @@ void TwoButtonPopupUI::processMouseClick(int x, int y) {
 	}
 }
 
-void TwoButtonPopupUI::processKeyPress(SDL_Keycode keycode) {
-	if (hidden) {
-		return;
-	}
-
-	if (keycode == SDLK_r) {
-      onLeftButtonSelect();
-      hidden = true;
-	}
-	else if (keycode == SDLK_q || keycode == SDLK_ESCAPE) {
-      onRightButtonSelect();
-      hidden = true;
-	}
-}
-
 void TwoButtonPopupUI::onLeftButtonSelect() {
    return;
 }

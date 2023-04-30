@@ -12,12 +12,8 @@
 
 class InputManager {
 private:
-	InputConfirmer confirmer;
-
 	GameWindow* gameWindow;
 	Adventure* adventure;
-
-   bool playerDied;
 
 	std::unordered_map<SDL_Keycode, PlayerCommand> keyMappings;
 
@@ -31,8 +27,6 @@ public:
 	bool processInput();
 
    void processEvent(EventType event);
-
-	InputConfirmer* getInputConfirmer();
 };
 
 

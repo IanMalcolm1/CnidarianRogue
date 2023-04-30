@@ -5,14 +5,14 @@
 
 
 /* This class should be listened to by Game */
-class GameOverUI : public TwoButtonPopupUI {
+class ExitConfirmerUI : public TwoButtonPopupUI {
 private:
    void onLeftButtonSelect() override;
    void onRightButtonSelect() override;
 
 public:
-	GameOverUI(int fontSize = 4) :
-   TwoButtonPopupUI("Game Over", "Restart", "Quit", fontSize) {};
+	ExitConfirmerUI(int fontSize = 4) :
+   TwoButtonPopupUI("Quit Game?", "Yes", "No", fontSize) {};
 
    void processKeyPress(SDL_Keycode keycode);
 };
