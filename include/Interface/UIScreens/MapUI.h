@@ -43,9 +43,9 @@ public:
 	MapUI() : map(NULL), renderer(NULL), spritesheet(NULL),	mapTexture(NULL),
 		mapDisplay(NULL),rData(MapRenderingData()),
 		mainViewport({ 0,0,0,0 }), hidden(false) {}
-	~MapUI();
 
 	void initialize(LocalMap* map, SDL_Renderer* renderer, SDL_Texture* spritesheet);
+   void cleanUp();
 
 	void render(const SDL_Rect& viewport);
 

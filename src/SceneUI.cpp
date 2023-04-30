@@ -6,6 +6,12 @@ void SceneUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	mapUI.initialize(scene->getMap(), renderer, spritesheet);
 }
 
+
+void SceneUI::cleanUp() {
+   mapUI.cleanUp();
+}
+
+
 void SceneUI::render(const SDL_Rect& mapViewport) {
 	this->mapViewport = mapViewport;
 

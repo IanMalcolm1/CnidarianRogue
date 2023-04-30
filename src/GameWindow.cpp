@@ -21,14 +21,16 @@ adventureUI(adventure), exitConfirmerUI(4), gameOverUI(4) {
 GameWindow::~GameWindow() {
 	printf("Window destructor called.\n");
 
+   adventureUI.cleanUp();
+
 	SDL_DestroyTexture(spritesheet);
 	spritesheet = NULL;
 
-	SDL_DestroyWindow(window);
-	window = NULL;
-
    SDL_DestroyRenderer(renderer);
    renderer = NULL;
+
+	SDL_DestroyWindow(window);
+	window = NULL;
 
 	IMG_Quit();
 	SDL_Quit();

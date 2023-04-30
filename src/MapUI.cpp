@@ -13,7 +13,7 @@ void MapUI::initialize(LocalMap* map, SDL_Renderer* renderer, SDL_Texture* sprit
 		textureWidth, textureHeight);
 }
 
-MapUI::~MapUI() {
+void MapUI::cleanUp() {
 	SDL_DestroyTexture(mapTexture);
 	mapTexture = NULL;
 }

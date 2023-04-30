@@ -10,6 +10,10 @@ void AdventureUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
    playerUI.initialize(renderer, spritesheet);
 }
 
+void AdventureUI::cleanUp() {
+   sceneUI.cleanUp();
+}
+
 void AdventureUI::render(const SDL_Rect& screenDimensions) {
    if (screenDimensions.h != viewports.fullscreen.h ||
       screenDimensions.w != viewports.fullscreen.w) {

@@ -35,10 +35,11 @@ public:
    AdventureUI(Adventure* adventure) :
    sceneUI(adventure->getScene()),
    messagesUI(adventure->getGameLog()),
-   playerUI(adventure->getPlayerManager()) {};
+   playerUI(adventure->getPlayerManager()),
+   viewports() {};
    
-
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
+   void cleanUp();
 
 	void render(const SDL_Rect& screenDimensions);
 

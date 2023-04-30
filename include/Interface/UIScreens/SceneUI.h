@@ -25,6 +25,7 @@ public:
       mapViewport({ 0,0,0,0 }) {};
 
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
+   void cleanUp();
 
 	void render(const SDL_Rect& mapViewport);
 
