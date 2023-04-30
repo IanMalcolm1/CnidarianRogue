@@ -44,7 +44,8 @@ add_executable(Roguelike
    src/TerrainGenerators.cpp
    src/TerrainMap.cpp
    src/TextRenderer.cpp
-   src/TurnQueue.cpp)
+   src/TurnQueue.cpp
+   src/TwoButtonPopupUI.cpp)
 
 set_property(TARGET Roguelike PROPERTY CXX_STANDARD 20)
 

@@ -91,7 +91,7 @@ void GameWindow::update() {
    resetRenderer();
    gameOverUI.render(screenDimensions);
    resetRenderer();
-
+   
 	SDL_RenderPresent(renderer);
 }
 
@@ -115,7 +115,6 @@ void GameWindow::processCursorLocation(int x, int y) {
 }
 
 void GameWindow::processClick(int x, int y, bool ctrlDown) {
-
    if (!gameOverUI.hidden) {
       gameOverUI.processMouseClick(x, y);
    }

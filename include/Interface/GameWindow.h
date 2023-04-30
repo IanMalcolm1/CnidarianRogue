@@ -27,7 +27,6 @@ private:
 	ConfirmerUI exitConfirmerUI;
    GameOverUI gameOverUI;
 
-
 	void resetRenderer();
 
 public:
