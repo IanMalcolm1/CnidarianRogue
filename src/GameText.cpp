@@ -103,7 +103,7 @@ MyColor GameTextMaker::readColorByColorName(int& index, std::string& text) {
 
 	while (index < text.size()) {
 		if (text[index] == ':') {
-			return colorMap->getColorByName(colorName);
+			return colorMap->getColor(colorName);
 		}
 		else {
 			colorName.push_back(text[index]);

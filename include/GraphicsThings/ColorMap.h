@@ -13,5 +13,5 @@ private:
 public:
 	ColorMap();
 
-	MyColor getColorByName(std::string name);
+	MyColor getColor(std::string name);
 };

@@ -20,6 +20,7 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    evilSmiley->description.desc = "Its insipid grin unnerves you.";
 
    evilSmiley->display.symbol = ASYM_SMILE_THIN;
+   evilSmiley->display.symbolColor = colorMap.getColor("red");
 
    evilSmiley->location = location;
 

@@ -14,10 +14,12 @@ private:
 
    GameTextMaker textMaker;
 	TextRenderer textRenderer;
-	TextRenderingSpecs textSpecs;
+	TextRenderingSpecs textSpecs, textSpecsTitle;
+
+   GameText title;
 
 public:
-	PlayerUI(PlayerManager* playerMan, int fontSize = 3) : playerMan(playerMan), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize) {};
+	PlayerUI(PlayerManager* playerMan, int fontSize = 3) : playerMan(playerMan), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize), textSpecsTitle(fontSize+1), title() {};
 
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
 

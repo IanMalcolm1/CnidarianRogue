@@ -46,7 +46,7 @@ void ColorMap::initializeColorMap() {
 	colorMap.insert({ "pink", MyColor(165, 42, 42) });
 }
 
-MyColor ColorMap::getColorByName(std::string name) {
+MyColor ColorMap::getColor(std::string name) {
 	try {
 		return colorMap[name];
 	}

@@ -1,5 +1,6 @@
 #include "Adventure/Scene/Scene.h"
 #include "Entities/ActorFactory.h"
+#include "Enums/PlayerCommands.h"
 #include <random>
 
 
@@ -18,6 +19,7 @@ void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 			command = confirmer.getCommand();
 		}
 	}
+
 
 	if (playerManager->autoActing) {
 		if (command == PC_ESCAPEKEY) {
@@ -41,7 +43,7 @@ void Scene::processCommand(PlayerCommand command, Uint16 modification) {
 		needToRunTurn = true;
 	}
 
-	else if (command == PC_TOGGLE_LOOK) {
+	else if (command == PC_TOGGLE_LOOK || command == PC_ESCAPEKEY) {
 		playerManager->updateInputState(command);
 	}
 

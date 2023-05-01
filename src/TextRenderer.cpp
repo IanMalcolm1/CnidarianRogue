@@ -1,5 +1,6 @@
 #include "GraphicsThings/TextRenderer.h"
 #include "Enums/AsciiSymbols.h"
+#include "GraphicsThings/GameText.h"
 
 
 void TextRenderer::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
@@ -63,20 +64,20 @@ int TextRenderer::renderGameText(TextRenderingSpecs& specs, GameText& gameText, 
 	std::pair<std::string, int> formattedText;
 	formattedText = formatGameText(specs, gameText);
    
-   if ((options & TEXT_RENDER_DOWN) == TEXT_RENDER_DOWN) {
-      return renderFormattedTextDown(specs, formattedText, gameText, startY, options);
+   if ((options & TEXT_RENDER_UP) == TEXT_RENDER_UP) {
+      return renderFormattedTextUp(specs, formattedText, gameText, startY, options);
    }
    else {
-      return renderFormattedTextUp(specs, formattedText, gameText, startY, options);
+      return renderFormattedTextDown(specs, formattedText, gameText, startY, options);
    }
 }
 
 int TextRenderer::renderFormattedText(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options) {
-   if ((options & TEXT_RENDER_DOWN) == TEXT_RENDER_DOWN) {
-      return renderFormattedTextDown(specs, fText, gameText, startY, options);
+   if ((options & TEXT_RENDER_UP) == TEXT_RENDER_UP) {
+      return renderFormattedTextUp(specs, fText, gameText, startY, options);
    }
    else {
-      return renderFormattedTextUp(specs, fText, gameText, startY, options);
+      return renderFormattedTextDown(specs, fText, gameText, startY, options);
    }
 }
 
@@ -88,11 +89,11 @@ int TextRenderer::renderFormattedTextDown(TextRenderingSpecs& specs, std::pair<s
 		return startY + height;
 	}
 
-   if ((options & TEXT_ALIGN_LEFT) == TEXT_ALIGN_LEFT) {
-      renderTextLeftAligned(specs, fText.first, gameText, startY);
+   if ((options & TEXT_ALIGN_CENTER) == TEXT_ALIGN_CENTER) {
+      renderTextCentered(specs, fText.first, gameText, startY);
    }
    else {
-      renderTextCentered(specs, fText.first, gameText, startY);
+      renderTextLeftAligned(specs, fText.first, gameText, startY);
    }
 
 	return startY + height;
@@ -105,11 +106,11 @@ int TextRenderer::renderFormattedTextUp(TextRenderingSpecs& specs, std::pair<std
 
 	startY -= fText.second;
 
-   if ((options & TEXT_ALIGN_LEFT) == TEXT_ALIGN_LEFT) {
-      renderTextLeftAligned(specs, fText.first, gameText, startY);
+   if ((options & TEXT_ALIGN_CENTER) == TEXT_ALIGN_CENTER) {
+      renderTextCentered(specs, fText.first, gameText, startY);
    }
    else {
-      renderTextCentered(specs, fText.first, gameText, startY);
+      renderTextLeftAligned(specs, fText.first, gameText, startY);
    }
 
 	return startY;
@@ -213,3 +214,19 @@ void TextRenderingSpecs::setViewportWidth(int viewportWidth) {
    this->viewportWidth = viewportWidth;
 	maxLettersPerLine = (viewportWidth - 2 * margin) / fontSizePixels;
 }
+
+
+
+
+int TextRenderer::renderLineSeparator(TextRenderingSpecs& specs, GameTextMaker& textMaker, int startY) {
+   std::string line = "";
+   for (int i=0; i<specs.maxLettersPerLine - 1; i++) {
+      line.append("-");
+   }
+
+   GameText lineText = textMaker.makeGameText(line);
+   renderGameText(specs, lineText, startY, TEXT_ALIGN_CENTER);
+   
+   return startY + specs.fontSizePixels;
+}
+

@@ -8,6 +8,7 @@ void AdventureUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
    sceneUI.initialize(renderer, spritesheet);
    messagesUI.initialize(renderer, spritesheet);
    playerUI.initialize(renderer, spritesheet);
+   lookUI.initialize(renderer, spritesheet);
 }
 
 void AdventureUI::cleanUp() {
@@ -28,6 +29,9 @@ void AdventureUI::render(const SDL_Rect& screenDimensions) {
 
    playerUI.render(viewports.player);
    resetRendererAndDrawBorder(viewports.player);
+
+   lookUI.render(viewports.look);
+   resetRendererAndDrawBorder(viewports.look);
 }
 
 void AdventureUI::processCursorLocation(int x, int y) {
@@ -54,8 +58,8 @@ void AdventureUI::updateViewports(const SDL_Rect& screenDimensions) {
    viewports.fullscreen = screenDimensions;
 
 	/* x-axis */
-	viewports.player.x = screenBorderSpacing;
-	viewports.player.w = (1 * screenDimensions.w / 5) - (screenBorderSpacing + viewportSpacing/2);
+	viewports.player.x = viewports.look.x = screenBorderSpacing;
+	viewports.player.w = viewports.look.w = (1 * screenDimensions.w / 5) - (screenBorderSpacing + viewportSpacing/2);
 
 	viewports.map.x = (1 * screenDimensions.w / 5) + (viewportSpacing/2);
 	viewports.map.w = (4 * screenDimensions.w / 5) - (screenBorderSpacing + viewportSpacing/2);
@@ -65,7 +69,10 @@ void AdventureUI::updateViewports(const SDL_Rect& screenDimensions) {
 
 	/* y-axis */
 	viewports.player.y = screenBorderSpacing;
-	viewports.player.h = screenDimensions.h - (2*screenBorderSpacing);
+	viewports.player.h = screenDimensions.h/2 - viewportSpacing/2;
+
+   viewports.look.y = viewports.player.y + viewports.player.h + viewportSpacing;
+   viewports.look.h = (screenDimensions.h - viewports.look.y) - screenBorderSpacing;
 
 	viewports.map.y = screenBorderSpacing;
 	viewports.map.h = (4 * screenDimensions.h / 5) - (screenBorderSpacing + viewportSpacing/2);

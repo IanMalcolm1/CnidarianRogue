@@ -60,6 +60,9 @@ public:
 	int renderFormattedText(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options = (TEXT_ALIGN_LEFT | TEXT_RENDER_DOWN));
 
 
+   int renderLineSeparator(TextRenderingSpecs& specs, GameTextMaker& textMaker, int startY);
+
+
    /* Adds newline characters as necessary to keep text from exceeding
     * specs.maxLettersPerLine. Returns modified string with the calculated
     * height of the message. */

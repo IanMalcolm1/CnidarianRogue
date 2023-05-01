@@ -6,9 +6,16 @@ void PlayerUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	this->spritesheet = spritesheet;
 
    textRenderer.initialize(renderer, spritesheet);
+
+   title = textMaker.makeGameText("Player Stats");
 }
 
 void PlayerUI::render(const SDL_Rect& viewport) {
+	SDL_RenderSetViewport(renderer, &viewport);
+
+   textSpecs.setViewportWidth(viewport.w);
+   textSpecsTitle.setViewportWidth(viewport.w);
+
    ActorEntity* player = playerMan->getPlayer();
    GameText health = textMaker.makeGameText(player->stats.getHealthAsString());
    GameText strength = textMaker.makeGameText(player->stats.getStrengthAsString());
@@ -16,16 +23,17 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    GameText moveSpeed = textMaker.makeGameText(player->stats.getMoveSpeedAsString());
    GameText attackSpeed = textMaker.makeGameText(player->stats.getAttackSpeedAsString());
 
-   textSpecs.setViewportWidth(viewport.w);
-
    int startY = textSpecs.margin;
+   startY = textRenderer.renderGameText(textSpecsTitle, title, startY);
+   startY += textSpecsTitle.messageSpacing;
+
    startY = textRenderer.renderGameText(textSpecs, health, startY);
-   startY += textSpecs.fontSizePixels;
+   startY += 2*textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, strength, startY);
-   startY += textSpecs.fontSizePixels;
+   startY += textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, intelligence, startY);
-   startY += textSpecs.fontSizePixels;
+   startY += 2*textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, moveSpeed, startY);
-   startY += textSpecs.fontSizePixels;
+   startY += textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, attackSpeed, startY);
 }

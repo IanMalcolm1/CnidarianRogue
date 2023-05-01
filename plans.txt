@@ -9,11 +9,13 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 
 TODOS:
 Current:
-Add look functionality
+Make it so looking only works on visible tiles.
+Add items (ItemManager class necessary)
+   If item.hasComponent(CONSUMBALE), item.getComponent(CONSUMABLE).effect
 
 Next:
 Add better creatures
-Add items (ItemManager class necessary)
+Better generation and simple gameplay loop
 Save functionality (maybe in free time)
 
 Optional:

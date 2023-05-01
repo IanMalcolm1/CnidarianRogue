@@ -21,6 +21,7 @@ confirmer(nullptr) {
    player->description.desc = "It's you.";
 
    player->display.symbol = ASYM_AT;
+   player->display.symbolColor = MyColor(255,215,0);
 
    player->faction = FACTION_GOOD;
 

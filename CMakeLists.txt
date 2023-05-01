@@ -33,6 +33,7 @@ add_executable(Roguelike
    src/InputConfirmer.cpp
    src/InputManager.cpp
    src/LocalMap.cpp
+   src/LookUI.cpp
    src/MapDisplay.cpp
    src/MapUI.cpp
    src/MessagesUI.cpp

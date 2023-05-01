@@ -3,6 +3,7 @@
 #include "Entities/EntityColiseum.h"
 #include "Entities/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "GraphicsThings/ColorMap.h"
 #include "Topography/LocalMap.h"
 
 
@@ -12,12 +13,14 @@ private:
    LocalMap* map;
    TurnQueue* turnQueue;
 
+   ColorMap colorMap;
+
    void registerActor(ActorEntity* actor);
 
 public:
    ActorFactory(EntityColiseum<ActorEntity>* actorColiseum,
          TurnQueue* turnQueue, LocalMap* map) :
-      map(map), turnQueue(turnQueue),
+      map(map), turnQueue(turnQueue), colorMap(),
       actorColiseum(actorColiseum) {};
 
 

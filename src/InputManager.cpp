@@ -1,4 +1,5 @@
 #include "Interface/InputManager.h"
+#include "Enums/PlayerCommands.h"
 #include "EventListener/Listener.h"
 #include <stdexcept>
 
@@ -84,7 +85,7 @@ void InputManager::processKeyPress(SDL_Keycode keycode, Uint16 modification) {
 
 	command = keyMappings.at(keycode);
 
-	if (command < PC_END_OF_PLAYER_ACTIONS && !gameWindow->isShowingPopups()) {
+	if ((command < PC_END_OF_PLAYER_ACTIONS || command == PC_ESCAPEKEY)&& !gameWindow->isShowingPopups()) {
       adventure->processCommand(command, modification);
    }
 }

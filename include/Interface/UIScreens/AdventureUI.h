@@ -2,6 +2,7 @@
 
 
 #include "Adventure/Adventure.h"
+#include "Interface/UIScreens/LookUI.h"
 #include "SDL_render.h"
 #include "Interface/UIScreens/MessagesUI.h"
 #include "Interface/UIScreens/PlayerUI.h"
@@ -14,6 +15,7 @@ struct AdventureViewports {
 	SDL_Rect map;
 	SDL_Rect messages;
 	SDL_Rect player;
+   SDL_Rect look;
 };
 
 
@@ -24,6 +26,7 @@ private:
    SceneUI sceneUI;
    MessagesUI messagesUI;
    PlayerUI playerUI;
+   LookUI lookUI;
 
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
@@ -36,6 +39,7 @@ public:
    sceneUI(adventure->getScene()),
    messagesUI(adventure->getGameLog()),
    playerUI(adventure->getPlayerManager()),
+   lookUI(adventure->getScene()),
    viewports() {};
    
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
