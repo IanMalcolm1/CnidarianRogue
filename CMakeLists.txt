@@ -32,6 +32,9 @@ add_executable(Roguelike
    src/GraphicsThings.cpp
    src/InputConfirmer.cpp
    src/InputManager.cpp
+   src/ItemEntity.cpp
+   src/ItemFactory.cpp
+   src/ItemManager.cpp
    src/LocalMap.cpp
    src/LookUI.cpp
    src/MapDisplay.cpp

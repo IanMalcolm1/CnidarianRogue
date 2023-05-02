@@ -6,6 +6,7 @@
 
 LocalMap* Scene::getMap() {	return &map; }
 ActorFactory* Scene::getActorFactory() { return &actorFactory; }
+ItemFactory* Scene::getItemFactory() { return &itemFactory; }
 
 InputConfirmer* Scene::getInputConfirmer() { return &confirmer; }
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Entities/ActorFactory.h"
+#include "Entities/ItemFactory.h"
+#include "Entities/ItemManager.h"
 #include "Topography/LocalMap.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include <SDL.h>
@@ -17,6 +19,9 @@ private:
    ActorManager actorManager;
    ActorFactory actorFactory;
 
+   ItemManager itemManager;
+   ItemFactory itemFactory;
+
 	PathingRoute pathToMouseTile;
 
 	InputConfirmer confirmer;
@@ -30,14 +35,17 @@ private:
 public:
 	Scene(GameLog* gameLog, PlayerManager* playerManager) :
       map(100, 100), alreadyRanTurn(false), gameLog(gameLog),
-      confirmer(InputConfirmer()),
-      actorManager(ActorManager(&map, gameLog)), 
+      confirmer(),
+      actorManager(&map, gameLog), 
+      itemManager(&map),
       playerManager(playerManager),
-      actorFactory(actorManager.makeFactory()) {};
+      actorFactory(actorManager.makeFactory()),
+      itemFactory(itemManager.makeFactory()){};
 
 	LocalMap* getMap();
    ActorFactory* getActorFactory();
    TurnQueue* getTurnQueue();
+   ItemFactory* getItemFactory();
 
 	InputConfirmer* getInputConfirmer();
 

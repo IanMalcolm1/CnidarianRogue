@@ -9,9 +9,10 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 
 TODOS:
 Current:
-Make it so looking only works on visible tiles.
+Add mouse support to Looking
 Add items (ItemManager class necessary)
    If item.hasComponent(CONSUMBALE), item.getComponent(CONSUMABLE).effect
+   Add EffectManager class???
 
 Next:
 Add better creatures

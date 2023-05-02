@@ -10,7 +10,6 @@
 #include <string>
 
 
-
 void ActorManager::runActorTurns() {
 	ActorEntity* currentActor = turnQueue.pop();
 	while (currentActor != nullptr && !currentActor->isPlayer) {

@@ -27,9 +27,8 @@ class ActorManager : public Blabber {
 
    public:
       ActorManager(LocalMap* map, GameLog* gameLog) :
-         gameLog(gameLog),
-         actorColiseum(EntityColiseum<ActorEntity>()),
-         turnQueue(TurnQueue()), map(map) {};
+         map(map), gameLog(gameLog), turnQueue(),
+         actorColiseum(EntityColiseum<ActorEntity>()) {};
 
       void runActorTurns();
 

@@ -45,7 +45,7 @@ void LookUI::render(const SDL_Rect& viewport) {
    if (map->getItemsAt(focusTile)->size() != 0) {
       for (auto item : (*map->getItemsAt(focusTile))) {
          names.push_back(makeName(item->description.name, item->display));
-         descriptions.push_back(textMaker.makeGameText(item->description.name));
+         descriptions.push_back(textMaker.makeGameText(item->description.desc));
       }
       tileIsEmpty = false;
    }
@@ -61,7 +61,7 @@ void LookUI::render(const SDL_Rect& viewport) {
       startY = textRenderer.renderGameText(textSpecs, descriptions[i], startY);
       startY += textSpecs.lineSpacing;
       if (i != names.size()-1) {
-         textRenderer.renderLineSeparator(textSpecs, textMaker, startY);
+         startY = textRenderer.renderLineSeparator(textSpecs, textMaker, startY);
       }
    }
 }

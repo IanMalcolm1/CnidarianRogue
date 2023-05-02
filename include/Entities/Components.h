@@ -49,6 +49,8 @@ enum EffectType {
    EFFECT_NONE,
    EFFECT_POISON,
    EFFECT_REGENERATION,
+   EFFECT_STR_INCREASE,
+   EFFECT_INT_INCREASE
 };
 struct Effect {
    EffectType type;

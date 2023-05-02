@@ -112,8 +112,8 @@ void ActorEntity::reset() {
    isPlayer = false;
    display = TileDisplay();
    location = TileCoords();
-   description.desc = "ded";
    description.name = "ded entity";
+   description.desc = "if you can see this there's a bug";
    defaultAttack = DamagingComp();
    faction = FACTION_PACIFIST;
    targetEntity = nullptr;

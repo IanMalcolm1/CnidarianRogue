@@ -73,6 +73,23 @@ void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxS
 
 		prevCenterX = currCenterX;
 		prevCenterY = currCenterY;
+
+      int itemRoll = rand()%5;
+      switch (itemRoll) {
+         case 0:
+            scene->getItemFactory()->makeIntelligenceMushroom({currCenterX, currCenterY});
+            break;
+         case 1:
+            scene->getItemFactory()->makeStrengthFruit({currCenterX, currCenterY});
+            break;
+         case 2:
+            scene->getItemFactory()->makeBasicSword({currCenterX, currCenterY});
+            break;
+         default:
+            break;
+      }
+      
+         
 	}
 
 	scene->setPlayerAt({ prevCenterX, prevCenterY });
