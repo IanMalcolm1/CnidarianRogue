@@ -36,6 +36,7 @@ private:
 	void calcDataForAxis(const SDL_Rect& viewport, char axis); //as in x/y axis
 
 	void renderTile(int index, SDL_Rect dstrect);
+   void renderReticle(int index, SDL_Rect dstrect);
 
 public:
 	bool hidden;

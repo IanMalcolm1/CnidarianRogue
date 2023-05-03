@@ -15,7 +15,10 @@ void MapDisplay::setDisplayAt(int index, TileDisplay* display) {
 }
 
 TileCoords MapDisplay::getFocusTile() { return focusTile; }
-void MapDisplay::setFocusTile(TileCoords tile) { focusTile = tile; }
+void MapDisplay::setFocusTile(TileCoords tile) {
+   tiles[focusTile.y*width + focusTile.x].hasReticle = false;
+   focusTile = tile;
+}
 
 bool MapDisplay::isVisible(int index) { return tiles[index].isVisible; }
 bool MapDisplay::hasBeenSeen(int index) { return tiles[index].hasBeenSeen; }

@@ -1,7 +1,7 @@
 #include "Adventure/Adventure.h"
 
 void Adventure::linkPlayerAndScene() {
-   playerMan.setSceneDependencies(scene.getTurnQueue(), scene.getMap(), scene.getInputConfirmer());
+   playerMan.setSceneDependencies(scene.getTurnQueue(), scene.getMap());
 }
 
 
@@ -25,10 +25,47 @@ PlayerManager* Adventure::getPlayerManager() {
 
 
 void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
-   scene.processCommand(command, modification);
+	if (playerMan.autoActing) {
+		if (command == PC_ESCAPEKEY) {
+			playerMan.clearAutoAct();
+			return;
+		}
+		playerMan.doAutoAct();
+		return;
+	}
+
+	bool needToRunTurn = false;
+
+	//process player move
+	if (command < 9) {
+		needToRunTurn = playerMan.processDirectionalCommand(command);
+	}
+
+	else if (command == PC_WAIT) {
+      playerMan.waitTurn();
+      needToRunTurn = true;
+	}
+
+	else if (command == PC_TOGGLE_LOOK || command == PC_ESCAPEKEY) {
+		playerMan.updateInputState(command);
+	}
+
+
+	if (needToRunTurn) {
+      scene.runTurn();
+	}
 }
+
+void Adventure::processClick(bool ctrlDown) {
+
+}
+
 void Adventure::runTurnIfAutoMoving() {
-   scene.runTurnIfAutoMoving();
+	if (!alreadyRanTurn && playerMan.autoActing) {
+		playerMan.doAutoAct();
+      scene.runTurn();
+	}
+	alreadyRanTurn = false;
 }
 void Adventure::updateMapDisplay() {
    scene.updateMapDisplay();

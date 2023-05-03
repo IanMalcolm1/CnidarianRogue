@@ -183,6 +183,9 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 	//unseen tiles are rendered black
 	if (!mapDisplay->hasBeenSeen(index)) {
 		RectFiller::fill(renderer, spritesheet, dstrect, { 0,0,0 });
+      if (mapDisplay->hasReticle(index)) {
+         renderReticle(index, dstrect);
+      }
 		return;
 	}
 
@@ -207,12 +210,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 
 	//reticles
 	if (mapDisplay->hasReticle(index)) {
-		srcrect.x = ASYM_RETICLE % 16 * 8;
-		srcrect.y = ASYM_RETICLE / 16 * 8;
-
-		SDL_SetTextureColorMod(spritesheet, 255, 255, 255);
-
-		SDL_RenderCopy(renderer, spritesheet, &srcrect, &dstrect);
+      renderReticle(index, dstrect);
 	}
 
 	SDL_SetTextureAlphaMod(spritesheet, 255); //resets opacity
@@ -278,4 +276,15 @@ TileCoords MapUI::findMapTileFromScreenCoords(int x, int y) {
 	returnCoords.y = rData.startTile.y + y / rData.scaleSize;
 
 	return returnCoords;
+}
+
+void MapUI::renderReticle(int index, SDL_Rect dstrect) {
+      SDL_Rect srcrect = {0,0,8,8};
+		srcrect.x = ASYM_RETICLE % 16 * 8;
+		srcrect.y = ASYM_RETICLE / 16 * 8;
+
+		SDL_SetTextureColorMod(spritesheet, 255, 255, 255);
+		SDL_SetTextureAlphaMod(spritesheet, 255);
+
+		SDL_RenderCopy(renderer, spritesheet, &srcrect, &dstrect);
 }

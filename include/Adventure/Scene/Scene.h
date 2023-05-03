@@ -6,9 +6,8 @@
 #include "Topography/LocalMap.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include <SDL.h>
-#include "Interface/InputConfirmer.h"
-#include "Adventure/PlayerManager.h"
 #include "Adventure/Scene/ActorManager.h"
+#include "Adventure/PlayerManager.h"
 #include "Logs/GameLog.h"
 
 
@@ -24,18 +23,13 @@ private:
 
 	PathingRoute pathToMouseTile;
 
-	InputConfirmer confirmer;
-
    GameLog* gameLog;
    PlayerManager* playerManager;
-
-	bool alreadyRanTurn;
 
 
 public:
 	Scene(GameLog* gameLog, PlayerManager* playerManager) :
-      map(100, 100), alreadyRanTurn(false), gameLog(gameLog),
-      confirmer(),
+      map(100, 100), gameLog(gameLog),
       actorManager(&map, gameLog), 
       itemManager(&map),
       playerManager(playerManager),
@@ -47,15 +41,10 @@ public:
    TurnQueue* getTurnQueue();
    ItemFactory* getItemFactory();
 
-	InputConfirmer* getInputConfirmer();
-
-	void processCommand(PlayerCommand command, Uint16 modification);
+   void runTurn();
 	void updateMapDisplay();
 
 	void setPlayerAt(TileCoords location);
-
-   void startAutoMove();
-   void runTurnIfAutoMoving();
 
    void hookupInputManagerListener(Listener* listener);
 };

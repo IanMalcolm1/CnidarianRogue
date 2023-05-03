@@ -9,10 +9,20 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 
 TODOS:
 Current:
-Add mouse support to Looking
+Modify textRenderer
+   Have TextRender store TextSpecifications object in itself, rather than being passed it
+   Should only get passed text size (probably as another argument to the 
+      setViewportWidth() function)
 Add items (ItemManager class necessary)
    If item.hasComponent(CONSUMBALE), item.getComponent(CONSUMABLE).effect
-   Add EffectManager class???
+   Add EffectManager class to handle applying effects
+Modify TurnQueue nodes to allow for dot and temporary effects
+   DoT means effect gets repeatedly placed onto turnqueue and does effect each time until
+      duration exceeded
+   Temporary effects get placed on turnqueue only once and remove the effect from the actor
+      when they are reached
+   Equipment effects will not use turnqueue, and will be applied on equipping/dequipping items
+
 
 Next:
 Add better creatures

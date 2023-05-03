@@ -45,7 +45,7 @@ void AdventureUI::processClick(int x, int y, bool ctrlDown) {
    sceneUI.processClick(x, y, ctrlDown);
 }
 void AdventureUI::processKeyPress(SDL_Keycode keycode) {
-   sceneUI.processKeyPress(keycode);
+   //For use if I get around to adding a input confirmer (for "Are you sure you want to do that?" purposes.)
 }
 
 

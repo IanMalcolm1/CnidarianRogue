@@ -35,13 +35,13 @@ PlayerManager::~PlayerManager() {
 }
 
 bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
-   TileCoords oldCoords, newCoords;
+   TileCoords newCoords;
 
    if (inputState == PLAYER_INPUT_MOVE) {
-      oldCoords = newCoords = player->location;
+      newCoords = player->location;
    }
    else {
-      oldCoords = newCoords = map->getFocusTileLocation();
+      newCoords = map->getFocusTileLocation();
    }
 
    if (direction < 3) {
@@ -70,7 +70,7 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
       return false;
    }
    else if (inputState == PLAYER_INPUT_LOOK) {
-      map->setLookTile(oldCoords, newCoords);
+      map->setLookTile(newCoords);
       return false;
    }
    else {
@@ -104,6 +104,11 @@ void PlayerManager::updateInputState(PlayerCommand command) {
    }
 }
 
+void PlayerManager::lookAtMouseTile() {
+   inputState = PLAYER_INPUT_LOOK;
+   map->lookAtMouseTile();
+}
+
 bool PlayerManager::doAutoAct() {
    if (!autoMoveRoute.hasNextTile()) {
       autoActing = false;
@@ -133,17 +138,21 @@ void PlayerManager::clearAutoAct() {
    autoActing = false;
 }
 
-void PlayerManager::startAutoMove(PathingRoute route) {
-   autoMoveRoute = route;
+void PlayerManager::startAutoMove() {
+   autoMoveRoute = map->getRouteToMouseTile();
    autoMoveRoute.resetProgress();
    autoActing = true;
 }
 
 
-void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, InputConfirmer* adventureConfirmer) {
+void PlayerManager::waitTurn() {
+      turnQueue->insert(player, player->stats.baseMoveSpeed);
+}
+
+
+void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap) {
    turnQueue = queue;
    map = localMap;
-   confirmer = adventureConfirmer;
 
    turnQueue->insert(player, 0);
 }

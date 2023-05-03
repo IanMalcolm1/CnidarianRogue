@@ -36,7 +36,7 @@ private:
 
 public:
    AdventureUI(Adventure* adventure) :
-   sceneUI(adventure->getScene()),
+   sceneUI(adventure->getScene(), adventure->getPlayerManager()),
    messagesUI(adventure->getGameLog()),
    playerUI(adventure->getPlayerManager()),
    lookUI(adventure->getScene()),

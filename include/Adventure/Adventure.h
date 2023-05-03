@@ -16,11 +16,14 @@ private:
    GameLog log;
    PlayerManager playerMan;
 
+   bool alreadyRanTurn;
+
    void linkPlayerAndScene();
 
 public:
    Adventure() : log(GameLog()), scene(Scene(&log, &playerMan)),
-   playerMan(PlayerManager()), terrainGenerator(TerrainGenerators()) {
+   playerMan(PlayerManager()), terrainGenerator(TerrainGenerators()),
+   alreadyRanTurn(false) {
       linkPlayerAndScene();
 	   terrainGenerator.rectangleRooms(&scene, 20, 20);
       updateMapDisplay();
@@ -33,6 +36,7 @@ public:
    PlayerManager* getPlayerManager();
 
 	void processCommand(PlayerCommand command, Uint16 modification);
+   void processClick(bool ctrlDown);
 
    void runTurnIfAutoMoving();
 	void updateMapDisplay();

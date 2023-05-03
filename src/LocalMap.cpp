@@ -19,7 +19,7 @@ void LocalMap::updateMapDisplay() {
 
 		updateVisibleTileDisplays();
 	}
-	
+
 	updateHighlightedTiles();
 
 	needToUpdateDisplay = false;
@@ -45,6 +45,10 @@ void LocalMap::updateHighlightedTiles() {
 		setHasReticle(tile, true);
 		pathToMouseTile.incrementProgress();
 	}
+
+   if (isLooking) {
+      setHasReticle(mapDisplay.getFocusTile(), true);
+   }
 }
 
 
@@ -164,17 +168,18 @@ void LocalMap::setFocusTileLocation(TileCoords location) {
 void LocalMap::stopLooking() {
 	setHasReticle(mapDisplay.getFocusTile(), false);
 	mapDisplay.setFocusTile(playerTile);
+   isLooking = false;
 }
 
 void LocalMap::setLookTile(TileCoords newCoords) {
+	setHasReticle(getFocusTileLocation(), false);
 	setHasReticle(newCoords, true);
 	mapDisplay.setFocusTile(newCoords);
+   isLooking = true;
 }
 
-void LocalMap::setLookTile(TileCoords oldCoords, TileCoords newCoords) {
-	setHasReticle(oldCoords, false);
-	setHasReticle(newCoords, true);
-	mapDisplay.setFocusTile(newCoords);
+void LocalMap::lookAtMouseTile() {
+   setLookTile(mouseTile);
 }
 
 

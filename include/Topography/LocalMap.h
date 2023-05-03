@@ -21,6 +21,7 @@ private:
 
 	TileCoords mouseTile;
 	TileCoords playerTile;
+   bool isLooking;
 
 	PathingRoute pathToMouseTile;
 
@@ -52,7 +53,7 @@ public:
 	LocalMap(int width, int height) : mapDisplay(MapDisplay(width, height)),
 	terrainMap(TerrainMap(width, height)), actors(width*height, nullptr),
 	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(PathingRoute()),
-   width(width), height(height), needToUpdateDisplay(true),
+   width(width), height(height), needToUpdateDisplay(true), isLooking(false),
    mouseTile(TileCoords(-1,-1)) {};
 
 
@@ -93,7 +94,7 @@ public:
 	void setFocusTileLocation(TileCoords location);
 	void stopLooking();
 	void setLookTile(TileCoords newCoords);
-	void setLookTile(TileCoords oldCoords, TileCoords newCoords);
+   void lookAtMouseTile();
 
 	void makeVisible(TileCoords location);
 

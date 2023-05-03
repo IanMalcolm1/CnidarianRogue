@@ -36,14 +36,18 @@ public:
 
 	//returns whether the turn needs to be run
 	bool processDirectionalCommand(PlayerCommand command);
+   void processClick(bool ctrlDown);
 
 	ActorEntity* getPlayer();
 	void placePlayer(TileCoords location);
 
 	void updateInputState(PlayerCommand command);
+   void lookAtMouseTile();
 	bool doAutoAct();
 	void clearAutoAct();
-	void startAutoMove(PathingRoute route);
+	void startAutoMove();
 
-   void setSceneDependencies(TurnQueue* queue, LocalMap* localMap, InputConfirmer* adventureConfirmer);
+   void waitTurn();
+
+   void setSceneDependencies(TurnQueue* queue, LocalMap* localMap);
 };
