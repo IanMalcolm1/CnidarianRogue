@@ -43,7 +43,7 @@ std::string ActorStatBlock::getMoveSpeedAsString() {
 }
 
 std::string ActorStatBlock::getAttackSpeedAsString() {
-   std::string attackSpeedString = "AttackSpeed: ";
+   std::string attackSpeedString = "Attack Speed: ";
    attackSpeedString.append(std::to_string(baseAttackSpeed));
    return attackSpeedString;
 }

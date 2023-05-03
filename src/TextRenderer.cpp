@@ -17,13 +17,13 @@ std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& spe
 	while (index < (int)text.size()) {
 
 		if (text[index] == ASYM_SPACE) {
-			text[index] = '\n';
+			text.insert(text.begin() + index + 1, '\n');
 			lines++;
 		}
 
 		else if (text[index + 1] == ASYM_SPACE) {
 			index++;
-			text[index] = '\n';
+			text.insert(text.begin() + index + 1, '\n');
 			lines++;
 		}
 
