@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entities/EntityColiseum.h"
-#include "Entities/ActorEntity.h"
+#include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include "GraphicsThings/ColorMap.h"
 #include "Topography/LocalMap.h"

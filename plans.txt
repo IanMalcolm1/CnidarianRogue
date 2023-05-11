@@ -9,10 +9,6 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 
 TODOS:
 Current:
-Modify textRenderer
-   Have TextRender store TextSpecifications object in itself, rather than being passed it
-   Should only get passed text size (probably as another argument to the 
-      setViewportWidth() function)
 Add items (ItemManager class necessary)
    If item.hasComponent(CONSUMBALE), item.getComponent(CONSUMABLE).effect
    Add EffectManager class to handle applying effects

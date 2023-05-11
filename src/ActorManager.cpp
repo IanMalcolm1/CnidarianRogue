@@ -1,8 +1,8 @@
 #include "Adventure/Scene/ActorManager.h"
-#include "Entities/AI.h"
+#include "Entities/Actors/AI.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
-#include "Entities/ActorFactory.h"
+#include "Entities/Actors/ActorFactory.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include "EventListener/Listener.h"
 #include <cwchar>

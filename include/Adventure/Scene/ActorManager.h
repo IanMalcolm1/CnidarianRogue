@@ -4,8 +4,7 @@
  * actor's state, and runs the corresponding logic function.
  * Logic functions will be private functions of this class */
 
-#include "Entities/ActorEntity.h"
-#include "Entities/ActorFactory.h"
+#include "Entities/Actors/ActorFactory.h"
 #include "Entities/EntityColiseum.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include "EventListener/Blabber.h"

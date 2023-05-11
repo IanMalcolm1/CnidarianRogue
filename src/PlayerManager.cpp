@@ -1,6 +1,6 @@
 #include "Adventure/PlayerManager.h"
 #include "Algorithms/PathfindingRoute.h"
-#include "Entities/ActorEntity.h"
+#include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include "Enums/TurnTime.h"
 

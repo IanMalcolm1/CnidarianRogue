@@ -1,4 +1,4 @@
-#include "Entities/ItemFactory.h"
+#include "Entities/Items/ItemFactory.h"
 
 
 void ItemFactory::registerItem(ItemEntity* item, TileCoords location) {

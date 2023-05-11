@@ -1,6 +1,6 @@
-#include "Entities/ActorFactory.h"
-#include "Entities/AI.h"
-#include "Entities/ActorEntity.h"
+#include "Entities/Actors/ActorFactory.h"
+#include "Entities/Actors/AI.h"
+#include "Entities/Actors/ActorEntity.h"
 
 
 void ActorFactory::registerActor(ActorEntity* actor) {

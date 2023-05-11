@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <vector>
-#include "Entities/ActorEntity.h"
+#include "Entities/Actors/ActorEntity.h"
 
 struct TurnQueueNode {
 	TurnQueueNode* next;

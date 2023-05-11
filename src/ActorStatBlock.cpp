@@ -1,4 +1,4 @@
-#include "Entities/ActorStatBlock.h"
+#include "Entities/Actors/ActorStatBlock.h"
 #include <string>
 
 

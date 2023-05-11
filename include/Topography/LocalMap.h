@@ -4,8 +4,8 @@
 
 #include "TerrainMap.h"
 #include "MapDisplay.h"
-#include "Entities/ActorEntity.h"
-#include "Entities/ItemEntity.h"
+#include "Entities/Actors/ActorEntity.h"
+#include "Entities/Items/ItemEntity.h"
 #include "Enums/PlayerCommands.h"
 #include "Algorithms/PathfindingRoute.h"
 #include "Topography/TileCoordinates.h"

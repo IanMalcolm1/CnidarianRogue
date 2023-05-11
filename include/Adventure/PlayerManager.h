@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entities/ActorEntity.h"
+#include "Entities/Actors/ActorEntity.h"
 #include "Enums/PlayerCommands.h"
 #include "Topography/LocalMap.h"
 #include "Interface/InputConfirmer.h"

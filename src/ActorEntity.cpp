@@ -1,5 +1,5 @@
-#include "Entities/ActorEntity.h"
-#include "Entities/AI.h"
+#include "Entities/Actors/ActorEntity.h"
+#include "Entities/Actors/AI.h"
 
 std::vector<TileCoords>* ActorEntity::getVisibleTiles() { return &visibleTiles; }
 std::vector<ActorEntity*>* ActorEntity::getVisibleActors() { return &visibleActors; }

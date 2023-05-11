@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Entities/EntityColiseum.h"
-#include "Entities/ItemEntity.h"
-#include "Entities/ItemFactory.h"
+#include "Entities/Items/ItemEntity.h"
+#include "Entities/Items/ItemFactory.h"
 #include "Logs/GameLog.h"
 #include "Topography/LocalMap.h"
 

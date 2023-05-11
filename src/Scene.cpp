@@ -1,5 +1,5 @@
 #include "Adventure/Scene/Scene.h"
-#include "Entities/ActorFactory.h"
+#include "Entities/Actors/ActorFactory.h"
 #include "Enums/PlayerCommands.h"
 #include <random>
 

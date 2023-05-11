@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Entities/ActorFactory.h"
-#include "Entities/ItemFactory.h"
-#include "Entities/ItemManager.h"
+#include "Entities/Actors/ActorFactory.h"
+#include "Entities/Items/ItemFactory.h"
+#include "Adventure/Scene/ItemManager.h"
 #include "Topography/LocalMap.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include <SDL.h>

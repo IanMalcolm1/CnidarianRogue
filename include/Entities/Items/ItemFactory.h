@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entities/ItemEntity.h"
+#include "Entities/Items/ItemEntity.h"
 #include "Entities/EntityColiseum.h"
 #include "Topography/LocalMap.h"
 #include "GraphicsThings/ColorMap.h"

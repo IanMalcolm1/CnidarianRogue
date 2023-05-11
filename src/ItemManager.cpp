@@ -1,4 +1,4 @@
-#include "Entities/ItemManager.h"
+#include "Adventure/Scene/ItemManager.h"
 
 
 ItemFactory ItemManager::makeFactory() {

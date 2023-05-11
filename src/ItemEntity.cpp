@@ -1,4 +1,4 @@
-#include "Entities/ItemEntity.h"
+#include "Entities/Items/ItemEntity.h"
 #include "Topography/TileCoordinates.h"
 
 

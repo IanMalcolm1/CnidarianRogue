@@ -1,13 +1,12 @@
 #pragma once
 
-#include "AI.h"
-#include "Entities/Ability.h"
+#include "Entities/Actors/AI.h"
 #include "Entities/Components.h"
-#include "Entities/ItemEntity.h"
+#include "Entities/Items/ItemEntity.h"
 #include "GraphicsThings/TileDisplay.h"
 #include "Enums/TurnTime.h"
 #include "Algorithms/PathfindingRoute.h"
-#include "Entities/ActorStatBlock.h"
+#include "Entities/Actors/ActorStatBlock.h"
 #include <cwchar>
 
 enum Faction {
