@@ -1,6 +1,7 @@
 #include "Entities/Actors/ActorFactory.h"
 #include "Entities/Actors/AI.h"
 #include "Entities/Actors/ActorEntity.h"
+#include "Entities/Items/ItemFactory.h"
 
 
 void ActorFactory::registerActor(ActorEntity* actor) {
@@ -26,8 +27,7 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
 
    evilSmiley->faction = FACTION_BAD;
 
-   evilSmiley->defaultAttack.damage1.dice = 1;
-   evilSmiley->defaultAttack.damage1.constant = 1;
+   evilSmiley->naturalWeapon = itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS);
 
    evilSmiley->addAttackingSubstate(AiState(AISTATE_APPROACH_AND_WHACK));
    

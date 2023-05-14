@@ -33,8 +33,8 @@ public:
       actorManager(&map, gameLog), 
       itemManager(&map),
       playerManager(playerManager),
-      actorFactory(actorManager.makeFactory()),
-      itemFactory(itemManager.makeFactory()){};
+      itemFactory(itemManager.makeFactory()),
+      actorFactory(actorManager.makeFactory(&itemFactory)) {};
 
 	LocalMap* getMap();
    ActorFactory* getActorFactory();

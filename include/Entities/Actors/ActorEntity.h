@@ -34,7 +34,7 @@ public:
 	TileDisplay display;
 	TileCoords location;
    Description description;
-   DamagingComp defaultAttack;
+   ItemEntity* naturalWeapon;
    Faction faction;
 
 

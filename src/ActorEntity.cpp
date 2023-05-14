@@ -114,7 +114,7 @@ void ActorEntity::reset() {
    location = TileCoords();
    description.name = "ded entity";
    description.desc = "if you can see this there's a bug";
-   defaultAttack = DamagingComp();
+   naturalWeapon = nullptr;
    faction = FACTION_PACIFIST;
    targetEntity = nullptr;
    visibleTiles.clear();

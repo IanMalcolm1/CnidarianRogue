@@ -7,6 +7,7 @@
 #include "Entities/Actors/ActorFactory.h"
 #include "Entities/EntityColiseum.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "Entities/Items/ItemFactory.h"
 #include "EventListener/Blabber.h"
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
@@ -39,6 +40,6 @@ class ActorManager : public Blabber {
          return actorColiseum.getEntity(id);
       };
 
-      ActorFactory makeFactory();
+      ActorFactory makeFactory(ItemFactory* itemFactory);
       TurnQueue* getTurnQueue();
 };

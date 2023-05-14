@@ -4,6 +4,7 @@
 #include "Algorithms/Pathfinding.h"
 #include "Entities/Actors/ActorFactory.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "Entities/Components.h"
 #include "EventListener/Listener.h"
 #include <cwchar>
 #include <random>
@@ -70,9 +71,10 @@ void ActorManager::moveActor(ActorEntity* actor, TileCoords newLocation) {
 
 
 void ActorManager::doAttack(ActorEntity* attacker, ActorEntity* defender) {
-   int constant = attacker->defaultAttack.damage1.constant;
+   DamagingComp* damage = (DamagingComp*) attacker->naturalWeapon->getComponent(COMPONENT_DAMAGING);
+   int constant = damage->damage1.constant;
    int diceRoll = 0;
-   for (int i=0; i<attacker->defaultAttack.damage1.dice; i++) {
+   for (int i=0; i<damage->damage1.dice; i++) {
       diceRoll += rand()%6+1;
    }
 
@@ -89,7 +91,10 @@ void ActorManager::doAttack(ActorEntity* attacker, ActorEntity* defender) {
    message.append(") damage.");
    gameLog->sendMessage(message);
 
-   defender->stats.health -= (diceRoll + attacker->defaultAttack.damage1.constant);
+   defender->stats.health -= (diceRoll + constant);
+   
+   //TODO: apply effect if weapon has an effect
+ 
    if (defender->stats.health <= 0) {
       destroyActor(defender);
    }
@@ -166,8 +171,8 @@ int ActorManager::approachAndWhack(ActorEntity* actor) {
 }
 
 
-ActorFactory ActorManager::makeFactory() {
-   return ActorFactory(&actorColiseum, &turnQueue, map);
+ActorFactory ActorManager::makeFactory(ItemFactory* itemFactory) {
+   return ActorFactory(&actorColiseum, &turnQueue, map, itemFactory);
 }
 
 TurnQueue* ActorManager::getTurnQueue() {

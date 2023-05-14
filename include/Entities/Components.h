@@ -4,6 +4,9 @@
 #include <string>
 #include "Topography/TileCoordinates.h"
 #include "GraphicsThings/TileDisplay.h"
+#include "Entities/Effect.h"
+#include "Entities/Damage.h"
+#include "Enums/TurnTime.h"
 
 
 /* Components inheriting from the actual Component class
@@ -30,43 +33,9 @@ struct Description {
 };
 
 
-enum DamageType {
-   DAMAGE_NONE,
-   DAMAGE_PHYSICAL,
-   DAMAGE_HEAT,
-   DAMAGE_COLD
-};
-struct Damage {
-   DamageType type;
-   int dice, constant;
-
-   Damage(DamageType type = DAMAGE_NONE, int dice = 0, int constant = 0)
-      : type(type), dice(dice), constant(constant) {};
-};
-
-
-enum EffectType {
-   EFFECT_NONE,
-   EFFECT_POISON,
-   EFFECT_REGENERATION,
-   EFFECT_STR_INCREASE,
-   EFFECT_INT_INCREASE
-};
-struct Effect {
-   EffectType type;
-
-   //can determine both strength of effects and their durations
-   int intensity;
-   bool permanent;
-
-   Effect(EffectType type = EFFECT_NONE, int intensity = 0, bool permanent = false)
-      : type(type), intensity(intensity), permanent(permanent) {};
-};
-
-/* Actual Components, lol */
 enum ComponentType {
    COMPONENT_DURABILITY = 0,
-   COMPONENT_CONSUMABLE = 1,
+   COMPONENT_EFFECT = 1,
    COMPONENT_WEARABLE,
    COMPONENT_DAMAGING,
 
@@ -92,16 +61,16 @@ struct WearableComp : public Component {
 
 
 struct DamagingComp : public Component {
-   Damage damage1, damage2, damage3;
+   Damage damage1, damage2;
 
-   DamagingComp(Damage damage1 = Damage(), Damage damage2 = Damage(), Damage damage3 = Damage())
-      : damage1(damage1), damage2(damage2), damage3(damage3) {};
+   DamagingComp(Damage damage1 = Damage(), Damage damage2 = Damage())
+      : damage1(damage1), damage2(damage2) {};
 };
 
 
-struct ConsumableComp : public Component {
-   Effect effect1, effect2, effect3;
+struct EffectComp : public Component {
+   Effect effect1, effect2;
 
-   ConsumableComp(Effect effect1 = Effect(), Effect effect2 = Effect(), Effect effect3 = Effect())
-      : effect1(effect1), effect2(effect2), effect3(effect3) {};
+   EffectComp(Effect effect1 = Effect(), Effect effect2 = Effect())
+      : effect1(effect1), effect2(effect2) {};
 };

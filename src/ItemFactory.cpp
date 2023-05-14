@@ -1,10 +1,19 @@
 #include "Entities/Items/ItemFactory.h"
+#include "Entities/Components.h"
+#include "Enums/AsciiSymbols.h"
+#include "Enums/TurnTime.h"
 
 
 void ItemFactory::registerItem(ItemEntity* item, TileCoords location) {
-   item->location = location;
-   map->addItemAt(location, item);
+   if (location.x != -1 && location.y != -1) {
+      item->location = location;
+      map->addItemAt(location, item);
+   }
 }
+
+
+
+/* Weapons */
 
 ItemEntity* ItemFactory::makeBasicSword(TileCoords location) {
    ItemEntity* sword = coliseum->makeEntity();
@@ -22,6 +31,9 @@ ItemEntity* ItemFactory::makeBasicSword(TileCoords location) {
 }
 
 
+
+/* Consumables */
+
 ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
    ItemEntity* mush = coliseum->makeEntity();
 
@@ -31,8 +43,8 @@ ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
    mush->display.symbol = ASYM_UFO;
    mush->display.symbolColor = colorMap.getColor("blue");
 
-   ConsumableComp effect = ConsumableComp(Effect(EFFECT_INT_INCREASE, 1, true));
-   mush->addComponent(effect, COMPONENT_CONSUMABLE);
+   EffectComp effect = EffectComp(Effect(EFFECT_PERMANENT, EFFECT_INT_INCREASE, 1));
+   mush->addComponent(effect, COMPONENT_EFFECT);
 
    registerItem(mush, location);
    return mush;
@@ -47,9 +59,62 @@ ItemEntity* ItemFactory::makeStrengthFruit(TileCoords location) {
    fruit->display.symbol = ASYM_UFO;
    fruit->display.symbolColor = colorMap.getColor("purple");
 
-   ConsumableComp effect = ConsumableComp(Effect(EFFECT_STR_INCREASE, 1, true));
-   fruit->addComponent(effect, COMPONENT_CONSUMABLE);
+   EffectComp effect = EffectComp(Effect(EFFECT_PERMANENT, EFFECT_STR_INCREASE, 1));
+   fruit->addComponent(effect, COMPONENT_EFFECT);
 
    registerItem(fruit, location);
    return fruit;
+}
+
+
+
+/* Natural Weapons */
+
+ItemEntity* ItemFactory::getNaturalWeapon(NaturalWeaponType type) {
+   if (naturalWeapons[type] != nullptr) {
+      return naturalWeapons[type];
+   }
+   
+   switch(type) {
+      case NATWEAP_FIST:
+         return makeFists();
+      case NATWEAP_POISON_FANGS:
+         return makePoisonFangs();
+      case NUM_NATURALWEAPONS:
+         return nullptr;
+   }
+   return nullptr;
+}
+
+ItemEntity* ItemFactory::makeFists() {
+   ItemEntity* fists = coliseum->makeEntity();
+
+   fists->description.name = "Fists";
+   fists->description.desc = "A pair of flimsy bones wrapped in a thin layer of skin.";
+
+   fists->display.symbol = ASYM_ASTERISK;
+   
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 1));
+   fists->addComponent(damage, COMPONENT_DAMAGING);
+
+   return fists;
+}
+
+ItemEntity* ItemFactory::makePoisonFangs() {
+   ItemEntity* fangs = coliseum->makeEntity();
+
+   fangs->description.name = "</green:Poisonous Fangs/>";
+   fangs->description.desc = "They look pretty nasty.";
+
+   fangs->display.symbol = ASYM_FAT_ARROW_DOWN;
+   fangs->display.symbolColor = colorMap.getColor("green");
+   
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 1));
+   fangs->addComponent(damage, COMPONENT_DAMAGING);
+
+   Effect effect = Effect(EFFECT_DOT, EFFECT_POISON, 1, FULL_TURN_TIME*10, FULL_TURN_TIME);
+   EffectComp poison = EffectComp(effect);
+   fangs->addComponent(effect, COMPONENT_EFFECT);
+
+   return fangs;
 }
