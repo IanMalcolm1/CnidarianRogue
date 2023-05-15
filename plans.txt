@@ -9,20 +9,20 @@ load it. If not, do new game. Maaaaybe still do perlin noise.
 
 TODOS:
 Current:
-Make natural weapons official items.
-   Maybe have ActorFactory keep track of natural weapons as allocated in ItemColliseum
-Add items (ItemManager class necessary)
-   If item.hasComponent(CONSUMBALE), item.getComponent(CONSUMABLE).effect
-   Add EffectManager class to handle applying effects
-Modify TurnQueue nodes to allow for dot and temporary effects
-   DoT means effect gets repeatedly placed onto turnqueue and does effect each time until
-      duration exceeded
-   Temporary effects get placed on turnqueue only once and remove the effect from the actor
-      when they are reached
-   Equipment effects will not use turnqueue, and will be applied on equipping/dequipping items
+Make poison effect kill actors if health goes too low (maybe make all ActorEntities blab to 
+   ActorManager listener on health goes below 0)?
+Delete consumables on pickup
+Give effects descriptions somehow.
+Make weapon stats show on Player and Look screens.
+
+Do some rigorous tests on TurnQueue class. It's pretty sus.
 
 
 Next:
+Let player attack enemies. Maybe I should have some sort of ActorUtils class to handle
+   attacks and deaths and shit... Might help with effects
+Maybe I should move all the Manager classes into Adventure and just keep the Factory classes
+   in Scene
 Add better creatures
 Better generation and simple gameplay loop
 Save functionality (maybe in free time)

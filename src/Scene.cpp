@@ -7,7 +7,10 @@
 LocalMap* Scene::getMap() {	return &map; }
 ActorFactory* Scene::getActorFactory() { return &actorFactory; }
 ItemFactory* Scene::getItemFactory() { return &itemFactory; }
-TurnQueue* Scene::getTurnQueue() { return actorManager.getTurnQueue(); };
+TurnQueue* Scene::getTurnQueue() { return actorManager.getTurnQueue(); }
+ItemManager* Scene::getItemManager() { return &itemManager; }
+EffectManager* Scene::getEffectManager() { return actorManager.getEffectManager(); }
+
 
 
 void Scene::runTurn() {

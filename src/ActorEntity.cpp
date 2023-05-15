@@ -115,17 +115,33 @@ void ActorEntity::reset() {
    description.name = "ded entity";
    description.desc = "if you can see this there's a bug";
    naturalWeapon = nullptr;
+   weapon = nullptr;
    faction = FACTION_PACIFIST;
    targetEntity = nullptr;
    visibleTiles.clear();
    visibleActors.clear();
    currentRoute.clear();
-   items.clear();
 
    Entity::reset();
 }
 
 
-std::vector<ItemEntity*>* ActorEntity::getItems() {
-   return &items;
+ItemEntity* ActorEntity::getActiveWeapon() {
+   if (!weapon) {
+      return naturalWeapon;
+   }
+   else { return weapon; }
 }
+
+ItemEntity* ActorEntity::getHeldWeapon() {
+   return weapon;
+}
+
+void ActorEntity::setNaturalWeapon(ItemEntity* natWeapon) {
+   naturalWeapon = natWeapon;
+}
+
+void ActorEntity::setWeapon(ItemEntity* newWeapon) {
+   weapon = newWeapon;
+}
+

@@ -4,6 +4,7 @@
  * actor's state, and runs the corresponding logic function.
  * Logic functions will be private functions of this class */
 
+#include "Adventure/Scene/EffectManager.h"
 #include "Entities/Actors/ActorFactory.h"
 #include "Entities/EntityColiseum.h"
 #include "Adventure/Scene/TurnQueue.h"
@@ -16,6 +17,8 @@ class ActorManager : public Blabber {
    private:
       EntityColiseum<ActorEntity> actorColiseum;
       TurnQueue turnQueue;
+      EffectManager effectMan;
+
       LocalMap* map;
 
       GameLog* gameLog;
@@ -27,7 +30,7 @@ class ActorManager : public Blabber {
 
    public:
       ActorManager(LocalMap* map, GameLog* gameLog) :
-         map(map), gameLog(gameLog), turnQueue(),
+         map(map), gameLog(gameLog), turnQueue(), effectMan(&turnQueue),
          actorColiseum(EntityColiseum<ActorEntity>()) {};
 
       void runActorTurns();
@@ -42,4 +45,5 @@ class ActorManager : public Blabber {
 
       ActorFactory makeFactory(ItemFactory* itemFactory);
       TurnQueue* getTurnQueue();
+      EffectManager* getEffectManager();
 };

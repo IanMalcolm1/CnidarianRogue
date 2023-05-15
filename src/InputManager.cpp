@@ -19,18 +19,14 @@ gameWindow(window), adventure(adventure) {
 	keyMappings.insert({ SDLK_j, PC_SOUTH_EAST });
 	keyMappings.insert({ SDLK_h, PC_SOUTH_WEST });
 
+	keyMappings.insert({ SDLK_COMMA, PC_PICKUP });
+	keyMappings.insert({ SDLK_PERIOD, PC_WAIT });
+
 	keyMappings.insert({ SDLK_PERIOD, PC_WAIT });
 
 	keyMappings.insert({ SDLK_l, PC_TOGGLE_LOOK });
 
 	keyMappings.insert({ SDLK_ESCAPE, PC_ESCAPEKEY });
-
-	/* Unimplemented
-	keyMappings.insert({ SDLK_i, PI_INV });
-	keyMappings.insert({ SDLK_PERIOD, PI_WAIT });
-	keyMappings.insert({ SDLK_COMMA, PI_PICKUP });
-	*/
-
 }
 
 

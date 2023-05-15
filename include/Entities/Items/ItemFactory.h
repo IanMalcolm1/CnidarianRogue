@@ -5,6 +5,7 @@
 #include "Topography/LocalMap.h"
 #include "GraphicsThings/ColorMap.h"
 #include "Topography/TileCoordinates.h"
+#include "Entities/EffectFactory.h"
 
 
 enum NaturalWeaponType {
@@ -23,6 +24,7 @@ private:
 
    ItemEntity* naturalWeapons[NUM_NATURALWEAPONS];
    
+   EffectFactory effectFactory;
 
    void registerItem(ItemEntity* item, TileCoords location);
 
@@ -32,7 +34,11 @@ private:
 
 public:
    ItemFactory(EntityColiseum<ItemEntity>* coliseum, LocalMap* map) :
-   coliseum(coliseum), map(map) {};
+   coliseum(coliseum), map(map) {
+      for (int i=0; i<NUM_NATURALWEAPONS; i++) {
+         naturalWeapons[i] = nullptr;
+      }
+   };
 
    //Weapons
    ItemEntity* makeBasicSword(TileCoords location);

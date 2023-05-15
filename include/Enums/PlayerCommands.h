@@ -10,15 +10,15 @@ Movement commands are from 0 to 9 inclusive
 */
 enum PlayerCommand {
 	//Gameplay commands
-	PC_NORTH,
+	PC_NORTH = 0,
 	PC_NORTH_EAST,
 	PC_NORTH_WEST,
 	PC_SOUTH,
 	PC_SOUTH_EAST,
-	PC_SOUTH_WEST,
+	PC_SOUTH_WEST = 5,
 	PC_EAST = 7, //keeps the directions in multiples of 3 so I can use %3 to determine if has an E/W component
 	PC_WEST,
-	PC_WAIT, //To wait 1 turn
+	PC_WAIT = 9, //To wait 1 turn
 	PC_REST, //To wait until healed
 	PC_PICKUP, //To begin pickup dialogue
 	PC_SHOOT, //To begin shoot dialogue

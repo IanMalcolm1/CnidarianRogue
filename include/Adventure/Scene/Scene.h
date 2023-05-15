@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Adventure/Scene/EffectManager.h"
 #include "Entities/Actors/ActorFactory.h"
 #include "Entities/Items/ItemFactory.h"
 #include "Adventure/Scene/ItemManager.h"
@@ -39,7 +40,9 @@ public:
 	LocalMap* getMap();
    ActorFactory* getActorFactory();
    TurnQueue* getTurnQueue();
+   ItemManager* getItemManager();
    ItemFactory* getItemFactory();
+   EffectManager* getEffectManager();
 
    void runTurn();
 	void updateMapDisplay();

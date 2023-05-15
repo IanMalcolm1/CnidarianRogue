@@ -262,7 +262,9 @@ std::vector<ItemEntity*>* LocalMap::getItemsAt(TileCoords coords) {
 
 
 void LocalMap::addItemAt(int index, ItemEntity* item) {
-   items[index].push_back(item);
+   if (item) {
+      items[index].push_back(item);
+   }
 }
 void LocalMap::addItemAt(TileCoords coords, ItemEntity* item) {
    if (!isInMapBounds(coords)) {

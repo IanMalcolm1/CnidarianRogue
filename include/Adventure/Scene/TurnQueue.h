@@ -4,6 +4,7 @@
 #include <vector>
 #include "Entities/Actors/ActorEntity.h"
 #include "Entities/Components.h"
+#include "Entities/Effect.h"
 
 struct TurnQueueNode {
 	TurnQueueNode* next;
@@ -15,7 +16,8 @@ struct TurnQueueNode {
 	ActorEntity* actor;
    Effect effect;
 
-	TurnQueueNode(ActorEntity* actor, int time) : actor(actor), time(time), next(nullptr) {};
+	TurnQueueNode(ActorEntity* actor, int time) : actor(actor), time(time), next(nullptr), isActor(true), effect() {};
+   TurnQueueNode(Effect effect, ActorEntity* actor, int time) : effect(effect), actor(actor), time(time), isActor(false) {};
 };
 
 class TurnQueue {
@@ -24,6 +26,7 @@ private:
 	TurnQueueNode* frontNode;
 
 	void resetStartTime();
+   void insertNode(TurnQueueNode* node);
 
 public:
 	TurnQueue() : startTime(0), frontNode(nullptr) {};
@@ -31,5 +34,7 @@ public:
 
 	void insert(ActorEntity* actor, int turnTime);
 	void remove(ActorEntity* actor);
-	ActorEntity* pop();
+   void insertEffect(Effect effect, ActorEntity* actor, int time);
+   void removeEffect(Effect effect, ActorEntity* actor);
+	TurnQueueNode pop();
 };

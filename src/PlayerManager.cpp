@@ -2,6 +2,8 @@
 #include "Algorithms/PathfindingRoute.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "Entities/Components.h"
+#include "Entities/Items/ItemFactory.h"
 #include "Enums/TurnTime.h"
 
 PlayerManager::PlayerManager() :
@@ -25,8 +27,8 @@ confirmer(nullptr) {
 
    player->faction = FACTION_GOOD;
 
-   player->stats.baseMoveSpeed = FULL_TURN_TIME + FULL_TURN_TIME/2;
-   player->stats.baseAttackSpeed = FULL_TURN_TIME + FULL_TURN_TIME/2;
+   player->stats.baseMoveSpeed = FULL_TURN_TIME;
+   player->stats.baseAttackSpeed = FULL_TURN_TIME;
 }
 
 PlayerManager::~PlayerManager() {
@@ -145,14 +147,43 @@ void PlayerManager::startAutoMove() {
 }
 
 
+
+bool PlayerManager::pickUpItem() {
+   auto itemsInTile = map->getItemsAt(player->location);
+   if (itemsInTile->empty()) {
+      return false;
+   }
+
+   ItemEntity* item = itemsInTile->at(0);
+   map->removeItemAt(player->location, item);
+
+   if (item->hasComponent(COMPONENT_WIELDABLE)) {
+      map->addItemAt(player->location, player->getHeldWeapon());
+      player->setWeapon(item);
+   }
+   else if (item->hasComponent(COMPONENT_EFFECT)) {
+      EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
+      effectMan->applyEffect(effectComp->effect1, player);
+   }
+
+   turnQueue->insert(player, player->stats.baseAttackSpeed);
+
+   return true;
+}
+
 void PlayerManager::waitTurn() {
-      turnQueue->insert(player, player->stats.baseMoveSpeed);
+   turnQueue->insert(player, player->stats.baseMoveSpeed);
 }
 
 
-void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap) {
+void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory) {
    turnQueue = queue;
    map = localMap;
+   effectMan = effectManager;
+   itemMan = itemManager;
+   this->itemFactory = itemFactory;
+
+   player->setNaturalWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
 
    turnQueue->insert(player, 0);
 }

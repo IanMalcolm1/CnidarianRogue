@@ -32,7 +32,7 @@ std::string ActorStatBlock::getStrengthAsString() {
 
 std::string ActorStatBlock::getIntelligenceAsString() {
    std::string intelligenceString = "Intelligence: ";
-   intelligenceString.append(std::to_string(strength));
+   intelligenceString.append(std::to_string(intelligence));
    return intelligenceString;
 }
 

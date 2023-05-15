@@ -22,3 +22,13 @@ struct ActorStatBlock {
    std::string getMoveSpeedAsString();
    std::string getAttackSpeedAsString();
 };
+
+
+enum StatType {
+   STAT_HEALTH,
+   STAT_MAX_HEALTH,
+   STAT_STRENGTH,
+   STAT_INTELLIGENCE,
+   STAT_MOVE_SPEED,
+   STAT_ATTACK_SPEED
+};

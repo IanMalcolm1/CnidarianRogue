@@ -30,10 +30,10 @@ void SceneUI::processClick(int x, int y, bool ctrlDown) {
 	if (SDL_PointInRect(&point, &mapViewport)) {
 	   mapUI.processCursorLocation(x, y);
       if (ctrlDown) {
-         playerMan->startAutoMove();
+         playerMan->lookAtMouseTile();
       }
       else {
-         playerMan->lookAtMouseTile();
+         playerMan->startAutoMove();
       }
 	}
 }

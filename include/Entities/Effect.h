@@ -1,15 +1,7 @@
 #pragma once
 
 #include "Enums/TurnTime.h"
-
-
-enum EffectType {
-   EFFECT_NONE,
-   EFFECT_POISON,
-   EFFECT_REGENERATION,
-   EFFECT_STR_INCREASE,
-   EFFECT_INT_INCREASE
-};
+#include "Entities/Actors/ActorStatBlock.h"
 
 
 /* Timed: Last for a certain duration, then get removed.
@@ -24,18 +16,62 @@ enum EffectClassification {
    EFFECT_PERMANENT,
    EFFECT_TIMED,
    EFFECT_DOT,
-   EFFECT_EQUIPPED
+   EFFECT_EQUIPPED,
+   EFFECT_ON_DEFENSE,
+   EFFECT_ON_ATTACK
 };
+
+struct TimedEffectInfo {
+   bool applied;
+   int duration;
+};
+struct DoTEffectInfo {
+   int duration, tickTime;
+};
+struct EquippedEffectInfo {
+   bool isEquipped;
+};
+
+
+
+enum EffectType {
+   EFFECT_NONE,
+   EFFECT_STAT_MOD
+};
+
+struct StatModEffectInfo {
+   StatType stat;
+   int modification;
+};
+
 
 struct Effect {
    EffectType type;
    EffectClassification classification;
 
-   int intensity;
+   union {
+      StatModEffectInfo statModInfo;
+   };
 
-   int duration; //For Timed and DoT effects
-   int tickTime; //For DoT effects (they also use duration)
+   union {
+      TimedEffectInfo timedInfo;
+      DoTEffectInfo dotInfo;
+      EquippedEffectInfo equippedInfo;
+   };
 
-   Effect(EffectClassification classification = EFFECT_PERMANENT, EffectType type = EFFECT_NONE, int intensity = 0, int duration = 0, int tickTime = 0)
-      : type(type), intensity(intensity), classification(classification), duration(duration), tickTime(tickTime) {};
+   Effect(EffectClassification classification = EFFECT_PERMANENT, EffectType type = EFFECT_NONE)
+      : type(type), classification(classification) {};
+
+
+	bool operator == (const Effect effect) const {
+      if (type != effect.type || classification != effect.classification) {
+         return false;
+      }
+
+      if (type == EFFECT_STAT_MOD) {
+         return (statModInfo.stat == effect.statModInfo.stat && statModInfo.modification == effect.statModInfo.modification);
+      }
+      
+      return true;
+	}
 };

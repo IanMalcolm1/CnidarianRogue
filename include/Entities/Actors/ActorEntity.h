@@ -25,7 +25,9 @@ private:
    ActorEntity* targetEntity;
 
 	//std::vector<Ability> abilities; (unimplemented)
-	std::vector<ItemEntity*>  items;
+
+   ItemEntity* weapon;
+   ItemEntity* naturalWeapon;
 
 public:
 	bool isPlayer;
@@ -34,18 +36,15 @@ public:
 	TileDisplay display;
 	TileCoords location;
    Description description;
-   ItemEntity* naturalWeapon;
    Faction faction;
 
 
 	ActorEntity(int id, int bytesUsed, int totalSpace)
       : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
       display(TileDisplay()), ai(AI()), isPlayer(false),
-      targetEntity(nullptr) {};
+      targetEntity(nullptr), weapon(nullptr), naturalWeapon(nullptr) {};
 
    void reset();
-
-   std::vector<ItemEntity*>* getItems();
 
 	std::vector<TileCoords>* getVisibleTiles();
 	std::vector<ActorEntity*>* getVisibleActors();
@@ -69,4 +68,9 @@ public:
    bool isAggroed();
 	AiStateId getState();
 	void setState(AiStateId stateID);
+
+   ItemEntity* getActiveWeapon();
+   ItemEntity* getHeldWeapon();
+   void setNaturalWeapon(ItemEntity* natWeapon);
+   void setWeapon(ItemEntity* weapon);
 };

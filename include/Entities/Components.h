@@ -37,12 +37,19 @@ enum ComponentType {
    COMPONENT_DURABILITY = 0,
    COMPONENT_EFFECT = 1,
    COMPONENT_WEARABLE,
+   COMPONENT_WIELDABLE,
    COMPONENT_DAMAGING,
 
    NUM_COMPONENT_TYPES
 };
 struct Component {};
 
+
+struct WieldableComp : public Component {
+   int handsRequired;
+
+   WieldableComp(int handsRequired = 1) : handsRequired(handsRequired) {};
+};
 
 struct DurabilityComp : public Component {
    int total, current;

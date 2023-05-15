@@ -12,12 +12,22 @@
 
 
 void ActorManager::runActorTurns() {
-	ActorEntity* currentActor = turnQueue.pop();
-	while (currentActor != nullptr && !currentActor->isPlayer) {
-		int timeTaken = runAction(currentActor);
-		turnQueue.insert(currentActor, timeTaken);
+	TurnQueueNode node = turnQueue.pop();
+	while (node.actor != nullptr) {
+      if (node.isActor) {
+         if (node.actor->isPlayer) {
+            break;
+         }
 
-		currentActor = turnQueue.pop();
+		   int timeTaken = runAction(node.actor);
+		   turnQueue.insert(node.actor, timeTaken);
+      }
+
+      else {
+         effectMan.applyEffect(node.effect, node.actor);
+      }
+
+		node = turnQueue.pop();
 	}
 
 	map->flagNeedToUpdateDisplay();
@@ -44,9 +54,7 @@ void ActorManager::destroyActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, nullptr);
 	turnQueue.remove(actor);
 
-   for (auto item : (*actor->getItems())) {
-      map->addItemAt(actor->location, item);
-   }
+   map->addItemAt(actor->location, actor->getHeldWeapon());
 
    if (actor->isPlayer) {
       notifyListeners(EVENT_PLAYERDED);
@@ -71,7 +79,7 @@ void ActorManager::moveActor(ActorEntity* actor, TileCoords newLocation) {
 
 
 void ActorManager::doAttack(ActorEntity* attacker, ActorEntity* defender) {
-   DamagingComp* damage = (DamagingComp*) attacker->naturalWeapon->getComponent(COMPONENT_DAMAGING);
+   DamagingComp* damage = (DamagingComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_DAMAGING);
    int constant = damage->damage1.constant;
    int diceRoll = 0;
    for (int i=0; i<damage->damage1.dice; i++) {
@@ -93,8 +101,12 @@ void ActorManager::doAttack(ActorEntity* attacker, ActorEntity* defender) {
 
    defender->stats.health -= (diceRoll + constant);
    
-   //TODO: apply effect if weapon has an effect
- 
+   if (attacker->getActiveWeapon()->hasComponent(COMPONENT_EFFECT)) {
+      EffectComp* effect = (EffectComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_EFFECT);
+      effectMan.applyEffect(effect->effect1, defender);
+      //TODO: figure out how to give effects names and shit so there can be gameLogs about them
+   }
+
    if (defender->stats.health <= 0) {
       destroyActor(defender);
    }
@@ -177,4 +189,8 @@ ActorFactory ActorManager::makeFactory(ItemFactory* itemFactory) {
 
 TurnQueue* ActorManager::getTurnQueue() {
    return &turnQueue;
+}
+
+EffectManager* ActorManager::getEffectManager() {
+   return &effectMan;
 }

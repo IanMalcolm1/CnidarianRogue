@@ -1,4 +1,5 @@
 #include "Entities/Items/ItemFactory.h"
+#include "Entities/Actors/ActorStatBlock.h"
 #include "Entities/Components.h"
 #include "Enums/AsciiSymbols.h"
 #include "Enums/TurnTime.h"
@@ -26,6 +27,8 @@ ItemEntity* ItemFactory::makeBasicSword(TileCoords location) {
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 1, 0));
    sword->addComponent(damage, COMPONENT_DAMAGING);
 
+   sword->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
    registerItem(sword, location);
    return sword;
 }
@@ -43,8 +46,8 @@ ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
    mush->display.symbol = ASYM_UFO;
    mush->display.symbolColor = colorMap.getColor("blue");
 
-   EffectComp effect = EffectComp(Effect(EFFECT_PERMANENT, EFFECT_INT_INCREASE, 1));
-   mush->addComponent(effect, COMPONENT_EFFECT);
+   EffectComp effectComp = EffectComp(effectFactory.makeStatPowerUp(STAT_INTELLIGENCE, 1));
+   mush->addComponent(effectComp, COMPONENT_EFFECT);
 
    registerItem(mush, location);
    return mush;
@@ -59,8 +62,8 @@ ItemEntity* ItemFactory::makeStrengthFruit(TileCoords location) {
    fruit->display.symbol = ASYM_UFO;
    fruit->display.symbolColor = colorMap.getColor("purple");
 
-   EffectComp effect = EffectComp(Effect(EFFECT_PERMANENT, EFFECT_STR_INCREASE, 1));
-   fruit->addComponent(effect, COMPONENT_EFFECT);
+   EffectComp effectComp = EffectComp(effectFactory.makeStatPowerUp(STAT_STRENGTH, 1));
+   fruit->addComponent(effectComp , COMPONENT_EFFECT);
 
    registerItem(fruit, location);
    return fruit;
@@ -77,9 +80,13 @@ ItemEntity* ItemFactory::getNaturalWeapon(NaturalWeaponType type) {
    
    switch(type) {
       case NATWEAP_FIST:
-         return makeFists();
+         naturalWeapons[NATWEAP_FIST] = makeFists();
+         return naturalWeapons[NATWEAP_FIST];
+
       case NATWEAP_POISON_FANGS:
-         return makePoisonFangs();
+         naturalWeapons[NATWEAP_POISON_FANGS] = makePoisonFangs();
+         return naturalWeapons[NATWEAP_POISON_FANGS];
+
       case NUM_NATURALWEAPONS:
          return nullptr;
    }
@@ -97,6 +104,8 @@ ItemEntity* ItemFactory::makeFists() {
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 1));
    fists->addComponent(damage, COMPONENT_DAMAGING);
 
+   fists->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
    return fists;
 }
 
@@ -112,9 +121,10 @@ ItemEntity* ItemFactory::makePoisonFangs() {
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 1));
    fangs->addComponent(damage, COMPONENT_DAMAGING);
 
-   Effect effect = Effect(EFFECT_DOT, EFFECT_POISON, 1, FULL_TURN_TIME*10, FULL_TURN_TIME);
-   EffectComp poison = EffectComp(effect);
-   fangs->addComponent(effect, COMPONENT_EFFECT);
+   EffectComp poisonComp = EffectComp(EffectComp(effectFactory.makePoison(1)));
+   fangs->addComponent(poisonComp, COMPONENT_EFFECT);
+
+   fangs->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
 
    return fangs;
 }

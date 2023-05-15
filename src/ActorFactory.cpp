@@ -2,6 +2,7 @@
 #include "Entities/Actors/AI.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Entities/Items/ItemFactory.h"
+#include "Enums/TurnTime.h"
 
 
 void ActorFactory::registerActor(ActorEntity* actor) {
@@ -16,6 +17,8 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
 
    smileyStats->maxHealth = 10 + rand()%5;
    smileyStats->health = smileyStats->maxHealth;
+   smileyStats->baseMoveSpeed = FULL_TURN_TIME - FULL_TURN_TIME/4;
+   smileyStats->baseAttackSpeed = FULL_TURN_TIME - FULL_TURN_TIME/4;
 
    evilSmiley->description.name = "</red:Evil Smiley Face/>";
    evilSmiley->description.desc = "Its insipid grin unnerves you.";
@@ -27,7 +30,7 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
 
    evilSmiley->faction = FACTION_BAD;
 
-   evilSmiley->naturalWeapon = itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS);
+   evilSmiley->setNaturalWeapon(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
 
    evilSmiley->addAttackingSubstate(AiState(AISTATE_APPROACH_AND_WHACK));
    
