@@ -3,5 +3,5 @@
 #include "Adventure/Scene/Scene.h"
 
 struct TerrainGenerators {
-	static void rectangleRooms(Scene* scene, int numRectangles, int maxRectangleSideLength);
+	void rectangleRooms(Scene* scene, int numRectangles, int maxRectangleSideLength);
 };

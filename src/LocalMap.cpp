@@ -218,6 +218,14 @@ bool LocalMap::isOpaqueAt(TileCoords location) {
 	return terrainMap.isOpaqueAtIndex(coordsToTileIndex(location));
 }
 
+bool LocalMap::isVisibleAt(TileCoords location) {
+	if (!isInMapBounds(location)) {
+		DebugLogger::log("isVisibleAt() coordinates out of bounds");
+		return false;
+	}
+	return mapDisplay.isVisible(coordsToTileIndex(location));
+}
+
 
 bool LocalMap::thereIsAnActorAt(int index) { return actors[index] != nullptr; }
 bool LocalMap::thereIsAnActorAt(TileCoords location) {

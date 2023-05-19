@@ -1,14 +1,14 @@
 #include "Entities/EffectFactory.h"
 #include "Entities/Actors/ActorStatBlock.h"
+#include "Entities/Damage.h"
 #include "Entities/Effect.h"
 #include "Enums/TurnTime.h"
 
 
 Effect EffectFactory::makePoison(int strength) {
-   Effect poison = Effect(EFFECT_DOT, EFFECT_STAT_MOD);
+   Effect poison = Effect(EFFECT_DOT, EFFECT_DAMAGE);
 
-   poison.statModInfo.stat = STAT_HEALTH;
-   poison.statModInfo.modification = -strength;
+   poison.damageInfo.damage = Damage(DAMAGE_POISON, 0, 1);
 
    poison.dotInfo.tickTime = FULL_TURN_TIME;
    poison.dotInfo.duration = FULL_TURN_TIME *5;

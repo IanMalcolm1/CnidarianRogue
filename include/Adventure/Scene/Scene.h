@@ -1,7 +1,10 @@
 #pragma once
 
+#include "Adventure/Scene/AIRunner.h"
 #include "Adventure/Scene/EffectManager.h"
 #include "Entities/Actors/ActorFactory.h"
+#include "Entities/Actors/ActorUtils.h"
+#include "Entities/Effect.h"
 #include "Entities/Items/ItemFactory.h"
 #include "Adventure/Scene/ItemManager.h"
 #include "Topography/LocalMap.h"
@@ -16,24 +19,32 @@ class Scene {
 private:
 	LocalMap map;
 
+   TurnQueue turnQueue;
+
    ActorManager actorManager;
    ActorFactory actorFactory;
+   ActorUtils actorUtils;
+   AIRunner aiRunner;
 
    ItemManager itemManager;
    ItemFactory itemFactory;
 
+   EffectManager effectManager;
+
 	PathingRoute pathToMouseTile;
 
-   GameLog* gameLog;
    PlayerManager* playerManager;
+   GameLog* gameLog;
 
 
 public:
 	Scene(GameLog* gameLog, PlayerManager* playerManager) :
-      map(100, 100), gameLog(gameLog),
-      actorManager(&map, gameLog), 
-      itemManager(&map),
-      playerManager(playerManager),
+      map(100, 100), gameLog(gameLog), turnQueue(),
+      actorManager(&turnQueue, &map, gameLog), 
+      itemManager(&map), playerManager(playerManager),
+      effectManager(&actorManager, &turnQueue),
+      actorUtils(&actorManager, &effectManager),
+      aiRunner(&map, &actorManager, &actorUtils),
       itemFactory(itemManager.makeFactory()),
       actorFactory(actorManager.makeFactory(&itemFactory)) {};
 

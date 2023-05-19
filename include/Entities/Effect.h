@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Entities/Damage.h"
 #include "Enums/TurnTime.h"
 #include "Entities/Actors/ActorStatBlock.h"
 
@@ -36,12 +37,17 @@ struct EquippedEffectInfo {
 
 enum EffectType {
    EFFECT_NONE,
-   EFFECT_STAT_MOD
+   EFFECT_STAT_MOD,
+   EFFECT_DAMAGE,
 };
 
 struct StatModEffectInfo {
    StatType stat;
    int modification;
+};
+
+struct DamageEffectInfo {
+   Damage damage;
 };
 
 
@@ -51,6 +57,7 @@ struct Effect {
 
    union {
       StatModEffectInfo statModInfo;
+      DamageEffectInfo damageInfo;
    };
 
    union {

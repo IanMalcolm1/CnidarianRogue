@@ -1,6 +1,8 @@
 #include "Adventure/Scene/EffectManager.h"
+#include "Entities/Actors/ActorEntity.h"
 #include "Entities/Actors/ActorStatBlock.h"
 #include "Entities/Effect.h"
+#include "Logs/DebugLogger.h"
 
 
 
@@ -9,8 +11,12 @@ void EffectManager::applyEffect(Effect effect, ActorEntity* effectee) {
       case EFFECT_STAT_MOD:
          applyStatModification(effect, effectee);
          break;
+      case EFFECT_DAMAGE:
+         applyDamageEffect(effect, effectee);
+         break;
       default:
-        break; 
+         DebugLogger::log("Effect has no type.");
+        return; 
    }
 
    switch (effect.classification) {
@@ -27,11 +33,18 @@ void EffectManager::applyEffect(Effect effect, ActorEntity* effectee) {
 
 
 
+void EffectManager::applyDamageEffect(Effect effect, ActorEntity* effectee) {
+   auto damageAndMsg = actorMan->calcDamage(effectee, effect.damageInfo.damage);
+
+   std::string msg = effectee->description.name + " takes " + damageAndMsg.second + " from [TODO: add effect names]";
+   actorMan->sendMsgIfActorIsVisible(effectee, msg);
+
+   actorMan->damageActor(effectee, damageAndMsg.first);
+}
+
+
 void EffectManager::applyStatModification(Effect effect, ActorEntity* effectee) {
    switch (effect.statModInfo.stat) {
-      case STAT_HEALTH:
-         effectee->stats.health += effect.statModInfo.modification;
-         break;
       case STAT_MAX_HEALTH:
          effectee->stats.maxHealth += effect.statModInfo.modification;
          break;
@@ -65,9 +78,6 @@ void EffectManager::removeEffect(Effect effect, ActorEntity* effectee) {
 
 void EffectManager::removeStatModification(Effect effect, ActorEntity* effectee) {
    switch (effect.statModInfo.stat) {
-      case STAT_HEALTH:
-         effectee->stats.health -= effect.statModInfo.modification;
-         break;
       case STAT_MAX_HEALTH:
          effectee->stats.maxHealth -= effect.statModInfo.modification;
          break;

@@ -73,6 +73,7 @@ public:
 	bool isTraversibleAt(TileCoords location);
 	bool isOpaqueAt(int index);
 	bool isOpaqueAt(TileCoords location);
+   bool isVisibleAt(TileCoords location);
 	bool hasBeenSeen(TileCoords location);
 
 	bool thereIsAnActorAt(int index);

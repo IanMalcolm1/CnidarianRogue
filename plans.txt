@@ -2,33 +2,37 @@ ________________________________________________________________________________
 IMPORTANT:
 In an effort to ever finish this thing it would probably be best to define some hard limits
 on gameplay scope. The game loop should only consist of a single armor slot and a single
-weapons slot without a proper inventory that would require me to make an new dedicated UI
+weapon slot without a proper inventory that would require me to make an new dedicated UI
 screen. Stats should probably also be limited, though maybe there could be certain
-consumables that increase them on pickup. No player creation screen--if a game is found,
-load it. If not, do new game. Maaaaybe still do perlin noise.
+consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Make poison effect kill actors if health goes too low (maybe make all ActorEntities blab to 
-   ActorManager listener on health goes below 0)?
-Delete consumables on pickup
 Give effects descriptions somehow.
-Make weapon stats show on Player and Look screens.
-
-Do some rigorous tests on TurnQueue class. It's pretty sus.
+   Maybe just an enum that EffectManager can map to a name and description.
+   The LookUI can do something like effectManager->getEffectDescription(Effect effect)
+Keep track of effects in ActorEntities
+   Not sure how to go about this. Using a vector would make it hard to keep track of
+   effects when some got removed.
+Allow stacking certain effects
 
 
 Next:
+Delete consumables on pickup
+Do some rigorous tests on TurnQueue class. It's pretty sus.
+   Maybe make it an std::vector of nodes so that they aren't all just randomly allocated
+   to the heap
+Make weapon stats show on Player and Look screens.
 Let player attack enemies. Maybe I should have some sort of ActorUtils class to handle
    attacks and deaths and shit... Might help with effects
-Maybe I should move all the Manager classes into Adventure and just keep the Factory classes
    in Scene
-Add better creatures
-Better generation and simple gameplay loop
-Save functionality (maybe in free time)
+Add more creatures
+Simple gameplay loop
+Slightly better generation
 
 Optional:
-Better generation
+Save functionality (maybe in free time)
+Better generation (play around with perlin noise and things)
 Standardize UI screens
 Look into lua
 

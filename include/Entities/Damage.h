@@ -2,10 +2,11 @@
 
 
 enum DamageType {
-   DAMAGE_NONE,
    DAMAGE_PHYSICAL,
-   DAMAGE_HEAT,
-   DAMAGE_COLD
+   DAMAGE_FIRE,
+   DAMAGE_FROST,
+   DAMAGE_POISON,
+   DAMAGE_NONE,
 };
 struct Damage {
    DamageType type;

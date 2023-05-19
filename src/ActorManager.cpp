@@ -11,54 +11,15 @@
 #include <string>
 
 
-void ActorManager::runActorTurns() {
-	TurnQueueNode node = turnQueue.pop();
-	while (node.actor != nullptr) {
-      if (node.isActor) {
-         if (node.actor->isPlayer) {
-            break;
-         }
-
-		   int timeTaken = runAction(node.actor);
-		   turnQueue.insert(node.actor, timeTaken);
-      }
-
-      else {
-         effectMan.applyEffect(node.effect, node.actor);
-      }
-
-		node = turnQueue.pop();
-	}
-
-	map->flagNeedToUpdateDisplay();
-}
-
-
-int ActorManager::runAction(ActorEntity* actor) {
-	FoV::calcActorFoV(map, actor);
-
-   actor->checkForHostiles();
-
-	switch (actor->getState()) {
-      case AISTATE_WANDERING:
-         return wander(actor);
-      case AISTATE_APPROACH_AND_WHACK:
-         return approachAndWhack(actor);
-      default:
-         return actor->stats.baseMoveSpeed;
-	}
-}
-
-
 void ActorManager::destroyActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, nullptr);
-	turnQueue.remove(actor);
+	turnQueue->remove(actor);
 
    map->addItemAt(actor->location, actor->getHeldWeapon());
 
    if (actor->isPlayer) {
       notifyListeners(EVENT_PLAYERDED);
-      turnQueue.insert(actor, 0);
+      turnQueue->insert(actor, 0);
       return;
    }
 
@@ -78,119 +39,51 @@ void ActorManager::moveActor(ActorEntity* actor, TileCoords newLocation) {
 }
 
 
-void ActorManager::doAttack(ActorEntity* attacker, ActorEntity* defender) {
-   DamagingComp* damage = (DamagingComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_DAMAGING);
-   int constant = damage->damage1.constant;
+void ActorManager::addActorToTurnQueue(ActorEntity* actor, int turnTime) {
+   turnQueue->insert(actor, turnTime);
+}
+
+
+std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* recipient, Damage damage) {
+   std::pair<int, std::string> damageAndMessage;
+
+   int constant = damage.constant;
    int diceRoll = 0;
-   for (int i=0; i<damage->damage1.dice; i++) {
+   for (int i=0; i<damage.dice; i++) {
       diceRoll += rand()%6+1;
    }
 
-   
-   std::string message = attacker->description.name;
-   message.append(" attacks ");
-   message.append(defender->description.name);
-   message.append(" for (");
-   message.append(std::to_string(diceRoll));
-   message.append("+");
-   message.append(std::to_string(constant));
-   message.append(" = ");
-   message.append(std::to_string(constant+diceRoll));
-   message.append(") damage.");
-   gameLog->sendMessage(message);
+   //TODO: add armor calculations
+   damageAndMessage.first = (diceRoll + constant);
 
-   defender->stats.health -= (diceRoll + constant);
-   
-   if (attacker->getActiveWeapon()->hasComponent(COMPONENT_EFFECT)) {
-      EffectComp* effect = (EffectComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_EFFECT);
-      effectMan.applyEffect(effect->effect1, defender);
-      //TODO: figure out how to give effects names and shit so there can be gameLogs about them
-   }
+   std::string damageMsg = std::to_string(constant+diceRoll);
+   damageMsg.append(damageTypeNames[damage.type]);
+   damageMsg.append( " damage");
 
-   if (defender->stats.health <= 0) {
-      destroyActor(defender);
+   damageAndMessage.second = damageMsg;
+
+   return damageAndMessage;
+}
+
+
+void ActorManager::damageActor(ActorEntity* actor, int damage) {
+   actor->stats.health -= damage;
+
+   if (actor->stats.health <= 0) {
+      std::string deathMsg = actor->description.name + " dies.";
+      sendMsgIfActorIsVisible(actor, deathMsg);
+
+      destroyActor(actor);
    }
 }
 
 
-
-int ActorManager::wander(ActorEntity* actor) {
-	PathingRoute* currentRoute = actor->getCurrentRoute();
-
-	if (currentRoute->hasNextTile()) {
-		TileCoords newTile = currentRoute->getNextTile();
-		if (map->isTraversibleAt(newTile)) {
-			moveActor(actor, newTile);
-			currentRoute->incrementProgress();
-			return actor->stats.baseMoveSpeed;
-		}
-	}
-
-	if (rand() % 50 > 2) {
-		return actor->stats.baseMoveSpeed;
-	}
-
-	std::vector<TileCoords>* visibleTiles = actor->getVisibleTiles();
-	
-	int newTileIndex;
-	TileCoords newLocation;
-
-	do {
-		newTileIndex = rand() % visibleTiles->size();
-		newLocation = visibleTiles->at(newTileIndex);
-	} while (!map->isTraversibleAt(newLocation));
-
-	Pathfinding::makeLineRoute(actor->location, visibleTiles->at(newTileIndex), map, &LocalMap::isTraversibleAt, actor->getCurrentRoute());
-
-	return actor->stats.baseMoveSpeed;
+void ActorManager::sendMsgIfActorIsVisible(ActorEntity* actor, std::string message) {
+   if (map->isVisibleAt(actor->location)) {
+      gameLog->sendMessage(message);
+   }
 }
-
-
-
-int ActorManager::approachAndWhack(ActorEntity* actor) {
-   //find target
-   if (!actor->canSeeTarget()) {
-      actor->chooseTarget();
-   }
-   auto targetActor = actor->getTarget();
-
-   //do attack if next to target
-   if (actor->location.isAdjacentTo(targetActor->location)) {
-      doAttack(actor, targetActor);
-      return actor->stats.baseAttackSpeed;
-   }
-
-   //continue route if already goies to 
-   auto route = actor->getCurrentRoute();
-   route->clear();
-
-	Pathfinding::makeLineRoute(actor->location, targetActor->location, map, &LocalMap::isTraversibleAt, route);
-
-	if (route->hasNextTile()) {
-      moveActor(actor, route->getNextTile());
-      return actor->stats.baseMoveSpeed;
-   }
-
-   Pathfinding::makeAStarRoute(actor->location, targetActor->location, map, (*route));
-   if (route->hasNextTile()) {
-      moveActor(actor, route->getNextTile());
-      return actor->stats.baseMoveSpeed;
-   }
-
-   
-   //this should only be hit if the actor is completely stuck
-   return actor->stats.baseMoveSpeed;
-}
-
 
 ActorFactory ActorManager::makeFactory(ItemFactory* itemFactory) {
-   return ActorFactory(&actorColiseum, &turnQueue, map, itemFactory);
-}
-
-TurnQueue* ActorManager::getTurnQueue() {
-   return &turnQueue;
-}
-
-EffectManager* ActorManager::getEffectManager() {
-   return &effectMan;
+   return ActorFactory(&actorColiseum, turnQueue, map, itemFactory);
 }
