@@ -141,6 +141,11 @@ void PlayerManager::clearAutoAct() {
 }
 
 void PlayerManager::startAutoMove() {
+   if (inputState == PLAYER_INPUT_LOOK) {
+      map->stopLooking();
+      inputState = PLAYER_INPUT_MOVE;
+   }
+
    autoMoveRoute = map->getRouteToMouseTile();
    autoMoveRoute.resetProgress();
    autoActing = true;
