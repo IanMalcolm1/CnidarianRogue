@@ -61,9 +61,6 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
    }
 }
 
-void Adventure::processClick(bool ctrlDown) {
-
-}
 
 void Adventure::runTurnIfAutoMoving() {
 	if (!alreadyRanTurn && playerMan.autoActing) {
@@ -72,10 +69,11 @@ void Adventure::runTurnIfAutoMoving() {
 	}
 	alreadyRanTurn = false;
 }
+
+
 void Adventure::updateMapDisplay() {
    scene.updateMapDisplay();
 }
-
 
 
 void Adventure::hookupInputManagerListener(Listener* listener) {

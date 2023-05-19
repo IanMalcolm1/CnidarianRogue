@@ -36,7 +36,6 @@ public:
    PlayerManager* getPlayerManager();
 
 	void processCommand(PlayerCommand command, Uint16 modification);
-   void processClick(bool ctrlDown);
 
    void runTurnIfAutoMoving();
 	void updateMapDisplay();

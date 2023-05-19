@@ -31,5 +31,5 @@ public:
 
 	void render(const SDL_Rect& viewport);
 
-	void processScroll(int x, int y, int offset, bool ctrlDown);
+	void processScroll(int x, int y, int offset, bool isRightClick);
 };

@@ -18,6 +18,7 @@ private:
 	std::unordered_map<SDL_Keycode, PlayerCommand> keyMappings;
 
 	void processKeyPress(SDL_Keycode keycode, Uint16 modification);
+   void processClick(SDL_MouseButtonEvent& click);
 	bool testControlDown();
 
 public:

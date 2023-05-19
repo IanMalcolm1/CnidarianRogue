@@ -30,6 +30,6 @@ public:
 	void render(const SDL_Rect& mapViewport);
 
 	void processCursorLocation(int x, int y);
-	void processScroll(int x, int y, int offset, bool ctrlDown);
-	void processClick(int x, int y, bool ctrlDown);
+	void processScroll(int x, int y, int offset, bool isRightClick);
+	void processClick(int x, int y, bool isRightClick);
 };

@@ -39,8 +39,8 @@ public:
 	void updateWindowDimensions(int width, int height);
 
 	void processCursorLocation(int x, int y);
-	void processClick(int x, int y, bool ctrlDown);
-	void processScroll(int x, int y, int scrollOffset, bool ctrlDown);
+	void processClick(int x, int y, bool isRightClick);
+	void processScroll(int x, int y, int scrollOffset, bool isRightClick);
 	void processKeyPress(SDL_Keycode keycode);
 
    void reset(Adventure* adventure, Listener* gameListener);

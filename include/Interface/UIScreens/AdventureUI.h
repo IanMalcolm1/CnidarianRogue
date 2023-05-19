@@ -48,7 +48,7 @@ public:
 	void render(const SDL_Rect& screenDimensions);
 
 	void processCursorLocation(int x, int y);
-	void processScroll(int x, int y, int offset, bool ctrlDown);
-	void processClick(int x, int y, bool ctrlDown);
+	void processScroll(int x, int y, int offset, bool isRightClick);
+	void processClick(int x, int y, bool isRightClick);
 	void processKeyPress(SDL_Keycode keycode);
 };

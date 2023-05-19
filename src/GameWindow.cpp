@@ -116,7 +116,7 @@ void GameWindow::processCursorLocation(int x, int y) {
    }
 }
 
-void GameWindow::processClick(int x, int y, bool ctrlDown) {
+void GameWindow::processClick(int x, int y, bool isRightClick) {
    if (!exitConfirmerUI.hidden) {
       exitConfirmerUI.processMouseClick(x,y);
    }
@@ -124,12 +124,12 @@ void GameWindow::processClick(int x, int y, bool ctrlDown) {
       gameOverUI.processMouseClick(x, y);
    }
    else {
-      adventureUI.processClick(x, y, ctrlDown);
+      adventureUI.processClick(x, y, isRightClick);
    }
 }
 
-void GameWindow::processScroll(int x, int y, int scrollOffset, bool ctrlDown) {
-   adventureUI.processScroll(x, y, scrollOffset, ctrlDown);
+void GameWindow::processScroll(int x, int y, int scrollOffset, bool isRightClick) {
+   adventureUI.processScroll(x, y, scrollOffset, isRightClick);
 }
 
 void GameWindow::processKeyPress(SDL_Keycode keycode) {

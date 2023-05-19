@@ -217,7 +217,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 }
 
 
-void MapUI::processScroll(int x, int y, int offset, bool ctrlDown) {
+void MapUI::processScroll(int x, int y, int offset, bool isRightClick) {
 	if (hidden) {
 		return;
 	}

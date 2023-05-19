@@ -42,7 +42,7 @@ public:
 
 	//returns whether the turn needs to be run
 	bool processDirectionalCommand(PlayerCommand command);
-   void processClick(bool ctrlDown);
+   void processClick(bool isRightClick);
 
 	ActorEntity* getPlayer();
 	void placePlayer(TileCoords location);

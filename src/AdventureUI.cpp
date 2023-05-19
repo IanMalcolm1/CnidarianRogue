@@ -37,12 +37,12 @@ void AdventureUI::render(const SDL_Rect& screenDimensions) {
 void AdventureUI::processCursorLocation(int x, int y) {
    sceneUI.processCursorLocation(x, y);
 }
-void AdventureUI::processScroll(int x, int y, int offset, bool ctrlDown) {
-   sceneUI.processScroll(x, y, offset, ctrlDown);
-   messagesUI.processScroll(x, y, offset, ctrlDown);
+void AdventureUI::processScroll(int x, int y, int offset, bool isRightClick) {
+   sceneUI.processScroll(x, y, offset, isRightClick);
+   messagesUI.processScroll(x, y, offset, isRightClick);
 }
-void AdventureUI::processClick(int x, int y, bool ctrlDown) {
-   sceneUI.processClick(x, y, ctrlDown);
+void AdventureUI::processClick(int x, int y, bool isRightClick) {
+   sceneUI.processClick(x, y, isRightClick);
 }
 void AdventureUI::processKeyPress(SDL_Keycode keycode) {
    //For use if I get around to adding a input confirmer (for "Are you sure you want to do that?" purposes.)

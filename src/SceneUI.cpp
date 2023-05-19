@@ -21,15 +21,15 @@ void SceneUI::processCursorLocation(int x, int y) {
 	mapUI.processCursorLocation(x, y);
 }
 
-void SceneUI::processScroll(int x, int y, int offset, bool ctrlDown) {
-	mapUI.processScroll(x, y, offset, ctrlDown);
+void SceneUI::processScroll(int x, int y, int offset, bool isRightClick) {
+	mapUI.processScroll(x, y, offset, isRightClick);
 }
 
-void SceneUI::processClick(int x, int y, bool ctrlDown) {
+void SceneUI::processClick(int x, int y, bool isRightClick) {
 	SDL_Point point = { x,y };
 	if (SDL_PointInRect(&point, &mapViewport)) {
 	   mapUI.processCursorLocation(x, y);
-      if (ctrlDown) {
+      if (isRightClick) {
          playerMan->lookAtMouseTile();
       }
       else {

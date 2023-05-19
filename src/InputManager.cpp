@@ -1,6 +1,7 @@
 #include "Interface/InputManager.h"
 #include "Enums/PlayerCommands.h"
 #include "EventListener/Listener.h"
+#include "SDL_mouse.h"
 #include <stdexcept>
 
 
@@ -36,9 +37,8 @@ bool InputManager::processInput() {
 
 	int x, y;
 	SDL_GetMouseState(&x, &y);
-
 	gameWindow->processCursorLocation(x, y);
-	
+
 
 	while (SDL_PollEvent(&sdlEvent)) {
 		switch (sdlEvent.type) {
@@ -58,7 +58,7 @@ bool InputManager::processInput() {
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
-			gameWindow->processClick(x, y, controlDown);
+         processClick(sdlEvent.button);
 			break;
 
 		case SDL_QUIT: //user closes the window
@@ -85,6 +85,13 @@ void InputManager::processKeyPress(SDL_Keycode keycode, Uint16 modification) {
       adventure->processCommand(command, modification);
    }
 }
+
+
+void InputManager::processClick(SDL_MouseButtonEvent& click) {
+   bool isRightClick = click.button==SDL_BUTTON_RIGHT ? true : false;
+	gameWindow->processClick(click.x, click.y, isRightClick);
+}
+
 
 bool InputManager::testControlDown() {
 	const Uint8* keyStates = SDL_GetKeyboardState(nullptr);
