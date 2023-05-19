@@ -164,6 +164,7 @@ bool PlayerManager::pickUpItem() {
    else if (item->hasComponent(COMPONENT_EFFECT)) {
       EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
       effectMan->applyEffect(effectComp->effect1, player);
+      itemMan->destroyItem(item);
    }
 
    turnQueue->insert(player, player->stats.baseAttackSpeed);
