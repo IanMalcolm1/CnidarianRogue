@@ -14,12 +14,12 @@
  *    holds.
  */
 enum EffectClassification {
-   EFFECT_PERMANENT,
-   EFFECT_TIMED,
-   EFFECT_DOT,
-   EFFECT_EQUIPPED,
-   EFFECT_ON_DEFENSE,
-   EFFECT_ON_ATTACK
+   EFFECT_CLASS_PERMANENT,
+   EFFECT_CLASS_TIMED,
+   EFFECT_CLASS_DOT,
+   EFFECT_CLASS_EQUIPPED,
+   EFFECT_CLASS_ON_DEFENSE,
+   EFFECT_CLASS_ON_ATTACK
 };
 
 struct TimedEffectInfo {
@@ -36,9 +36,9 @@ struct EquippedEffectInfo {
 
 
 enum EffectType {
-   EFFECT_NONE,
-   EFFECT_STAT_MOD,
-   EFFECT_DAMAGE,
+   EFFECT_TYPE_NONE,
+   EFFECT_TYPE_STAT_MOD,
+   EFFECT_TYPE_DAMAGE,
 };
 
 struct StatModEffectInfo {
@@ -52,8 +52,8 @@ struct DamageEffectInfo {
 
 
 struct Effect {
-   EffectType type;
    EffectClassification classification;
+   EffectType type;
 
    union {
       StatModEffectInfo statModInfo;
@@ -66,7 +66,7 @@ struct Effect {
       EquippedEffectInfo equippedInfo;
    };
 
-   Effect(EffectClassification classification = EFFECT_PERMANENT, EffectType type = EFFECT_NONE)
+   Effect(EffectClassification classification = EFFECT_CLASS_PERMANENT, EffectType type = EFFECT_TYPE_NONE)
       : type(type), classification(classification) {};
 
 
@@ -75,8 +75,11 @@ struct Effect {
          return false;
       }
 
-      if (type == EFFECT_STAT_MOD) {
+      if (type == EFFECT_TYPE_STAT_MOD) {
          return (statModInfo.stat == effect.statModInfo.stat && statModInfo.modification == effect.statModInfo.modification);
+      }
+      if (type == EFFECT_TYPE_DAMAGE) {
+         return (damageInfo.damage == effect.damageInfo.damage);
       }
       
       return true;

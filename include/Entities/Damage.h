@@ -14,4 +14,8 @@ struct Damage {
 
    Damage(DamageType type = DAMAGE_NONE, int dice = 0, int constant = 0)
       : type(type), dice(dice), constant(constant) {};
+
+	bool operator == (const Damage damage) const {
+      return (type==damage.type && dice==damage.dice && constant==damage.constant);
+   }
 };
