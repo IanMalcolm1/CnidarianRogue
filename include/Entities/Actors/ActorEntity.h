@@ -17,6 +17,8 @@ enum Faction {
 
 class ActorEntity : public Entity {
 private:
+	bool player;
+
 	AI ai;
 
 	std::vector<TileCoords> visibleTiles;
@@ -30,8 +32,6 @@ private:
    ItemEntity* naturalWeapon;
 
 public:
-	bool isPlayer;
-
 	ActorStatBlock stats;
 	TileDisplay display;
 	TileCoords location;
@@ -39,12 +39,14 @@ public:
    Faction faction;
 
 
-	ActorEntity(int id, int bytesUsed, int totalSpace)
+	ActorEntity(int id, int bytesUsed, int totalSpace, bool player = false)
       : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
-      display(TileDisplay()), ai(AI()), isPlayer(false),
+      display(TileDisplay()), ai(AI()), player(player),
       targetEntity(nullptr), weapon(nullptr), naturalWeapon(nullptr) {};
 
    void reset();
+
+   bool isPlayer();
 
 	std::vector<TileCoords>* getVisibleTiles();
 	std::vector<ActorEntity*>* getVisibleActors();

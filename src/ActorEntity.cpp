@@ -1,6 +1,11 @@
 #include "Entities/Actors/ActorEntity.h"
 #include "Entities/Actors/AI.h"
 
+
+bool ActorEntity::isPlayer() {
+   return player;
+}
+
 std::vector<TileCoords>* ActorEntity::getVisibleTiles() { return &visibleTiles; }
 std::vector<ActorEntity*>* ActorEntity::getVisibleActors() { return &visibleActors; }
 
@@ -109,7 +114,6 @@ void ActorEntity::chooseTarget() {
 
 
 void ActorEntity::reset() {
-   isPlayer = false;
    display = TileDisplay();
    location = TileCoords();
    description.name = "ded entity";

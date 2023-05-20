@@ -8,24 +8,24 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
+Rework TurnQueue
+   Maybe make it an std::vector of nodes so that they aren't all just randomly allocated
+   to the heap
+
+
+Next:
 Give effects descriptions somehow.
    Maybe just an enum that EffectManager can map to a name and description.
    The LookUI can do something like effectManager->getEffectDescription(Effect effect)
 Keep track of effects in ActorEntities
-   Not sure how to go about this. Using a vector would make it hard to keep track of
-   effects when some got removed.
+   Actors will have vectors of pointers to effects that are stored in a pool by the
+   EffectManager
 Allow stacking certain effects
-
-
-Next:
-Delete consumables on pickup
-Do some rigorous tests on TurnQueue class. It's pretty sus.
-   Maybe make it an std::vector of nodes so that they aren't all just randomly allocated
-   to the heap
 Make weapon stats show on Player and Look screens.
 Let player attack enemies. Maybe I should have some sort of ActorUtils class to handle
    attacks and deaths and shit... Might help with effects
    in Scene
+Stop auto move if player can see enemy
 Add more creatures
 Simple gameplay loop
 Slightly better generation

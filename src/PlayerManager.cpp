@@ -12,9 +12,7 @@ inputState(PLAYER_INPUT_MOVE), autoActing(false),
 confirmer(nullptr) {
    
    playerArena = malloc(sizeof(ActorEntity) + 64);
-   player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64);
-
-   player->isPlayer = true;
+   player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64, true);
 
    player->stats.maxHealth = 15;
    player->stats.health = player->stats.maxHealth;

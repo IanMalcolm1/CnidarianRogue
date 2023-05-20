@@ -16,7 +16,7 @@ void Scene::runTurn() {
 	TurnQueueNode node = turnQueue.pop();
 	while (node.actor != nullptr) {
       if (node.isActor) {
-         if (node.actor->isPlayer) {
+         if (node.actor->isPlayer()) {
             break;
          }
 

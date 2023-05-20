@@ -17,7 +17,7 @@ void ActorManager::destroyActor(ActorEntity* actor) {
 
    map->addItemAt(actor->location, actor->getHeldWeapon());
 
-   if (actor->isPlayer) {
+   if (actor->isPlayer()) {
       notifyListeners(EVENT_PLAYERDED);
       turnQueue->insert(actor, 0);
       return;
