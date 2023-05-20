@@ -7,7 +7,7 @@
 
 void ActorFactory::registerActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, actor);
-	turnQueue->insert(actor, 0);
+	turnQueue->insertActor(actor, 0);
 }
 
 
@@ -17,8 +17,8 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
 
    smileyStats->maxHealth = 10 + rand()%5;
    smileyStats->health = smileyStats->maxHealth;
-   smileyStats->baseMoveSpeed = FULL_TURN_TIME - FULL_TURN_TIME/4;
-   smileyStats->baseAttackSpeed = FULL_TURN_TIME - FULL_TURN_TIME/4;
+   smileyStats->baseMoveSpeed = FULL_TURN_TIME + FULL_TURN_TIME/4;
+   smileyStats->baseAttackSpeed = FULL_TURN_TIME + FULL_TURN_TIME/4;
 
    evilSmiley->description.name = "</red:Evil Smiley Face/>";
    evilSmiley->description.desc = "Its insipid grin unnerves you.";

@@ -8,10 +8,10 @@
 
 void EffectManager::applyEffect(Effect effect, ActorEntity* effectee) {
    switch (effect.type) {
-      case EFFECT_STAT_MOD:
+      case EFFECT_TYPE_STAT_MOD:
          applyStatModification(effect, effectee);
          break;
-      case EFFECT_DAMAGE:
+      case EFFECT_TYPE_DAMAGE:
          applyDamageEffect(effect, effectee);
          break;
       default:
@@ -20,10 +20,10 @@ void EffectManager::applyEffect(Effect effect, ActorEntity* effectee) {
    }
 
    switch (effect.classification) {
-      case EFFECT_TIMED:
+      case EFFECT_CLASS_TIMED:
          updateTimedEffect(effect, effectee);
          break;
-      case EFFECT_DOT:
+      case EFFECT_CLASS_DOT:
          updateDoTEffect(effect, effectee);
          break;
       default:
@@ -68,7 +68,7 @@ void EffectManager::applyStatModification(Effect effect, ActorEntity* effectee) 
 
 void EffectManager::removeEffect(Effect effect, ActorEntity* effectee) {
    switch (effect.type) {
-      case EFFECT_STAT_MOD:
+      case EFFECT_TYPE_STAT_MOD:
          removeStatModification(effect, effectee);
          break;
       default:

@@ -6,7 +6,7 @@
 
 
 Effect EffectFactory::makePoison(int strength) {
-   Effect poison = Effect(EFFECT_DOT, EFFECT_DAMAGE);
+   Effect poison = Effect(EFFECT_CLASS_DOT, EFFECT_TYPE_DAMAGE);
 
    poison.damageInfo.damage = Damage(DAMAGE_POISON, 0, 1);
 
@@ -18,7 +18,7 @@ Effect EffectFactory::makePoison(int strength) {
 
 
 Effect EffectFactory::makeStatPowerUp(StatType stat, int strength) {
-   Effect powerUp = Effect(EFFECT_PERMANENT, EFFECT_STAT_MOD);
+   Effect powerUp = Effect(EFFECT_CLASS_PERMANENT, EFFECT_TYPE_STAT_MOD);
 
    powerUp.statModInfo.stat = stat;
    powerUp.statModInfo.modification = strength;

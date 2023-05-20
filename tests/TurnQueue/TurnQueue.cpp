@@ -1,4 +1,4 @@
-#include "Adventure/Scene/TurnQueue.h"
+#include "TurnQueue.h"
 
 
 int TurnQueue::getNextIndex() {

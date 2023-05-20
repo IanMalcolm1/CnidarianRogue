@@ -13,21 +13,19 @@ EffectManager* Scene::getEffectManager() { return &effectManager; }
 
 
 void Scene::runTurn() {
-	TurnQueueNode node = turnQueue.pop();
-	while (node.actor != nullptr) {
-      if (node.isActor) {
-         if (node.actor->isPlayer()) {
+	while (!turnQueue.isEmpty()) {
+	TurnQueueNode* node = turnQueue.pop();
+      if (node->isActor) {
+         if (node->actor->isPlayer()) {
             break;
          }
 
-         aiRunner.runActorTurn(node.actor);
+         aiRunner.runActorTurn(node->actor);
       }
 
       else {
-         effectManager.applyEffect(node.effect, node.actor);
+         effectManager.applyEffect(node->effect, node->actor);
       }
-
-		node = turnQueue.pop();
 	}
 
 	map.flagNeedToUpdateDisplay();

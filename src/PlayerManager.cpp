@@ -64,7 +64,7 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
    if (inputState == PLAYER_INPUT_MOVE) {
       if (map->isTraversibleAt(newCoords) && !map->thereIsAnActorAt(newCoords)) {
          map->setPlayerLocation(player, newCoords);
-         turnQueue->insert(player, player->stats.baseMoveSpeed);
+         turnQueue->insertActor(player, player->stats.baseMoveSpeed);
          return true;
       }
       return false;
@@ -113,7 +113,7 @@ bool PlayerManager::doAutoAct() {
    if (!autoMoveRoute.hasNextTile()) {
       autoActing = false;
       autoMoveRoute.clear();
-      turnQueue->insert(player, 0);
+      turnQueue->insertActor(player, 0);
       return false;
    }
 
@@ -122,12 +122,12 @@ bool PlayerManager::doAutoAct() {
    if (map->isTraversibleAt(newTile)) {
       map->setPlayerLocation(player, newTile);
       autoMoveRoute.incrementProgress();
-      turnQueue->insert(player, player->stats.baseMoveSpeed);
+      turnQueue->insertActor(player, player->stats.baseMoveSpeed);
    }
    else {
       autoActing = false;
       autoMoveRoute.clear();
-      turnQueue->insert(player, 0);
+      turnQueue->insertActor(player, 0);
    }
 
    return autoActing;
@@ -170,13 +170,13 @@ bool PlayerManager::pickUpItem() {
       itemMan->destroyItem(item);
    }
 
-   turnQueue->insert(player, player->stats.baseAttackSpeed);
+   turnQueue->insertActor(player, player->stats.baseAttackSpeed);
 
    return true;
 }
 
 void PlayerManager::waitTurn() {
-   turnQueue->insert(player, player->stats.baseMoveSpeed);
+   turnQueue->insertActor(player, player->stats.baseMoveSpeed);
 }
 
 
@@ -188,6 +188,4 @@ void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, E
    this->itemFactory = itemFactory;
 
    player->setNaturalWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
-
-   turnQueue->insert(player, 0);
 }

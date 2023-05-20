@@ -13,13 +13,13 @@
 
 void ActorManager::destroyActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, nullptr);
-	turnQueue->remove(actor);
+	turnQueue->removeActor(actor);
 
    map->addItemAt(actor->location, actor->getHeldWeapon());
 
    if (actor->isPlayer()) {
       notifyListeners(EVENT_PLAYERDED);
-      turnQueue->insert(actor, 0);
+      turnQueue->insertActor(actor, 0);
       return;
    }
 
@@ -40,7 +40,7 @@ void ActorManager::moveActor(ActorEntity* actor, TileCoords newLocation) {
 
 
 void ActorManager::addActorToTurnQueue(ActorEntity* actor, int turnTime) {
-   turnQueue->insert(actor, turnTime);
+   turnQueue->insertActor(actor, turnTime);
 }
 
 

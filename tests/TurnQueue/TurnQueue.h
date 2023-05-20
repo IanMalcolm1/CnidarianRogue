@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "Entities/Actors/ActorEntity.h"
+#include "TestStructures.h"
 
 struct TurnQueueNode {
 	int next;
