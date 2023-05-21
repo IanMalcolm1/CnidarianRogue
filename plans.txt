@@ -8,18 +8,15 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Rework TurnQueue
-   Maybe make it an std::vector of nodes so that they aren't all just randomly allocated
-   to the heap
-
-
-Next:
 Give effects descriptions somehow.
    Maybe just an enum that EffectManager can map to a name and description.
    The LookUI can do something like effectManager->getEffectDescription(Effect effect)
 Keep track of effects in ActorEntities
    Actors will have vectors of pointers to effects that are stored in a pool by the
    EffectManager
+
+Next:
+Make player stop automoving when they die
 Allow stacking certain effects
 Make weapon stats show on Player and Look screens.
 Let player attack enemies. Maybe I should have some sort of ActorUtils class to handle

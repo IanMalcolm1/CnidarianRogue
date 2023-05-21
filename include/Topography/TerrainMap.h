@@ -2,22 +2,22 @@
 #define TERRAINMAP_H
 
 #include "GraphicsThings/TileDisplay.h"
-#include <memory>
+#include <vector>
 
 
 class TerrainMap {
 private:
-
-	std::unique_ptr<TileDisplay[]> _displays;
-	std::unique_ptr<bool[]> _traversibilities;
-	std::unique_ptr<bool[]> _opacities;
+   std::vector<TileDisplay> displays;
+	std::vector<bool> traversibilities;
+	std::vector<bool> opacities;
 
 public:
-	TerrainMap(int width, int height);
+	TerrainMap(int width, int height) : displays(width*height),
+   traversibilities(width*height), opacities(width*height) {};
 
-	void setTile(int index, TileDisplay* display, bool traversible, bool opaque);
+	void setTile(int index, TileDisplay display, bool traversible, bool opaque);
 
-	TileDisplay* getDisplayAtIndex(int index);
+	TileDisplay getDisplayAtIndex(int index);
 
 	bool isTraversibleAtIndex(int index);
 

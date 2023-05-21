@@ -114,10 +114,10 @@ void ActorEntity::chooseTarget() {
 
 
 void ActorEntity::reset() {
-   display = TileDisplay();
+   display = EntityDisplay();
    location = TileCoords();
    description.name = "ded entity";
-   description.desc = "if you can see this there's a bug";
+   description.desc = "if you're seeing this there's a bug";
    naturalWeapon = nullptr;
    weapon = nullptr;
    faction = FACTION_PACIFIST;

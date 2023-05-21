@@ -20,7 +20,7 @@ private:
    GameText titleText;
    GameText defaultText;
 
-   GameText makeName(std::string name, TileDisplay disp);
+   GameText makeName(std::string name, EntityDisplay disp);
 
 public:
 	LookUI(Scene* scene, int fontSize = 3) : map(scene->getMap()), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize), textSpecsTitle(fontSize+1), defaultText() {};

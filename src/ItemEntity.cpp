@@ -3,7 +3,7 @@
 
 
 void ItemEntity::reset() {
-   display = TileDisplay();
+   display = EntityDisplay();
    description.name = "destroyed entity";
    description.desc = "if you can see this there's a bug";
    location = TileCoords();

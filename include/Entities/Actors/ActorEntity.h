@@ -26,6 +26,8 @@ private:
 	PathingRoute currentRoute;
    ActorEntity* targetEntity;
 
+   std::vector<Effect> effects;
+
 	//std::vector<Ability> abilities; (unimplemented)
 
    ItemEntity* weapon;
@@ -33,7 +35,7 @@ private:
 
 public:
 	ActorStatBlock stats;
-	TileDisplay display;
+	EntityDisplay display;
 	TileCoords location;
    Description description;
    Faction faction;
@@ -41,7 +43,7 @@ public:
 
 	ActorEntity(int id, int bytesUsed, int totalSpace, bool player = false)
       : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
-      display(TileDisplay()), ai(AI()), player(player),
+      display(EntityDisplay()), ai(AI()), player(player),
       targetEntity(nullptr), weapon(nullptr), naturalWeapon(nullptr) {};
 
    void reset();

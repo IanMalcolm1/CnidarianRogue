@@ -39,10 +39,10 @@ private:
 	void resetVisibleTileDisplays();
 	void updateVisibleTileDisplays();
 
-	TileDisplay* getDisplayAt(int index);
-	TileDisplay* getDisplayAt(TileCoords location);
-	void setDisplayAt(int index, TileDisplay* display);
-	void setDisplayAt(TileCoords location, TileDisplay* display);
+	TileDisplay getDisplayAt(int index);
+	TileDisplay getDisplayAt(TileCoords location);
+	void setDisplayAt(int index, TileDisplay display);
+	void setDisplayAt(TileCoords location, TileDisplay display);
 
 	bool hasReticle(int index);
 	bool hasReticle(TileCoords tile);
@@ -67,8 +67,8 @@ public:
 	int getHeight();
 
 	bool isInMapBounds(TileCoords location);
-	void setTerrainAt(int index, TileDisplay* display, bool traversible, bool opaque);
-	void setTerrainAt(TileCoords location, TileDisplay* display, bool traversible, bool opaque);
+	void setTerrainAt(int index, TileDisplay display, bool traversible, bool opaque);
+	void setTerrainAt(TileCoords location, TileDisplay display, bool traversible, bool opaque);
 	bool isTraversibleAt(int index);
 	bool isTraversibleAt(TileCoords location);
 	bool isOpaqueAt(int index);

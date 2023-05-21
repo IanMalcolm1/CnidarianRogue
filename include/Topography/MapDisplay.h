@@ -33,7 +33,7 @@ public:
 	int getHeight();
 
 	TileDisplay* getDisplay(int index);
-	void setDisplayAt(int index, TileDisplay* display);
+	void setDisplayAt(int index, TileDisplay display);
 
 	TileCoords getFocusTile();
 	void setFocusTile(TileCoords tile);

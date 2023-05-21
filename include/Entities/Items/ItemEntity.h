@@ -9,7 +9,7 @@ private:
 
 public:
    TileCoords location;
-   TileDisplay display;
+   EntityDisplay display;
    Description description;
 
 

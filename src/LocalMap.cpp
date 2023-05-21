@@ -101,26 +101,25 @@ void LocalMap::flagNeedToUpdateDisplay() {
 }
 
 
-TileDisplay* LocalMap::getDisplayAt(int index) {
+TileDisplay LocalMap::getDisplayAt(int index) {
 	if (actors[index] != nullptr) {
-		ActorEntity* test = actors[index];
-		return &actors[index]->display;
+		return TileDisplay(actors[index]->display, terrainMap.getDisplayAtIndex(index).backColor);
 	}
 
 	if (items[index].size() > 0) {
-		return &items[index][0]->display;
+		return TileDisplay(items[index][0]->display, terrainMap.getDisplayAtIndex(index).backColor);
 	}
 
 	return terrainMap.getDisplayAtIndex(index);
 }
-TileDisplay* LocalMap::getDisplayAt(TileCoords location) {
+TileDisplay LocalMap::getDisplayAt(TileCoords location) {
 	return getDisplayAt(coordsToTileIndex(location));
 }
 
-void LocalMap::setDisplayAt(int index, TileDisplay* display) {
+void LocalMap::setDisplayAt(int index, TileDisplay display) {
 	mapDisplay.setDisplayAt(index, display);
 }
-void LocalMap::setDisplayAt(TileCoords location, TileDisplay* display) {
+void LocalMap::setDisplayAt(TileCoords location, TileDisplay display) {
 	mapDisplay.setDisplayAt(coordsToTileIndex(location), display);
 }
 
@@ -187,10 +186,10 @@ bool LocalMap::isInMapBounds(TileCoords location) {
 	return (location.x>-1 && location.y>-1 && location.x<width && location.y<height);
 }
 
-void LocalMap::setTerrainAt(int index, TileDisplay* display, bool traversible, bool opaque) {
+void LocalMap::setTerrainAt(int index, TileDisplay display, bool traversible, bool opaque) {
 	terrainMap.setTile(index, display, traversible, opaque);
 }
-void LocalMap::setTerrainAt(TileCoords location, TileDisplay* display, bool traversible, bool opaque) {
+void LocalMap::setTerrainAt(TileCoords location, TileDisplay display, bool traversible, bool opaque) {
 	if (!isInMapBounds(location)) {
 		DebugLogger::log("setTerrainAt() coordinates out of bounds");
 		return;

@@ -17,7 +17,7 @@ confirmer(nullptr) {
    player->stats.maxHealth = 15;
    player->stats.health = player->stats.maxHealth;
 
-   player->description.name = "</gold:The Player/>";
+   player->description.name = "You";
    player->description.desc = "It's you.";
 
    player->display.symbol = ASYM_AT;

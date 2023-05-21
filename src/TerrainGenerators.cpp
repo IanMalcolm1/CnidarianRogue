@@ -18,7 +18,7 @@ void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxS
 
 
 	for (int i = 0; i < width * height; i++) {
-		map->setTerrainAt(i, &wallDisp, false, true);
+		map->setTerrainAt(i, wallDisp, false, true);
 	}
 
 	int rectx, recty, rectWidth, rectHeight, currCenterX, currCenterY;
@@ -33,7 +33,7 @@ void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxS
 
 		for (int x = rectx; x < rectx + rectWidth; x++) {
 			for (int y = recty; y < recty + rectHeight; y++) {
-				map->setTerrainAt({x,y}, &floorDisp, true, false);
+				map->setTerrainAt({x,y}, floorDisp, true, false);
 			}
 		}
 
@@ -51,23 +51,23 @@ void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxS
 
 		if (currCenterX < prevCenterX) {
 			for (lineX = currCenterX; lineX <= prevCenterX; lineX++) {
-				map->setTerrainAt({ lineX, currCenterY }, &floorDisp, true, false);
+				map->setTerrainAt({ lineX, currCenterY }, floorDisp, true, false);
 			}
 		}
 		else {
 			for (lineX = currCenterX; lineX >= prevCenterX; lineX--) {
-				map->setTerrainAt({ lineX, currCenterY }, &floorDisp, true, false);
+				map->setTerrainAt({ lineX, currCenterY }, floorDisp, true, false);
 			}
 		}
 
 		if (currCenterY < prevCenterY) {
 			for (int lineY = currCenterY; lineY <= prevCenterY; lineY++) {
-				map->setTerrainAt({ lineX, lineY }, &floorDisp, true, false);
+				map->setTerrainAt({ lineX, lineY }, floorDisp, true, false);
 			}
 		}
 		else {
 			for (int lineY = currCenterY; lineY >= prevCenterY; lineY--) {
-				map->setTerrainAt({ lineX, lineY },	&floorDisp, true, false);
+				map->setTerrainAt({ lineX, lineY },	floorDisp, true, false);
 			}
 		}
 

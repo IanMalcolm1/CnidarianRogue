@@ -9,8 +9,8 @@ int MapDisplay::getWidth() { return width; }
 int MapDisplay::getHeight() { return height; }
 
 TileDisplay* MapDisplay::getDisplay(int index) { return &tiles[index].display; }
-void MapDisplay::setDisplayAt(int index, TileDisplay* display) {
-	tiles[index].display.copy(display);
+void MapDisplay::setDisplayAt(int index, TileDisplay display) {
+	tiles[index].display = display;
 	setDirty(index, true);
 }
 
