@@ -32,6 +32,7 @@ bool Game::Initialize() {
 	isRunning = true;
 	bool success;
 
+   srand(time(0));
 
 	success = gameWindow->initialize((Listener*)this);
 

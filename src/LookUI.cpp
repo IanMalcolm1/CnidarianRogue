@@ -15,7 +15,7 @@ void LookUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 
 
 void LookUI::render(const SDL_Rect& viewport) {
-   //TODO: add scrolling  
+   //TODO: add scrolling (maybe)
 	SDL_RenderSetViewport(renderer, &viewport);
    
    textSpecs.setViewportWidth(viewport.w);

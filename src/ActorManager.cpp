@@ -1,4 +1,5 @@
 #include "Adventure/Scene/ActorManager.h"
+#include "Algorithms/Dice.h"
 #include "Entities/Actors/AI.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
@@ -48,10 +49,7 @@ std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* recipient, Dam
    std::pair<int, std::string> damageAndMessage;
 
    int constant = damage.constant;
-   int diceRoll = 0;
-   for (int i=0; i<damage.dice; i++) {
-      diceRoll += rand()%6+1;
-   }
+   int diceRoll = Dice::rollDice(damage.dice);
 
    //TODO: add armor calculations
    damageAndMessage.first = (diceRoll + constant);

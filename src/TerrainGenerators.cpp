@@ -2,8 +2,6 @@
 #include <random>
 
 void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxSideLength) {
-	srand(time(0));
-
 	LocalMap* map = scene->getMap();
 
 	int width = map->getWidth();

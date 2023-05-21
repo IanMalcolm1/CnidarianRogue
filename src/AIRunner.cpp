@@ -1,6 +1,7 @@
 #include "Adventure/Scene/AIRunner.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
+#include "Algorithms/Dice.h"
 
 
 void AIRunner::runActorTurn(ActorEntity *actor) {
@@ -35,7 +36,7 @@ int AIRunner::wander(ActorEntity* actor) {
 		}
 	}
 
-	if (rand() % 50 > 2) {
+	if (Dice::flipCoin()) {
 		return actor->stats.baseMoveSpeed;
 	}
 
