@@ -4,7 +4,7 @@
 #include <string>
 #include "Topography/TileCoordinates.h"
 #include "GraphicsThings/TileDisplay.h"
-#include "Entities/Effect.h"
+#include "Entities/Effects/Effect.h"
 #include "Entities/Damage.h"
 #include "Enums/TurnTime.h"
 

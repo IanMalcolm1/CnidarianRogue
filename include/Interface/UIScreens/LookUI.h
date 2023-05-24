@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Entities/Effects/EffectDescriber.h"
 #include "GraphicsThings/TextRenderer.h"
 #include "Adventure/Scene/Scene.h"
 #include "GraphicsThings/TileDisplay.h"
@@ -9,6 +10,7 @@
 class LookUI {
 private:
 	LocalMap* map;
+   EffectDescriber* effectDescriber;
 
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
@@ -21,9 +23,10 @@ private:
    GameText defaultText;
 
    GameText makeName(std::string name, EntityDisplay disp);
+   GameText makeActorDesc(ActorEntity* actor);
 
 public:
-	LookUI(Scene* scene, int fontSize = 3) : map(scene->getMap()), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize), textSpecsTitle(fontSize+1), defaultText() {};
+	LookUI(Scene* scene, int fontSize = 3) : map(scene->getMap()), effectDescriber(scene->getEffectManager()->getEffectDescriber()), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize), textSpecsTitle(fontSize+1), defaultText() {};
 
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
 

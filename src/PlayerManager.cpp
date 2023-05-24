@@ -14,10 +14,10 @@ confirmer(nullptr) {
    playerArena = malloc(sizeof(ActorEntity) + 64);
    player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64, true);
 
-   player->stats.maxHealth = 15;
+   player->stats.maxHealth = 75;
    player->stats.health = player->stats.maxHealth;
 
-   player->description.name = "You";
+   player->description.name = "TamrenthelongnamedsothatIcantesttextrenderingreallyquickly";
    player->description.desc = "It's you.";
 
    player->display.symbol = ASYM_AT;
@@ -166,7 +166,7 @@ bool PlayerManager::pickUpItem() {
    }
    else if (item->hasComponent(COMPONENT_EFFECT)) {
       EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
-      effectMan->applyEffect(effectComp->effect1, player);
+      effectMan->attachEffect(effectComp->effect1, player);
       itemMan->destroyItem(item);
    }
 

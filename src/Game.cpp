@@ -29,10 +29,10 @@ Game::~Game() {
 }
 
 bool Game::Initialize() {
+   srand(time(0));
+
 	isRunning = true;
 	bool success;
-
-   srand(time(0));
 
 	success = gameWindow->initialize((Listener*)this);
 

@@ -41,6 +41,7 @@ void ColorMap::initializeColorMap() {
 	colorMap.insert({ "lightblue", MyColor(173, 216, 230) });
 
 	colorMap.insert({ "purple", MyColor(160, 32, 240) });
+   colorMap.insert({ "lavender", MyColor(220, 208, 255) });
 	colorMap.insert({ "pink", MyColor(255,192,203) });
 
 	colorMap.insert({ "pink", MyColor(165, 42, 42) });

@@ -3,6 +3,7 @@
 #include "Entities/Damage.h"
 #include "Enums/TurnTime.h"
 #include "Entities/Actors/ActorStatBlock.h"
+#include <cwchar>
 
 
 /* Timed: Last for a certain duration, then get removed.
@@ -23,7 +24,6 @@ enum EffectClassification {
 };
 
 struct TimedEffectInfo {
-   bool applied;
    int duration;
 };
 struct DoTEffectInfo {
@@ -51,9 +51,22 @@ struct DamageEffectInfo {
 };
 
 
+
+enum EffectDescription {
+   EFFECT_DESC_POISON,
+   EFFECT_DESC_STRENGTH,
+   EFFECT_DESC_INTELLIGENCE,
+   EFFECT_DESC_NONE, //also acts as number of effect descriptions
+};
+
+
+
 struct Effect {
    EffectClassification classification;
    EffectType type;
+   EffectDescription description;
+
+   int maxStacks;
 
    union {
       StatModEffectInfo statModInfo;
@@ -67,7 +80,7 @@ struct Effect {
    };
 
    Effect(EffectClassification classification = EFFECT_CLASS_PERMANENT, EffectType type = EFFECT_TYPE_NONE)
-      : type(type), classification(classification) {};
+      : type(type), classification(classification), description(EFFECT_DESC_NONE) {};
 
 
 	bool operator == (const Effect effect) const {

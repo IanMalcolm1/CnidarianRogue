@@ -5,7 +5,7 @@
 #include "Topography/LocalMap.h"
 #include "GraphicsThings/ColorMap.h"
 #include "Topography/TileCoordinates.h"
-#include "Entities/EffectFactory.h"
+#include "Entities/Effects/EffectFactory.h"
 
 
 enum NaturalWeaponType {

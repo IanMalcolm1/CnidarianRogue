@@ -9,10 +9,16 @@ consumables that increase them on pickup. No main menu.
 TODOS:
 Current:
 Give effects descriptions somehow.
-   Maybe just an enum that EffectManager can map to a name and description.
-   The LookUI can do something like effectManager->getEffectDescription(Effect effect)
+   - Possibility 1: When making an effect in the EffectFactory, also make a description and store it
+   and a description in the EffectManager. Actors will point to these.
+   - Possibility 2: Just have an EffectDescriber class that generates descriptions lazily. Can be held
+   directly by LookUI along with EffectManager
+   - Possibility 3: Just have description enums. Still have an EffectDescriber, but just as
+   a glorified lookup table
+   - The LookUI can do something like effectManager->getEffectDescription(Effect effect)
+   - Also add color modifications (srcColor * (modColor/255)) to DoT and Timed effects
 Keep track of effects in ActorEntities
-   Actors will have vectors of pointers to effects that are stored in a pool by the
+   - Actors will have vectors of pointers to effects that are stored in a pool by the
    EffectManager
 
 Next:

@@ -2,6 +2,7 @@
 
 #include "Entities/Actors/AI.h"
 #include "Entities/Components.h"
+#include "Entities/Effects/EffectList.h"
 #include "Entities/Items/ItemEntity.h"
 #include "GraphicsThings/TileDisplay.h"
 #include "Enums/TurnTime.h"
@@ -26,7 +27,6 @@ private:
 	PathingRoute currentRoute;
    ActorEntity* targetEntity;
 
-   std::vector<Effect> effects;
 
 	//std::vector<Ability> abilities; (unimplemented)
 
@@ -34,6 +34,7 @@ private:
    ItemEntity* naturalWeapon;
 
 public:
+   EffectList activeEffects;
 	ActorStatBlock stats;
 	EntityDisplay display;
 	TileCoords location;

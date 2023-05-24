@@ -24,7 +24,7 @@ void Scene::runTurn() {
       }
 
       else {
-         effectManager.applyEffect(node->effect, node->actor);
+         effectManager.updateEffect(node->effect, node->actor);
       }
 	}
 

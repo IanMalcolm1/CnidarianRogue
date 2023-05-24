@@ -39,7 +39,7 @@ void LookUI::render(const SDL_Rect& viewport) {
       ActorEntity* actor = map->getActorAt(focusTile);
 
       names.push_back(makeName(actor->description.name, actor->display));
-      descriptions.push_back(textMaker.makeGameText(actor->description.desc));
+      descriptions.push_back(makeActorDesc(actor));
       tileIsEmpty = false;
    }
    if (map->getItemsAt(focusTile)->size() != 0) {
@@ -49,6 +49,7 @@ void LookUI::render(const SDL_Rect& viewport) {
       }
       tileIsEmpty = false;
    }
+
    if (tileIsEmpty) {
       textRenderer.renderGameText(textSpecs, defaultText, startY);
       return;
@@ -90,4 +91,21 @@ GameText LookUI::makeName(std::string name, EntityDisplay disp) {
    name.insert(0, "</");
 
    return textMaker.makeGameText(name);
+}
+
+GameText LookUI::makeActorDesc(ActorEntity* actor) {
+   std::string desc = actor->description.desc;
+   auto effects = actor->activeEffects.getEffects();
+
+   if (effects->empty()) {
+      return textMaker.makeGameText(desc);
+   }
+
+   for (int i=0; i<effects->size(); i++) {
+      auto item = effects->at(i);
+      desc.append("\n"+effectDescriber->getName(item.first.description));
+      desc.append(" ("+std::to_string(item.second)+")");
+   }
+
+   return textMaker.makeGameText(desc);
 }

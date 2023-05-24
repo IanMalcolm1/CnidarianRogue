@@ -4,7 +4,6 @@
 #include "Adventure/Scene/EffectManager.h"
 #include "Entities/Actors/ActorFactory.h"
 #include "Entities/Actors/ActorUtils.h"
-#include "Entities/Effect.h"
 #include "Entities/Items/ItemFactory.h"
 #include "Adventure/Scene/ItemManager.h"
 #include "Topography/LocalMap.h"

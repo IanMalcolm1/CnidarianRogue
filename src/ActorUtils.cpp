@@ -17,7 +17,7 @@ void ActorUtils::doAttack(ActorEntity* attacker, ActorEntity* defender) {
    
    if (attacker->getActiveWeapon()->hasComponent(COMPONENT_EFFECT)) {
       EffectComp* effect = (EffectComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_EFFECT);
-      effectMan->applyEffect(effect->effect1, defender);
+      effectMan->attachEffect(effect->effect1, defender);
    }
 
 }
