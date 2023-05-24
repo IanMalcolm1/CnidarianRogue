@@ -8,22 +8,12 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Give effects descriptions somehow.
-   - Possibility 1: When making an effect in the EffectFactory, also make a description and store it
-   and a description in the EffectManager. Actors will point to these.
-   - Possibility 2: Just have an EffectDescriber class that generates descriptions lazily. Can be held
-   directly by LookUI along with EffectManager
-   - Possibility 3: Just have description enums. Still have an EffectDescriber, but just as
-   a glorified lookup table
-   - The LookUI can do something like effectManager->getEffectDescription(Effect effect)
-   - Also add color modifications (srcColor * (modColor/255)) to DoT and Timed effects
-Keep track of effects in ActorEntities
-   - Actors will have vectors of pointers to effects that are stored in a pool by the
-   EffectManager
+Fix broken randomness
+Make replacing stacked effects replace the oldest effect, not just the first one the
+   TurnQueue finds
 
 Next:
 Make player stop automoving when they die
-Allow stacking certain effects
 Make weapon stats show on Player and Look screens.
 Let player attack enemies. Maybe I should have some sort of ActorUtils class to handle
    attacks and deaths and shit... Might help with effects

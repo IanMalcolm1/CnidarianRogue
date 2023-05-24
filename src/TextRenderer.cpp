@@ -13,8 +13,6 @@ std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& spe
 	std::string text = gameText.getText();
 
 
-   /* new algorithm */
-   //TODO: add '\r's, not '\n's so can differentiate between them when rendering
    int lastNewline = -1;
    for (int i=0; i<text.size(); i++) {
       if (text[i] == '\n') {
@@ -27,13 +25,13 @@ std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& spe
       }
 
 		if (text[i] == ' ') {
-			text.insert(text.begin() + i + 1, '\n');
+			text.insert(text.begin() + i + 1, '\r');
          lastNewline = i = i+1;
 			lines++;
 		}
 
 		else if (i+1<text.size() && text[i + 1] == ' ') {
-			text.insert(text.begin() + i + 1, '\n');
+			text.insert(text.begin() + i + 1, '\r');
          lastNewline = i = i+1;
 			lines++;
 		}
@@ -43,68 +41,26 @@ std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& spe
 			while (j > 0) {
 				j--;
 				if (text[j] == ' ') {
-					text.insert(text.begin() + j + 1, '\n');
+					text.insert(text.begin() + j + 1, '\r');
                lastNewline = i = j+1;
 					lines++;
 					break;
 				}
 				else if (i - j == specs.maxLettersPerLine) {
-					text.insert(text.begin() + i, '\n');
+					text.insert(text.begin() + i, '\r');
                lastNewline = i;
 					lines++;
 					break;
 				}
 			}
 			if (j == -1) {
-				text.insert(text.begin() + i, '\n');
+				text.insert(text.begin() + i, '\r');
             lastNewline = i;
             i--;
 				lines++;
 			}
 		}
    }
-
-   /* Original
-	while (index < (int)text.size()) {
-
-		if (text[index] == ' ') {
-			text.insert(text.begin() + index + 1, '\n');
-			lines++;
-		}
-
-		else if (text[index + 1] == ' ') {
-			index++;
-			text.insert(text.begin() + index + 1, '\n');
-			lines++;
-		}
-
-		else {
-			int prevIndex = index;
-			while (index > 0) {
-				index--;
-				if (text[index] == ' ') {
-					text.insert(text.begin() + index + 1, '\n');
-					index+=2;
-					lines++;
-					break;
-				}
-				else if (prevIndex - index == specs.maxLettersPerLine) {
-					text.insert(text.begin() + prevIndex + 1, '\n');
-					lines++;
-					index = prevIndex + 1;
-					break;
-				}
-			}
-			if (index == 0) {
-				text.insert(text.begin() + prevIndex + 1, '\n');
-				lines++;
-				index = prevIndex + 1;
-			}
-		}
-
-		index += specs.maxLettersPerLine;
-	}
-   */
 
 	int height = lines * specs.fontSizePixels + (lines - 1) * specs.lineSpacing;
 
@@ -184,6 +140,12 @@ void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, std::string&
 		if (currChar == '\n') {
 			destinationRect.y += specs.fontSizePixels + specs.lineSpacing;
 			destinationRect.x = specs.margin;
+         unformattedIndex++;
+         continue;
+		}
+      if (currChar == '\r') {
+			destinationRect.y += specs.fontSizePixels + specs.lineSpacing;
+			destinationRect.x = specs.margin;
 			continue;
 		}
 
@@ -217,6 +179,12 @@ void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, std::string& fT
 		currChar = fText[i];
 
 		if (currChar == '\n') {
+			destinationRect.y += specs.fontSizePixels + specs.lineSpacing;
+         destinationRect.x = (specs.viewportWidth - calcLineLength(specs, fText, i))/2;
+         unformattedIndex++;
+			continue;
+		}
+		if (currChar == '\r') {
 			destinationRect.y += specs.fontSizePixels + specs.lineSpacing;
          destinationRect.x = (specs.viewportWidth - calcLineLength(specs, fText, i))/2;
 			continue;
