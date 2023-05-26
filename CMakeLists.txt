@@ -23,6 +23,7 @@ add_executable(Roguelike
    src/Blabber.cpp
    src/ConfirmerUI.cpp
    src/DebugLogger.cpp
+   src/Dice.cpp
    src/EffectDescriber.cpp
    src/EffectFactory.cpp
    src/EffectList.cpp

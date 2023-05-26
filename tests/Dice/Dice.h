@@ -2,21 +2,14 @@
 
 #include <random>
 
-struct Dice {
-   static bool flipCoin() {
-      if ((rand() & 1)==1) {
-         return true;
-      }
-      return false;
-   };
+class Dice {
+private:
+   std::uniform_int_distribution<int> d6Dist;
+   std::mt19937 generator;
 
-   static int rollDice(int numDice) {
-      int sum = 0;
+public:
+   Dice();
 
-      for (int i=0; i<numDice; i++) {
-         sum += rand()%6 + 1;
-      }
-
-      return sum;
-   };
+   bool flipCoin();
+   int rollDice(int numDice);
 };

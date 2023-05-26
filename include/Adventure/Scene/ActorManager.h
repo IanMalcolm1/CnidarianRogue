@@ -15,6 +15,7 @@
 #include "EventListener/Blabber.h"
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
+#include "Algorithms/Dice.h"
 
 
 class ActorManager : public Blabber {
@@ -25,11 +26,13 @@ class ActorManager : public Blabber {
       LocalMap* map;
       GameLog* gameLog;
 
+      Dice dice;
+
       std::string damageTypeNames[DAMAGE_NONE];
 
    public:
       ActorManager(TurnQueue* turnQueue, LocalMap* map, GameLog* gameLog) :
-      map(map), gameLog(gameLog), turnQueue(turnQueue),
+      map(map), gameLog(gameLog), turnQueue(turnQueue), dice(),
       actorColiseum(EntityColiseum<ActorEntity>()) {
             damageTypeNames[DAMAGE_FIRE] = " </red:fire/>";
             damageTypeNames[DAMAGE_PHYSICAL] = "";

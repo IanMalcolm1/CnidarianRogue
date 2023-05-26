@@ -12,7 +12,7 @@
 class Adventure {
 private:
    Scene scene;
-   TerrainGenerators terrainGenerator;
+   TerrainGenerator terrainGenerator;
    GameLog log;
    PlayerManager playerMan;
 
@@ -22,7 +22,7 @@ private:
 
 public:
    Adventure() : log(GameLog()), scene(Scene(&log, &playerMan)),
-   playerMan(PlayerManager()), terrainGenerator(TerrainGenerators()),
+   playerMan(PlayerManager()), terrainGenerator(TerrainGenerator()),
    alreadyRanTurn(false) {
       linkPlayerAndScene();
 	   terrainGenerator.rectangleRooms(&scene, 20, 20);

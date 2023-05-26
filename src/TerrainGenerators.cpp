@@ -1,11 +1,22 @@
 #include "Algorithms/TerrainGenerators.h"
 #include <random>
 
-void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxSideLength) {
+
+TerrainGenerator::TerrainGenerator() {
+   std::random_device seeder;
+   randGen = std::mt19937(seeder());
+}
+
+void TerrainGenerator::rectangleRooms(Scene* scene, int numRectangles, int maxSideLength) {
 	LocalMap* map = scene->getMap();
 
 	int width = map->getWidth();
 	int height = map->getHeight();
+
+   std::uniform_int_distribution rectSizeDist(6, maxSideLength);
+   std::uniform_int_distribution rectXDist(1, width-maxSideLength-1);
+   std::uniform_int_distribution rectYDist(1, height-maxSideLength-1);
+   std::uniform_int_distribution itemRollDist(0,3);
 
 	MyColor white = MyColor(255, 255, 255);
 	MyColor black = MyColor(0, 0, 0);
@@ -23,11 +34,11 @@ void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxS
 	int prevCenterX = -1, prevCenterY = -1;
 
 	for (int i = 0; i < numRectangles; i++) {
-		rectx = rand() % (width - maxSideLength) + 1;
-		recty = rand() % (height - maxSideLength) + 1;
+		rectx = rectXDist(randGen);
+		recty = rectXDist(randGen);
 
-		rectWidth = rand() % (maxSideLength - 6) + 6;
-		rectHeight = rand() % (maxSideLength - 6) + 6;
+		rectWidth = rectSizeDist(randGen);
+		rectHeight = rectSizeDist(randGen);
 
 		for (int x = rectx; x < rectx + rectWidth; x++) {
 			for (int y = recty; y < recty + rectHeight; y++) {
@@ -72,8 +83,7 @@ void TerrainGenerators::rectangleRooms(Scene* scene, int numRectangles, int maxS
 		prevCenterX = currCenterX;
 		prevCenterY = currCenterY;
 
-      int itemRoll = rand()%5;
-      switch (itemRoll) {
+      switch (itemRollDist(randGen)) {
          case 0:
             scene->getItemFactory()->makeIntelligenceMushroom({currCenterX, currCenterY});
             break;

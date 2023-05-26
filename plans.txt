@@ -8,7 +8,6 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Fix broken randomness
 Make replacing stacked effects replace the oldest effect, not just the first one the
    TurnQueue finds
 

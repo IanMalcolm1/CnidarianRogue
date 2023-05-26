@@ -4,3 +4,4 @@ debug/*
 *.gch
 logs/*
 githubToken.txt
+tests/*/a.out
