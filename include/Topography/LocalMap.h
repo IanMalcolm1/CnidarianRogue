@@ -26,7 +26,7 @@ private:
 	PathingRoute pathToMouseTile;
 
 	MapDisplay mapDisplay;
-	std::vector<int16_t> visibleIndices;
+	std::vector<int> visibleIndices;
 	bool needToUpdateDisplay;
 
 	TerrainMap terrainMap;
@@ -36,7 +36,6 @@ private:
 
 	void updateHighlightedTiles();
 
-	void resetVisibleTileDisplays();
 	void updateVisibleTileDisplays();
 
 	TileDisplay getDisplayAt(int index);
@@ -59,6 +58,7 @@ public:
 
 	MapDisplay* getMapDisplay();
 	void updateMapDisplay();
+	void resetVisibleTileDisplays();
 
 	int coordsToTileIndex(TileCoords coordinates);
 	TileCoords tileIndexToCoords(int index);

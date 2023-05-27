@@ -58,6 +58,7 @@ public:
    void setFaction(Faction newFaction);
    bool isHostileTo(ActorEntity* actor);
    void checkForHostiles();
+   bool canSeeHostile();
    bool isTargetting(ActorEntity* actor);
    void setTarget(ActorEntity* actor);
    ActorEntity* getTarget();

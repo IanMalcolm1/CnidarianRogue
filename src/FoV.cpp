@@ -1,4 +1,5 @@
 #include "Algorithms/FoV.h"
+#include "Entities/Actors/ActorEntity.h"
 #include <stack>
 #include <cmath>
 #include <functional>
@@ -34,50 +35,50 @@ Slope::Slope(int tileDepth, int tileCol) {
 	|_____|_____|_____|
 
 	*/
-	_num = 2*tileCol - 1;
-	_denom = 2*tileDepth;
+	numerator = 2*tileCol - 1;
+	denominator = 2*tileDepth;
 }
 
 float Slope::multiply(int multiplier) {
-	return (_num * multiplier) / (float)_denom;
+	return (numerator * multiplier) / (float)denominator;
 }
 
 void Slope::manualSlope(int numerator, int denominator) {
-	_num = numerator;
-	_denom = denominator;
+	this->numerator = numerator;
+	this->denominator = denominator;
 }
 
 
 /* Row Functions */
 
 Row::Row(int depth, Slope startSlope, Slope endSlope) {
-	_depth = depth;
-	_startSlope =  startSlope;
-	_endSlope = endSlope;
+	this->depth = depth;
+	this->startSlope =  startSlope;
+	this->endSlope = endSlope;
 }
 
 void Row::getTilesRange(int& start, int& end) {
-	start = (int)floor(_startSlope.multiply(_depth) + 0.5);
+	start = (int)floor(startSlope.multiply(depth) + 0.5);
 
-	end = (int)ceil(_endSlope.multiply(_depth) - 0.5);
+	end = (int)ceil(endSlope.multiply(depth) - 0.5);
 }
 
-Row Row::getNext() { return Row(_depth + 1, _startSlope, _endSlope); }
+Row Row::getNext() { return Row(depth + 1, startSlope, endSlope); }
 
-int Row::getDepth() { return _depth; }
+int Row::getDepth() { return depth; }
 
 bool Row::isSymmetric(int tileCol) {
-	return tileCol >= _startSlope.multiply(_depth) && tileCol <= _endSlope.multiply(_depth);
+	return tileCol >= startSlope.multiply(depth) && tileCol <= endSlope.multiply(depth);
 }
 
 void Row::setStartSlope(int tileColumn) {
-	_startSlope = Slope(_depth, tileColumn);
+	startSlope = Slope(depth, tileColumn);
 }
 
 //Note: Edited to subtract 1 from depth, because is only called directly after
 //		a getNext() row call
 void Row::setEndSlope(int tileColumn) {
-	_endSlope = Slope(_depth-1, tileColumn);
+	endSlope = Slope(depth-1, tileColumn);
 }
 
 
@@ -148,7 +149,14 @@ void Quadrant::makeVisibleToPlayer(int cardinal, int tileDepth, int tileCol) {
 	if (absoluteCoords.x == -1 || absoluteCoords.y == -1) {
 		return;
 	}
+   //map
 	localMap->makeVisible(absoluteCoords);
+
+   //player
+	actor->addVisibleTile(absoluteCoords);
+	if (localMap->thereIsAnActorAt(absoluteCoords)) {
+		actor->addVisibleActor(localMap->getActorAt(absoluteCoords));
+	}
 }
 
 void Quadrant::makeVisibleToActor(int cardinal, int tileDepth, int tileColumn) {
@@ -186,6 +194,7 @@ void FoV::calcFoV(LocalMap* localMap, TileCoords origin, ActorEntity* actor, voi
 			initialStart.manualSlope(-1, 1);
 			Slope initialEnd = Slope();
 			initialEnd.manualSlope(1, 1);
+         Row testRow = Row(1,initialStart, initialEnd);
 			rowStack.push(Row(1, initialStart, initialEnd)); //first row
 		}
 
@@ -230,8 +239,10 @@ void FoV::calcFoV(LocalMap* localMap, TileCoords origin, ActorEntity* actor, voi
 }
 
 
-void FoV::calcPlayerFoV(LocalMap* localMap, TileCoords playerLocation) {
-	FoV::calcFoV(localMap, playerLocation, nullptr, &Quadrant::makeVisibleToPlayer);
+void FoV::calcPlayerFoV(LocalMap* localMap, ActorEntity* player) {
+   player->clearVisibilityArrays();
+   localMap->resetVisibleTileDisplays();
+	FoV::calcFoV(localMap, player->location, player, &Quadrant::makeVisibleToPlayer);
 }
 
 

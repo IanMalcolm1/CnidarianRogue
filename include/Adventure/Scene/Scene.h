@@ -38,14 +38,14 @@ private:
 
 public:
 	Scene(GameLog* gameLog, PlayerManager* playerManager) :
-      map(100, 100), gameLog(gameLog), turnQueue(),
-      actorManager(&turnQueue, &map, gameLog), 
-      itemManager(&map), playerManager(playerManager),
-      effectManager(&actorManager, &turnQueue),
-      actorUtils(&actorManager, &effectManager),
-      aiRunner(&map, &actorManager, &actorUtils),
-      itemFactory(itemManager.makeFactory()),
-      actorFactory(actorManager.makeFactory(&itemFactory)) {};
+   map(100, 100), gameLog(gameLog), turnQueue(),
+   actorManager(&turnQueue, &map, gameLog), 
+   itemManager(&map), playerManager(playerManager),
+   effectManager(&actorManager, &turnQueue),
+   actorUtils(&actorManager, &effectManager),
+   aiRunner(&map, &actorManager, &actorUtils),
+   itemFactory(itemManager.makeFactory()),
+   actorFactory(actorManager.makeFactory(&itemFactory)) {};
 
 	LocalMap* getMap();
    ActorFactory* getActorFactory();
@@ -56,6 +56,7 @@ public:
 
    void runTurn();
 	void updateMapDisplay();
+   void initialize();
 
 	void setPlayerAt(TileCoords location);
 

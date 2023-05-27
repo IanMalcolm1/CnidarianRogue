@@ -1,4 +1,5 @@
 #include "Adventure/Scene/Scene.h"
+#include "Algorithms/FoV.h"
 #include "Entities/Actors/ActorFactory.h"
 #include "Enums/PlayerCommands.h"
 #include <random>
@@ -28,6 +29,7 @@ void Scene::runTurn() {
       }
 	}
 
+   FoV::calcPlayerFoV(&map, playerManager->getPlayer());
 	map.flagNeedToUpdateDisplay();
 }
 
@@ -43,4 +45,8 @@ void Scene::setPlayerAt(TileCoords location) {
 
 void Scene::hookupInputManagerListener(Listener* listener) {
    actorManager.addListener(listener);
+}
+
+void Scene::initialize() {
+   FoV::calcPlayerFoV(&map, playerManager->getPlayer());
 }

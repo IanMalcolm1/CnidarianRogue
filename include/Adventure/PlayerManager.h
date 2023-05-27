@@ -5,6 +5,7 @@
 #include "Adventure/Scene/ItemManager.h"
 #include "Entities/Items/ItemFactory.h"
 #include "Enums/PlayerCommands.h"
+#include "Logs/GameLog.h"
 #include "Topography/LocalMap.h"
 #include "Interface/InputConfirmer.h"
 #include "Adventure/Scene/TurnQueue.h"
@@ -29,7 +30,7 @@ private:
    ItemManager* itemMan;
    ItemFactory* itemFactory;
 
-	InputConfirmer* confirmer;
+   GameLog* gameLog;
 
 	PathingRoute autoMoveRoute;
 
@@ -37,7 +38,7 @@ private:
 public:
 	bool autoActing;
 
-   PlayerManager();
+   PlayerManager(GameLog* gameLog);
    ~PlayerManager();
 
 	//returns whether the turn needs to be run

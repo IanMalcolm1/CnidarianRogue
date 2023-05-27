@@ -6,10 +6,10 @@
 #include "Entities/Items/ItemFactory.h"
 #include "Enums/TurnTime.h"
 
-PlayerManager::PlayerManager() :
+PlayerManager::PlayerManager(GameLog* gameLog) :
 turnQueue(nullptr), player(nullptr), map(nullptr),
 inputState(PLAYER_INPUT_MOVE), autoActing(false), 
-confirmer(nullptr) {
+gameLog(gameLog) {
    
    playerArena = malloc(sizeof(ActorEntity) + 64);
    player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64, true);
@@ -17,7 +17,7 @@ confirmer(nullptr) {
    player->stats.maxHealth = 75;
    player->stats.health = player->stats.maxHealth;
 
-   player->description.name = "TamrenthelongnamedsothatIcantesttextrenderingreallyquickly";
+   player->description.name = "Tamren";
    player->description.desc = "It's you.";
 
    player->display.symbol = ASYM_AT;
@@ -110,9 +110,15 @@ void PlayerManager::lookAtMouseTile() {
 }
 
 bool PlayerManager::doAutoAct() {
+   if (player->canSeeHostile()) {
+      clearAutoAct();
+      turnQueue->insertActor(player, 0);
+      gameLog->sendMessage("Auto move cancelled due to visible enemy.");
+      return false;
+   }
+
    if (!autoMoveRoute.hasNextTile()) {
-      autoActing = false;
-      autoMoveRoute.clear();
+      clearAutoAct();
       turnQueue->insertActor(player, 0);
       return false;
    }

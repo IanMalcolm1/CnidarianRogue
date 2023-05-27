@@ -1,13 +1,14 @@
 #pragma once
 
 #include <vector>
+#include "Entities/Actors/ActorEntity.h"
 #include "Topography/LocalMap.h"
 
 
 //Basically a fraction
 class Slope {
 private:
-	int _num, _denom;
+	int numerator, denominator;
 
 public:
 	Slope(int tileDepth = 0, int tileColumn = 0);
@@ -19,9 +20,9 @@ public:
 class Row {
 private:
 	//offset from origin tile
-	int _depth;
+	int depth;
 
-	Slope _startSlope, _endSlope;
+	Slope startSlope, endSlope;
 
 public:
 	Row(int depth, Slope startSlope = Slope(), Slope endSlope = Slope());
@@ -67,7 +68,7 @@ private:
 	static void calcFoV(LocalMap* localMap, TileCoords origin, ActorEntity* actor, void (Quadrant::*makeVisible)(int, int, int));
 
 public:
-	static void calcPlayerFoV(LocalMap* localMap, TileCoords playerLocation);
+	static void calcPlayerFoV(LocalMap* localMap, ActorEntity* player);
 	
 	static void calcActorFoV(LocalMap* localMap, ActorEntity* actor);
 };

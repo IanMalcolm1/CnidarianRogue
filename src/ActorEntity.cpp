@@ -60,13 +60,7 @@ bool ActorEntity::isHostileTo(ActorEntity* actor) {
 }
 
 void ActorEntity::checkForHostiles() {
-   bool canSeeHostile = false;
-   for (auto visibleActor : visibleActors) {
-      if (isHostileTo(visibleActor)) {
-         canSeeHostile = true;
-         break;
-      }
-   }
+   bool canSeeHostile = this->canSeeHostile();
 
    if (canSeeHostile && !isAggroed()) {
       setState(AISTATE_ATTACKING);
@@ -74,6 +68,17 @@ void ActorEntity::checkForHostiles() {
    else if (!canSeeHostile && isAggroed()) {
       setState(AISTATE_IDLE);
    }
+}
+
+bool ActorEntity::canSeeHostile() {
+   bool canSeeHostile = false;
+   for (auto visibleActor : visibleActors) {
+      if (isHostileTo(visibleActor)) {
+         canSeeHostile = true;
+         break;
+      }
+   }
+   return canSeeHostile;
 }
 
 bool ActorEntity::isTargetting(ActorEntity *actor) {

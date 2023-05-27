@@ -13,10 +13,6 @@ MapDisplay* LocalMap::getMapDisplay() {
 
 void LocalMap::updateMapDisplay() {
 	if (needToUpdateDisplay) {
-		resetVisibleTileDisplays();
-
-		FoV::calcPlayerFoV(this, playerTile);
-
 		updateVisibleTileDisplays();
 	}
 

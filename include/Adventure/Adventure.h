@@ -22,10 +22,11 @@ private:
 
 public:
    Adventure() : log(GameLog()), scene(Scene(&log, &playerMan)),
-   playerMan(PlayerManager()), terrainGenerator(TerrainGenerator()),
+   playerMan(PlayerManager(&log)), terrainGenerator(TerrainGenerator()),
    alreadyRanTurn(false) {
       linkPlayerAndScene();
 	   terrainGenerator.rectangleRooms(&scene, 20, 20);
+      scene.initialize();
       updateMapDisplay();
    };
 

@@ -8,16 +8,14 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Make replacing stacked effects replace the oldest effect, not just the first one the
-   TurnQueue finds
+Stop auto move on death
+Stop auto move if player can see an enemy.
 
 Next:
-Make player stop automoving when they die
+Let player attack enemies.
 Make weapon stats show on Player and Look screens.
-Let player attack enemies. Maybe I should have some sort of ActorUtils class to handle
-   attacks and deaths and shit... Might help with effects
-   in Scene
-Stop auto move if player can see enemy
+Make replacing stacked effects replace the oldest effect, not just the first one the
+   TurnQueue finds
 Add more creatures
 Simple gameplay loop
 Slightly better generation
