@@ -41,5 +41,5 @@ public:
    void runTurnIfAutoMoving();
 	void updateMapDisplay();
 
-   void hookupInputManagerListener(Listener* listener);
+   void hookupListeners(Listener* listener);
 };

@@ -26,7 +26,7 @@ PlayerManager* Adventure::getPlayerManager() {
 
 
 void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
-	if (playerMan.autoActing) {
+	if (playerMan.isAutoActing()) {
 		if (command == PC_ESCAPEKEY) {
 			playerMan.clearAutoAct();
 			return;
@@ -63,7 +63,7 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
 
 
 void Adventure::runTurnIfAutoMoving() {
-	if (!alreadyRanTurn && playerMan.autoActing) {
+	if (!alreadyRanTurn && playerMan.isAutoActing()) {
 		playerMan.doAutoAct();
       scene.runTurn();
 	}
@@ -76,6 +76,6 @@ void Adventure::updateMapDisplay() {
 }
 
 
-void Adventure::hookupInputManagerListener(Listener* listener) {
-   scene.hookupInputManagerListener(listener);
+void Adventure::hookupListeners(Listener* listener) {
+   scene.hookupListeners(listener, (Listener*) &playerMan);
 }

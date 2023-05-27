@@ -60,5 +60,5 @@ public:
 
 	void setPlayerAt(TileCoords location);
 
-   void hookupInputManagerListener(Listener* listener);
+   void hookupListeners(Listener* listener, Listener* listener1);
 };

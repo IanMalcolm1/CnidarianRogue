@@ -36,7 +36,7 @@ bool Game::Initialize() {
 
 	success = gameWindow->initialize((Listener*)this);
 
-   adventure->hookupInputManagerListener((Listener*) gameWindow.get());
+   adventure->hookupListeners((Listener*) gameWindow.get());
 
 	return success;
 }
@@ -79,7 +79,7 @@ void Game::restart() {
 
    gameWindow->reset(adventure.get(), (Listener*)this);
 
-   adventure->hookupInputManagerListener((Listener*) gameWindow.get());
+   adventure->hookupListeners((Listener*) gameWindow.get());
 
    needToRestart = false;
    needsToDie = false;

@@ -43,8 +43,9 @@ void Scene::setPlayerAt(TileCoords location) {
 }
 
 
-void Scene::hookupInputManagerListener(Listener* listener) {
+void Scene::hookupListeners(Listener* listener, Listener* listener1) {
    actorManager.addListener(listener);
+   actorManager.addListener(listener1);
 }
 
 void Scene::initialize() {

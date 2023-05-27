@@ -5,6 +5,7 @@
 #include "Entities/Components.h"
 #include "Entities/Items/ItemFactory.h"
 #include "Enums/TurnTime.h"
+#include "EventListener/Listener.h"
 
 PlayerManager::PlayerManager(GameLog* gameLog) :
 turnQueue(nullptr), player(nullptr), map(nullptr),
@@ -155,6 +156,8 @@ void PlayerManager::startAutoMove() {
    autoActing = true;
 }
 
+bool PlayerManager::isAutoActing() { return autoActing; }
+
 
 
 bool PlayerManager::pickUpItem() {
@@ -194,4 +197,15 @@ void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, E
    this->itemFactory = itemFactory;
 
    player->setNaturalWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
+}
+
+
+void PlayerManager::processEvent(EventType event) {
+   if (event == EVENT_PLAYERDED) {
+      clearAutoAct();
+   }
+   else if (event == EVENT_PLAYERDAMAGED && autoActing) {
+      gameLog->sendMessage("Auto move cancelled due to damage taken.");
+      clearAutoAct();
+   }
 }

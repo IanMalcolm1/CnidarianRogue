@@ -66,6 +66,10 @@ std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* recipient, Dam
 void ActorManager::damageActor(ActorEntity* actor, int damage) {
    actor->stats.health -= damage;
 
+   if (actor->isPlayer()) {
+      notifyListeners(EVENT_PLAYERDAMAGED);
+   }
+
    if (actor->stats.health <= 0) {
       std::string deathMsg = actor->description.name + " dies.";
       sendMsgIfActorIsVisible(actor, deathMsg);

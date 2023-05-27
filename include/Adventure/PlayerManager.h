@@ -5,6 +5,7 @@
 #include "Adventure/Scene/ItemManager.h"
 #include "Entities/Items/ItemFactory.h"
 #include "Enums/PlayerCommands.h"
+#include "EventListener/Listener.h"
 #include "Logs/GameLog.h"
 #include "Topography/LocalMap.h"
 #include "Interface/InputConfirmer.h"
@@ -17,7 +18,7 @@ enum PlayerInputState {
 	PLAYER_INPUT_SELECT
 };
 
-class PlayerManager {
+class PlayerManager : public Listener {
 private:
 	ActorEntity* player;
    void* playerArena;
@@ -32,18 +33,18 @@ private:
 
    GameLog* gameLog;
 
+	bool autoActing;
 	PathingRoute autoMoveRoute;
 
 
 public:
-	bool autoActing;
-
    PlayerManager(GameLog* gameLog);
    ~PlayerManager();
 
 	//returns whether the turn needs to be run
 	bool processDirectionalCommand(PlayerCommand command);
    void processClick(bool isRightClick);
+   void processEvent(EventType event);
 
 	ActorEntity* getPlayer();
 	void placePlayer(TileCoords location);
@@ -53,6 +54,7 @@ public:
 	bool doAutoAct();
 	void clearAutoAct();
 	void startAutoMove();
+   bool isAutoActing();
 
    bool pickUpItem();
    void waitTurn();
