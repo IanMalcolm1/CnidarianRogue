@@ -8,10 +8,9 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Let player attack enemies.
+Make weapon stats show on Player and Look screens.
 
 Next:
-Make weapon stats show on Player and Look screens.
 Make replacing stacked effects replace the oldest effect, not just the first one the
    TurnQueue finds
 Check that enemies go back to Wandering when no longer see Player

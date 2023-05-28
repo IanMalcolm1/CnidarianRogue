@@ -1,7 +1,9 @@
 #include "Adventure/PlayerManager.h"
+#include "Adventure/Scene/ActorManager.h"
 #include "Algorithms/PathfindingRoute.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "Entities/Actors/ActorUtils.h"
 #include "Entities/Components.h"
 #include "Entities/Items/ItemFactory.h"
 #include "Enums/TurnTime.h"
@@ -63,7 +65,13 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
    }
 
    if (inputState == PLAYER_INPUT_MOVE) {
-      if (map->isTraversibleAt(newCoords) && !map->thereIsAnActorAt(newCoords)) {
+      if (map->thereIsAnActorAt(newCoords) && player->isHostileTo(map->getActorAt(newCoords))) {
+         actorUtils->doAttack(player, map->getActorAt(newCoords));
+         turnQueue->insertActor(player, player->stats.baseAttackSpeed);
+         return true;
+      }
+
+      else if (map->isTraversibleAt(newCoords) && !map->thereIsAnActorAt(newCoords)) {
          map->setPlayerLocation(player, newCoords);
          turnQueue->insertActor(player, player->stats.baseMoveSpeed);
          return true;
@@ -189,12 +197,13 @@ void PlayerManager::waitTurn() {
 }
 
 
-void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory) {
+void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory, ActorUtils* actorUtils) {
    turnQueue = queue;
    map = localMap;
    effectMan = effectManager;
    itemMan = itemManager;
    this->itemFactory = itemFactory;
+   this->actorUtils = actorUtils;
 
    player->setNaturalWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
 }

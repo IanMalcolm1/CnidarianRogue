@@ -2,7 +2,7 @@
 #include "Enums/PlayerCommands.h"
 
 void Adventure::linkPlayerAndScene() {
-   playerMan.setSceneDependencies(scene.getTurnQueue(), scene.getMap(), scene.getEffectManager(), scene.getItemManager(), scene.getItemFactory());
+   playerMan.setSceneDependencies(scene.getTurnQueue(), scene.getMap(), scene.getEffectManager(), scene.getItemManager(), scene.getItemFactory(), scene.getActorUtils());
 }
 
 

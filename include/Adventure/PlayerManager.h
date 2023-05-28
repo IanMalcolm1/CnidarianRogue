@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Adventure/Scene/ActorManager.h"
 #include "Adventure/Scene/EffectManager.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/ItemManager.h"
+#include "Entities/Actors/ActorUtils.h"
 #include "Entities/Items/ItemFactory.h"
 #include "Enums/PlayerCommands.h"
 #include "EventListener/Listener.h"
@@ -30,6 +32,7 @@ private:
    EffectManager* effectMan;
    ItemManager* itemMan;
    ItemFactory* itemFactory;
+   ActorUtils* actorUtils;
 
    GameLog* gameLog;
 
@@ -59,5 +62,5 @@ public:
    bool pickUpItem();
    void waitTurn();
 
-   void setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory);
+   void setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory, ActorUtils* actorUtils);
 };

@@ -11,6 +11,7 @@ ItemFactory* Scene::getItemFactory() { return &itemFactory; }
 TurnQueue* Scene::getTurnQueue() { return &turnQueue; }
 ItemManager* Scene::getItemManager() { return &itemManager; }
 EffectManager* Scene::getEffectManager() { return &effectManager; }
+ActorUtils* Scene::getActorUtils() { return &actorUtils; }
 
 
 void Scene::runTurn() {
