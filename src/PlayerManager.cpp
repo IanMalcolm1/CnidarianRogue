@@ -121,14 +121,12 @@ void PlayerManager::lookAtMouseTile() {
 bool PlayerManager::doAutoAct() {
    if (player->canSeeHostile()) {
       clearAutoAct();
-      turnQueue->insertActor(player, 0);
       gameLog->sendMessage("Auto move cancelled due to visible enemy.");
       return false;
    }
 
    if (!autoMoveRoute.hasNextTile()) {
       clearAutoAct();
-      turnQueue->insertActor(player, 0);
       return false;
    }
 
@@ -138,14 +136,12 @@ bool PlayerManager::doAutoAct() {
       map->setPlayerLocation(player, newTile);
       autoMoveRoute.incrementProgress();
       turnQueue->insertActor(player, player->stats.baseMoveSpeed);
+      return true;
    }
    else {
-      autoActing = false;
-      autoMoveRoute.clear();
-      turnQueue->insertActor(player, 0);
+      clearAutoAct();
+      return false;
    }
-
-   return autoActing;
 }
 
 void PlayerManager::clearAutoAct() {

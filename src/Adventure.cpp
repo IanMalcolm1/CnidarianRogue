@@ -64,8 +64,10 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
 
 void Adventure::runTurnIfAutoMoving() {
 	if (!alreadyRanTurn && playerMan.isAutoActing()) {
-		playerMan.doAutoAct();
-      scene.runTurn();
+      bool needToRunTurn = playerMan.doAutoAct();
+      if (needToRunTurn) {
+         scene.runTurn();
+      }
 	}
 	alreadyRanTurn = false;
 }
