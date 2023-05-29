@@ -11,6 +11,7 @@ find_package(SDL2_image REQUIRED)
 
 add_executable(Roguelike
    src/main.cpp
+   src/ActorDescriber.cpp
    src/ActorEntity.cpp
    src/ActorFactory.cpp
    src/ActorManager.cpp
@@ -39,6 +40,7 @@ add_executable(Roguelike
    src/GraphicsThings.cpp
    src/InputConfirmer.cpp
    src/InputManager.cpp
+   src/ItemDescriber.cpp
    src/ItemEntity.cpp
    src/ItemFactory.cpp
    src/ItemManager.cpp

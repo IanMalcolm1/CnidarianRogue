@@ -138,7 +138,7 @@ void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, std::string&
 		currChar = fText[i];
 
 		if (currChar == '\n') {
-			destinationRect.y += specs.fontSizePixels + specs.lineSpacing;
+			destinationRect.y += specs.fontSizePixels + specs.messageSpacing;
 			destinationRect.x = specs.margin;
          unformattedIndex++;
          continue;
@@ -179,7 +179,7 @@ void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, std::string& fT
 		currChar = fText[i];
 
 		if (currChar == '\n') {
-			destinationRect.y += specs.fontSizePixels + specs.lineSpacing;
+			destinationRect.y += specs.fontSizePixels + specs.messageSpacing;
          destinationRect.x = (specs.viewportWidth - calcLineLength(specs, fText, i))/2;
          unformattedIndex++;
 			continue;
@@ -245,8 +245,8 @@ int TextRenderer::renderLineSeparator(TextRenderingSpecs& specs, GameTextMaker& 
    }
 
    GameText lineText = textMaker.makeGameText(line);
-   renderGameText(specs, lineText, startY, TEXT_ALIGN_CENTER);
+   renderGameText(specs, lineText, startY + specs.lineSpacing, TEXT_ALIGN_CENTER);
    
-   return startY + specs.fontSizePixels;
+   return startY + specs.fontSizePixels + 2*specs.lineSpacing;
 }
 

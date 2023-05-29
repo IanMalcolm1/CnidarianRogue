@@ -1,5 +1,4 @@
 #include "Interface/UIScreens/LookUI.h"
-#include "Topography/TileCoordinates.h"
 #include <string>
 
 
@@ -11,6 +10,17 @@ void LookUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
    
    titleText = textMaker.makeGameText("Tile Info:");
    defaultText = textMaker.makeGameText("There's nothing here.");
+
+   /* I don't know why, but when restarting the game on the player's
+    * death the constructor passed some random memory address waaaaay
+    * off from where textMaker actually was. Caused a segfault.
+    * Obviously has something to do with remaking the AdventureUI in
+    * the GameWindow class. Maybe it puts stuff on the stack when
+    * copying stuff and so gave the describers a pointer to the stack???
+    * Very frustrating.
+    */
+   actorDescriber.setGameTextMaker(&textMaker);
+   itemDescriber.setGameTextMaker(&textMaker);
 }
 
 
@@ -38,14 +48,14 @@ void LookUI::render(const SDL_Rect& viewport) {
    if (map->thereIsAnActorAt(focusTile)) {
       ActorEntity* actor = map->getActorAt(focusTile);
 
-      names.push_back(makeName(actor->description.name, actor->display));
-      descriptions.push_back(makeActorDesc(actor));
+      names.push_back(actorDescriber.name(actor));
+      descriptions.push_back(actorDescriber.describe(actor));
       tileIsEmpty = false;
    }
    if (map->getItemsAt(focusTile)->size() != 0) {
       for (auto item : (*map->getItemsAt(focusTile))) {
-         names.push_back(makeName(item->description.name, item->display));
-         descriptions.push_back(textMaker.makeGameText(item->description.desc));
+         names.push_back(itemDescriber.name(item));
+         descriptions.push_back(itemDescriber.describeInDepth(item));
       }
       tileIsEmpty = false;
    }
@@ -65,47 +75,4 @@ void LookUI::render(const SDL_Rect& viewport) {
          startY = textRenderer.renderLineSeparator(textSpecs, textMaker, startY);
       }
    }
-}
-
-
-GameText LookUI::makeName(std::string name, EntityDisplay disp) {
-   name.insert(0, "/> ");
-   name.insert(0, std::string(1, (char)disp.symbol));
-   name.insert(0, ":");
-
-   std::string color = std::to_string(disp.symbolColor.b);
-   if (color.size() < 3) { color.insert(0, "0"); }
-   if (color.size() < 3) { color.insert(0, "0"); }
-   name.insert(0, color);
-
-   color = std::to_string(disp.symbolColor.g);
-   if (color.size() < 3) { color.insert(0, "0"); }
-   if (color.size() < 3) { color.insert(0, "0"); }
-   name.insert(0, color);
-   
-   color = std::to_string(disp.symbolColor.r);
-   if (color.size() < 3) { color.insert(0, "0"); }
-   if (color.size() < 3) { color.insert(0, "0"); }
-   name.insert(0, color);
-
-   name.insert(0, "</");
-
-   return textMaker.makeGameText(name);
-}
-
-GameText LookUI::makeActorDesc(ActorEntity* actor) {
-   std::string desc = actor->description.desc;
-   auto effects = actor->activeEffects.getEffects();
-
-   if (effects->empty()) {
-      return textMaker.makeGameText(desc);
-   }
-
-   for (int i=0; i<effects->size(); i++) {
-      auto item = effects->at(i);
-      desc.append("\n"+effectDescriber->getName(item.first.description));
-      desc.append(" ("+std::to_string(item.second)+")");
-   }
-
-   return textMaker.makeGameText(desc);
 }

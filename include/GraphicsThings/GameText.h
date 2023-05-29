@@ -30,7 +30,7 @@ public:
 
 
 class GameTextMaker {
-	std::unique_ptr<ColorMap> colorMap;
+   ColorMap colorMap;
 
 	MyColor readColor(int& index, std::string& text);
 	MyColor readColorByRGB(int& index, std::string& text);
@@ -38,7 +38,7 @@ class GameTextMaker {
 	MyColor readColorByColorName(int& index, std::string& text);
 
 public:
-	GameTextMaker();
+	GameTextMaker() : colorMap() {};
 
 	/*
 	By default text is white.

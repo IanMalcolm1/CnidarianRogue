@@ -22,11 +22,6 @@ std::string GameText::getText() { return text; }
 
 /* Game Text Maker */
 
-GameTextMaker::GameTextMaker() {
-	colorMap = std::make_unique<ColorMap>();
-}
-
-
 GameText GameTextMaker::makeGameText(std::string rawText) {
 	std::vector<GameTextColorNode> colorNodes;
 
@@ -103,7 +98,7 @@ MyColor GameTextMaker::readColorByColorName(int& index, std::string& text) {
 
 	while (index < text.size()) {
 		if (text[index] == ':') {
-			return colorMap->getColor(colorName);
+			return colorMap.getColor(colorName);
 		}
 		else {
 			colorName.push_back(text[index]);

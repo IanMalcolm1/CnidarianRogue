@@ -20,7 +20,7 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    smileyStats->baseMoveSpeed = FULL_TURN_TIME + FULL_TURN_TIME/4;
    smileyStats->baseAttackSpeed = FULL_TURN_TIME + FULL_TURN_TIME/4;
 
-   evilSmiley->description.name = "</red:Evil Smiley Face/>";
+   evilSmiley->description.name = "Evil Smiley Face";
    evilSmiley->description.desc = "Its insipid grin unnerves you.";
 
    evilSmiley->display.symbol = ASYM_SMILE_THIN;

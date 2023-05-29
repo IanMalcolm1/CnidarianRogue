@@ -40,7 +40,7 @@ ItemEntity* ItemFactory::makeBasicSword(TileCoords location) {
 ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
    ItemEntity* mush = coliseum->makeEntity();
 
-   mush->description.name = "</lavender:Magic Mushroom/>";
+   mush->description.name = "Magic Mushroom";
    mush->description.desc = "It has a slight rainbow iridescence.";
 
    mush->display.symbol = ASYM_UFO;
@@ -56,8 +56,8 @@ ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
 ItemEntity* ItemFactory::makeStrengthFruit(TileCoords location) {
    ItemEntity* fruit = coliseum->makeEntity();
 
-   fruit->description.name = "</orange:Magic Fruit/>";
-   fruit->description.desc = "It looks like a purple mango";
+   fruit->description.name = "Magic Fruit";
+   fruit->description.desc = "It looks like a perfectly ripe mango, but with sparkly dots scattered across its skin.";
 
    fruit->display.symbol = ASYM_UFO;
    fruit->display.symbolColor = colorMap.getColor("orange");
