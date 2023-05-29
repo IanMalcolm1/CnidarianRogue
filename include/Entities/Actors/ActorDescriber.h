@@ -6,14 +6,11 @@
 
 
 class ActorDescriber {
-   GameTextMaker* textMaker;
    EffectDescriber* effectDescriber;
 
 public:
-   ActorDescriber(GameTextMaker* gameTextMaker, EffectDescriber* effectDescriber) : textMaker(gameTextMaker), effectDescriber(effectDescriber) {};
+   ActorDescriber(EffectDescriber* effectDescriber) :
+   effectDescriber(effectDescriber) {};
 
-   void setGameTextMaker(GameTextMaker* gameTextMaker);
-
-   GameText name(ActorEntity* actor);
-   GameText describe(ActorEntity* actor);
+   std::string describe(ActorEntity* actor);
 };

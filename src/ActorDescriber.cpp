@@ -2,16 +2,13 @@
 #include "Entities/EntityDescriber.h"
 
 
-GameText ActorDescriber::name(ActorEntity* actor) {
-   return textMaker->makeGameText(EntityDescriber::makeName(actor->description.name, actor->display));
-}
-
-GameText ActorDescriber::describe(ActorEntity* actor) {
-   std::string desc = actor->description.desc;
+std::string ActorDescriber::describe(ActorEntity* actor) {
+   std::string desc = EntityDescriber::makeName(actor->description.name, actor->display);
+   desc.append("\n" + actor->description.desc);
    auto effects = actor->activeEffects.getEffects();
 
    if (effects->empty()) {
-      return textMaker->makeGameText(desc);
+      return desc;
    }
 
    for (int i=0; i<effects->size(); i++) {
@@ -20,9 +17,5 @@ GameText ActorDescriber::describe(ActorEntity* actor) {
       desc.append(" ("+std::to_string(item.second)+")");
    }
 
-   return textMaker->makeGameText(desc);
-}
-
-void ActorDescriber::setGameTextMaker(GameTextMaker* gameTextMaker) {
-   textMaker = gameTextMaker;
+   return desc;
 }

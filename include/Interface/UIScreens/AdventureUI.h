@@ -38,7 +38,7 @@ public:
    AdventureUI(Adventure* adventure) :
    sceneUI(adventure->getScene(), adventure->getPlayerManager()),
    messagesUI(adventure->getGameLog()),
-   playerUI(adventure->getPlayerManager()),
+   playerUI(adventure->getPlayerManager(), adventure->getScene()),
    lookUI(adventure->getScene()),
    viewports() {};
    

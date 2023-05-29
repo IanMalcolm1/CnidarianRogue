@@ -2,36 +2,39 @@
 #include "Entities/Components.h"
 #include "Entities/EntityDescriber.h"
 
-GameText ItemDescriber::name(ItemEntity* item) {
-   return textMaker->makeGameText(EntityDescriber::makeName(item->description.name, item->display));
-}
-
-GameText ItemDescriber::describe(ItemEntity* item) {
-   return textMaker->makeGameText(item->description.desc);
-}
-
-GameText ItemDescriber::describeInDepth(ItemEntity* item) {
-   std::string desc = item->description.desc + "\n";
-
+std::string ItemDescriber::describe(ItemEntity* item) {
+   std::string desc = EntityDescriber::makeName(item->description.name, item->display);
+   desc.append("\n" + item->description.desc);
+   
    if (item->hasComponent(COMPONENT_DAMAGING)) {
-      desc.append( describeDamage((DamagingComp*) item->getComponent(COMPONENT_DAMAGING)) );
+      DamagingComp* damageComp = (DamagingComp*) item->getComponent(COMPONENT_DAMAGING);
+      desc.append( "\n" + describeDamage( damageComp->damage1 ) );
    }
-
-   return textMaker->makeGameText(desc);
-}
-
-
-std::string ItemDescriber::describeDamage(DamagingComp* damage) {
-   std::string desc = "Deals " + std::to_string(damage->damage1.dice) + "d6";
-   if (damage->damage1.constant != 0) {
-      desc.append( "+ " + std::to_string(damage->damage1.constant) + " " );
-   }
-   desc.append( " " + damageNames[damage->damage1.type] + " damage." );
 
    return desc;
 }
 
 
-void ItemDescriber::setGameTextMaker(GameTextMaker* gameTextMaker) {
-   textMaker = gameTextMaker;
+std::string ItemDescriber::describeWeapon(ItemEntity* item) {
+   std::string desc = EntityDescriber::makeName(item->description.name, item->display);
+
+   DamagingComp* damageComp = (DamagingComp*) item->getComponent(COMPONENT_DAMAGING);
+   desc.append( "\n" + describeDamage( damageComp->damage1 ) );
+
+   return desc;
+}
+
+
+std::string ItemDescriber::describeDamage(Damage& damage) {
+   std::string desc = "Deals ";
+
+   if (damage.dice != 0) {
+      desc.append( std::to_string(damage.dice) + "d6+" );
+   }
+
+   desc.append( std::to_string(damage.constant) );
+
+   desc.append( " " + damageNames[damage.type] + " damage." );
+
+   return desc;
 }

@@ -8,6 +8,7 @@ void PlayerUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
    textRenderer.initialize(renderer, spritesheet);
 
    title = textMaker.makeGameText("Player Stats");
+   weaponTitle = textMaker.makeGameText("Wielding:");
 }
 
 void PlayerUI::render(const SDL_Rect& viewport) {
@@ -22,6 +23,7 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    GameText intelligence = textMaker.makeGameText(player->stats.getIntelligenceAsString());
    GameText moveSpeed = textMaker.makeGameText(player->stats.getMoveSpeedAsString());
    GameText attackSpeed = textMaker.makeGameText(player->stats.getAttackSpeedAsString());
+   GameText weaponDesc = textMaker.makeGameText(itemDescriber.describeWeapon(player->getActiveWeapon()));
 
    int startY = textSpecs.margin;
    startY = textRenderer.renderGameText(textSpecsTitle, title, startY);
@@ -36,4 +38,9 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    startY = textRenderer.renderGameText(textSpecs, moveSpeed, startY);
    startY += textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, attackSpeed, startY);
+
+   startY += 2*textSpecs.messageSpacing;
+   startY = textRenderer.renderGameText(textSpecs, weaponTitle, startY);
+   startY += textSpecs.messageSpacing;
+   startY = textRenderer.renderGameText(textSpecs, weaponDesc, startY);
 }
