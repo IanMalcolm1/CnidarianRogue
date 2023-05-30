@@ -30,12 +30,23 @@ std::string EffectDescriber::getMessage(Effect& effect) {
    return messages[effect.description];
 }
 
-std::string EffectDescriber::describe(Effect& effect) {
+std::string EffectDescriber::nameAndDescribe(Effect &effect) {
    if (effect.description == EFFECT_DESC_NONE) {
       return "This effect has no description";
    }
    
    std::string desc = names[effect.description] + "\n";
+   desc.append(describe(effect));
+
+   return desc;
+}
+
+std::string EffectDescriber::describe(Effect& effect) {
+   if (effect.description == EFFECT_DESC_NONE) {
+      return "This effect has no description";
+   }
+
+   std::string desc = "";
 
    switch(effect.type) {
    case EFFECT_TYPE_NONE:

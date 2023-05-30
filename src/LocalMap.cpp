@@ -23,7 +23,6 @@ void LocalMap::updateMapDisplay() {
 
 
 void LocalMap::updateHighlightedTiles() {
-	pathToMouseTile.resetProgress();
 	while (pathToMouseTile.hasNextTile()) {
 		TileCoords tile = pathToMouseTile.getNextTile();
 		setHasReticle(tile, false);
@@ -41,6 +40,8 @@ void LocalMap::updateHighlightedTiles() {
 		setHasReticle(tile, true);
 		pathToMouseTile.incrementProgress();
 	}
+
+   pathToMouseTile.resetProgress();
 
    if (isLooking) {
       setHasReticle(mapDisplay.getFocusTile(), true);

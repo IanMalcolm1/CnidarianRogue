@@ -33,7 +33,7 @@ void SceneUI::processClick(int x, int y, bool isRightClick) {
          playerMan->lookAtMouseTile();
       }
       else {
-         playerMan->startAutoMove();
+         scene->startAutoMove();
       }
 	}
 }

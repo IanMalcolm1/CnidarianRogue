@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include "Adventure/PlayerManager.h"
 #include "Adventure/Scene/Scene.h"
+#include "Entities/Actors/ActorDescriber.h"
 #include "Entities/Items/ItemDescriber.h"
 #include "GraphicsThings/GameText.h"
 #include "GraphicsThings/TextRenderer.h"
@@ -18,11 +19,12 @@ private:
 	TextRenderer textRenderer;
 	TextRenderingSpecs textSpecs, textSpecsTitle;
    ItemDescriber itemDescriber;
+   ActorDescriber actorDescriber;
 
    GameText title, weaponTitle;
 
 public:
-	PlayerUI(PlayerManager* playerMan, Scene* scene, int fontSize = 3) : playerMan(playerMan), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize), textSpecsTitle(fontSize+1), title(), weaponTitle(), itemDescriber(scene->getEffectManager()->getEffectDescriber()) {};
+	PlayerUI(PlayerManager* playerMan, Scene* scene, int fontSize = 3) : playerMan(playerMan), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize), textSpecsTitle(fontSize+1), title(), weaponTitle(), itemDescriber(scene->getEffectManager()->getEffectDescriber()), actorDescriber(scene->getEffectManager()->getEffectDescriber()) {};
 
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
 

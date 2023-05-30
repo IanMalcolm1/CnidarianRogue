@@ -13,7 +13,9 @@ Fix picking up fruits not increasing stats
 Next:
 Make replacing stacked effects replace the oldest effect, not just the first one the
    TurnQueue finds
-Check that enemies go back to Wandering when no longer see Player
+Check that enemies go back to Wandering when they can no longer see the Player
+Move EffectDescriber to Adventure
+Add Scene switching
 Add more creatures
 Simple gameplay loop
 Slightly better generation

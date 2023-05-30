@@ -13,4 +13,5 @@ public:
    effectDescriber(effectDescriber) {};
 
    std::string describe(ActorEntity* actor);
+   std::string listEffects(ActorEntity* actor);
 };

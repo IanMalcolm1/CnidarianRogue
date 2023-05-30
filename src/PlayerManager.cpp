@@ -124,6 +124,27 @@ bool PlayerManager::doAutoAct() {
       return false;
    }
 
+   return doAutoMovement();
+}
+
+void PlayerManager::clearAutoAct() {
+   autoMoveRoute.clear();
+   autoActing = false;
+}
+
+bool PlayerManager::startAutoMove() {
+   if (inputState == PLAYER_INPUT_LOOK) {
+      map->stopLooking();
+      inputState = PLAYER_INPUT_MOVE;
+   }
+
+   autoMoveRoute = map->getRouteToMouseTile();
+   autoActing = true;
+
+   return doAutoMovement();
+}
+
+bool PlayerManager::doAutoMovement() {
    if (!autoMoveRoute.hasNextTile()) {
       clearAutoAct();
       return false;
@@ -141,22 +162,6 @@ bool PlayerManager::doAutoAct() {
       clearAutoAct();
       return false;
    }
-}
-
-void PlayerManager::clearAutoAct() {
-   autoMoveRoute.clear();
-   autoActing = false;
-}
-
-void PlayerManager::startAutoMove() {
-   if (inputState == PLAYER_INPUT_LOOK) {
-      map->stopLooking();
-      inputState = PLAYER_INPUT_MOVE;
-   }
-
-   autoMoveRoute = map->getRouteToMouseTile();
-   autoMoveRoute.resetProgress();
-   autoActing = true;
 }
 
 bool PlayerManager::isAutoActing() { return autoActing; }

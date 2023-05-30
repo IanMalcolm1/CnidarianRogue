@@ -9,7 +9,7 @@ void TextRenderer::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) 
 }
 
 std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& specs, GameText& gameText) {
-	int lines = 1;
+	int height = specs.fontSizePixels;
 	std::string text = gameText.getText();
 
 
@@ -17,7 +17,7 @@ std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& spe
    for (int i=0; i<text.size(); i++) {
       if (text[i] == '\n') {
          lastNewline = i;
-         lines++;
+         height += specs.fontSizePixels + specs.messageSpacing;
          continue;
       }
       if (i-lastNewline < specs.maxLettersPerLine+1) {
@@ -27,13 +27,13 @@ std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& spe
 		if (text[i] == ' ') {
 			text.insert(text.begin() + i + 1, '\r');
          lastNewline = i = i+1;
-			lines++;
+			height += specs.fontSizePixels + specs.lineSpacing;
 		}
 
 		else if (i+1<text.size() && text[i + 1] == ' ') {
 			text.insert(text.begin() + i + 1, '\r');
          lastNewline = i = i+1;
-			lines++;
+			height += specs.fontSizePixels + specs.lineSpacing;
 		}
 
 		else {
@@ -43,13 +43,13 @@ std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& spe
 				if (text[j] == ' ') {
 					text.insert(text.begin() + j + 1, '\r');
                lastNewline = i = j+1;
-					lines++;
+					height += specs.fontSizePixels + specs.lineSpacing;
 					break;
 				}
 				else if (i - j == specs.maxLettersPerLine) {
 					text.insert(text.begin() + i, '\r');
                lastNewline = i;
-					lines++;
+					height += specs.fontSizePixels + specs.lineSpacing;
 					break;
 				}
 			}
@@ -57,12 +57,11 @@ std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& spe
 				text.insert(text.begin() + i, '\r');
             lastNewline = i;
             i--;
-				lines++;
+				height += specs.fontSizePixels + specs.lineSpacing;
 			}
 		}
    }
 
-	int height = lines * specs.fontSizePixels + (lines - 1) * specs.lineSpacing;
 
 	return std::make_pair(text, height);
 }

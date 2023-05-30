@@ -14,5 +14,6 @@ public:
 
    std::string getAdjective(Effect& effect);
    std::string getMessage(Effect& effect);
+   std::string nameAndDescribe(Effect& effect);
    std::string describe(Effect& effect);
 };

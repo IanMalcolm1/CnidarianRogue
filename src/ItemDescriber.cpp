@@ -13,7 +13,7 @@ std::string ItemDescriber::describe(ItemEntity* item) {
 
    if (item->hasComponent(COMPONENT_EFFECT)) {
       EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
-      desc.append("\nEffect: " + effectDescriber->describe(effectComp->effect1));
+      desc.append("\nEffect: " + effectDescriber->nameAndDescribe(effectComp->effect1));
    }
 
    return desc;
@@ -28,7 +28,7 @@ std::string ItemDescriber::describeWeapon(ItemEntity* item) {
 
    if (item->hasComponent(COMPONENT_EFFECT)) {
       EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
-      desc.append("\n" + effectDescriber->describe(effectComp->effect1));
+      desc.append("\n" + effectDescriber->nameAndDescribe(effectComp->effect1));
    }
 
    return desc;

@@ -56,6 +56,7 @@ public:
    ActorUtils* getActorUtils();
 
    void runTurn();
+   void startAutoMove();
 	void updateMapDisplay();
    void initialize();
 
