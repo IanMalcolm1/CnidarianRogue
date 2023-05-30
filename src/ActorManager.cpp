@@ -5,6 +5,7 @@
 #include "Entities/Actors/ActorFactory.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include "Entities/Components.h"
+#include "Entities/EntityDescriber.h"
 #include "EventListener/Listener.h"
 #include <cwchar>
 #include <random>
@@ -71,7 +72,9 @@ void ActorManager::damageActor(ActorEntity* actor, int damage) {
    }
 
    if (actor->stats.health <= 0) {
-      std::string deathMsg = actor->description.name + " dies.";
+      std::string deathMsg = EntityDescriber::makeName(actor);
+      deathMsg.append(" dies.");
+
       sendMsgIfActorIsVisible(actor, deathMsg);
 
       destroyActor(actor);

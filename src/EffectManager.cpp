@@ -2,6 +2,8 @@
 #include "Entities/Actors/ActorEntity.h"
 #include "Entities/Actors/ActorStatBlock.h"
 #include "Entities/Effects/Effect.h"
+#include "Entities/Effects/EffectDescriber.h"
+#include "Entities/EntityDescriber.h"
 #include "Logs/DebugLogger.h"
 
 
@@ -25,7 +27,7 @@ void EffectManager::attachEffect(Effect& effect, ActorEntity* effectee) {
    }
 
    if (effect.description != EFFECT_DESC_NONE) {
-      std::string msg = effectee->description.name;
+      std::string msg = EntityDescriber::makeName(effectee);
       msg.append(describer.getMessage(effect));
       actorMan->sendMsgIfActorIsVisible(effectee, msg);
    }
@@ -86,7 +88,7 @@ void EffectManager::updateEffect(Effect& effect, ActorEntity* effectee) {
 void EffectManager::applyDamageEffect(Effect& effect, ActorEntity* effectee) {
    auto damageAndMsg = actorMan->calcDamage(effectee, effect.damageInfo.damage);
 
-   std::string msg = effectee->description.name + " takes " + damageAndMsg.second;
+   std::string msg = EntityDescriber::makeName(effectee) + " takes " + damageAndMsg.second;
    actorMan->sendMsgIfActorIsVisible(effectee, msg);
 
    actorMan->damageActor(effectee, damageAndMsg.first);

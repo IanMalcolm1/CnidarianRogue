@@ -1,12 +1,13 @@
 #include "Entities/Actors/ActorUtils.h"
+#include "Entities/EntityDescriber.h"
 
 
 void ActorUtils::doAttack(ActorEntity* attacker, ActorEntity* defender) {
    DamagingComp* damageComp = (DamagingComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_DAMAGING);
    
-   std::string message = attacker->description.name;
+   std::string message = EntityDescriber::makeName(attacker);
    message.append(" attacks ");
-   message.append(defender->description.name);
+   message.append(EntityDescriber::makeName(defender));
    message.append(" for ");
 
    auto damageAndMessage = actorMan->calcDamage(defender, damageComp->damage1);
