@@ -36,14 +36,8 @@ std::string ActorStatBlock::getIntelligenceAsString() {
    return intelligenceString;
 }
 
-std::string ActorStatBlock::getMoveSpeedAsString() {
-   std::string moveSpeedString = "Move Speed: ";
-   moveSpeedString.append(std::to_string(baseMoveSpeed));
+std::string ActorStatBlock::getSpeedAsString() {
+   std::string moveSpeedString = "Speed: ";
+   moveSpeedString.append(std::to_string(speed));
    return moveSpeedString;
-}
-
-std::string ActorStatBlock::getAttackSpeedAsString() {
-   std::string attackSpeedString = "Attack Speed: ";
-   attackSpeedString.append(std::to_string(baseAttackSpeed));
-   return attackSpeedString;
 }

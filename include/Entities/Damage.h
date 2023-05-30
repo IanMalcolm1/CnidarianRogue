@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 
 enum DamageType {
    DAMAGE_PHYSICAL = 0,
@@ -18,4 +19,6 @@ struct Damage {
 	bool operator == (const Damage damage) const {
       return (type==damage.type && dice==damage.dice && constant==damage.constant);
    }
+
+   std::string getDescription();
 };

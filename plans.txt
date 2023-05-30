@@ -8,8 +8,6 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Add descriptions for effects
-Make new category of effect enums for when they get applied (on pickup, on hit, etc)
 Fix picking up fruits not increasing stats
 
 Next:

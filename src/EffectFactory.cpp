@@ -6,7 +6,7 @@
 
 
 Effect EffectFactory::makePoison(int strength) {
-   Effect poison = Effect(EFFECT_CLASS_DOT, EFFECT_TYPE_DAMAGE);
+   Effect poison = Effect(EFFECT_TIMING_DOT, EFFECT_TYPE_DAMAGE);
    poison.description = EFFECT_DESC_POISON;
 
    poison.damageInfo.damage = Damage(DAMAGE_POISON, 0, 1);
@@ -21,7 +21,8 @@ Effect EffectFactory::makePoison(int strength) {
 
 
 Effect EffectFactory::makeStrengthen(int strength) {
-   Effect powerUp = Effect(EFFECT_CLASS_PERMANENT, EFFECT_TYPE_STAT_MOD);
+   Effect powerUp = Effect(EFFECT_TIMING_PERMANENT, EFFECT_TYPE_STAT_MOD);
+   powerUp.description = EFFECT_DESC_STRENGTH;
 
    powerUp.statModInfo.stat = STAT_STRENGTH;
    powerUp.statModInfo.modification = strength;
@@ -32,7 +33,8 @@ Effect EffectFactory::makeStrengthen(int strength) {
 }
 
 Effect EffectFactory::makeEnlighten(int strength) {
-   Effect powerUp = Effect(EFFECT_CLASS_PERMANENT, EFFECT_TYPE_STAT_MOD);
+   Effect powerUp = Effect(EFFECT_TIMING_PERMANENT, EFFECT_TYPE_STAT_MOD);
+   powerUp.description = EFFECT_DESC_INTELLIGENCE;
 
    powerUp.statModInfo.stat = STAT_INTELLIGENCE;
    powerUp.statModInfo.modification = strength;

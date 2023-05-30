@@ -6,11 +6,13 @@
 class EffectDescriber {
 private:
    std::string names[EFFECT_DESC_NONE];
+   std::string adjectives[EFFECT_DESC_NONE];
    std::string messages[EFFECT_DESC_NONE];
 
 public:
    EffectDescriber();
 
-   std::string getName(EffectDescription descID);
-   std::string getMessage(EffectDescription descID);
+   std::string getAdjective(Effect& effect);
+   std::string getMessage(Effect& effect);
+   std::string describe(Effect& effect);
 };

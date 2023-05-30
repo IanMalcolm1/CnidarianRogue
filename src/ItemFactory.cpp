@@ -57,7 +57,7 @@ ItemEntity* ItemFactory::makeStrengthFruit(TileCoords location) {
    ItemEntity* fruit = coliseum->makeEntity();
 
    fruit->description.name = "Magic Fruit";
-   fruit->description.desc = "It looks like a perfectly ripe mango, but with sparkly dots scattered across its skin.";
+   fruit->description.desc = "It looks like a sparkly mango.";
 
    fruit->display.symbol = ASYM_UFO;
    fruit->display.symbolColor = colorMap.getColor("orange");

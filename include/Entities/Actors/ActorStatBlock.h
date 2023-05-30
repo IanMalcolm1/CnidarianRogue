@@ -6,21 +6,18 @@
 
 struct ActorStatBlock {
 	int health, maxHealth;
-
 	int strength, intelligence;
+	int speed, baseSpeed;
 
-	int baseMoveSpeed, baseAttackSpeed;
-
-	ActorStatBlock(int health = 5, int maxHealth = 5, int strength = 0, int intelligence = 0,
-   int baseMoveSpeed = FULL_TURN_TIME, int baseAttackSpeed = FULL_TURN_TIME) :
-	health(health), maxHealth(maxHealth), strength(strength), intelligence(intelligence),
-	baseMoveSpeed(baseMoveSpeed), baseAttackSpeed(baseAttackSpeed) {};
+	ActorStatBlock(int health = 5, int maxHealth = 5, int strength = 0,
+   int intelligence = 0, int speed = FULL_TURN_TIME) :
+	health(health), maxHealth(maxHealth), strength(strength),
+   intelligence(intelligence), speed(speed) {};
 
    std::string getHealthAsString();
    std::string getStrengthAsString();
    std::string getIntelligenceAsString();
-   std::string getMoveSpeedAsString();
-   std::string getAttackSpeedAsString();
+   std::string getSpeedAsString();
 };
 
 
@@ -29,6 +26,5 @@ enum StatType {
    STAT_MAX_HEALTH,
    STAT_STRENGTH,
    STAT_INTELLIGENCE,
-   STAT_MOVE_SPEED,
-   STAT_ATTACK_SPEED
+   STAT_SPEED
 };

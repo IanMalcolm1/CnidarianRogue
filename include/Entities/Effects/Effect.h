@@ -14,13 +14,11 @@
  *    description or to a an array of effects that each Entity
  *    holds.
  */
-enum EffectClassification {
-   EFFECT_CLASS_PERMANENT,
-   EFFECT_CLASS_TIMED,
-   EFFECT_CLASS_DOT,
-   EFFECT_CLASS_EQUIPPED,
-   EFFECT_CLASS_ON_DEFENSE,
-   EFFECT_CLASS_ON_ATTACK
+enum EffectTiming {
+   EFFECT_TIMING_PERMANENT,
+   EFFECT_TIMING_TIMED,
+   EFFECT_TIMING_DOT,
+   EFFECT_TIMING_EQUIPPED,
 };
 
 struct TimedEffectInfo {
@@ -44,6 +42,7 @@ enum EffectType {
 struct StatModEffectInfo {
    StatType stat;
    int modification;
+   std::string getDescription();
 };
 
 struct DamageEffectInfo {
@@ -56,13 +55,13 @@ enum EffectDescription {
    EFFECT_DESC_POISON,
    EFFECT_DESC_STRENGTH,
    EFFECT_DESC_INTELLIGENCE,
-   EFFECT_DESC_NONE, //also acts as number of effect descriptions
+   EFFECT_DESC_NONE, //also acts as number of effect description types
 };
 
 
 
 struct Effect {
-   EffectClassification classification;
+   EffectTiming timing;
    EffectType type;
    EffectDescription description;
 
@@ -79,12 +78,12 @@ struct Effect {
       EquippedEffectInfo equippedInfo;
    };
 
-   Effect(EffectClassification classification = EFFECT_CLASS_PERMANENT, EffectType type = EFFECT_TYPE_NONE)
-      : type(type), classification(classification), description(EFFECT_DESC_NONE) {};
+   Effect(EffectTiming timing = EFFECT_TIMING_PERMANENT, EffectType type = EFFECT_TYPE_NONE)
+      : type(type), timing(timing), description(EFFECT_DESC_NONE) {};
 
 
 	bool operator == (const Effect effect) const {
-      if (type != effect.type || classification != effect.classification) {
+      if (type != effect.type || timing != effect.timing) {
          return false;
       }
 

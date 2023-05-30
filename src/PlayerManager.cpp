@@ -28,8 +28,7 @@ gameLog(gameLog) {
 
    player->faction = FACTION_GOOD;
 
-   player->stats.baseMoveSpeed = FULL_TURN_TIME;
-   player->stats.baseAttackSpeed = FULL_TURN_TIME;
+   player->stats.speed = FULL_TURN_TIME;
 }
 
 PlayerManager::~PlayerManager() {
@@ -67,13 +66,13 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
    if (inputState == PLAYER_INPUT_MOVE) {
       if (map->thereIsAnActorAt(newCoords) && player->isHostileTo(map->getActorAt(newCoords))) {
          actorUtils->doAttack(player, map->getActorAt(newCoords));
-         turnQueue->insertActor(player, player->stats.baseAttackSpeed);
+         turnQueue->insertActor(player, player->stats.speed);
          return true;
       }
 
       else if (map->isTraversibleAt(newCoords) && !map->thereIsAnActorAt(newCoords)) {
          map->setPlayerLocation(player, newCoords);
-         turnQueue->insertActor(player, player->stats.baseMoveSpeed);
+         turnQueue->insertActor(player, player->stats.speed);
          return true;
       }
       return false;
@@ -135,7 +134,7 @@ bool PlayerManager::doAutoAct() {
    if (map->isTraversibleAt(newTile)) {
       map->setPlayerLocation(player, newTile);
       autoMoveRoute.incrementProgress();
-      turnQueue->insertActor(player, player->stats.baseMoveSpeed);
+      turnQueue->insertActor(player, player->stats.speed);
       return true;
    }
    else {
@@ -183,13 +182,13 @@ bool PlayerManager::pickUpItem() {
       itemMan->destroyItem(item);
    }
 
-   turnQueue->insertActor(player, player->stats.baseAttackSpeed);
+   turnQueue->insertActor(player, player->stats.speed);
 
    return true;
 }
 
 void PlayerManager::waitTurn() {
-   turnQueue->insertActor(player, player->stats.baseMoveSpeed);
+   turnQueue->insertActor(player, player->stats.speed);
 }
 
 

@@ -16,7 +16,7 @@ void AIRunner::runActorTurn(ActorEntity *actor) {
       case AISTATE_APPROACH_AND_WHACK:
          turnTime = approachAndWhack(actor);
       default:
-         turnTime = actor->stats.baseMoveSpeed;
+         turnTime = actor->stats.speed;
 	}
 
    actorMan->addActorToTurnQueue(actor, turnTime);
@@ -31,12 +31,12 @@ int AIRunner::wander(ActorEntity* actor) {
 		if (map->isTraversibleAt(newTile)) {
 			actorMan->moveActor(actor, newTile);
 			currentRoute->incrementProgress();
-			return actor->stats.baseMoveSpeed;
+			return actor->stats.speed;
 		}
 	}
 
 	if (dice.flipCoin()) {
-		return actor->stats.baseMoveSpeed;
+		return actor->stats.speed;
 	}
 
 	std::vector<TileCoords>* visibleTiles = actor->getVisibleTiles();
@@ -51,7 +51,7 @@ int AIRunner::wander(ActorEntity* actor) {
 
 	Pathfinding::makeLineRoute(actor->location, visibleTiles->at(newTileIndex), map, &LocalMap::isTraversibleAt, actor->getCurrentRoute());
 
-	return actor->stats.baseMoveSpeed;
+	return actor->stats.speed;
 }
 
 
@@ -66,7 +66,7 @@ int AIRunner::approachAndWhack(ActorEntity* actor) {
    //do attack if next to target
    if (actor->location.isAdjacentTo(targetActor->location)) {
       actorUtils->doAttack(actor, targetActor);
-      return actor->stats.baseAttackSpeed;
+      return actor->stats.speed;
    }
 
    //approach target
@@ -77,16 +77,16 @@ int AIRunner::approachAndWhack(ActorEntity* actor) {
 
 	if (route->hasNextTile()) {
       actorMan->moveActor(actor, route->getNextTile());
-      return actor->stats.baseMoveSpeed;
+      return actor->stats.speed;
    }
 
    Pathfinding::makeAStarRoute(actor->location, targetActor->location, map, (*route));
    if (route->hasNextTile()) {
       actorMan->moveActor(actor, route->getNextTile());
-      return actor->stats.baseMoveSpeed;
+      return actor->stats.speed;
    }
 
    
    //this should only be hit if the actor is completely stuck
-   return actor->stats.baseMoveSpeed;
+   return actor->stats.speed;
 }

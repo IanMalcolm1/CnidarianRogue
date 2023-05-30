@@ -8,7 +8,12 @@ std::string ItemDescriber::describe(ItemEntity* item) {
    
    if (item->hasComponent(COMPONENT_DAMAGING)) {
       DamagingComp* damageComp = (DamagingComp*) item->getComponent(COMPONENT_DAMAGING);
-      desc.append( "\n" + describeDamage( damageComp->damage1 ) );
+      desc.append("\n" + damageComp->damage1.getDescription());
+   }
+
+   if (item->hasComponent(COMPONENT_EFFECT)) {
+      EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
+      desc.append("\nEffect: " + effectDescriber->describe(effectComp->effect1));
    }
 
    return desc;
@@ -19,22 +24,12 @@ std::string ItemDescriber::describeWeapon(ItemEntity* item) {
    std::string desc = EntityDescriber::makeName(item->description.name, item->display);
 
    DamagingComp* damageComp = (DamagingComp*) item->getComponent(COMPONENT_DAMAGING);
-   desc.append( "\n" + describeDamage( damageComp->damage1 ) );
+   desc.append("\n" + damageComp->damage1.getDescription());
 
-   return desc;
-}
-
-
-std::string ItemDescriber::describeDamage(Damage& damage) {
-   std::string desc = "Deals ";
-
-   if (damage.dice != 0) {
-      desc.append( std::to_string(damage.dice) + "d6+" );
+   if (item->hasComponent(COMPONENT_EFFECT)) {
+      EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
+      desc.append("\n" + effectDescriber->describe(effectComp->effect1));
    }
-
-   desc.append( std::to_string(damage.constant) );
-
-   desc.append( " " + damageNames[damage.type] + " damage." );
 
    return desc;
 }

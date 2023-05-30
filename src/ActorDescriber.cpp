@@ -12,9 +12,9 @@ std::string ActorDescriber::describe(ActorEntity* actor) {
    }
 
    for (int i=0; i<effects->size(); i++) {
-      auto item = effects->at(i);
-      desc.append("\n"+effectDescriber->getName(item.first.description));
-      desc.append(" ("+std::to_string(item.second)+")");
+      auto effect = effects->at(i);
+      desc.append("\n"+effectDescriber->getAdjective(effect.first));
+      desc.append(" ("+std::to_string(effect.second)+")");
    }
 
    return desc;
