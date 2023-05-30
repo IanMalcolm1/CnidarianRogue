@@ -60,5 +60,20 @@ std::string EffectDescriber::describe(Effect& effect) {
       break;
    }
 
+   switch (effect.timing) {
+   case EFFECT_TIMING_PERMANENT:
+      desc.append(" (permanent)");
+      break;
+   case EFFECT_TIMING_DOT:
+      desc.append(" "+effect.dotInfo.getDescription());
+      break;
+   case EFFECT_TIMING_EQUIPPED:
+      desc.append(" "+effect.equippedInfo.getDescription());
+      break;
+   case EFFECT_TIMING_TIMED:
+      desc.append(" "+effect.timedInfo.getDescription());
+      break;
+   }
+
    return desc;
 }

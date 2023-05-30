@@ -1,4 +1,5 @@
 #include "Entities/Effects/Effect.h"
+#include <string>
 
 
 std::string StatModEffectInfo::getDescription() {
@@ -23,4 +24,17 @@ std::string StatModEffectInfo::getDescription() {
    }
 
    return desc;
+}
+
+
+std::string TimedEffectInfo::getDescription() {
+   return "for " + std::to_string(duration) + " TUs";
+}
+
+std::string DoTEffectInfo::getDescription() {
+   return "every " + std::to_string(tickTime) + " TUs for " + std::to_string(duration) + " TUs";
+}
+
+std::string EquippedEffectInfo::getDescription() {
+   return "while equipped";
 }

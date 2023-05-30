@@ -23,12 +23,18 @@ enum EffectTiming {
 
 struct TimedEffectInfo {
    int duration;
+
+   std::string getDescription();
 };
 struct DoTEffectInfo {
    int duration, tickTime;
+
+   std::string getDescription();
 };
 struct EquippedEffectInfo {
    bool isEquipped;
+
+   std::string getDescription();
 };
 
 
