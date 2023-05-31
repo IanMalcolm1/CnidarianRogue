@@ -8,14 +8,16 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
+Change how effect stacking works. It's broken anyway.
+   Maybe DoT stacking adds half duration on stack, rather than resetting to default duration.
+   (And increase effect)
 Fix picking up fruits not increasing stats
+   Add item pickup handling in ItemManager
 
 Next:
-Make replacing stacked effects replace the oldest effect, not just the first one the
-   TurnQueue finds
 Check that enemies go back to Wandering when they can no longer see the Player
-Move EffectDescriber to Adventure
-Add Scene switching
+Move EffectDescriber from Scene to Adventure
+Add Scene switching (stairs)
 Add more creatures
 Simple gameplay loop
 Slightly better generation

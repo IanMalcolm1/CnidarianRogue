@@ -26,7 +26,7 @@ void EffectManager::attachEffect(Effect& effect, ActorEntity* effectee) {
          break;
    }
 
-   if (effect.description != EFFECT_DESC_NONE) {
+   if (effect.name != EFFECT_NONAME) {
       std::string msg = EntityDescriber::makeName(effectee);
       msg.append(describer.getMessage(effect));
       actorMan->sendMsgIfActorIsVisible(effectee, msg);

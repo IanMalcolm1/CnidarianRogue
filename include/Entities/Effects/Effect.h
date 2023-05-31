@@ -57,19 +57,19 @@ struct DamageEffectInfo {
 
 
 
-enum EffectDescription {
-   EFFECT_DESC_POISON,
-   EFFECT_DESC_STRENGTH,
-   EFFECT_DESC_INTELLIGENCE,
-   EFFECT_DESC_NONE, //also acts as number of effect description types
+enum EffectName {
+   EFFECT_POISON,
+   EFFECT_STRENGTH,
+   EFFECT_INTELLIGENCE,
+   EFFECT_NONAME, //also acts as number of effect description types
 };
 
 
 
 struct Effect {
+   EffectName name;
    EffectTiming timing;
    EffectType type;
-   EffectDescription description;
 
    int maxStacks;
 
@@ -84,22 +84,11 @@ struct Effect {
       EquippedEffectInfo equippedInfo;
    };
 
-   Effect(EffectTiming timing = EFFECT_TIMING_PERMANENT, EffectType type = EFFECT_TYPE_NONE)
-      : type(type), timing(timing), description(EFFECT_DESC_NONE) {};
+   Effect(EffectName name = EFFECT_NONAME, EffectTiming timing = EFFECT_TIMING_PERMANENT, EffectType type = EFFECT_TYPE_NONE)
+      : type(type), timing(timing), name(name) {};
 
 
 	bool operator == (const Effect effect) const {
-      if (type != effect.type || timing != effect.timing) {
-         return false;
-      }
-
-      if (type == EFFECT_TYPE_STAT_MOD) {
-         return (statModInfo.stat == effect.statModInfo.stat && statModInfo.modification == effect.statModInfo.modification);
-      }
-      if (type == EFFECT_TYPE_DAMAGE) {
-         return (damageInfo.damage == effect.damageInfo.damage);
-      }
-      
-      return true;
+      return name == effect.name;
 	}
 };

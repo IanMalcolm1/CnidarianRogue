@@ -3,47 +3,47 @@
 
 
 EffectDescriber::EffectDescriber() {
-   names[EFFECT_DESC_POISON] = "</green:Poison/>";
-   adjectives[EFFECT_DESC_POISON] = "</green:Poisoned/>";
-   messages[EFFECT_DESC_POISON] = " is </green:poisoned/>.";
+   names[EFFECT_POISON] = "</green:Poison/>";
+   adjectives[EFFECT_POISON] = "</green:Poisoned/>";
+   messages[EFFECT_POISON] = " is </green:poisoned/>.";
 
-   names[EFFECT_DESC_STRENGTH] = "</orange:Strength/>";
-   adjectives[EFFECT_DESC_STRENGTH] = "</orange:Strengthened/>";
-   messages[EFFECT_DESC_STRENGTH] = " grows stronger.";
+   names[EFFECT_STRENGTH] = "</orange:Strength/>";
+   adjectives[EFFECT_STRENGTH] = "</orange:Strengthened/>";
+   messages[EFFECT_STRENGTH] = " grows stronger.";
 
-   names[EFFECT_DESC_INTELLIGENCE] = "</lavender:Enlightenment/>";
-   adjectives[EFFECT_DESC_INTELLIGENCE] = "</lavender:Enlightened/>";
-   messages[EFFECT_DESC_INTELLIGENCE] = "'s mind clears.";
+   names[EFFECT_INTELLIGENCE] = "</lavender:Enlightenment/>";
+   adjectives[EFFECT_INTELLIGENCE] = "</lavender:Enlightened/>";
+   messages[EFFECT_INTELLIGENCE] = "'s mind clears.";
 }
 
 std::string EffectDescriber::getAdjective(Effect& effect) {
-   if (effect.description == EFFECT_DESC_NONE) {
+   if (effect.name == EFFECT_NONAME) {
       return "Effect adjective not found";
    }
-   return adjectives[effect.description];
+   return adjectives[effect.name];
 }
 
 std::string EffectDescriber::getMessage(Effect& effect) {
-   if (effect.description == EFFECT_DESC_NONE) {
+   if (effect.name == EFFECT_NONAME) {
       return "Effect message not found";
    }
-   return messages[effect.description];
+   return messages[effect.name];
 }
 
 std::string EffectDescriber::nameAndDescribe(Effect &effect) {
-   if (effect.description == EFFECT_DESC_NONE) {
-      return "This effect has no description";
+   if (effect.name == EFFECT_NONAME) {
+      return "This effect has no name";
    }
    
-   std::string desc = names[effect.description] + "\n";
+   std::string desc = names[effect.name] + "\n";
    desc.append(describe(effect));
 
    return desc;
 }
 
 std::string EffectDescriber::describe(Effect& effect) {
-   if (effect.description == EFFECT_DESC_NONE) {
-      return "This effect has no description";
+   if (effect.name == EFFECT_NONAME) {
+      return "This effect has no name";
    }
 
    std::string desc = "";

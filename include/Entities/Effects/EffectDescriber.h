@@ -5,9 +5,9 @@
 
 class EffectDescriber {
 private:
-   std::string names[EFFECT_DESC_NONE];
-   std::string adjectives[EFFECT_DESC_NONE];
-   std::string messages[EFFECT_DESC_NONE];
+   std::string names[EFFECT_NONAME];
+   std::string adjectives[EFFECT_NONAME];
+   std::string messages[EFFECT_NONAME];
 
 public:
    EffectDescriber();
