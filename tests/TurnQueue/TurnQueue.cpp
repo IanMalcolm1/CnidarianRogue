@@ -83,12 +83,14 @@ void TurnQueue::removeActor(ActorEntity* actor) {
 
 
 
-void TurnQueue::insertEffect(Effect effect, ActorEntity* actor, int time) {
+Effect* TurnQueue::insertEffect(Effect effect, ActorEntity* actor, int time) {
    int insertedTime = startTime + time;
    int index = getNextIndex();
 
    nodes[index] = TurnQueueNode(effect, actor, insertedTime);
    sortNode(index);
+
+   return &nodes[index].effect;
 }
 
 void TurnQueue::removeEffect(Effect effect, ActorEntity* actor) {

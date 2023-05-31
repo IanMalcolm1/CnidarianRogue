@@ -9,13 +9,20 @@ consumables that increase them on pickup. No main menu.
 TODOS:
 Current:
 Change how effect stacking works. It's broken anyway.
-   Maybe DoT stacking adds half duration on stack, rather than resetting to default duration.
-   (And increase effect)
+   When adding an effect to the TurnQueue, have the TurnQueue expose a pointer to the effect
+   as stored in the Queue.
+      Actors can keep track of these pointers, which will prevent the need to update both
+      copies of the attached effect as I would have to in the current setup. Also, should
+      add currStacks variable to effects directly rather than having the stupid vector of
+      std::pairs in actors like rn.
+   Stacking rules:
+      No stacking. Just reset durations.
 Fix picking up fruits not increasing stats
    Add item pickup handling in ItemManager
 
 Next:
 Check that enemies go back to Wandering when they can no longer see the Player
+Make rect outliner function so doesn't use cpu (test against normal sdl function)
 Move EffectDescriber from Scene to Adventure
 Add Scene switching (stairs)
 Add more creatures

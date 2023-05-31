@@ -243,6 +243,26 @@ void testSix(std::vector<ActorEntity> actors) {
       testQueue.insertActor(&actors[i%actors.size()], turnTime);
       printNode(testQueue.pop());
    }
+
+   std::cout << '\n';
+}
+
+void testSeven(std::vector<ActorEntity> actors) {
+   std::cout << "\nTest 7: Effect pointers\n";
+
+   TurnQueue testQueue = TurnQueue();
+   bool passed = true;
+
+   Effect effect = Effect('@');
+
+   Effect* effPtr = testQueue.insertEffect(effect, &actors[0], 10);
+
+   if (effect.id == effPtr->id) {
+      std::cout << "Passed\n\n";
+   }
+   else {
+      std::cout << "Failed\n\n";
+   }
 }
 
 int main() {
@@ -262,4 +282,6 @@ int main() {
    testFive(actors);
 
    testSix(actors);
+   
+   testSeven(actors);
 }

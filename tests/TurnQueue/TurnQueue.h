@@ -40,7 +40,7 @@ public:
 
 	void insertActor(ActorEntity* actor, int turnTime);
 	void removeActor(ActorEntity* actor);
-   void insertEffect(Effect effect, ActorEntity* actor, int time);
+   Effect* insertEffect(Effect effect, ActorEntity* actor, int time);
    void removeEffect(Effect effect, ActorEntity* actor);
 	TurnQueueNode* pop();
 };
