@@ -12,6 +12,10 @@ EffectDescriber* EffectManager::getEffectDescriber() {
 }
 
 void EffectManager::attachEffect(Effect& effect, ActorEntity* effectee) {
+   if (effect.timing != EFFECT_TIMING_DOT) {
+      applyEffect(effect, effectee);
+   }
+
    switch (effect.timing) {
       case EFFECT_TIMING_TIMED:
          attachTimedEffect(effect, effectee);

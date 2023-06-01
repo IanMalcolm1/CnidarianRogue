@@ -15,3 +15,15 @@ void ItemManager::destroyItem(ItemEntity* item) {
    }
    itemColiseum.deleteEntity(item->getId());
 }
+
+void ItemManager::moveItem(ItemEntity* item, TileCoords location) {
+   if (item->location != TileCoords(-1,-1)) {
+      map->removeItemAt(item->location, item);
+   }
+
+   item->location = location;
+
+   if (item->location != TileCoords(-1,-1)) {
+      map->addItemAt(location, item);
+   }
+}

@@ -39,6 +39,7 @@ enum ComponentType {
    COMPONENT_WEARABLE,
    COMPONENT_WIELDABLE,
    COMPONENT_DAMAGING,
+   COMPONENT_CONSUMABLE,
 
    NUM_COMPONENT_TYPES
 };
@@ -68,16 +69,23 @@ struct WearableComp : public Component {
 
 
 struct DamagingComp : public Component {
-   Damage damage1, damage2;
+   Damage damage1;
 
-   DamagingComp(Damage damage1 = Damage(), Damage damage2 = Damage())
-      : damage1(damage1), damage2(damage2) {};
+   DamagingComp(Damage damage1 = Damage())
+      : damage1(damage1) {};
 };
 
 
 struct EffectComp : public Component {
-   Effect effect1, effect2;
+   Effect effect1;
 
-   EffectComp(Effect effect1 = Effect(), Effect effect2 = Effect())
-      : effect1(effect1), effect2(effect2) {};
+   EffectComp(Effect effect1 = Effect())
+      : effect1(effect1) {};
+};
+
+
+struct ConsumableComp : public Component {
+   int charges;
+
+   ConsumableComp(int charges = 1) : charges(charges) {};
 };

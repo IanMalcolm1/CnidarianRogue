@@ -174,18 +174,7 @@ bool PlayerManager::pickUpItem() {
       return false;
    }
 
-   ItemEntity* item = itemsInTile->at(0);
-   map->removeItemAt(player->location, item);
-
-   if (item->hasComponent(COMPONENT_WIELDABLE)) {
-      map->addItemAt(player->location, player->getHeldWeapon());
-      player->setWeapon(item);
-   }
-   else if (item->hasComponent(COMPONENT_EFFECT)) {
-      EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
-      effectMan->attachEffect(effectComp->effect1, player);
-      itemMan->destroyItem(item);
-   }
+   actorUtils->doItemPickup(itemsInTile->at(0), player);
 
    turnQueue->insertActor(player, player->stats.speed);
 

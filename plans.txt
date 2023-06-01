@@ -8,17 +8,10 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Remove effect stacking
-   Problem:
-      When vector resizes pointer gets invalidated...
-   Solution:
-      Have actors hold full copies of the effects in the TurnQueue. When actor enters TurnQueue
-      call a actor->updateActiveEffects(int turnTime) function to update durations.
-
-
-Next:
 Fix picking up fruits not increasing stats
    Add item pickup handling in ItemManager
+
+Next:
 Make rect outliner function so doesn't use cpu (test against normal sdl function)
    Test performance in general
 Check that enemies go back to Wandering when they can no longer see the Player

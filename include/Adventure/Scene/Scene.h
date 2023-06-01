@@ -42,7 +42,7 @@ public:
    actorManager(&turnQueue, &map, gameLog), 
    itemManager(&map), playerManager(playerManager),
    effectManager(&actorManager, &turnQueue),
-   actorUtils(&actorManager, &effectManager),
+   actorUtils(&actorManager, &itemManager, &effectManager),
    aiRunner(&map, &actorManager, &actorUtils),
    itemFactory(itemManager.makeFactory()),
    actorFactory(actorManager.makeFactory(&itemFactory)) {};

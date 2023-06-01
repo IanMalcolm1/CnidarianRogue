@@ -49,6 +49,9 @@ ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
    EffectComp effectComp = EffectComp(effectFactory.makeEnlighten(1));
    mush->addComponent(effectComp, COMPONENT_EFFECT);
 
+   ConsumableComp consumableComp = ConsumableComp(1);
+   mush->addComponent(consumableComp, COMPONENT_CONSUMABLE);
+
    registerItem(mush, location);
    return mush;
 }
@@ -64,6 +67,9 @@ ItemEntity* ItemFactory::makeStrengthFruit(TileCoords location) {
 
    EffectComp effectComp = EffectComp(effectFactory.makeStrengthen(1));
    fruit->addComponent(effectComp , COMPONENT_EFFECT);
+
+   ConsumableComp consumableComp = ConsumableComp(1);
+   fruit->addComponent(consumableComp, COMPONENT_CONSUMABLE);
 
    registerItem(fruit, location);
    return fruit;

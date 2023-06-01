@@ -5,6 +5,7 @@
 #include "Entities/Items/ItemFactory.h"
 #include "Logs/GameLog.h"
 #include "Topography/LocalMap.h"
+#include "Topography/TileCoordinates.h"
 
 
 class ItemManager {
@@ -22,4 +23,5 @@ public:
    ItemEntity* getItem(int id);
 
    void destroyItem(ItemEntity* item);
+   void moveItem(ItemEntity* item, TileCoords location);
 };
