@@ -11,7 +11,7 @@ void ActorUtils::doAttack(ActorEntity* attacker, ActorEntity* defender) {
    message.append(EntityDescriber::makeName(defender));
    message.append(" for ");
 
-   auto damageAndMessage = actorMan->calcDamage(defender, damageComp->damage1);
+   auto damageAndMessage = actorMan->calcDamage(attacker, defender, damageComp->damage1);
    message.append(damageAndMessage.second);
    actorMan->sendMsgIfActorIsVisible(defender, message);
 

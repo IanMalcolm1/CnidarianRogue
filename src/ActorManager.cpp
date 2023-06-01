@@ -5,6 +5,7 @@
 #include "Entities/Actors/ActorFactory.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include "Entities/Components.h"
+#include "Entities/Damage.h"
 #include "Entities/EntityDescriber.h"
 #include "EventListener/Listener.h"
 #include <cwchar>
@@ -45,11 +46,18 @@ void ActorManager::addActorToTurnQueue(ActorEntity* actor, int turnTime) {
 }
 
 
-std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* recipient, Damage damage) {
+std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* attacker, ActorEntity* recipient, Damage damage) {
    std::pair<int, std::string> damageAndMessage;
 
    int constant = damage.constant;
    int diceRoll = dice.rollDice(damage.dice);
+
+   if (attacker != nullptr && damage.type == DAMAGE_PHYSICAL) {
+      constant += attacker->stats.strength;
+   }
+   else if (attacker != nullptr) {
+      constant += attacker->stats.intelligence;
+   }
 
    //TODO: add armor calculations
    damageAndMessage.first = (diceRoll + constant);

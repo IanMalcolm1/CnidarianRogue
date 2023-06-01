@@ -94,7 +94,7 @@ void EffectManager::updateEffect(Effect& effect, ActorEntity* effectee) {
 
 
 void EffectManager::applyDamageEffect(Effect& effect, ActorEntity* effectee) {
-   auto damageAndMsg = actorMan->calcDamage(effectee, effect.damageInfo.damage);
+   auto damageAndMsg = actorMan->calcDamage(nullptr, effectee, effect.damageInfo.damage);
 
    std::string msg = EntityDescriber::makeName(effectee) + " takes " + damageAndMsg.second;
    actorMan->sendMsgIfActorIsVisible(effectee, msg);
