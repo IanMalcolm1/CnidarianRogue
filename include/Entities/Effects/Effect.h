@@ -71,8 +71,6 @@ struct Effect {
    EffectTiming timing;
    EffectType type;
 
-   int maxStacks;
-
    union {
       StatModEffectInfo statModInfo;
       DamageEffectInfo damageInfo;

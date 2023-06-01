@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "TestStructures.h"
+#include "TestActor.h"
 
 struct TurnQueueNode {
 	int next;
@@ -40,7 +40,7 @@ public:
 
 	void insertActor(ActorEntity* actor, int turnTime);
 	void removeActor(ActorEntity* actor);
-   Effect* insertEffect(Effect effect, ActorEntity* actor, int time);
+   void insertEffect(Effect effect, ActorEntity* actor, int time);
    void removeEffect(Effect effect, ActorEntity* actor);
 	TurnQueueNode* pop();
 };

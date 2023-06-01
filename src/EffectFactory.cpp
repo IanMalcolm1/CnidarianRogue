@@ -13,8 +13,6 @@ Effect EffectFactory::makePoison(int strength) {
    poison.dotInfo.tickTime = FULL_TURN_TIME;
    poison.dotInfo.duration = FULL_TURN_TIME*10;
 
-   poison.maxStacks = 3;
-
    return poison;
 }
 
@@ -25,8 +23,6 @@ Effect EffectFactory::makeStrengthen(int strength) {
    powerUp.statModInfo.stat = STAT_STRENGTH;
    powerUp.statModInfo.modification = strength;
 
-   powerUp.maxStacks = 9999;
-
    return powerUp;
 }
 
@@ -35,8 +31,6 @@ Effect EffectFactory::makeEnlighten(int strength) {
 
    powerUp.statModInfo.stat = STAT_INTELLIGENCE;
    powerUp.statModInfo.modification = strength;
-
-   powerUp.maxStacks = 9999;
 
    return powerUp;
 }

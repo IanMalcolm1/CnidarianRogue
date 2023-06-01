@@ -1,8 +1,26 @@
 #pragma once
 
-#include "Entities/Effects/Effect.h"
 #include <vector>
 
+enum EffectTiming {
+   EFFECT_TIMING_TIMED
+};
+
+struct TimedEffectInfo {
+   int duration;
+};
+
+struct Effect {
+   char id;
+   EffectTiming timing;
+   TimedEffectInfo timedInfo;
+
+   Effect(char id = '*') : id(id) {};
+
+   bool operator == (const Effect effect) {
+      return (id==effect.id);
+   }
+};
 
 class EffectList {
 private:

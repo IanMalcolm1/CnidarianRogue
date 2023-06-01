@@ -14,23 +14,18 @@ EffectDescriber* EffectManager::getEffectDescriber() {
 void EffectManager::attachEffect(Effect& effect, ActorEntity* effectee) {
    switch (effect.timing) {
       case EFFECT_TIMING_TIMED:
-         addEffectToActorList(effect, effectee);
-         applyEffect(effect, effectee);
-         turnQueue->insertEffect(effect, effectee, effect.timedInfo.duration);
+         attachTimedEffect(effect, effectee);
          break;
       case EFFECT_TIMING_DOT:
-         addEffectToActorList(effect, effectee);
-         updateDoTEffect(effect, effectee);
+         attachDoTEffect(effect, effectee);
          break;
       default:
          break;
    }
 
-   if (effect.name != EFFECT_NONAME) {
-      std::string msg = EntityDescriber::makeName(effectee);
-      msg.append(describer.getMessage(effect));
-      actorMan->sendMsgIfActorIsVisible(effectee, msg);
-   }
+   std::string msg = EntityDescriber::makeName(effectee);
+   msg.append(describer.getMessage(effect));
+   actorMan->sendMsgIfActorIsVisible(effectee, msg);
 }
 
 void EffectManager::applyEffect(Effect& effect, ActorEntity* effectee) {
@@ -47,24 +42,33 @@ void EffectManager::applyEffect(Effect& effect, ActorEntity* effectee) {
    }
 }
 
-void EffectManager::addEffectToActorList(Effect& effect, ActorEntity* effectee) {
-   auto actorEffect = effectee->activeEffects.getEffect(effect);
-   if (actorEffect == nullptr) {
+
+void EffectManager::attachDoTEffect(Effect& effect, ActorEntity* effectee) {
+   Effect* activeEffect = effectee->activeEffects.getEffect(effect);
+
+   //if this effect is new, add it to queue
+   if (activeEffect == nullptr) {
       effectee->activeEffects.addEffect(effect);
+      turnQueue->insertEffect(effect, effectee, effect.dotInfo.tickTime);
+      return;
    }
-   else {
-      if (actorEffect->first.maxStacks > actorEffect->second) {
-         actorEffect->second++;
-      }
-      else {
-         //TODO: remove oldest effect, not just the next one in line
-         turnQueue->removeEffect(effect, effectee);
-      }
-   }
+
+   //if an existing effect exists, replace it
+   activeEffect->dotInfo.duration = effect.dotInfo.duration;
+   turnQueue->removeEffect(effect, effectee);
+   turnQueue->insertEffect(effect, effectee, effect.dotInfo.tickTime);
 }
 
-
 void EffectManager::attachTimedEffect(Effect& effect, ActorEntity* effectee) {
+   Effect* activeEffect = effectee->activeEffects.getEffect(effect);
+   if (activeEffect == nullptr) {
+      effectee->activeEffects.addEffect(effect);
+      turnQueue->insertEffect(effect, effectee, effect.timedInfo.duration);
+      return;
+   }
+
+   activeEffect->timedInfo.duration = effect.timedInfo.duration;
+   turnQueue->removeEffect(effect, effectee);
    turnQueue->insertEffect(effect, effectee, effect.timedInfo.duration);
 }
 
@@ -129,22 +133,6 @@ void EffectManager::removeEffect(Effect& effect, ActorEntity* effectee) {
    }
 }
 
-void EffectManager::removeEffectFromActorList(Effect& effect, ActorEntity* effectee) {
-   auto actorEffect = effectee->activeEffects.getEffect(effect);
-   if (actorEffect == nullptr) {
-      DebugLogger::log("Attempt to remove nonexistent effect");
-      return;
-   }
-   else {
-      if (actorEffect->second > 1) {
-         actorEffect->second--;
-      }
-      else {
-         effectee->activeEffects.removeEffect(effect);
-      }
-   }
-
-}
 
 void EffectManager::removeStatModification(Effect& effect, ActorEntity* effectee) {
    switch (effect.statModInfo.stat) {
@@ -168,11 +156,13 @@ void EffectManager::removeStatModification(Effect& effect, ActorEntity* effectee
 void EffectManager::updateDoTEffect(Effect& effect, ActorEntity* effectee) {
    effect.dotInfo.duration -= effect.dotInfo.tickTime;
 
+   effectee->activeEffects.getEffect(effect)->dotInfo.duration = effect.dotInfo.duration;
+
    if (effect.dotInfo.duration > effect.dotInfo.tickTime) {
       turnQueue->insertEffect(effect, effectee, effect.dotInfo.tickTime);
    }
    else {
-      removeEffectFromActorList(effect, effectee);
+      effectee->activeEffects.removeEffect(effect);
    }
 }
 

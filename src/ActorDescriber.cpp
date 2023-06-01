@@ -7,7 +7,7 @@ std::string ActorDescriber::describe(ActorEntity* actor) {
    desc.append("\n" + actor->description.desc);
 
 
-   if (!actor->activeEffects.getEffects()->empty()) {
+   if (!actor->activeEffects.getAllEffects()->empty()) {
       desc.append("\n"+listEffects(actor));
    }
 
@@ -16,7 +16,7 @@ std::string ActorDescriber::describe(ActorEntity* actor) {
 
 
 std::string ActorDescriber::listEffects(ActorEntity *actor) {
-   auto effects = actor->activeEffects.getEffects();
+   auto effects = actor->activeEffects.getAllEffects();
 
    if (effects->empty()) {
       return "";
@@ -26,9 +26,8 @@ std::string ActorDescriber::listEffects(ActorEntity *actor) {
 
    for (int i=0; i<effects->size(); i++) {
       auto effect = effects->at(i);
-      listing.append("\n"+effectDescriber->getAdjective(effect.first));
-      listing.append(" ("+std::to_string(effect.second)+")\n");
-      listing.append(effectDescriber->describe(effect.first));
+      listing.append("\n"+effectDescriber->getAdjective(effect));
+      listing.append("\n"+effectDescriber->describe(effect));
    }
 
    return listing;

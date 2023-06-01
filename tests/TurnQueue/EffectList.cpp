@@ -1,7 +1,4 @@
-#include "Entities/Effects/EffectList.h"
-#include "Entities/Effects/Effect.h"
-#include "Logs/DebugLogger.h"
-
+#include "EffectList.h"
 
 void EffectList::updateEffectDurations(int turnTime) {
    //only timed effects matter. DoT durations get updated on their own
@@ -41,7 +38,6 @@ void EffectList::replaceEffect(Effect& replacement) {
       }
    }
 
-   DebugLogger::log("replaceEffect() did not find an effect to replace");
    effects.push_back(replacement);
 }
 

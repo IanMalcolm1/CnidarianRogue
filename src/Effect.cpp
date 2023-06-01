@@ -1,4 +1,5 @@
 #include "Entities/Effects/Effect.h"
+#include "Enums/TurnTime.h"
 #include <string>
 
 
@@ -28,11 +29,11 @@ std::string StatModEffectInfo::getDescription() {
 
 
 std::string TimedEffectInfo::getDescription() {
-   return "for " + std::to_string(duration) + " TUs";
+   return "for " + std::to_string(duration/FULL_TURN_TIME) + " turn(s)";
 }
 
 std::string DoTEffectInfo::getDescription() {
-   return "every " + std::to_string(tickTime) + " TUs for " + std::to_string(duration) + " TUs";
+   return "every " + std::to_string(tickTime/FULL_TURN_TIME) + " turn(s) for " + std::to_string(duration/FULL_TURN_TIME) + " turn(s)";
 }
 
 std::string EquippedEffectInfo::getDescription() {
