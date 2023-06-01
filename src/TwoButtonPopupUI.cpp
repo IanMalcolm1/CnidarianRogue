@@ -1,6 +1,6 @@
 #include "Interface/UIScreens/TwoButtonPopupUI.h"
 #include "EventListener/Listener.h"
-#include "GraphicsThings/RectFiller.h"
+#include "GraphicsThings/SDLHelper.h"
 
 
 void TwoButtonPopupUI::initialize(Listener* gameListener, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
@@ -23,20 +23,20 @@ void TwoButtonPopupUI::render(const SDL_Rect& viewport) {
 
 	//gray out everything else
 	SDL_SetTextureAlphaMod(spritesheet, 128);
-	RectFiller::fill(renderer, spritesheet, viewport, { 0,0,0 });
+	SDLHelper::fill(renderer, spritesheet, viewport, { 0,0,0 });
 
 	//black background for screen
 	SDL_SetTextureAlphaMod(spritesheet, 255);
-	RectFiller::fill(renderer, spritesheet, screenViewport, { 0,0,0 });
+	SDLHelper::fill(renderer, spritesheet, screenViewport, { 0,0,0 });
 
 	//highlights
 	if (highlightLeftButton) {
 		SDL_SetTextureAlphaMod(spritesheet, 128);
-		RectFiller::fill(renderer, spritesheet, leftButtonViewport, { 255, 255, 0 });
+		SDLHelper::fill(renderer, spritesheet, leftButtonViewport, { 255, 255, 0 });
 	}
 	else if (highlightRightButton) {
 		SDL_SetTextureAlphaMod(spritesheet, 128);
-		RectFiller::fill(renderer, spritesheet, rightButtonViewport, { 255, 0, 0 });
+		SDLHelper::fill(renderer, spritesheet, rightButtonViewport, { 255, 0, 0 });
 	}
 	SDL_SetTextureAlphaMod(spritesheet, 255);
 

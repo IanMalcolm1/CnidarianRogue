@@ -38,7 +38,7 @@ private:
 
 public:
 	Scene(GameLog* gameLog, PlayerManager* playerManager) :
-   map(200, 200), gameLog(gameLog), turnQueue(),
+   map(100, 100), gameLog(gameLog), turnQueue(),
    actorManager(&turnQueue, &map, gameLog), 
    itemManager(&map), playerManager(playerManager),
    effectManager(&actorManager, &turnQueue),

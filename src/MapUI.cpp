@@ -1,5 +1,5 @@
 #include "Interface/UIScreens/MapUI.h"
-#include "GraphicsThings/RectFiller.h"
+#include "GraphicsThings/SDLHelper.h"
 
 void MapUI::initialize(LocalMap* map, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	this->map = map;
@@ -182,7 +182,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 
 	//unseen tiles are rendered black
 	if (!mapDisplay->hasBeenSeen(index)) {
-		RectFiller::fill(renderer, spritesheet, dstrect, { 0,0,0 });
+		SDLHelper::fill(renderer, spritesheet, dstrect, { 0,0,0 });
       if (mapDisplay->hasReticle(index)) {
          renderReticle(index, dstrect);
       }
@@ -191,7 +191,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 
 	//remembered but not visible tiles are faded
 	if (!mapDisplay->isVisible(index)) {
-		RectFiller::fill(renderer, spritesheet, dstrect, { 0,0,0 });
+		SDLHelper::fill(renderer, spritesheet, dstrect, { 0,0,0 });
 		SDL_SetTextureAlphaMod(spritesheet, 64);
 	}
 	else {
@@ -199,7 +199,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 	}
 
 	//tile background
-	RectFiller::fill(renderer, spritesheet, dstrect, tile->backColor);
+	SDLHelper::fill(renderer, spritesheet, dstrect, tile->backColor);
 
 	//tile foreground
 	SDL_SetTextureColorMod(spritesheet, tile->symbolColor.r, tile->symbolColor.g, tile->symbolColor.b);

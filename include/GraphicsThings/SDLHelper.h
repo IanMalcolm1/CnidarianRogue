@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include "GraphicsThings/MyColor.h"
 
-class RectFiller {
+class SDLHelper {
 public:
 	//Uses SDL_RenderCopy() rather than normal SDL_RenderFillRect which is incredibly slow
 	static void fill(SDL_Renderer* renderer, SDL_Texture* spritesheet, const SDL_Rect& destination, MyColor color) {
