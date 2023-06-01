@@ -84,7 +84,7 @@ void GameWindow::resetRenderer() {
 	SDL_SetTextureColorMod(spritesheet, 255, 255, 255);
 }
 
-void GameWindow::update() {
+void GameWindow::update(int fps) {
 	SDL_RenderClear(renderer);
 
 	adventureUI.render(screenDimensions);
@@ -96,7 +96,7 @@ void GameWindow::update() {
 	exitConfirmerUI.render(screenDimensions);
    resetRenderer();
 
-	fpsUI.render(screenDimensions, 0);
+	fpsUI.render(screenDimensions, fps);
    resetRenderer();
    
 	SDL_RenderPresent(renderer);

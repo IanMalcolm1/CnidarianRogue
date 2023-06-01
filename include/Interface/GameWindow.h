@@ -36,7 +36,7 @@ public:
 	~GameWindow();
 
 	bool initialize(Listener* gameListener);
-	void update();
+	void update(int fps);
 
 	void updateWindowDimensions(int width, int height);
 

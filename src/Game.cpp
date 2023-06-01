@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Adventure/Adventure.h"
+#include "Algorithms/FpsCounter.h"
 #include "EventListener/Listener.h"
 #include "Logs/DebugLogger.h"
 #include <iostream>
@@ -13,6 +14,8 @@ Game::Game() {
    needsToDie = false;
    needToRestart = false;
 	millisecsPrevFrame = 0;
+
+   fpsCounter = FpsCounter();
 
 	adventure = std::make_unique<Adventure>();
 
@@ -49,7 +52,9 @@ void Game::Run() {
 			SDL_Delay(timeToWait);
 		}
 
+      fpsCounter.markStartPoint();
 		Update();
+      fpsCounter.markEndPoint();
 
 		millisecsPrevFrame = SDL_GetTicks();
 	}
@@ -61,7 +66,7 @@ void Game::Run() {
 
 
 void Game::Update() {
-	gameWindow->update();
+	gameWindow->update(fpsCounter.getAverageFps());
 
 	isRunning = inputManager->processInput();
 

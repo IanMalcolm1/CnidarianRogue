@@ -5,6 +5,7 @@
 #include <SDL_image.h>
 #include <memory>
 #include "Adventure/Adventure.h"
+#include "Algorithms/FpsCounter.h"
 #include "EventListener/Listener.h"
 #include "Interface/GameWindow.h"
 #include "Adventure/Scene/Scene.h"
@@ -21,6 +22,8 @@ private:
 	//game loop
 	bool isRunning, needsToDie, needToRestart;
 	int millisecsPrevFrame;
+
+   FpsCounter fpsCounter;
 
 	std::unique_ptr<GameWindow> gameWindow;
 	std::unique_ptr<InputManager> inputManager;

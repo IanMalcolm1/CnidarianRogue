@@ -34,6 +34,7 @@ add_executable(Roguelike
    src/Entity.cpp
    src/ExitConfirmerUI.cpp
    src/FoV.cpp
+   src/FpsCounter.cpp
    src/FpsUI.cpp
    src/Game.cpp
    src/GameLog.cpp
