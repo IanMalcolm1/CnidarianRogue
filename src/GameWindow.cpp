@@ -1,6 +1,7 @@
 #include "Interface/GameWindow.h"
 #include "EventListener/Listener.h"
 #include "Interface/UIScreens/ConfirmerUI.h"
+#include "Interface/UIScreens/FpsUI.h"
 #include "Interface/UIScreens/GameOverUI.h"
 #include "Interface/UIScreens/PlayerUI.h"
 #include <SDL.h>
@@ -8,7 +9,7 @@
 #include <stdio.h>
 
 GameWindow::GameWindow(Adventure* adventure, int windowWidth, int windowHeight) :
-adventureUI(adventure), exitConfirmerUI(4), gameOverUI(4) {
+adventureUI(adventure), exitConfirmerUI(4), gameOverUI(4), fpsUI() {
 	screenDimensions.x = screenDimensions.y = 0;
 	screenDimensions.w = windowWidth;
 	screenDimensions.h = windowHeight;
@@ -71,6 +72,7 @@ bool GameWindow::initialize(Listener* gameListener) {
    adventureUI.initialize(renderer, spritesheet);
 	exitConfirmerUI.initialize(gameListener, renderer, spritesheet);
    gameOverUI.initialize(gameListener, renderer, spritesheet);
+   fpsUI.initialize(renderer, spritesheet);
 
 	return success;
 }
@@ -92,6 +94,9 @@ void GameWindow::update() {
    resetRenderer();
    
 	exitConfirmerUI.render(screenDimensions);
+   resetRenderer();
+
+	fpsUI.render(screenDimensions, 0);
    resetRenderer();
    
 	SDL_RenderPresent(renderer);
@@ -132,7 +137,9 @@ void GameWindow::processScroll(int x, int y, int scrollOffset, bool isRightClick
    adventureUI.processScroll(x, y, scrollOffset, isRightClick);
 }
 
-void GameWindow::processKeyPress(SDL_Keycode keycode) {
+void GameWindow::processKeyPress(SDL_Keycode keycode, SDL_Keymod modification) {
+   fpsUI.processKeyPress(keycode, modification);
+
    if (!exitConfirmerUI.hidden) {
       exitConfirmerUI.processKeyPress(keycode);
    }

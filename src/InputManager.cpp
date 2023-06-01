@@ -43,7 +43,7 @@ bool InputManager::processInput() {
 	while (SDL_PollEvent(&sdlEvent)) {
 		switch (sdlEvent.type) {
 		case SDL_KEYDOWN:
-			processKeyPress(sdlEvent.key.keysym.sym, sdlEvent.key.keysym.mod);
+			processKeyPress(sdlEvent.key.keysym.sym, (SDL_Keymod) sdlEvent.key.keysym.mod);
 			break;
 
 		case SDL_MOUSEWHEEL:
@@ -70,8 +70,8 @@ bool InputManager::processInput() {
 	return true;
 }
 
-void InputManager::processKeyPress(SDL_Keycode keycode, Uint16 modification) {
-	gameWindow->processKeyPress(keycode);
+void InputManager::processKeyPress(SDL_Keycode keycode, SDL_Keymod modification) {
+	gameWindow->processKeyPress(keycode, modification);
 
 
 	PlayerCommand command;

@@ -8,12 +8,11 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Fix picking up fruits not increasing stats
-   Add item pickup handling in ItemManager
 
 Next:
 Make rect outliner function so doesn't use cpu (test against normal sdl function)
    Test performance in general
+   Can make an fps thing in top right screen
 Check that enemies go back to Wandering when they can no longer see the Player
 Move EffectDescriber from Scene to Adventure
 Add Scene switching (stairs)

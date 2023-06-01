@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Adventure/Adventure.h"
+#include "Interface/UIScreens/FpsUI.h"
 #include "Interface/UIScreens/GameOverUI.h"
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
@@ -26,6 +27,7 @@ private:
    AdventureUI adventureUI;
 	ExitConfirmerUI exitConfirmerUI;
    GameOverUI gameOverUI;
+   FpsUI fpsUI;
 
 	void resetRenderer();
 
@@ -41,7 +43,7 @@ public:
 	void processCursorLocation(int x, int y);
 	void processClick(int x, int y, bool isRightClick);
 	void processScroll(int x, int y, int scrollOffset, bool isRightClick);
-	void processKeyPress(SDL_Keycode keycode);
+	void processKeyPress(SDL_Keycode keycode, SDL_Keymod modification);
 
    void reset(Adventure* adventure, Listener* gameListener);
 
