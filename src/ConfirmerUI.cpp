@@ -30,20 +30,20 @@ void ConfirmerUI::render(const SDL_Rect& viewport) {
 
 	//gray out everything else
 	SDL_SetTextureAlphaMod(spritesheet, 128);
-	SDLHelper::fill(renderer, spritesheet, viewport, { 0,0,0 });
+	SDLHelper::fillRect(renderer, spritesheet, viewport, { 0,0,0 });
 
 	//black background for screen
 	SDL_SetTextureAlphaMod(spritesheet, 255);
-	SDLHelper::fill(renderer, spritesheet, screenViewport, { 0,0,0 });
+	SDLHelper::fillRect(renderer, spritesheet, screenViewport, { 0,0,0 });
 
 	//highlights
 	if (highlightYes) {
 		SDL_SetTextureAlphaMod(spritesheet, 128);
-		SDLHelper::fill(renderer, spritesheet, yesViewport, { 0, 255, 0 });
+		SDLHelper::fillRect(renderer, spritesheet, yesViewport, { 0, 255, 0 });
 	}
 	else if (highlightNo) {
 		SDL_SetTextureAlphaMod(spritesheet, 128);
-		SDLHelper::fill(renderer, spritesheet, noViewport, { 255, 0, 0 });
+		SDLHelper::fillRect(renderer, spritesheet, noViewport, { 255, 0, 0 });
 	}
 	SDL_SetTextureAlphaMod(spritesheet, 255);
 

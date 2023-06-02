@@ -182,7 +182,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 
 	//unseen tiles are rendered black
 	if (!mapDisplay->hasBeenSeen(index)) {
-		SDLHelper::fill(renderer, spritesheet, dstrect, { 0,0,0 });
+		SDLHelper::fillRect(renderer, spritesheet, dstrect, { 0,0,0 });
       if (mapDisplay->hasReticle(index)) {
          renderReticle(index, dstrect);
       }
@@ -191,7 +191,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 
 	//remembered but not visible tiles are faded
 	if (!mapDisplay->isVisible(index)) {
-		SDLHelper::fill(renderer, spritesheet, dstrect, { 0,0,0 });
+		SDLHelper::fillRect(renderer, spritesheet, dstrect, { 0,0,0 });
 		SDL_SetTextureAlphaMod(spritesheet, 64);
 	}
 	else {
@@ -199,7 +199,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 	}
 
 	//tile background
-	SDLHelper::fill(renderer, spritesheet, dstrect, tile->backColor);
+	SDLHelper::fillRect(renderer, spritesheet, dstrect, tile->backColor);
 
 	//tile foreground
 	SDL_SetTextureColorMod(spritesheet, tile->symbolColor.r, tile->symbolColor.g, tile->symbolColor.b);
