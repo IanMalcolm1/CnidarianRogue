@@ -4,6 +4,7 @@
  * actor's state, and runs the corresponding logic function.
  * Logic functions will be private functions of this class */
 
+#include "Algorithms/Randomizer.h"
 #include "Entities/Actors/ActorDescriber.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Entities/Components.h"
@@ -16,7 +17,6 @@
 #include "EventListener/Blabber.h"
 #include "Topography/LocalMap.h"
 #include "Logs/GameLog.h"
-#include "Algorithms/Dice.h"
 
 
 class ActorManager : public Blabber {
@@ -27,13 +27,13 @@ private:
    LocalMap* map;
    GameLog* gameLog;
 
-   Dice dice;
+   Randomizer randomizer;
 
    std::string damageTypeNames[DAMAGE_NONE];
 
 public:
    ActorManager(TurnQueue* turnQueue, LocalMap* map, GameLog* gameLog) :
-      map(map), gameLog(gameLog), turnQueue(turnQueue), dice(),
+      map(map), gameLog(gameLog), turnQueue(turnQueue), randomizer(),
       actorColiseum(EntityColiseum<ActorEntity>()) {
          damageTypeNames[DAMAGE_FIRE] = " </red:fire/>";
          damageTypeNames[DAMAGE_PHYSICAL] = "";

@@ -1,6 +1,7 @@
 #ifndef AI_H
 #define AI_H
 
+#include "Algorithms/Randomizer.h"
 #include <vector>
 
 /* An AI consists of a set of AiStateIds that correspond
@@ -38,6 +39,8 @@ class AI {
 private:
 	AiStateId currentState;
    bool stateChanged;
+
+   Randomizer randomizer;
 
 	std::vector<AiState> idleSubstates;
 	int sumWeightsIdle;

@@ -8,18 +8,18 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Fix enemies not going back to Wandering when they can no longer see the Player
+Move EffectDescriber from Scene to Adventure
 
 Next:
-Move EffectDescriber from Scene to Adventure
 Add Scene switching (stairs)
-Improve performance
-   Making a long player-to-mouse-tile pathing trail slows things down hugely. At full zoom
-   out the fps drops to ~70, and a full path can drop it further to ~30.
+Make an AI factory class
+Improve performance?
+   Making a long player-to-mouse-tile pathing trail slows things down hugely.
       This is almost certanly the result of a shitty implementation of A*. The only other
       possibility would be reticles somehow taking a long time to render, but making lines
       down long straight halways generates a lot of reticles with hardly any effect on frame
       rate (A* should be faster in this case as it doesn't have so many tiles to search)
+   Granted at this point the performance increases to rendering make this less of a problem.
 Add more creatures
 Simple gameplay loop
 Slightly better generation

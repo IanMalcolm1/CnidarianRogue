@@ -35,7 +35,7 @@ int AIRunner::wander(ActorEntity* actor) {
 		}
 	}
 
-	if (dice.flipCoin()) {
+	if (randomizer.flipCoin()) {
 		return actor->stats.speed;
 	}
 
@@ -45,7 +45,7 @@ int AIRunner::wander(ActorEntity* actor) {
 	TileCoords newLocation;
 
 	do {
-		newTileIndex = rand() % visibleTiles->size();
+		newTileIndex = randomizer.getRandomNumber(visibleTiles->size()-1);
 		newLocation = visibleTiles->at(newTileIndex);
 	} while (!map->isTraversibleAt(newLocation));
 

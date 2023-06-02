@@ -15,7 +15,7 @@ AiStateId AI::rollIdleSubstate() {
 
     srand(time(0));
 
-    int roll = rand() % sumWeightsIdle;
+    int roll = randomizer.getRandomNumber(sumWeightsIdle-1);
 
     int sum = 0;
     for (AiState state : idleSubstates) {
@@ -35,7 +35,7 @@ AiStateId AI::rollAttackingSubstate() {
 
     srand(time(0));
 
-    int roll = rand() % sumWeightsAttacking;
+    int roll = randomizer.getRandomNumber(sumWeightsAttacking-1);
 
     int sum = 0;
     for (AiState state : attackingSubstates) {

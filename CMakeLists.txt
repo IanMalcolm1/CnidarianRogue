@@ -25,7 +25,6 @@ add_executable(Roguelike
    src/ConfirmerUI.cpp
    src/Damage.cpp
    src/DebugLogger.cpp
-   src/Dice.cpp
    src/Effect.cpp
    src/EffectDescriber.cpp
    src/EffectFactory.cpp
@@ -57,6 +56,7 @@ add_executable(Roguelike
    src/PathfindingRoute.cpp
    src/PlayerManager.cpp
    src/PlayerUI.cpp
+   src/Randomizer.cpp
    src/Scene.cpp
    src/SceneUI.cpp
    src/TerrainGenerators.cpp

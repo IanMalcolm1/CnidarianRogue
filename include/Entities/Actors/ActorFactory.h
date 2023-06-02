@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Algorithms/Randomizer.h"
 #include "Entities/EntityColiseum.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
@@ -18,6 +19,7 @@ private:
    ItemFactory* itemFactory;
 
    ColorMap colorMap;
+   Randomizer randomizer;
 
    void registerActor(ActorEntity* actor);
 
@@ -25,7 +27,7 @@ public:
    ActorFactory(EntityColiseum<ActorEntity>* actorColiseum,
    TurnQueue* turnQueue, LocalMap* map, ItemFactory* itemFactory) :
    map(map), turnQueue(turnQueue), colorMap(), itemFactory(itemFactory),
-   actorColiseum(actorColiseum) {};
+   actorColiseum(actorColiseum), randomizer() {};
 
 
    ActorEntity* makeEvilSmileyFace(TileCoords location);

@@ -15,7 +15,7 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    ActorEntity* evilSmiley = actorColiseum->makeEntity();
    ActorStatBlock* smileyStats = &evilSmiley->stats;
 
-   smileyStats->maxHealth = 10 + rand()%5;
+   smileyStats->maxHealth = 10 + randomizer.getRandomNumber(5);
    smileyStats->health = smileyStats->maxHealth;
    smileyStats->speed = FULL_TURN_TIME + FULL_TURN_TIME/4;
 
@@ -32,6 +32,7 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
    evilSmiley->setNaturalWeapon(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
 
    evilSmiley->addAttackingSubstate(AiState(AISTATE_APPROACH_AND_WHACK));
+   evilSmiley->addIdleSubstate(AiState(AISTATE_WANDERING));
    
    registerActor(evilSmiley);
    return evilSmiley;
