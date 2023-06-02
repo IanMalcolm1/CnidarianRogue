@@ -35,16 +35,18 @@ void MapUI::render(const SDL_Rect& viewport) {
 
 	SDL_Rect dstrect = { 0,0, 8, 8 }; //for SDL_RenderCopy()
 	int index;
-   auto dirtyTiles = mapDisplay->getDirtyTiles();
 
-   while (!dirtyTiles->empty()) {
-      int index = dirtyTiles->back();
-      dstrect.x = index%mapDisplay->getWidth() * 8;
-      dstrect.y = index/mapDisplay->getWidth() * 8;
+   for (int row = rData.startTile.y; row < rData.endTile.y; row++) {
+      auto dirtyTileRow = mapDisplay->getDirtyTilesRow(row);
+         while (!dirtyTileRow->empty()) {
+            int index = dirtyTileRow->back();
+            dstrect.x = index%mapDisplay->getWidth() * 8;
+            dstrect.y = index/mapDisplay->getWidth() * 8;
 
-      renderTile(index, dstrect);
+            renderTile(index, dstrect);
 
-      dirtyTiles->pop_back();
+            dirtyTileRow->pop_back();
+         }
    }
 
    /*
