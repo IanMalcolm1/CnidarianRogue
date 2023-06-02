@@ -36,7 +36,7 @@ void MapUI::render(const SDL_Rect& viewport) {
 	SDL_Rect dstrect = { 0,0, 8, 8 }; //for SDL_RenderCopy()
 	int index;
 
-   for (int row = rData.startTile.y; row < rData.endTile.y; row++) {
+   for (int row = rData.startTile.y; row <= rData.endTile.y && row<mapDisplay->getHeight(); row++) {
          while (!mapDisplay->rowIsEmpty(row)) {
             int index = mapDisplay->getNextIndexFromRow(row);
             dstrect.x = index%mapDisplay->getWidth() * 8;
