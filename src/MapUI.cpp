@@ -33,11 +33,21 @@ void MapUI::render(const SDL_Rect& viewport) {
 
 	calculateMapRenderingData();
 
-	//for SDL_RenderCopy()
-	SDL_Rect dstrect = { 0,0, 8, 8 };
-
+	SDL_Rect dstrect = { 0,0, 8, 8 }; //for SDL_RenderCopy()
 	int index;
+   auto dirtyTiles = mapDisplay->getDirtyTiles();
 
+   while (!dirtyTiles->empty()) {
+      int index = dirtyTiles->back();
+      dstrect.x = index%mapDisplay->getWidth() * 8;
+      dstrect.y = index/mapDisplay->getWidth() * 8;
+
+      renderTile(index, dstrect);
+
+      dirtyTiles->pop_back();
+   }
+
+   /*
    for (int y = rData.startTile.y; y < rData.endTile.y+1 && y < map->getHeight(); y++) {
       for (int x = rData.startTile.x; x < rData.endTile.x; x++) {
 			index = y * mapDisplay->getWidth() + x;
@@ -49,6 +59,7 @@ void MapUI::render(const SDL_Rect& viewport) {
 			}
 		}
 	}
+   */
 
 	SDL_SetRenderTarget(renderer, NULL);
 
@@ -177,7 +188,7 @@ void MapUI::calcDataForAxis(const SDL_Rect& viewport, char axis) {
 
 
 void MapUI::renderTile(int index, SDL_Rect dstrect) {
-	TileDisplay* tile = mapDisplay->getDisplay(index);
+	TileDisplay* tile = mapDisplay->getDisplayAt(index);
 	SDL_Rect srcrect = { 0,0,8,8 };
 
 	//unseen tiles are rendered black

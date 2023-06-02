@@ -25,7 +25,7 @@ public:
    playerMan(PlayerManager(&log)), terrainGenerator(TerrainGenerator()),
    alreadyRanTurn(false) {
       linkPlayerAndScene();
-	   terrainGenerator.rectangleRooms(&scene, 20, 20);
+	   terrainGenerator.rectangleRooms(&scene, 30, 30);
       scene.initialize();
       updateMapDisplay();
    };

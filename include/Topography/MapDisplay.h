@@ -11,7 +11,6 @@ struct MapDisplayTile {
 	bool isVisible;
 	bool hasBeenSeen;
 	bool hasReticle;
-	bool dirty;
 };
 
 
@@ -23,16 +22,20 @@ private:
 	TileCoords focusTile;
 
 	std::vector<MapDisplayTile> tiles;
+   std::vector<int> dirtyTiles;
 
 public:
-	MapDisplay(int width, int height) : width(width), height(height), focusTile({ 0,0 }),
-		tiles(width* height, { false, false, false }) {};
+	MapDisplay(int width, int height) : width(width), height(height),
+   focusTile({ 0,0 }), tiles(width* height, { false, false, false }),
+   dirtyTiles(width*height/2) {};
 	~MapDisplay();
 
 	int getWidth();
 	int getHeight();
 
-	TileDisplay* getDisplay(int index);
+   std::vector<int>* getDirtyTiles();
+
+	TileDisplay* getDisplayAt(int index);
 	void setDisplayAt(int index, TileDisplay display);
 
 	TileCoords getFocusTile();
@@ -45,6 +48,5 @@ public:
 	void setVisibility(int index, bool value);
 	void setHasReticle(int index, bool value);
 
-	bool isDirty(int index);
-	inline void setDirty(int index, bool value) { tiles[index].dirty = value; }
+	void setDirty(int index);
 };
