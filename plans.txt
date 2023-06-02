@@ -8,10 +8,9 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Move EffectDescriber from Scene to Adventure
+Add Scene switching (stairs)
 
 Next:
-Add Scene switching (stairs)
 Make an AI factory class
 Improve performance?
    Making a long player-to-mouse-tile pathing trail slows things down hugely.

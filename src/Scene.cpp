@@ -1,6 +1,7 @@
 #include "Adventure/Scene/Scene.h"
 #include "Algorithms/FoV.h"
 #include "Entities/Actors/ActorFactory.h"
+#include "Entities/Effects/EffectDescriber.h"
 #include "Enums/PlayerCommands.h"
 #include <random>
 
@@ -11,6 +12,7 @@ ItemFactory* Scene::getItemFactory() { return &itemFactory; }
 TurnQueue* Scene::getTurnQueue() { return &turnQueue; }
 ItemManager* Scene::getItemManager() { return &itemManager; }
 EffectManager* Scene::getEffectManager() { return &effectManager; }
+EffectDescriber* Scene::getEffectDescriber() { return effectManager.getEffectDescriber(); }
 ActorUtils* Scene::getActorUtils() { return &actorUtils; }
 
 

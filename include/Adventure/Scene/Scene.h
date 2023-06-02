@@ -53,6 +53,7 @@ public:
    ItemManager* getItemManager();
    ItemFactory* getItemFactory();
    EffectManager* getEffectManager();
+   EffectDescriber* getEffectDescriber();
    ActorUtils* getActorUtils();
 
    void runTurn();
