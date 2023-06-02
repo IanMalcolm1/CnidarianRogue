@@ -229,7 +229,7 @@ void MapUI::processScroll(int x, int y, int offset, bool isRightClick) {
 	}
 
 	rData.scale += offset;
-	if (rData.scale < 1) { rData.scale = 1; }
+	if (rData.scale < 2) { rData.scale = 2; }
 	else if (rData.scale > 20) { rData.scale = 20; }
 
 	rData.scaleSize = rData.scale * 8;
