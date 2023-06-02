@@ -8,10 +8,22 @@ MapDisplay::~MapDisplay() {
 int MapDisplay::getWidth() { return width; }
 int MapDisplay::getHeight() { return height; }
 
-TileDisplay* MapDisplay::getDisplay(int index) { return &tiles[index].display; }
+bool MapDisplay::rowIsEmpty(int row) {
+   return dirtyTiles[row].empty();
+}
+
+int MapDisplay::getNextIndexFromRow(int row) {
+   int index = dirtyTiles[row].back();
+   dirtyTiles[row].pop_back();
+   isDirtyLookup[index] = false;
+
+   return index;
+}
+
+TileDisplay* MapDisplay::getDisplayAt(int index) { return &tiles[index].display; }
 void MapDisplay::setDisplayAt(int index, TileDisplay display) {
 	tiles[index].display = display;
-	setDirty(index, true);
+	setDirty(index);
 }
 
 TileCoords MapDisplay::getFocusTile() { return focusTile; }
@@ -29,11 +41,16 @@ void MapDisplay::setVisibility(int index, bool value) {
    if (value == true) {
 	   tiles[index].hasBeenSeen = value;
    };
-	setDirty(index, true);
+	setDirty(index);
 }
 void MapDisplay::setHasReticle(int index, bool value) {
 	tiles[index].hasReticle = value;
-	setDirty(index, true);
+	setDirty(index);
 }
 
-bool MapDisplay::isDirty(int index) { return tiles[index].dirty; }
+void MapDisplay::setDirty(int index) {
+   if (isDirtyLookup[index] == false) {
+      isDirtyLookup[index] = true;
+      dirtyTiles[index/width].push_back(index);
+   }
+}

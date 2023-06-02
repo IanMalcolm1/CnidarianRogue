@@ -76,6 +76,11 @@ void LocalMap::resetVisibleTileDisplays() {
 
 
 void LocalMap::updateVisibleTileDisplays() {
+   //normal state of affairs
+	for (int index : visibleIndices) {
+		mapDisplay.setDisplayAt(index, getDisplayAt(index));
+	}
+
    /*
    //set everything visible
    for (int i=0; i<width*height; i++) {
@@ -83,10 +88,6 @@ void LocalMap::updateVisibleTileDisplays() {
       mapDisplay.setVisibility(i, true);
    }
    */
-   //normal state of affairs
-	for (int index : visibleIndices) {
-		mapDisplay.setDisplayAt(index, getDisplayAt(index));
-	}
 }
 
 

@@ -8,16 +8,12 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Check that enemies go back to Wandering when they can no longer see the Player
-   They do not...
+Fix enemies not going back to Wandering when they can no longer see the Player
 
 Next:
 Move EffectDescriber from Scene to Adventure
 Add Scene switching (stairs)
 Improve performance
-   The number of tiles shown seems to be the main determinant of fps
-      Instead of looping through all visible tiles and updating them if they are dirty, make
-      a vector of dirty tiles to be looped through directly
    Making a long player-to-mouse-tile pathing trail slows things down hugely. At full zoom
    out the fps drops to ~70, and a full path can drop it further to ~30.
       This is almost certanly the result of a shitty implementation of A*. The only other
