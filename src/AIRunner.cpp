@@ -86,7 +86,6 @@ int AIRunner::approachAndWhack(ActorEntity* actor) {
       return actor->stats.speed;
    }
 
-   
    //this should only be hit if the actor is completely stuck
    return actor->stats.speed;
 }

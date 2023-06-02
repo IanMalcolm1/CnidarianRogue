@@ -43,7 +43,6 @@ public:
 	bool hasReticle(int index);
 
 	void setVisibility(int index, bool value);
-	void setSeen(int index, bool value);
 	void setHasReticle(int index, bool value);
 
 	bool isDirty(int index);

@@ -26,10 +26,9 @@ bool MapDisplay::hasReticle(int index) { return tiles[index].hasReticle; }
 
 void MapDisplay::setVisibility(int index, bool value) { 
 	tiles[index].isVisible = value; 
-	setDirty(index, true);
-}
-void MapDisplay::setSeen(int index, bool value) {
-	tiles[index].hasBeenSeen = value;
+   if (value == true) {
+	   tiles[index].hasBeenSeen = value;
+   };
 	setDirty(index, true);
 }
 void MapDisplay::setHasReticle(int index, bool value) {
