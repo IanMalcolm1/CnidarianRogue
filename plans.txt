@@ -9,6 +9,7 @@ consumables that increase them on pickup. No main menu.
 TODOS:
 Current:
 Add Scene switching (stairs)
+   Improve generation (terrain pallete, rectangle and circle functions)
 
 Next:
 Make an AI factory class

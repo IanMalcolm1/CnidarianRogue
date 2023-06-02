@@ -24,5 +24,7 @@ struct TileDisplay {
    TileDisplay(EntityDisplay entityDisplay, MyColor backColor) : symbol(entityDisplay.symbol),
    symbolColor(entityDisplay.symbolColor), backColor(backColor) {};
 
-	void copy(TileDisplay* display);
+	bool operator == (const TileDisplay display) const {
+      return symbol==display.symbol && symbolColor==display.symbolColor && backColor==display.backColor;
+	}
 };

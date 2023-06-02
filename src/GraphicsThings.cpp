@@ -13,15 +13,6 @@ void MyColor::set(uint8_t red, uint8_t green, uint8_t blue) {
 }
 
 
-/* TileDisplay */
-
-void TileDisplay::copy(TileDisplay* display) {
-	symbol = display->symbol;
-	symbolColor = display->symbolColor;
-	backColor = display->backColor;
-}
-
-
 /* ColorMap */
 
 ColorMap::ColorMap() {

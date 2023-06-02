@@ -22,6 +22,10 @@ int MapDisplay::getNextIndexFromRow(int row) {
 
 TileDisplay* MapDisplay::getDisplayAt(int index) { return &tiles[index].display; }
 void MapDisplay::setDisplayAt(int index, TileDisplay display) {
+   if (display == tiles[index].display) {
+      return;
+   }
+
 	tiles[index].display = display;
 	setDirty(index);
 }
@@ -36,13 +40,35 @@ bool MapDisplay::isVisible(int index) { return tiles[index].isVisible; }
 bool MapDisplay::hasBeenSeen(int index) { return tiles[index].hasBeenSeen; }
 bool MapDisplay::hasReticle(int index) { return tiles[index].hasReticle; }
 
-void MapDisplay::setVisibility(int index, bool value) { 
-	tiles[index].isVisible = value; 
-   if (value == true) {
-	   tiles[index].hasBeenSeen = value;
-   };
+void MapDisplay::resetVisibility(int index) {
+   visibilityWasResetLookup[index] = true;
+   visibilityResetIndices.push_back(index);
+}
+
+void MapDisplay::setVisible(int index) { 
+   if (visibilityWasResetLookup[index] == true) { //if undoing visibility reset
+      visibilityWasResetLookup[index] = false;
+      return;
+   }
+
+	tiles[index].isVisible = true; 
+	tiles[index].hasBeenSeen = true;
+
 	setDirty(index);
 }
+
+void MapDisplay::resetVisibilityResets() {
+   for (int index : visibilityResetIndices) {
+      if (visibilityWasResetLookup[index] == true) {
+         tiles[index].isVisible = false;
+         setDirty(index);
+      }
+      visibilityWasResetLookup[index] = false;
+   }
+
+   visibilityResetIndices.clear();
+}
+
 void MapDisplay::setHasReticle(int index, bool value) {
 	tiles[index].hasReticle = value;
 	setDirty(index);

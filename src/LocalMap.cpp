@@ -57,7 +57,7 @@ void LocalMap::makeVisible(TileCoords location) {
 
 	int index = coordsToTileIndex(location);
 
-	mapDisplay.setVisibility(index, true);
+	mapDisplay.setVisible(index);
 
 	visibleIndices.push_back(index);
 }
@@ -65,7 +65,7 @@ void LocalMap::makeVisible(TileCoords location) {
 
 void LocalMap::resetVisibleTileDisplays() {
 	for (int index : visibleIndices) {
-		mapDisplay.setVisibility(index, false);
+		mapDisplay.resetVisibility(index);
 
 		//reset to view of terrain
 		mapDisplay.setDisplayAt(index, terrainMap.getDisplayAtIndex(index));
@@ -80,6 +80,8 @@ void LocalMap::updateVisibleTileDisplays() {
 	for (int index : visibleIndices) {
 		mapDisplay.setDisplayAt(index, getDisplayAt(index));
 	}
+
+   mapDisplay.resetVisibilityResets();
 
    /*
    //set everything visible

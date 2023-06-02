@@ -25,12 +25,16 @@ private:
    std::vector<std::vector<int>> dirtyTiles;
    std::vector<bool> isDirtyLookup;
 
+   std::vector<bool> visibilityWasResetLookup;
+   std::vector<int> visibilityResetIndices;
+
    void setDirty(int index);
 
 public:
 	MapDisplay(int width, int height) : width(width), height(height),
    focusTile({ 0,0 }), tiles(width* height, { false, false, false }),
-   dirtyTiles(height), isDirtyLookup(width*height, false) {};
+   dirtyTiles(height), isDirtyLookup(width*height, false),
+   visibilityWasResetLookup(width*height, false) {};
 	~MapDisplay();
 
 	int getWidth();
@@ -49,6 +53,8 @@ public:
 	bool hasBeenSeen(int index);
 	bool hasReticle(int index);
 
-	void setVisibility(int index, bool value);
+   void resetVisibility(int index);
+	void setVisible(int index);
+   void resetVisibilityResets();
 	void setHasReticle(int index, bool value);
 };

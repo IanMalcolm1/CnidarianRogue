@@ -11,4 +11,8 @@ struct MyColor {
 	MyColor(uint8_t r = 0, uint8_t g = 0, uint8_t b = 0) : r(r), g(g), b(b) {};
 
 	void set(uint8_t red, uint8_t green, uint8_t blue);
+
+   bool operator == (const MyColor color) const {
+      return r==color.r && g==color.g && b==color.b;
+   }
 };
