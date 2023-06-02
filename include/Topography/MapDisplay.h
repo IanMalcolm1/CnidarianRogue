@@ -23,19 +23,21 @@ private:
 
 	std::vector<MapDisplayTile> tiles;
    std::vector<std::vector<int>> dirtyTiles;
+   std::vector<bool> isDirtyLookup;
 
    void setDirty(int index);
 
 public:
 	MapDisplay(int width, int height) : width(width), height(height),
    focusTile({ 0,0 }), tiles(width* height, { false, false, false }),
-   dirtyTiles(height) {};
+   dirtyTiles(height), isDirtyLookup(width*height, false) {};
 	~MapDisplay();
 
 	int getWidth();
 	int getHeight();
 
-   std::vector<int>* getDirtyTilesRow(int row);
+   bool rowIsEmpty(int row);
+   int getNextIndexFromRow(int row);
 
 	TileDisplay* getDisplayAt(int index);
 	void setDisplayAt(int index, TileDisplay display);

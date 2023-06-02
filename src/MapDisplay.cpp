@@ -8,8 +8,16 @@ MapDisplay::~MapDisplay() {
 int MapDisplay::getWidth() { return width; }
 int MapDisplay::getHeight() { return height; }
 
-std::vector<int>* MapDisplay::getDirtyTilesRow(int row) {
-   return &dirtyTiles[row];
+bool MapDisplay::rowIsEmpty(int row) {
+   return dirtyTiles[row].empty();
+}
+
+int MapDisplay::getNextIndexFromRow(int row) {
+   int index = dirtyTiles[row].back();
+   dirtyTiles[row].pop_back();
+   isDirtyLookup[index] = false;
+
+   return index;
 }
 
 TileDisplay* MapDisplay::getDisplayAt(int index) { return &tiles[index].display; }
@@ -41,5 +49,8 @@ void MapDisplay::setHasReticle(int index, bool value) {
 }
 
 void MapDisplay::setDirty(int index) {
-   dirtyTiles[index/width].push_back(index);
+   if (isDirtyLookup[index] == false) {
+      isDirtyLookup[index] = true;
+      dirtyTiles[index/width].push_back(index);
+   }
 }

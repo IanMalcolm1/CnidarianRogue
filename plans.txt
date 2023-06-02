@@ -8,19 +8,12 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Performance issue: tiles shown
-   I believe I'm currently rendering alot of tiles twice. Solution could be to have a normal
-   array of dirty tiles that acts as a lookup table so I don't add duplicate indicies to the
-   dirty tiles array
+Fix enemies not going back to Wandering when they can no longer see the Player
 
 Next:
-Fix enemies not going back to Wandering when they can no longer see the Player
 Move EffectDescriber from Scene to Adventure
 Add Scene switching (stairs)
 Improve performance
-   The number of tiles shown seems to be the main determinant of fps
-      Instead of looping through all visible tiles and updating them if they are dirty, make
-      a vector of dirty tiles to be looped through directly
    Making a long player-to-mouse-tile pathing trail slows things down hugely. At full zoom
    out the fps drops to ~70, and a full path can drop it further to ~30.
       This is almost certanly the result of a shitty implementation of A*. The only other

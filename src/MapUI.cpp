@@ -37,31 +37,14 @@ void MapUI::render(const SDL_Rect& viewport) {
 	int index;
 
    for (int row = rData.startTile.y; row < rData.endTile.y; row++) {
-      auto dirtyTileRow = mapDisplay->getDirtyTilesRow(row);
-         while (!dirtyTileRow->empty()) {
-            int index = dirtyTileRow->back();
+         while (!mapDisplay->rowIsEmpty(row)) {
+            int index = mapDisplay->getNextIndexFromRow(row);
             dstrect.x = index%mapDisplay->getWidth() * 8;
             dstrect.y = index/mapDisplay->getWidth() * 8;
 
             renderTile(index, dstrect);
-
-            dirtyTileRow->pop_back();
          }
    }
-
-   /*
-   for (int y = rData.startTile.y; y < rData.endTile.y+1 && y < map->getHeight(); y++) {
-      for (int x = rData.startTile.x; x < rData.endTile.x; x++) {
-			index = y * mapDisplay->getWidth() + x;
-
-			if (mapDisplay->isDirty(index)) {
-				dstrect.x = x * 8;
-				dstrect.y = y * 8;
-				renderTile(index, dstrect);
-			}
-		}
-	}
-   */
 
 	SDL_SetRenderTarget(renderer, NULL);
 
@@ -242,7 +225,7 @@ void MapUI::processScroll(int x, int y, int offset, bool isRightClick) {
 	}
 
 	rData.scale += offset;
-	if (rData.scale < 1) { rData.scale = 1; }
+	if (rData.scale < 2) { rData.scale = 2; }
 	else if (rData.scale > 20) { rData.scale = 20; }
 
 	rData.scaleSize = rData.scale * 8;
