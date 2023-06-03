@@ -193,15 +193,15 @@ bool LocalMap::isInMapBounds(TileCoords location) {
 	return (location.x>-1 && location.y>-1 && location.x<width && location.y<height);
 }
 
-void LocalMap::setTerrainAt(int index, TileDisplay display, bool traversible, bool opaque) {
-	terrainMap.setTile(index, display, traversible, opaque);
+void LocalMap::setTerrainAt(int index, TerrainTile& terrain) {
+	terrainMap.setTile(index, terrain);
 }
-void LocalMap::setTerrainAt(TileCoords location, TileDisplay display, bool traversible, bool opaque) {
+void LocalMap::setTerrainAt(TileCoords location, TerrainTile& terrain) {
 	if (!isInMapBounds(location)) {
 		DebugLogger::log("setTerrainAt() coordinates out of bounds");
 		return;
 	}
-	setTerrainAt(coordsToTileIndex(location), display, traversible, opaque);
+	setTerrainAt(coordsToTileIndex(location), terrain);
 }
 
 bool LocalMap::isTraversibleAt(int index) {

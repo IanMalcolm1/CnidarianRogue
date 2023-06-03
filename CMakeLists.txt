@@ -59,7 +59,7 @@ add_executable(Roguelike
    src/Randomizer.cpp
    src/Scene.cpp
    src/SceneUI.cpp
-   src/TerrainGenerators.cpp
+   src/TerrainGenerator.cpp
    src/TerrainMap.cpp
    src/TextRenderer.cpp
    src/TurnQueue.cpp

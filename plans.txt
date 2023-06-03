@@ -20,6 +20,8 @@ Improve performance?
       down long straight halways generates a lot of reticles with hardly any effect on frame
       rate (A* should be faster in this case as it doesn't have so many tiles to search)
    Granted at this point the performance increases to rendering make this less of a problem.
+      Unfortunately, performance dropped from ~900fps to 22 when I made a really really long
+      path. So it is a problem :(
 Add more creatures
 Simple gameplay loop
 Slightly better generation

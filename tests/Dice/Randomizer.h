@@ -12,5 +12,6 @@ public:
 
    bool flipCoin();
    int rollD6s(int numDice);
-   int getRandomNumber(int upperLim, int lowerLim = 0);
+   int getRandomNumber(int upperLimit); //returns number in range [0,upperLimit]
+   int getRandomNumber(int lowerLimit, int upperLimit); //returns number in range [lowerLimit, upperLimit]
 };

@@ -1,10 +1,10 @@
 #include "Topography/TerrainMap.h"
 
 
-void TerrainMap::setTile(int id, TileDisplay display, bool traversible, bool opaque) {
-	displays[id] = display;
-	opacities[id] = opaque;
-	traversibilities[id] = traversible;
+void TerrainMap::setTile(int id, TerrainTile& terrain) {
+	displays[id] = terrain.display;
+	opacities[id] = terrain.isOpaque;
+	traversibilities[id] = terrain.isTraversible;
 }
 
 TileDisplay TerrainMap::getDisplayAtIndex(int id) { return displays[id]; }

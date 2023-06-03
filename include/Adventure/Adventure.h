@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Algorithms/TerrainGenerators.h"
+#include "Algorithms/TerrainGenerator.h"
 #include "Adventure/Scene/Scene.h"
 #include "EventListener/Listener.h"
 #include "Logs/GameLog.h"

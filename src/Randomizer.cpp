@@ -23,8 +23,14 @@ int Randomizer::rollD6s(int numDice) {
 };
 
 
-int Randomizer::getRandomNumber(int upperLim, int lowerLim) {
-   std::uniform_int_distribution<int> dist(lowerLim, upperLim);
+int Randomizer::getRandomNumber(int upperLimit) {
+   std::uniform_int_distribution<int> dist(0, upperLimit);
+
+   return dist(generator);
+}
+
+int Randomizer::getRandomNumber(int lowerLimit, int upperLimit) {
+   std::uniform_int_distribution<int> dist(lowerLimit, upperLimit);
 
    return dist(generator);
 }

@@ -67,8 +67,8 @@ public:
 	int getHeight();
 
 	bool isInMapBounds(TileCoords location);
-	void setTerrainAt(int index, TileDisplay display, bool traversible, bool opaque);
-	void setTerrainAt(TileCoords location, TileDisplay display, bool traversible, bool opaque);
+	void setTerrainAt(int index, TerrainTile& terrain);
+	void setTerrainAt(TileCoords location, TerrainTile& terrain);
 	bool isTraversibleAt(int index);
 	bool isTraversibleAt(TileCoords location);
 	bool isOpaqueAt(int index);
