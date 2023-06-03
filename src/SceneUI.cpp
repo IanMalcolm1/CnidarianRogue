@@ -1,8 +1,9 @@
 #include "Interface/UIScreens/SceneUI.h"
 
 
-void SceneUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
-	mapUI.initialize(scene->getMap(), renderer, spritesheet);
+void SceneUI::initialize(PlayerManager* playerMan, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
+   this->playerMan = playerMan;
+	mapUI.initialize(renderer, spritesheet);
 }
 
 
@@ -11,10 +12,11 @@ void SceneUI::cleanUp() {
 }
 
 
-void SceneUI::render(const SDL_Rect& mapViewport) {
+void SceneUI::render(Scene* scene, const SDL_Rect& mapViewport) {
 	this->mapViewport = mapViewport;
+   this->scene = scene;
 
-	mapUI.render(mapViewport);
+	mapUI.render(scene->getMap(), mapViewport);
 }
 
 void SceneUI::processCursorLocation(int x, int y) {

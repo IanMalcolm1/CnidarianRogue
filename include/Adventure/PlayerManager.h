@@ -60,6 +60,7 @@ public:
 
    bool pickUpItem();
    void waitTurn();
+   bool attemptLevelChange();
 
    void setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory, ActorUtils* actorUtils);
 };

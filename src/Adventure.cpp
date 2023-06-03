@@ -1,19 +1,18 @@
 #include "Adventure/Adventure.h"
 #include "Enums/PlayerCommands.h"
+#include "SDL_keycode.h"
 
-void Adventure::linkPlayerAndScene() {
-   playerMan.setSceneDependencies(scene.getTurnQueue(), scene.getMap(), scene.getEffectManager(), scene.getItemManager(), scene.getItemFactory(), scene.getActorUtils());
+
+void Adventure::initialize() {
+   scene = &scenes[sceneIndex];
+   scene->initialize();
+   linkPlayerAndScene();
+   terrainGenerator.rectangleRooms(scene, 30, 30);
+   updateMapDisplay();
 }
-
 
 Scene* Adventure::getScene() {
-   return &scene;
-}
-
-void Adventure::changeScene() {
-   scene.~Scene();
-   scene = Scene(&log, &playerMan);
-   linkPlayerAndScene();
+   return scene;
 }
 
 
@@ -47,17 +46,27 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
    }
 
    else if (command == PC_WAIT) {
-      playerMan.waitTurn();
-      needToRunTurn = true;
+      if ((modification&KMOD_SHIFT)==KMOD_LSHIFT || (modification&KMOD_SHIFT) == KMOD_RSHIFT) {
+         if (playerMan.attemptLevelChange() == true) {
+            newScene();
+         }
+      }
+      else {
+         playerMan.waitTurn();
+         needToRunTurn = true;
+      }
    }
 
    else if (command == PC_TOGGLE_LOOK || command == PC_ESCAPEKEY) {
       playerMan.updateInputState(command);
    }
 
+   else if (command == PC_CHANGE_LEVEL) {
+   }
+
 
    if (needToRunTurn) {
-      scene.runTurn();
+      scene->runTurn();
    }
 }
 
@@ -66,7 +75,7 @@ void Adventure::runTurnIfAutoMoving() {
 	if (!alreadyRanTurn && playerMan.isAutoActing()) {
       bool needToRunTurn = playerMan.doAutoAct();
       if (needToRunTurn) {
-         scene.runTurn();
+         scene->runTurn();
       }
 	}
 	alreadyRanTurn = false;
@@ -74,10 +83,25 @@ void Adventure::runTurnIfAutoMoving() {
 
 
 void Adventure::updateMapDisplay() {
-   scene.updateMapDisplay();
+   scene->updateMapDisplay();
 }
 
 
 void Adventure::hookupListeners(Listener* listener) {
-   scene.hookupListeners(listener, (Listener*) &playerMan);
+   //TODO: save the first and reuse it when switching scenes
+   scene->hookupListeners(listener, (Listener*) &playerMan);
+}
+
+void Adventure::newScene() {
+   if (sceneIndex >= scenes.size()) {
+      log.sendMessage("Last floor");
+      return;
+   }
+
+   sceneIndex++;
+   initialize();
+}
+
+void Adventure::linkPlayerAndScene() {
+   playerMan.setSceneDependencies(scene->getTurnQueue(), scene->getMap(), scene->getEffectManager(), scene->getItemManager(), scene->getItemFactory(), scene->getActorUtils());
 }

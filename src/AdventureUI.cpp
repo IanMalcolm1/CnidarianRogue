@@ -5,10 +5,10 @@ void AdventureUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
    this->renderer = renderer;
    this->spritesheet = spritesheet;
 
-   sceneUI.initialize(renderer, spritesheet);
-   messagesUI.initialize(renderer, spritesheet);
-   playerUI.initialize(renderer, spritesheet);
-   lookUI.initialize(renderer, spritesheet);
+   sceneUI.initialize(adventure->getPlayerManager(), renderer, spritesheet);
+   messagesUI.initialize(adventure->getGameLog(), renderer, spritesheet);
+   playerUI.initialize(adventure->getPlayerManager(), adventure->getScene(), renderer, spritesheet);
+   lookUI.initialize(adventure->getScene(), renderer, spritesheet);
 }
 
 void AdventureUI::cleanUp() {
@@ -21,7 +21,7 @@ void AdventureUI::render(const SDL_Rect& screenDimensions) {
       updateViewports(screenDimensions);
    }
 
-   sceneUI.render(viewports.map);
+   sceneUI.render(adventure->getScene(), viewports.map);
    resetRendererAndDrawBorder(viewports.map);
 
    messagesUI.render(viewports.messages);
@@ -30,7 +30,7 @@ void AdventureUI::render(const SDL_Rect& screenDimensions) {
    playerUI.render(viewports.player);
    resetRendererAndDrawBorder(viewports.player);
 
-   lookUI.render(viewports.look);
+   lookUI.render(adventure->getScene(), viewports.look);
    resetRendererAndDrawBorder(viewports.look);
 }
 

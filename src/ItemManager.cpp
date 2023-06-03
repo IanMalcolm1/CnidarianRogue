@@ -1,8 +1,12 @@
 #include "Adventure/Scene/ItemManager.h"
 
 
-ItemFactory ItemManager::makeFactory() {
-   return ItemFactory(&itemColiseum, map);
+void ItemManager::initialize(LocalMap* map) {
+   this->map = map;
+}
+
+void ItemManager::initializeFactory(ItemFactory* itemFactory) {
+   itemFactory->initialize(&itemColiseum, map);
 }
 
 ItemEntity* ItemManager::getItem(int id) {

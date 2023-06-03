@@ -1,10 +1,18 @@
 #include "Adventure/Scene/Scene.h"
 #include "Algorithms/FoV.h"
-#include "Entities/Actors/ActorFactory.h"
-#include "Entities/Effects/EffectDescriber.h"
-#include "Enums/PlayerCommands.h"
-#include <random>
 
+
+void Scene::initialize() {
+   itemManager.initialize(&map);
+   itemManager.initializeFactory(&itemFactory);
+   actorManager.initialize(&turnQueue, &map, gameLog);
+   actorManager.initializeFactory(&actorFactory, &itemFactory);
+   effectManager.initialize(&actorManager, &turnQueue);
+   actorUtils.initialize(&actorManager, &itemManager, &effectManager);
+   aiRunner.initialize(&map, &actorManager, &actorUtils);
+
+   FoV::calcPlayerFoV(&map, playerManager->getPlayer());
+}
 
 LocalMap* Scene::getMap() {	return &map; }
 ActorFactory* Scene::getActorFactory() { return &actorFactory; }
@@ -55,8 +63,4 @@ void Scene::setPlayerAt(TileCoords location) {
 void Scene::hookupListeners(Listener* listener, Listener* listener1) {
    actorManager.addListener(listener);
    actorManager.addListener(listener1);
-}
-
-void Scene::initialize() {
-   FoV::calcPlayerFoV(&map, playerManager->getPlayer());
 }

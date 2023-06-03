@@ -3,6 +3,13 @@
 #include "Algorithms/Pathfinding.h"
 
 
+void AIRunner::initialize(LocalMap* map, ActorManager* actorMan, ActorUtils* actorUtils) {
+   this->map = map;
+   this->actorMan = actorMan;
+   this->actorUtils = actorUtils;
+}
+
+
 void AIRunner::runActorTurn(ActorEntity *actor) {
 	FoV::calcActorFoV(map, actor);
 

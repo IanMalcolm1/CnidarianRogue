@@ -8,6 +8,7 @@
 #include "Entities/Items/ItemFactory.h"
 #include "Enums/TurnTime.h"
 #include "EventListener/Listener.h"
+#include "Topography/TerrainMap.h"
 
 PlayerManager::PlayerManager(GameLog* gameLog) :
 turnQueue(nullptr), player(nullptr), map(nullptr),
@@ -183,6 +184,14 @@ bool PlayerManager::pickUpItem() {
 
 void PlayerManager::waitTurn() {
    turnQueue->insertActor(player, player->stats.speed);
+}
+
+bool PlayerManager::attemptLevelChange() {
+   TerrainType terrainType = map->getTerrainTypeAt(player->location);
+   if (terrainType == TERRAIN_DOWNSTAIRS) {
+      return true;
+   }
+   return false;
 }
 
 

@@ -15,10 +15,10 @@ private:
    LocalMap* map;
 
 public:
-   ItemManager(LocalMap* map) : map(map),
-   itemColiseum(EntityColiseum<ItemEntity>()) {};
+   ItemManager() : map(nullptr) {};
 
-   ItemFactory makeFactory();
+   void initialize(LocalMap* map);
+   void initializeFactory(ItemFactory* itemFactory);
 
    ItemEntity* getItem(int id);
 

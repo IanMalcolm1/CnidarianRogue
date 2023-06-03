@@ -38,6 +38,9 @@ private:
 	void renderTile(int index, SDL_Rect dstrect);
    void renderReticle(int index, SDL_Rect dstrect);
 
+   void setMaps(LocalMap* map);
+   void makeTexture();
+
 public:
 	bool hidden;
 
@@ -45,10 +48,10 @@ public:
 		mapDisplay(NULL),rData(MapRenderingData()),
 		mainViewport({ 0,0,0,0 }), hidden(false) {}
 
-	void initialize(LocalMap* map, SDL_Renderer* renderer, SDL_Texture* spritesheet);
+	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
    void cleanUp();
 
-	void render(const SDL_Rect& viewport);
+	void render(LocalMap* map, const SDL_Rect& viewport);
 
 	void processScroll(int x, int y, int offset, bool isRightClick); //changes scale
 	void processCursorLocation(int x, int y);

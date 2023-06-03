@@ -21,6 +21,8 @@ struct AdventureViewports {
 
 class AdventureUI {
 private:
+   Adventure* adventure;
+
    AdventureViewports viewports;
 
    SceneUI sceneUI;
@@ -35,13 +37,8 @@ private:
    void resetRendererAndDrawBorder(SDL_Rect& currentViewport);
 
 public:
-   AdventureUI(Adventure* adventure) :
-   sceneUI(adventure->getScene(), adventure->getPlayerManager()),
-   messagesUI(adventure->getGameLog()),
-   playerUI(adventure->getPlayerManager(), adventure->getScene()),
-   lookUI(adventure->getScene()),
-   viewports() {};
-   
+   AdventureUI(Adventure* adventure) : adventure(adventure) {};
+
 	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
    void cleanUp();
 

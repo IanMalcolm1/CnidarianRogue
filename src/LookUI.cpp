@@ -2,9 +2,12 @@
 #include <string>
 
 
-void LookUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
+void LookUI::initialize(Scene* scene, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	this->renderer = renderer;
 	this->spritesheet = spritesheet;
+
+   itemDescriber.initialize(scene->getEffectDescriber());
+   actorDescriber.initialize(scene->getEffectDescriber());
 
    textRenderer.initialize(renderer, spritesheet);
    
@@ -13,8 +16,11 @@ void LookUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 }
 
 
-void LookUI::render(const SDL_Rect& viewport) {
+void LookUI::render(Scene* scene, const SDL_Rect& viewport) {
    //TODO: add scrolling (maybe)
+   this->map = scene->getMap();
+
+
 	SDL_RenderSetViewport(renderer, &viewport);
    
    textSpecs.setViewportWidth(viewport.w);

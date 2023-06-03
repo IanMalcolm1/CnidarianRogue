@@ -38,14 +38,9 @@ private:
 
 public:
 	Scene(GameLog* gameLog, PlayerManager* playerManager) :
-   map(150, 150), gameLog(gameLog), turnQueue(),
-   actorManager(&turnQueue, &map, gameLog), 
-   itemManager(&map), playerManager(playerManager),
-   effectManager(&actorManager, &turnQueue),
-   actorUtils(&actorManager, &itemManager, &effectManager),
-   aiRunner(&map, &actorManager, &actorUtils),
-   itemFactory(itemManager.makeFactory()),
-   actorFactory(actorManager.makeFactory(&itemFactory)) {};
+   map(150, 150), gameLog(gameLog), playerManager(playerManager) {};
+
+   void initialize();
 
 	LocalMap* getMap();
    ActorFactory* getActorFactory();
@@ -59,7 +54,6 @@ public:
    void runTurn();
    void startAutoMove();
 	void updateMapDisplay();
-   void initialize();
 
 	void setPlayerAt(TileCoords location);
 

@@ -28,8 +28,7 @@ private:
    void attachTimedEffect(Effect& effect, ActorEntity* effectee);
 
 public:
-   EffectManager(ActorManager* actorManager, TurnQueue* turnQueue) :
-   actorMan(actorManager), turnQueue(turnQueue) {};
+   void initialize(ActorManager* actorManager, TurnQueue* turnQueue);
 
    EffectDescriber* getEffectDescriber();
 

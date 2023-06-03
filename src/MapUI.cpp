@@ -1,16 +1,40 @@
 #include "Interface/UIScreens/MapUI.h"
 #include "GraphicsThings/SDLHelper.h"
+#include "SDL_render.h"
 
-void MapUI::initialize(LocalMap* map, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
-	this->map = map;
-	this->mapDisplay = map->getMapDisplay();
+void MapUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	this->renderer = renderer;
 	this->spritesheet = spritesheet;
+}
+
+void MapUI::makeTexture() {
+   if (mapTexture != NULL) {
+      SDL_DestroyTexture(mapTexture);
+   }
 
 	int textureWidth = map->getWidth() * 8;
 	int textureHeight = map->getHeight() * 8;
-	mapTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
-		textureWidth, textureHeight);
+	mapTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+      SDL_TEXTUREACCESS_TARGET, textureWidth, textureHeight);
+}
+
+void MapUI::setMaps(LocalMap* map) {
+   if (this->map == nullptr) {
+      this->map = map;
+      mapDisplay = map->getMapDisplay();
+      makeTexture();
+   }
+   
+   else if (map->getWidth() != this->map->getWidth() || map->getHeight() != this->map->getHeight()) {
+      this->map = map;
+      mapDisplay = map->getMapDisplay();
+      makeTexture();
+   }
+
+   else {
+      this->map = map;
+      mapDisplay = map->getMapDisplay();
+   }
 }
 
 void MapUI::cleanUp() {
@@ -19,10 +43,12 @@ void MapUI::cleanUp() {
 }
 
 
-void MapUI::render(const SDL_Rect& viewport) {
+void MapUI::render(LocalMap* map, const SDL_Rect& viewport) {
 	if (hidden) {
 		return;
 	}
+
+   setMaps(map);
 
 	SDL_SetRenderTarget(renderer, mapTexture);
 

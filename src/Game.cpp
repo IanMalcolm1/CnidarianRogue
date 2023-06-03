@@ -37,6 +37,8 @@ bool Game::Initialize() {
 	isRunning = true;
 	bool success;
 
+   adventure->initialize();
+
 	success = gameWindow->initialize((Listener*)this);
 
    adventure->hookupListeners((Listener*) gameWindow.get());

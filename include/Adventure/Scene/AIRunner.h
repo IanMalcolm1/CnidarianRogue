@@ -19,8 +19,9 @@ private:
    int approachAndWhack(ActorEntity* actor);
 
 public:
-   AIRunner(LocalMap* map, ActorManager* actorMan, ActorUtils* actorUtils) :
-   map(map), actorMan(actorMan), actorUtils(actorUtils), randomizer() {};
+   AIRunner() : map(nullptr), actorMan(nullptr), actorUtils(nullptr) {};
+
+   void initialize(LocalMap* map, ActorManager* actorMan, ActorUtils* actorUtils);
 
    void runActorTurn(ActorEntity* actor);
 };

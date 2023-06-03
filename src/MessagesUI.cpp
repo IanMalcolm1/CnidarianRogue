@@ -1,7 +1,9 @@
 #include "Interface/UIScreens/MessagesUI.h"
 
 
-void MessagesUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
+void MessagesUI::initialize(GameLog* log, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
+   this->log = log;
+
 	this->renderer = renderer;
 	this->spritesheet = spritesheet;
 

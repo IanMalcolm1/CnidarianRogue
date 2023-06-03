@@ -23,11 +23,11 @@ private:
 	void makeFormattedMessages();
 
 public:
-	MessagesUI(GameLog* log, int fontSize = 3) :
-		renderer(NULL), spritesheet(NULL), mainViewport({0,0,0,0}), totalHeight(0),
-		log(log), textRenderer(TextRenderer()), textSpecs(TextRenderingSpecs(fontSize)) {};
+	MessagesUI(int fontSize = 3) : renderer(NULL), spritesheet(NULL),
+   mainViewport({0,0,0,0}), totalHeight(0), log(nullptr),
+	textRenderer(), textSpecs(fontSize) {};
 
-	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
+	void initialize(GameLog* log, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
 	void render(const SDL_Rect& viewport);
 

@@ -2,6 +2,7 @@
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
 #include "Logs/DebugLogger.h"
+#include "Topography/TerrainMap.h"
 
 
 /* Graphics */
@@ -222,6 +223,14 @@ bool LocalMap::isOpaqueAt(TileCoords location) {
 		return false;
 	}
 	return terrainMap.isOpaqueAtIndex(coordsToTileIndex(location));
+}
+
+TerrainType LocalMap::getTerrainTypeAt(TileCoords location) {
+	if (!isInMapBounds(location)) {
+		DebugLogger::log("getTerrainTypeAt() coordinates out of bounds");
+		return TERRAIN_NORMAL;
+	}
+	return terrainMap.getTerrainTypeAtIndex(coordsToTileIndex(location));
 }
 
 bool LocalMap::isVisibleAt(TileCoords location) {

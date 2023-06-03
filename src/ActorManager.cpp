@@ -13,6 +13,17 @@
 #include <string>
 
 
+void ActorManager::initialize(TurnQueue *turnQueue, LocalMap *map, GameLog *gameLog) {
+   this->turnQueue = turnQueue;
+   this->map = map;
+   this->gameLog = gameLog;
+}
+
+void ActorManager::initializeFactory(ActorFactory* factory, ItemFactory* itemFactory) {
+   factory->initialize(&actorColiseum, turnQueue, map, itemFactory);
+}
+
+
 void ActorManager::destroyActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, nullptr);
 	turnQueue->removeActor(actor);
@@ -94,8 +105,4 @@ void ActorManager::sendMsgIfActorIsVisible(ActorEntity* actor, std::string messa
    if (map->isVisibleAt(actor->location)) {
       gameLog->sendMessage(message);
    }
-}
-
-ActorFactory ActorManager::makeFactory(ItemFactory* itemFactory) {
-   return ActorFactory(&actorColiseum, turnQueue, map, itemFactory);
 }

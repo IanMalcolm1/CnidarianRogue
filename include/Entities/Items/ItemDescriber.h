@@ -10,8 +10,9 @@ private:
    EffectDescriber* effectDescriber;
 
 public:
-   ItemDescriber(EffectDescriber* effectDescriber) :
-   effectDescriber(effectDescriber) {};
+   ItemDescriber() : effectDescriber(nullptr) {};
+
+   void initialize(EffectDescriber* effectDescriber);
  
    std::string describe(ItemEntity* item);
    std::string describeWeapon(ItemEntity* item);

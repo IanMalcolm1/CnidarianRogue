@@ -2,6 +2,11 @@
 #include "Entities/Components.h"
 #include "Entities/EntityDescriber.h"
 
+
+void ItemDescriber::initialize(EffectDescriber *effectDescriber) {
+   this->effectDescriber = effectDescriber;
+}
+
 std::string ItemDescriber::describe(ItemEntity* item) {
    std::string desc = EntityDescriber::makeName(item->description.name, item->display);
    desc.append("\n" + item->description.desc);

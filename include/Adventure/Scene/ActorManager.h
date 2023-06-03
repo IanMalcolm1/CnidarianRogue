@@ -32,16 +32,16 @@ private:
    std::string damageTypeNames[DAMAGE_NONE];
 
 public:
-   ActorManager(TurnQueue* turnQueue, LocalMap* map, GameLog* gameLog) :
-      map(map), gameLog(gameLog), turnQueue(turnQueue), randomizer(),
-      actorColiseum(EntityColiseum<ActorEntity>()) {
-         damageTypeNames[DAMAGE_FIRE] = " </red:fire/>";
-         damageTypeNames[DAMAGE_PHYSICAL] = "";
-         damageTypeNames[DAMAGE_FROST] = " </lightblue:frost/>";
-         damageTypeNames[DAMAGE_POISON] = " </green:poison/>";
-      };
+   ActorManager() : map(nullptr), gameLog(nullptr), turnQueue(nullptr),
+   actorColiseum(EntityColiseum<ActorEntity>()) {
+      damageTypeNames[DAMAGE_FIRE] = " </red:fire/>";
+      damageTypeNames[DAMAGE_PHYSICAL] = "";
+      damageTypeNames[DAMAGE_FROST] = " </lightblue:frost/>";
+      damageTypeNames[DAMAGE_POISON] = " </green:poison/>";
+   };
 
-   void runActorTurns();
+   void initialize(TurnQueue* turnQueue, LocalMap* map, GameLog* gameLog);
+   void initializeFactory(ActorFactory* factory, ItemFactory* itemFactory);
 
    void destroyActor(ActorEntity* actor);
    void addActorToTurnQueue(ActorEntity* actor, int turnTime);
@@ -58,6 +58,4 @@ public:
    ActorEntity* getActor(int id) {
       return actorColiseum.getEntity(id);
    };
-
-   ActorFactory makeFactory(ItemFactory* itemFactory);
 };

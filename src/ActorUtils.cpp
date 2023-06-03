@@ -3,6 +3,14 @@
 #include "Entities/EntityDescriber.h"
 
 
+void ActorUtils::initialize(ActorManager* actorManager, ItemManager* itemManager, EffectManager* effectManager) {
+   this->actorMan = actorManager;
+   this->itemMan = itemManager;
+   this->effectMan = effectManager;
+}
+
+
+
 void ActorUtils::doAttack(ActorEntity* attacker, ActorEntity* defender) {
    DamagingComp* damageComp = (DamagingComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_DAMAGING);
    

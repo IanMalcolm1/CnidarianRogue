@@ -5,6 +5,12 @@
 #include "Enums/TurnTime.h"
 
 
+void ItemFactory::initialize(EntityColiseum<ItemEntity>* coliseum, LocalMap* map) {
+   this->coliseum = coliseum;
+   this->map = map;
+}
+
+
 void ItemFactory::registerItem(ItemEntity* item, TileCoords location) {
    if (location.x != -1 && location.y != -1) {
       item->location = location;

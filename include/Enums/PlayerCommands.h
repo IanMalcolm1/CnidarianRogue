@@ -24,6 +24,7 @@ enum PlayerCommand {
 	PC_SHOOT, //To begin shoot dialogue
 	PC_THROW, //To begin throw dialogue
 	PC_TOGGLE_LOOK, //To begin/end looking around
+   PC_CHANGE_LEVEL,
 
 	PC_END_OF_PLAYER_ACTIONS,
 

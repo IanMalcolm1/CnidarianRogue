@@ -5,6 +5,14 @@
 #include "Enums/TurnTime.h"
 
 
+void ActorFactory::initialize(EntityColiseum<ActorEntity>* actorColiseum, TurnQueue* turnQueue, LocalMap* map, ItemFactory* itemFactory) {
+   this->actorColiseum = actorColiseum;
+   this->map = map;
+   this->turnQueue = turnQueue;
+   this->itemFactory = itemFactory;
+}
+
+
 void ActorFactory::registerActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, actor);
 	turnQueue->insertActor(actor, 0);

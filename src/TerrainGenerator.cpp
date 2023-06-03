@@ -53,11 +53,11 @@ void TerrainGenerator::rectangleRooms(Scene* scene, int numRectangles, int maxSi
 	}
 
    int downStairsInd = randomizer.getRandomNumber(placeableTiles.size()-1);
-   map->setTerrainAt(downStairsInd, stairsDown);
+   map->setTerrainAt(placeableTiles[downStairsInd], stairsDown);
 
 	scene->setPlayerAt(currCenter);
 
-   for (int i=0; i<10; i++) {
+   for (int i=0; i<4; i++) {
       TileCoords enemyLoc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
       if (!map->thereIsAnActorAt(enemyLoc)) {
 	      actorFactory->makeEvilSmileyFace(enemyLoc);

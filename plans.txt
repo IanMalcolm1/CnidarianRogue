@@ -11,24 +11,18 @@ Current:
 Add Scene switching (stairs)
 
 Next:
+Add names to terrain tiles
 Make an AI factory class
-Improve performance?
-   Making a long player-to-mouse-tile pathing trail slows things down hugely.
-      This is almost certanly the result of a shitty implementation of A*. The only other
-      possibility would be reticles somehow taking a long time to render, but making lines
-      down long straight halways generates a lot of reticles with hardly any effect on frame
-      rate (A* should be faster in this case as it doesn't have so many tiles to search)
-   Granted at this point the performance increases to rendering make this less of a problem.
-      Unfortunately, performance dropped from ~900fps to 22 when I made a really really long
-      path. So it is a problem :(
+Ranged attacks
 Add more creatures
 Simple gameplay loop
 Slightly better generation
 
 Optional:
+Add scrolling to PlayerUI and LookUI
+Improve player-to-mouse path performance (A* implemenation)
 Save functionality (maybe in free time)
 Better generation (play around with perlin noise and things)
-Standardize UI screens
 Look into lua
 
 _____________________________________________________________________________________________

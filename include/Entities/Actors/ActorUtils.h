@@ -14,9 +14,9 @@ private:
    EffectManager* effectMan;
 
 public:
-   ActorUtils(ActorManager* actorManager, ItemManager* itemManager,
-   EffectManager* effectManager) : actorMan(actorManager),
-   itemMan(itemManager), effectMan(effectManager) {};
+   ActorUtils() : actorMan(nullptr), itemMan(nullptr), effectMan(nullptr) {};
+
+   void initialize(ActorManager* actorManager, ItemManager* itemManager, EffectManager* effectManager);
    
    void doAttack(ActorEntity* attacker, ActorEntity* defender);
    void doItemPickup(ItemEntity* item, ActorEntity* actor);

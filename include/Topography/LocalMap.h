@@ -72,6 +72,7 @@ public:
 	bool isTraversibleAt(int index);
 	bool isTraversibleAt(TileCoords location);
 	bool isOpaqueAt(int index);
+   TerrainType getTerrainTypeAt(TileCoords location);
 	bool isOpaqueAt(TileCoords location);
    bool isVisibleAt(TileCoords location);
 	bool hasBeenSeen(TileCoords location);

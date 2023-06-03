@@ -7,6 +7,12 @@
 #include "Logs/DebugLogger.h"
 
 
+void EffectManager::initialize(ActorManager* actorManager, TurnQueue* turnQueue) {
+   this->actorMan = actorManager;
+   this->turnQueue = turnQueue;
+}
+
+
 EffectDescriber* EffectManager::getEffectDescriber() {
    return &describer;
 }

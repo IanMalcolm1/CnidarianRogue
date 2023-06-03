@@ -24,9 +24,10 @@ private:
    GameText title, weaponTitle;
 
 public:
-	PlayerUI(PlayerManager* playerMan, Scene* scene, int fontSize = 3) : playerMan(playerMan), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize), textSpecsTitle(fontSize+1), title(), weaponTitle(), itemDescriber(scene->getEffectDescriber()), actorDescriber(scene->getEffectDescriber()) {};
+	PlayerUI(int fontSize = 3) : playerMan(nullptr), renderer(NULL),
+   spritesheet(NULL), textSpecsTitle(fontSize+1) {};
 
-	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
+	void initialize(PlayerManager* playerMan, Scene* scene, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
 	void render(const SDL_Rect& viewport);
 };

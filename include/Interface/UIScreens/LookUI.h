@@ -26,9 +26,10 @@ private:
    GameText defaultText;
 
 public:
-	LookUI(Scene* scene, int fontSize = 3) : map(scene->getMap()), renderer(NULL), spritesheet(NULL), textMaker(), textRenderer(), textSpecs(fontSize), textSpecsTitle(fontSize+1), defaultText(), actorDescriber(scene->getEffectDescriber()), itemDescriber(scene->getEffectDescriber()) {};
+	LookUI(int fontSize = 3) : map(nullptr), renderer(NULL), spritesheet(NULL),
+   textSpecs(fontSize), textSpecsTitle(fontSize+1) {};
 
-	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
+	void initialize(Scene* scene, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
-	void render(const SDL_Rect& viewport);
+	void render(Scene* scene, const SDL_Rect& viewport);
 };

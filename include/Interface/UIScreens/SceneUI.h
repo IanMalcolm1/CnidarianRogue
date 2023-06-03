@@ -20,14 +20,13 @@ private:
 public:
 	bool hidden;
 
-	SceneUI(Scene* scene, PlayerManager* playerMan) : hidden(false),
-   mapUI(MapUI()), scene(scene), mapViewport({ 0,0,0,0 }),
-   playerMan(playerMan) {};
+	SceneUI() : hidden(false), scene(nullptr), mapViewport({ 0,0,0,0 }),
+   playerMan(nullptr) {};
 
-	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
+	void initialize(PlayerManager* playerMan, SDL_Renderer* renderer, SDL_Texture* spritesheet);
    void cleanUp();
 
-	void render(const SDL_Rect& mapViewport);
+	void render(Scene* scene, const SDL_Rect& mapViewport);
 
 	void processCursorLocation(int x, int y);
 	void processScroll(int x, int y, int offset, bool isRightClick);

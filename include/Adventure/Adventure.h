@@ -11,7 +11,10 @@
 
 class Adventure {
 private:
-   Scene scene;
+   std::vector<Scene> scenes;
+   Scene* scene;
+   int sceneIndex;
+
    TerrainGenerator terrainGenerator;
    GameLog log;
    PlayerManager playerMan;
@@ -19,19 +22,16 @@ private:
    bool alreadyRanTurn;
 
    void linkPlayerAndScene();
+   void newScene();
 
 public:
-   Adventure() : log(GameLog()), scene(Scene(&log, &playerMan)),
+   Adventure() : log(GameLog()), sceneIndex(0), scene(nullptr),
    playerMan(PlayerManager(&log)), terrainGenerator(TerrainGenerator()),
-   alreadyRanTurn(false) {
-      linkPlayerAndScene();
-	   terrainGenerator.rectangleRooms(&scene, 30, 30);
-      scene.initialize();
-      updateMapDisplay();
-   };
+   alreadyRanTurn(false), scenes(3, Scene(&log, &playerMan)) {};
+
+   void initialize();
 
    Scene* getScene();
-   void changeScene();
 
    GameLog* getGameLog();
    PlayerManager* getPlayerManager();

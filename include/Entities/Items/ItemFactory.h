@@ -33,12 +33,13 @@ private:
    ItemEntity* makePoisonFangs();
 
 public:
-   ItemFactory(EntityColiseum<ItemEntity>* coliseum, LocalMap* map) :
-   coliseum(coliseum), map(map) {
+   ItemFactory() : coliseum(nullptr), map(nullptr) {
       for (int i=0; i<NUM_NATURALWEAPONS; i++) {
          naturalWeapons[i] = nullptr;
       }
    };
+
+   void initialize(EntityColiseum<ItemEntity>* coliseum, LocalMap* map);
 
    //Weapons
    ItemEntity* makeBasicSword(TileCoords location);

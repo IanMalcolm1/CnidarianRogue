@@ -24,11 +24,10 @@ private:
    void registerActor(ActorEntity* actor);
 
 public:
-   ActorFactory(EntityColiseum<ActorEntity>* actorColiseum,
-   TurnQueue* turnQueue, LocalMap* map, ItemFactory* itemFactory) :
-   map(map), turnQueue(turnQueue), colorMap(), itemFactory(itemFactory),
-   actorColiseum(actorColiseum), randomizer() {};
+   ActorFactory() : actorColiseum(nullptr), map(nullptr), turnQueue(nullptr),
+   itemFactory(nullptr) {};
 
+   void initialize(EntityColiseum<ActorEntity>* actorColiseum, TurnQueue* turnQueue, LocalMap* map, ItemFactory* itemFactory);
 
    ActorEntity* makeEvilSmileyFace(TileCoords location);
 };
