@@ -13,7 +13,7 @@ private:
 
    Randomizer randomizer;
 
-   std::vector<TileCoords> traversibleTiles;
+   std::vector<TileCoords> placeableTiles;
 
    void setSceneAndMap(Scene* scene);
    void fillMap(TerrainTile& terrain);

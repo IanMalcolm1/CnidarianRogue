@@ -1,4 +1,6 @@
 #include "Algorithms/TerrainGenerator.h"
+#include "Enums/AsciiSymbols.h"
+#include "Topography/TerrainMap.h"
 
 
 void TerrainGenerator::setSceneAndMap(Scene* scene) {
@@ -8,6 +10,7 @@ void TerrainGenerator::setSceneAndMap(Scene* scene) {
    actorFactory = scene->getActorFactory();
    mapWidth = map->getWidth();
    mapHeight = map->getHeight();
+   placeableTiles.clear();
 }
 
 void TerrainGenerator::rectangleRooms(Scene* scene, int numRectangles, int maxSideLength) {
@@ -17,9 +20,11 @@ void TerrainGenerator::rectangleRooms(Scene* scene, int numRectangles, int maxSi
    MyColor black = {0,0,0};
 	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG, white, black);
 	TileDisplay floorDisp = TileDisplay(ASYM_DOT, white, black);
+	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN, white, black);
 
-   TerrainTile wall = TerrainTile(wallDisp, false, true);
-   TerrainTile floor = TerrainTile(floorDisp, true, false);
+   TerrainTile wall = TerrainTile(TERRAIN_NORMAL, wallDisp, false, true);
+   TerrainTile floor = TerrainTile(TERRAIN_NORMAL, floorDisp, true, false);
+   TerrainTile stairsDown = TerrainTile(TERRAIN_DOWNSTAIRS, stairsDownDisp, true, false);
 
    fillMap(wall);
 
@@ -42,11 +47,22 @@ void TerrainGenerator::rectangleRooms(Scene* scene, int numRectangles, int maxSi
          drawRightAngleLine(currCenter, prevCenter, floor);
 		}
 
+      makeRandomItemAt(currCenter);
+
       prevCenter = currCenter;
 	}
 
+   int downStairsInd = randomizer.getRandomNumber(placeableTiles.size()-1);
+   map->setTerrainAt(downStairsInd, stairsDown);
+
 	scene->setPlayerAt(currCenter);
-	actorFactory->makeEvilSmileyFace({currCenter.x-4, currCenter.y});
+
+   for (int i=0; i<10; i++) {
+      TileCoords enemyLoc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
+      if (!map->thereIsAnActorAt(enemyLoc)) {
+	      actorFactory->makeEvilSmileyFace(enemyLoc);
+      }
+   }
 }
 
    
@@ -54,7 +70,9 @@ void TerrainGenerator::drawRectangle(SDL_Rect rect, TerrainTile& terrain) {
 		for (int x = rect.x; x < rect.x+rect.w; x++) {
 			for (int y = rect.y; y < rect.y+rect.h; y++) {
 				map->setTerrainAt({x,y}, terrain);
-            traversibleTiles.push_back({x,y});
+            if (terrain.isTraversible) {
+               placeableTiles.push_back({x,y});
+            }
 			}
 		}
 }
