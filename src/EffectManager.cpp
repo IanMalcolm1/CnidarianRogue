@@ -7,15 +7,12 @@
 #include "Logs/DebugLogger.h"
 
 
-void EffectManager::initialize(ActorManager* actorManager, TurnQueue* turnQueue) {
+void EffectManager::initialize(EffectDescriber* effectDescriber, ActorManager* actorManager, TurnQueue* turnQueue) {
+   this->describer = effectDescriber;
    this->actorMan = actorManager;
    this->turnQueue = turnQueue;
 }
 
-
-EffectDescriber* EffectManager::getEffectDescriber() {
-   return &describer;
-}
 
 void EffectManager::attachEffect(Effect& effect, ActorEntity* effectee) {
    if (effect.timing != EFFECT_TIMING_DOT) {
@@ -34,7 +31,7 @@ void EffectManager::attachEffect(Effect& effect, ActorEntity* effectee) {
    }
 
    std::string msg = EntityDescriber::makeName(effectee);
-   msg.append(describer.getMessage(effect));
+   msg.append(describer->getMessage(effect));
    actorMan->sendMsgIfActorIsVisible(effectee, msg);
 }
 

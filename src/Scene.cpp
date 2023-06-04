@@ -1,17 +1,16 @@
 #include "Adventure/Scene/Scene.h"
 #include "Algorithms/FoV.h"
+#include "Entities/Effects/Effect.h"
 
 
-void Scene::initialize() {
+void Scene::initialize(EffectDescriber* effectDescriber) {
    itemManager.initialize(&map);
    itemManager.initializeFactory(&itemFactory);
    actorManager.initialize(&turnQueue, &map, gameLog);
    actorManager.initializeFactory(&actorFactory, &itemFactory);
-   effectManager.initialize(&actorManager, &turnQueue);
+   effectManager.initialize(effectDescriber, &actorManager, &turnQueue);
    actorUtils.initialize(&actorManager, &itemManager, &effectManager);
    aiRunner.initialize(&map, &actorManager, &actorUtils);
-
-   FoV::calcPlayerFoV(&map, playerManager->getPlayer());
 }
 
 LocalMap* Scene::getMap() {	return &map; }
@@ -20,7 +19,6 @@ ItemFactory* Scene::getItemFactory() { return &itemFactory; }
 TurnQueue* Scene::getTurnQueue() { return &turnQueue; }
 ItemManager* Scene::getItemManager() { return &itemManager; }
 EffectManager* Scene::getEffectManager() { return &effectManager; }
-EffectDescriber* Scene::getEffectDescriber() { return effectManager.getEffectDescriber(); }
 ActorUtils* Scene::getActorUtils() { return &actorUtils; }
 
 

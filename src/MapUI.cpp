@@ -25,7 +25,7 @@ void MapUI::setMaps(LocalMap* map) {
       makeTexture();
    }
    
-   else if (map->getWidth() != this->map->getWidth() || map->getHeight() != this->map->getHeight()) {
+   else if (map != this->map) {
       this->map = map;
       mapDisplay = map->getMapDisplay();
       makeTexture();

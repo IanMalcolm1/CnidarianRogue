@@ -1,11 +1,10 @@
 #include "Interface/UIScreens/PlayerUI.h"
-#include "Adventure/PlayerManager.h"
 
-void PlayerUI::initialize(PlayerManager* playerMan, Scene* scene, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
-   this->playerMan = playerMan;
+void PlayerUI::initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
+   this->playerMan = adventure->getPlayerManager();
 
-   itemDescriber.initialize(scene->getEffectDescriber());
-   actorDescriber.initialize(scene->getEffectDescriber());
+   itemDescriber.initialize(adventure->getEffectDescriber());
+   actorDescriber.initialize(adventure->getEffectDescriber());
 
 	this->renderer = renderer;
 	this->spritesheet = spritesheet;

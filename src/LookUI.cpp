@@ -1,13 +1,12 @@
 #include "Interface/UIScreens/LookUI.h"
-#include <string>
 
 
-void LookUI::initialize(Scene* scene, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
+void LookUI::initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
 	this->renderer = renderer;
 	this->spritesheet = spritesheet;
 
-   itemDescriber.initialize(scene->getEffectDescriber());
-   actorDescriber.initialize(scene->getEffectDescriber());
+   itemDescriber.initialize(adventure->getEffectDescriber());
+   actorDescriber.initialize(adventure->getEffectDescriber());
 
    textRenderer.initialize(renderer, spritesheet);
    

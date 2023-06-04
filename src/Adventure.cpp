@@ -1,13 +1,20 @@
 #include "Adventure/Adventure.h"
+#include "Algorithms/FoV.h"
 #include "Enums/PlayerCommands.h"
 #include "SDL_keycode.h"
 
 
+void Adventure::setListeners(Listener* gameWindowListener) {
+   this->gameWindowListener =  gameWindowListener;
+}
+
 void Adventure::initialize() {
    scene = &scenes[sceneIndex];
-   scene->initialize();
+   scene->initialize(&effectDescriber);
    linkPlayerAndScene();
+   scene->hookupListeners(gameWindowListener, (Listener*) &playerMan);
    terrainGenerator.rectangleRooms(scene, 30, 30);
+   FoV::calcPlayerFoV(scene->getMap(), playerMan.getPlayer());
    updateMapDisplay();
 }
 
@@ -21,6 +28,9 @@ GameLog* Adventure::getGameLog() {
 }
 PlayerManager* Adventure::getPlayerManager() {
    return &playerMan;
+}
+EffectDescriber* Adventure::getEffectDescriber() {
+   return &effectDescriber;
 }
 
 
@@ -87,13 +97,8 @@ void Adventure::updateMapDisplay() {
 }
 
 
-void Adventure::hookupListeners(Listener* listener) {
-   //TODO: save the first and reuse it when switching scenes
-   scene->hookupListeners(listener, (Listener*) &playerMan);
-}
-
 void Adventure::newScene() {
-   if (sceneIndex >= scenes.size()) {
+   if (sceneIndex >= scenes.size()-1) {
       log.sendMessage("Last floor");
       return;
    }

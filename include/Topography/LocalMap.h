@@ -49,11 +49,11 @@ private:
 	void setHasReticle(TileCoords tile, bool hasReticle);
 
 public:
-	LocalMap(int width, int height) : mapDisplay(MapDisplay(width, height)),
-	terrainMap(TerrainMap(width, height)), actors(width*height, nullptr),
-	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(PathingRoute()),
+	LocalMap(int width, int height) : mapDisplay(width, height),
+	terrainMap(width, height), actors(width*height, nullptr),
+	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(),
    width(width), height(height), needToUpdateDisplay(true), isLooking(false),
-   mouseTile(TileCoords(-1,-1)) {};
+   mouseTile(-1,-1) {};
 
 
 	MapDisplay* getMapDisplay();

@@ -40,7 +40,7 @@ public:
 	Scene(GameLog* gameLog, PlayerManager* playerManager) :
    map(150, 150), gameLog(gameLog), playerManager(playerManager) {};
 
-   void initialize();
+   void initialize(EffectDescriber* effectDescriber);
 
 	LocalMap* getMap();
    ActorFactory* getActorFactory();

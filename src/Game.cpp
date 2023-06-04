@@ -37,11 +37,10 @@ bool Game::Initialize() {
 	isRunning = true;
 	bool success;
 
+   adventure->setListeners((Listener*) gameWindow.get());
    adventure->initialize();
 
 	success = gameWindow->initialize((Listener*)this);
-
-   adventure->hookupListeners((Listener*) gameWindow.get());
 
 	return success;
 }
@@ -86,7 +85,8 @@ void Game::restart() {
 
    gameWindow->reset(adventure.get(), (Listener*)this);
 
-   adventure->hookupListeners((Listener*) gameWindow.get());
+   adventure->setListeners((Listener*) gameWindow.get());
+   adventure->initialize();
 
    needToRestart = false;
    needsToDie = false;

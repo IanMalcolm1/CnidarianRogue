@@ -5,10 +5,12 @@ void AdventureUI::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
    this->renderer = renderer;
    this->spritesheet = spritesheet;
 
+   viewports.fullscreen = {0,0,0,0};
+
    sceneUI.initialize(adventure->getPlayerManager(), renderer, spritesheet);
    messagesUI.initialize(adventure->getGameLog(), renderer, spritesheet);
-   playerUI.initialize(adventure->getPlayerManager(), adventure->getScene(), renderer, spritesheet);
-   lookUI.initialize(adventure->getScene(), renderer, spritesheet);
+   playerUI.initialize(adventure, renderer, spritesheet);
+   lookUI.initialize(adventure, renderer, spritesheet);
 }
 
 void AdventureUI::cleanUp() {

@@ -11,7 +11,7 @@ class ActorManager;
 
 class EffectManager {
 private:
-   EffectDescriber describer;
+   EffectDescriber* describer;
    ActorManager* actorMan;
    TurnQueue* turnQueue;
 
@@ -28,9 +28,7 @@ private:
    void attachTimedEffect(Effect& effect, ActorEntity* effectee);
 
 public:
-   void initialize(ActorManager* actorManager, TurnQueue* turnQueue);
-
-   EffectDescriber* getEffectDescriber();
+   void initialize(EffectDescriber* effectDescriber, ActorManager* actorManager, TurnQueue* turnQueue);
 
    void attachEffect(Effect& effect, ActorEntity* effectee);
    void updateEffect(Effect& effect, ActorEntity* effectee);
