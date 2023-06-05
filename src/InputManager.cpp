@@ -26,6 +26,7 @@ gameWindow(window), adventure(adventure) {
 	keyMappings.insert({ SDLK_PERIOD, PC_WAIT });
 
 	keyMappings.insert({ SDLK_l, PC_TOGGLE_LOOK });
+   keyMappings.insert({ SDLK_t, PC_TOGGLE_SELECT });
 
 	keyMappings.insert({ SDLK_ESCAPE, PC_ESCAPEKEY });
 }

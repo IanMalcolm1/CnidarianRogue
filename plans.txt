@@ -8,20 +8,29 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Add names to terrain tiles
+Ranged attacks
+   Have modified bresenham to allow making a path through tiles with entities (magic should
+   damage multiple entities at once)
+   Magic damage should use 1d4s, and there should be fewer intelligence mushrooms to balance
+   ability to damage multiple enemies at once
+   Change playerMan to have an additional input state where the path to the mouse tile becomes
+   the targetting path
+   Selection should just draw bresenham to look tile
+   PlayerMan should initiate automove itself.
+
 
 Next:
-Make an AI factory class
-Ranged attacks
 Add more creatures
 Slightly better generation
    Generation for the three floors
    First rectangles (abandoned complex or inhabited cult), second caves, third something
 Simple gameplay loop
+Ability to choose name
 
 Optional:
 Add scrolling to PlayerUI and LookUI
 Improve player-to-mouse path performance (A* implemenation)
+Redo AI
 Save functionality (maybe in free time)
    Change terrain tiles to proper entities beforehand if I do do it
 Better generation (play around with perlin noise and things)

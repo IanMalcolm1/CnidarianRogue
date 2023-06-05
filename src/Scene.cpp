@@ -42,12 +42,6 @@ void Scene::runTurn() {
 	map.flagNeedToUpdateDisplay();
 }
 
-void Scene::startAutoMove() {
-   if (playerManager->startAutoMove() == true) {
-      runTurn();
-   }
-}
-
 void Scene::updateMapDisplay() {
 	map.updateMapDisplay();
 }

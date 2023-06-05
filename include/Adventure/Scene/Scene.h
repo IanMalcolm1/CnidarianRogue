@@ -52,7 +52,6 @@ public:
    ActorUtils* getActorUtils();
 
    void runTurn();
-   void startAutoMove();
 	void updateMapDisplay();
 
 	void setPlayerAt(TileCoords location);

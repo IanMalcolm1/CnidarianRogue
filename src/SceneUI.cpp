@@ -31,11 +31,6 @@ void SceneUI::processClick(int x, int y, bool isRightClick) {
 	SDL_Point point = { x,y };
 	if (SDL_PointInRect(&point, &mapViewport)) {
 	   mapUI.processCursorLocation(x, y);
-      if (isRightClick) {
-         playerMan->lookAtMouseTile();
-      }
-      else {
-         scene->startAutoMove();
-      }
+      playerMan->processMouseClick(isRightClick);
 	}
 }

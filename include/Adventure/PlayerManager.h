@@ -37,25 +37,26 @@ private:
    GameLog* gameLog;
 
 	bool autoActing;
-	PathingRoute autoMoveRoute;
+	PathingRoute autoMoveRoute, selectionRoute;
 
    bool doAutoMovement(); //reurns true if turn should be run
+	void startAutoMove(); //reurns true if turn should be run
+   void lookAtMouseTile();
 
 public:
    PlayerManager(GameLog* gameLog);
    ~PlayerManager();
 
 	bool processDirectionalCommand(PlayerCommand command); //reurns true if turn should be run
+   void processMouseClick(bool isRightClick);
    void processEvent(EventType event);
 
 	ActorEntity* getPlayer();
 	void placePlayer(TileCoords location);
 
 	void updateInputState(PlayerCommand command);
-   void lookAtMouseTile();
 	bool doAutoAct();
 	void clearAutoAct();
-	bool startAutoMove(); //reurns true if turn should be run
    bool isAutoActing(); //reurns true if turn should be run
 
    bool pickUpItem();

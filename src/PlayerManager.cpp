@@ -87,6 +87,21 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
    }
 }
 
+
+void PlayerManager::processMouseClick(bool isRightClick) {
+  if (inputState == PLAYER_INPUT_SELECT) {
+     map->lookAtMouseTile();
+     //TODO: draw selection line
+  }
+  else if (isRightClick) {
+     map->lookAtMouseTile();
+  }
+  else {
+     startAutoMove();
+  }
+}
+
+
 ActorEntity* PlayerManager::getPlayer() {
    return player;
 }
@@ -119,13 +134,14 @@ void PlayerManager::lookAtMouseTile() {
 }
 
 bool PlayerManager::doAutoAct() {
-   if (player->canSeeHostile()) {
+   bool stillMoving = doAutoMovement();
+
+   if (stillMoving && player->canSeeHostile()) {
       clearAutoAct();
       gameLog->sendMessage("Auto move cancelled due to visible enemy.");
-      return false;
    }
 
-   return doAutoMovement();
+   return stillMoving;
 }
 
 void PlayerManager::clearAutoAct() {
@@ -133,7 +149,7 @@ void PlayerManager::clearAutoAct() {
    autoActing = false;
 }
 
-bool PlayerManager::startAutoMove() {
+void PlayerManager::startAutoMove() {
    if (inputState == PLAYER_INPUT_LOOK) {
       map->stopLooking();
       inputState = PLAYER_INPUT_MOVE;
@@ -141,13 +157,12 @@ bool PlayerManager::startAutoMove() {
 
    autoMoveRoute = map->getRouteToMouseTile();
    autoActing = true;
-
-   return doAutoMovement();
 }
 
 bool PlayerManager::doAutoMovement() {
    if (!autoMoveRoute.hasNextTile()) {
       clearAutoAct();
+      autoActing = false;
       return false;
    }
 
@@ -161,6 +176,7 @@ bool PlayerManager::doAutoMovement() {
    }
    else {
       clearAutoAct();
+      autoActing = false;
       return false;
    }
 }

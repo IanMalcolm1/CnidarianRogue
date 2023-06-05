@@ -35,19 +35,22 @@ EffectDescriber* Adventure::getEffectDescriber() {
 
 
 void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
+	bool needToRunTurn = false;
+
 	if (playerMan.isAutoActing()) {
 		if (command == PC_ESCAPEKEY) {
 			playerMan.clearAutoAct();
 			return;
 		}
-		playerMan.doAutoAct();
+		needToRunTurn = playerMan.doAutoAct();
+      if (needToRunTurn) {
+         scene->runTurn();
+      }
 		return;
 	}
 
-	bool needToRunTurn = false;
 
-	//process player move
-   if (command < 9) {
+   if (command < 9) { //process player move
       needToRunTurn = playerMan.processDirectionalCommand(command);
    }
 
@@ -67,7 +70,7 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
       }
    }
 
-   else if (command == PC_TOGGLE_LOOK || command == PC_ESCAPEKEY) {
+   else if (command == PC_TOGGLE_LOOK || command == PC_ESCAPEKEY || command == PC_TOGGLE_SELECT) {
       playerMan.updateInputState(command);
    }
 
