@@ -16,15 +16,19 @@ void TerrainGenerator::setSceneAndMap(Scene* scene) {
 void TerrainGenerator::rectangleRooms(Scene* scene, int numRectangles, int maxSideLength) {
    setSceneAndMap(scene);
 
+   int wallNameId = map->addTerrainName("Wall");
+   int floorNameId = map->addTerrainName("Floor");
+   int stairsNameId = map->addTerrainName("Stairs Down");
+
    MyColor white = {255,255,255};
    MyColor black = {0,0,0};
 	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG, white, black);
 	TileDisplay floorDisp = TileDisplay(ASYM_DOT, white, black);
 	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN, white, black);
 
-   TerrainTile wall = TerrainTile(TERRAIN_NORMAL, wallDisp, false, true);
-   TerrainTile floor = TerrainTile(TERRAIN_NORMAL, floorDisp, true, false);
-   TerrainTile stairsDown = TerrainTile(TERRAIN_DOWNSTAIRS, stairsDownDisp, true, false);
+   TerrainTile wall = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
+   TerrainTile floor = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
+   TerrainTile stairsDown = TerrainTile(TERRAIN_DOWNSTAIRS, stairsNameId, stairsDownDisp, true, false);
 
    fillMap(wall);
 

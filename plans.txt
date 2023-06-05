@@ -8,20 +8,22 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Add Scene switching (stairs)
+Add names to terrain tiles
 
 Next:
-Add names to terrain tiles
 Make an AI factory class
 Ranged attacks
 Add more creatures
-Simple gameplay loop
 Slightly better generation
+   Generation for the three floors
+   First rectangles (abandoned complex or inhabited cult), second caves, third something
+Simple gameplay loop
 
 Optional:
 Add scrolling to PlayerUI and LookUI
 Improve player-to-mouse path performance (A* implemenation)
 Save functionality (maybe in free time)
+   Change terrain tiles to proper entities beforehand if I do do it
 Better generation (play around with perlin noise and things)
 Look into lua
 

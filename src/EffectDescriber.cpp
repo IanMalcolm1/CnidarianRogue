@@ -3,16 +3,16 @@
 
 
 EffectDescriber::EffectDescriber() {
-   names[EFFECT_POISON] = "</green:Poison/>";
-   adjectives[EFFECT_POISON] = "</green:Poisoned/>";
-   messages[EFFECT_POISON] = " is </green:poisoned/>.";
+   names[EFFECT_POISON] = "</green:Poison\\>";
+   adjectives[EFFECT_POISON] = "</green:Poisoned\\>";
+   messages[EFFECT_POISON] = " is </green:poisoned\\>.";
 
-   names[EFFECT_STRENGTH] = "</orange:Strength/>";
-   adjectives[EFFECT_STRENGTH] = "</orange:Strengthened/>";
+   names[EFFECT_STRENGTH] = "</orange:Strength\\>";
+   adjectives[EFFECT_STRENGTH] = "</orange:Strengthened\\>";
    messages[EFFECT_STRENGTH] = " grows stronger.";
 
-   names[EFFECT_INTELLIGENCE] = "</lavender:Enlightenment/>";
-   adjectives[EFFECT_INTELLIGENCE] = "</lavender:Enlightened/>";
+   names[EFFECT_INTELLIGENCE] = "</lavender:Enlightenment\\>";
+   adjectives[EFFECT_INTELLIGENCE] = "</lavender:Enlightened\\>";
    messages[EFFECT_INTELLIGENCE] = "'s mind clears.";
 }
 

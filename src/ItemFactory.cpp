@@ -124,7 +124,7 @@ ItemEntity* ItemFactory::makeFists() {
 ItemEntity* ItemFactory::makePoisonFangs() {
    ItemEntity* fangs = coliseum->makeEntity();
 
-   fangs->description.name = "</green:Poisonous Fangs/>";
+   fangs->description.name = "</green:Poisonous Fangs\\>";
    fangs->description.desc = "They look pretty nasty.";
 
    fangs->display.symbol = ASYM_FAT_ARROW_DOWN;

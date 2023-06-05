@@ -34,10 +34,10 @@ private:
 public:
    ActorManager() : map(nullptr), gameLog(nullptr), turnQueue(nullptr),
    actorColiseum(EntityColiseum<ActorEntity>()) {
-      damageTypeNames[DAMAGE_FIRE] = " </red:fire/>";
+      damageTypeNames[DAMAGE_FIRE] = " </red:fire\\>";
       damageTypeNames[DAMAGE_PHYSICAL] = "";
-      damageTypeNames[DAMAGE_FROST] = " </lightblue:frost/>";
-      damageTypeNames[DAMAGE_POISON] = " </green:poison/>";
+      damageTypeNames[DAMAGE_FROST] = " </lightblue:frost\\>";
+      damageTypeNames[DAMAGE_POISON] = " </green:poison\\>";
    };
 
    void initialize(TurnQueue* turnQueue, LocalMap* map, GameLog* gameLog);

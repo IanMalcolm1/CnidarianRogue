@@ -2,6 +2,7 @@
 #define LOCALMAP_H
 
 
+#include "GraphicsThings/TileDisplay.h"
 #include "TerrainMap.h"
 #include "MapDisplay.h"
 #include "Entities/Actors/ActorEntity.h"
@@ -73,6 +74,9 @@ public:
 	bool isTraversibleAt(TileCoords location);
 	bool isOpaqueAt(int index);
    TerrainType getTerrainTypeAt(TileCoords location);
+   int addTerrainName(std::string);
+   std::string getTerrainNameAt(TileCoords location);
+   TileDisplay getTerrainDisplayAt(TileCoords location);
 	bool isOpaqueAt(TileCoords location);
    bool isVisibleAt(TileCoords location);
 	bool hasBeenSeen(TileCoords location);

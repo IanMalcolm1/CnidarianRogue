@@ -6,6 +6,7 @@
 #include "Entities/Items/ItemDescriber.h"
 #include "GraphicsThings/TextRenderer.h"
 #include "GraphicsThings/TileDisplay.h"
+#include "Topography/TerrainDescriber.h"
 #include <SDL.h>
 
 
@@ -21,6 +22,7 @@ private:
 	TextRenderingSpecs textSpecs, textSpecsTitle;
    ActorDescriber actorDescriber;
    ItemDescriber itemDescriber;
+   TerrainDescriber terrainDescriber;
 
    GameText titleText;
    GameText defaultText;

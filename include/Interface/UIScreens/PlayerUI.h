@@ -26,7 +26,7 @@ private:
 
 public:
 	PlayerUI(int fontSize = 3) : playerMan(nullptr), renderer(NULL),
-   spritesheet(NULL), textSpecsTitle(fontSize+1) {};
+   spritesheet(NULL), textSpecsTitle(fontSize+1), textSpecs(fontSize) {};
 
 	void initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 

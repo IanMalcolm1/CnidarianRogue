@@ -16,7 +16,7 @@ struct EntityDescriber {
    }
    
    static std::string makeName(std::string name, EntityDisplay disp) {
-      name.insert(0, "/> ");
+      name.insert(0, "\\> ");
       name.insert(0, std::string(1, (char)disp.symbol));
       name.insert(0, ":");
 

@@ -233,6 +233,26 @@ TerrainType LocalMap::getTerrainTypeAt(TileCoords location) {
 	return terrainMap.getTerrainTypeAtIndex(coordsToTileIndex(location));
 }
 
+int LocalMap::addTerrainName(std::string name) {
+   return terrainMap.addName(name);
+}
+
+std::string LocalMap::getTerrainNameAt(TileCoords location) {
+	if (!isInMapBounds(location)) {
+		DebugLogger::log("getTerrainNameAt() coordinates out of bounds");
+		return "Out of bounds";
+	}
+   return terrainMap.getNameAt(coordsToTileIndex(location));
+}
+
+TileDisplay LocalMap::getTerrainDisplayAt(TileCoords location) {
+	if (!isInMapBounds(location)) {
+		DebugLogger::log("getTerrainDisplayAt() coordinates out of bounds");
+		return TileDisplay();
+	}
+   return terrainMap.getDisplayAtIndex(coordsToTileIndex(location));
+}
+
 bool LocalMap::isVisibleAt(TileCoords location) {
 	if (!isInMapBounds(location)) {
 		DebugLogger::log("isVisibleAt() coordinates out of bounds");

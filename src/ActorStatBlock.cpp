@@ -19,7 +19,7 @@ std::string ActorStatBlock::getHealthAsString() {
    healthString.append(std::to_string(health));
    healthString.append("/");
    healthString.append(std::to_string(maxHealth));
-   healthString.append("/>");
+   healthString.append("\\>");
 
    return healthString;
 }

@@ -40,7 +40,7 @@ GameText GameTextMaker::makeGameText(std::string rawText) {
 			colorStack.push(readColor(i, rawText));
 		}
 
-		else if (rawText[i] == '/' && rawText[i + 1] == '>') {
+		else if (rawText[i] == '\\' && rawText[i + 1] == '>') {
 			colorNodes.push_back(GameTextColorNode(colorStack.top(), newTextIndex));
 			colorStack.pop();
 

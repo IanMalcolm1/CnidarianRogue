@@ -1,6 +1,7 @@
 #include "GraphicsThings/TextRenderer.h"
 #include "Enums/AsciiSymbols.h"
 #include "GraphicsThings/GameText.h"
+#include <cstdint>
 
 
 void TextRenderer::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) {
@@ -131,7 +132,7 @@ void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, std::string&
 	int unformattedIndex = 0;
 	MyColor currentColor;
 
-	char currChar;
+	uint8_t currChar;
 
 	for (int i = 0; i < fText.size(); i++) {
 		currChar = fText[i];
@@ -172,7 +173,7 @@ void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, std::string& fT
 	int unformattedIndex = 0;
 	MyColor currentColor;
 
-	char currChar;
+	uint8_t currChar;
 
 	for (int i = 0; i < fText.size(); i++) {
 		currChar = fText[i];
