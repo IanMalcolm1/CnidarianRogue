@@ -10,6 +10,11 @@ void ItemDescriber::initialize(EffectDescriber *effectDescriber) {
 std::string ItemDescriber::describe(ItemEntity* item) {
    std::string desc = EntityDescriber::makeName(item->description.name, item->display);
    desc.append("\n" + item->description.desc);
+
+   if (item->hasComponent(COMPONENT_RANGED)) {
+      RangedComp* range = (RangedComp*) item->getComponent(COMPONENT_RANGED);
+      desc.append("\nRange "+std::to_string(range->range));
+   }
    
    if (item->hasComponent(COMPONENT_DAMAGING)) {
       DamagingComp* damageComp = (DamagingComp*) item->getComponent(COMPONENT_DAMAGING);
@@ -27,6 +32,11 @@ std::string ItemDescriber::describe(ItemEntity* item) {
 
 std::string ItemDescriber::describeWeapon(ItemEntity* item) {
    std::string desc = EntityDescriber::makeName(item->description.name, item->display);
+
+   if (item->hasComponent(COMPONENT_RANGED)) {
+      RangedComp* range = (RangedComp*) item->getComponent(COMPONENT_RANGED);
+      desc.append("\nRange "+std::to_string(range->range));
+   }
 
    DamagingComp* damageComp = (DamagingComp*) item->getComponent(COMPONENT_DAMAGING);
    desc.append("\n" + damageComp->damage1.getDescription());
