@@ -70,8 +70,12 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
       }
    }
 
-   else if (command == PC_TOGGLE_LOOK || command == PC_ESCAPEKEY || command == PC_TOGGLE_SELECT) {
+   else if (command == PC_TOGGLE_LOOK || command == PC_TOGGLE_SELECT) {
       playerMan.updateInputState(command);
+   }
+
+   else if (command == PC_ESCAPEKEY) {
+      playerMan.resetInputState();
    }
 
    else if (command == PC_CHANGE_LEVEL) {

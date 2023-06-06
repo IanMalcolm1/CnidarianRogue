@@ -9,14 +9,13 @@ consumables that increase them on pickup. No main menu.
 TODOS:
 Current:
 Ranged attacks
-   Have modified bresenham to allow making a path through tiles with entities (magic should
-   damage multiple entities at once)
    Magic damage should use 1d4s, and there should be fewer intelligence mushrooms to balance
-   ability to damage multiple enemies at once
-   Change playerMan to have an additional input state where the path to the mouse tile becomes
-   the targetting path
-   Selection should just draw bresenham to look tile
-   PlayerMan should initiate automove itself.
+    ability to damage multiple enemies at once
+   Selection state should just draw bresenham to look tile
+   Don't draw automove path when player in selection mode. Give PlayerMan a processMouseTile()
+    function that only calls the map->makePathToMouseTile() function when not in SELECT mode
+   Have ActorUtils handle damaging entities in selection? I like the idea of keeping
+    ActorManager small, at least
 
 
 Next:

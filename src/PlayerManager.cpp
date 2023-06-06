@@ -6,31 +6,34 @@
 #include "Entities/Actors/ActorUtils.h"
 #include "Entities/Components.h"
 #include "Entities/Items/ItemFactory.h"
+#include "Enums/PlayerCommands.h"
 #include "Enums/TurnTime.h"
 #include "EventListener/Listener.h"
+#include "Topography/LocalMap.h"
 #include "Topography/TerrainMap.h"
+#include "Topography/TileCoordinates.h"
 
 PlayerManager::PlayerManager(GameLog* gameLog) :
-turnQueue(nullptr), player(nullptr), map(nullptr),
-inputState(PLAYER_INPUT_MOVE), autoActing(false), 
-gameLog(gameLog) {
-   
-   playerArena = malloc(sizeof(ActorEntity) + 64);
-   player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64, true);
+   turnQueue(nullptr), player(nullptr), map(nullptr),
+   inputState(PLAYER_INPUT_MOVE), autoActing(false), 
+   gameLog(gameLog) {
 
-   player->stats.maxHealth = 150;
-   player->stats.health = player->stats.maxHealth;
+      playerArena = malloc(sizeof(ActorEntity) + 64);
+      player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64, true);
 
-   player->description.name = "Tamren";
-   player->description.desc = "It's you.";
+      player->stats.maxHealth = 150;
+      player->stats.health = player->stats.maxHealth;
 
-   player->display.symbol = ASYM_AT;
-   player->display.symbolColor = MyColor(255,215,0);
+      player->description.name = "Tamren";
+      player->description.desc = "It's you.";
 
-   player->faction = FACTION_GOOD;
+      player->display.symbol = ASYM_AT;
+      player->display.symbolColor = MyColor(255,215,0);
 
-   player->stats.speed = FULL_TURN_TIME;
-}
+      player->faction = FACTION_GOOD;
+
+      player->stats.speed = FULL_TURN_TIME;
+   }
 
 PlayerManager::~PlayerManager() {
    player->~ActorEntity();
@@ -38,27 +41,15 @@ PlayerManager::~PlayerManager() {
 }
 
 bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
-   TileCoords newCoords;
-
+   TileCoords currCoords;
    if (inputState == PLAYER_INPUT_MOVE) {
-      newCoords = player->location;
+      currCoords = player->location;
    }
    else {
-      newCoords = map->getFocusTileLocation();
+      currCoords = map->getFocusTileLocation();
    }
 
-   if (direction < 3) {
-      newCoords.y--;
-   }
-   else if (direction < 6) {
-      newCoords.y++;
-   }
-   if (direction % 3 == 1) {
-      newCoords.x++;
-   }
-   else if (direction % 3 == 2) {
-      newCoords.x--;
-   }
+   TileCoords newCoords = getNewLocation(currCoords, direction);
 
    if (!map->isInMapBounds(newCoords)) {
       return false;
@@ -82,23 +73,47 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
       map->setLookTile(newCoords);
       return false;
    }
+   else if (inputState == PLAYER_INPUT_SELECT) {
+      map->setLookTile(newCoords);
+      return false;
+   }
    else {
       return false;
    }
 }
 
 
+
+TileCoords PlayerManager::getNewLocation(TileCoords curr, PlayerCommand direction) {
+   if (direction < 3) {
+      curr.y--;
+   }
+   else if (direction < 6) {
+      curr.y++;
+   }
+   if (direction % 3 == 1) {
+      curr.x++;
+   }
+   else if (direction % 3 == 2) {
+      curr.x--;
+   }
+
+   return curr;
+}
+
+
 void PlayerManager::processMouseClick(bool isRightClick) {
-  if (inputState == PLAYER_INPUT_SELECT) {
-     map->lookAtMouseTile();
-     //TODO: draw selection line
-  }
-  else if (isRightClick) {
-     map->lookAtMouseTile();
-  }
-  else {
-     startAutoMove();
-  }
+   if (inputState == PLAYER_INPUT_SELECT) {
+      map->lookAtMouseTile();
+   }
+
+   else if (isRightClick) {
+      map->lookAtMouseTile();
+   }
+
+   else {
+      startAutoMove();
+   }
 }
 
 
@@ -113,8 +128,7 @@ void PlayerManager::placePlayer(TileCoords location) {
 void PlayerManager::updateInputState(PlayerCommand command) {
    if (command == PC_TOGGLE_LOOK) {
       if (inputState == PLAYER_INPUT_LOOK) {
-         map->stopLooking();
-         inputState = PLAYER_INPUT_MOVE;
+         resetInputState();
       }
       else {
          map->setLookTile(player->location);
@@ -122,10 +136,25 @@ void PlayerManager::updateInputState(PlayerCommand command) {
       }
    }
 
-   else if (command == PC_ESCAPEKEY) {
-      map->stopLooking();
-      inputState = PLAYER_INPUT_MOVE;
+   else if (command == PC_TOGGLE_SELECT) {
+      if (inputState == PLAYER_INPUT_SELECT) {
+         resetInputState();
+      }
+      else {
+         inputState = PLAYER_INPUT_SELECT;
+         map->setHighlightRouteType(HIGHLIGHT_LINE);
+      }
    }
+
+   else {
+      resetInputState();
+   }
+}
+
+void PlayerManager::resetInputState() {
+   map->stopLooking();
+   map->setHighlightRouteType(HIGHLIGHT_MOVE_ROUTE);
+   inputState = PLAYER_INPUT_MOVE;
 }
 
 void PlayerManager::lookAtMouseTile() {
@@ -155,7 +184,7 @@ void PlayerManager::startAutoMove() {
       inputState = PLAYER_INPUT_MOVE;
    }
 
-   autoMoveRoute = map->getRouteToMouseTile();
+   autoMoveRoute = map->getHighlightedPath();
    autoActing = true;
 }
 

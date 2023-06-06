@@ -8,127 +8,167 @@
 /* Graphics */
 
 MapDisplay* LocalMap::getMapDisplay() {
-	return &mapDisplay;
+   return &mapDisplay;
 }
 
 
 void LocalMap::updateMapDisplay() {
-	if (needToUpdateDisplay) {
-		updateVisibleTileDisplays();
-	}
+   if (needToUpdateDisplay) {
+      updateVisibleTileDisplays();
+   }
 
-	updateHighlightedTiles();
+   updateHighlightedTiles();
 
-	needToUpdateDisplay = false;
+   needToUpdateDisplay = false;
 }
 
 
 void LocalMap::updateHighlightedTiles() {
-	while (pathToMouseTile.hasNextTile()) {
-		TileCoords tile = pathToMouseTile.getNextTile();
-		setHasReticle(tile, false);
-		pathToMouseTile.incrementProgress();
-	}
+   unhighlightPathToMouseTile();
 
-	if (mouseTile.x == -1 || mouseTile.y == -1) {
-		return;
-	}
+   makeHighlightRoute();
 
-	Pathfinding::calcPlayerPathingRoute(playerTile, mouseTile, this, &pathToMouseTile);
-
-	while (pathToMouseTile.hasNextTile()) {
-		TileCoords tile = pathToMouseTile.getNextTile();
-		setHasReticle(tile, true);
-		pathToMouseTile.incrementProgress();
-	}
-
-   pathToMouseTile.resetProgress();
+   highlightPathToMouseTile();
 
    if (isLooking) {
       setHasReticle(mapDisplay.getFocusTile(), true);
    }
 }
 
+void LocalMap::highlightPathToMouseTile() {
+   pathToMouseTile.resetProgress();
+
+   while (pathToMouseTile.hasNextTile()) {
+      TileCoords tile = pathToMouseTile.getNextTile();
+      setHasReticle(tile, true);
+      pathToMouseTile.incrementProgress();
+   }
+}
+
+void LocalMap::unhighlightPathToMouseTile() {
+   pathToMouseTile.resetProgress();
+
+   while (pathToMouseTile.hasNextTile()) {
+      TileCoords tile = pathToMouseTile.getNextTile();
+      setHasReticle(tile, false);
+      pathToMouseTile.incrementProgress();
+   }
+}
 
 void LocalMap::makeVisible(TileCoords location) {
-	if (!isInMapBounds(location)) {
+   if (!isInMapBounds(location)) {
       DebugLogger::log("setVisible() coordinates out of bounds");
-		return;
-	}
+      return;
+   }
 
-	int index = coordsToTileIndex(location);
+   int index = coordsToTileIndex(location);
 
-	mapDisplay.setVisible(index);
+   mapDisplay.setVisible(index);
 
-	visibleIndices.push_back(index);
+   visibleIndices.push_back(index);
 }
 
 
 void LocalMap::resetVisibleTileDisplays() {
-	for (int index : visibleIndices) {
-		mapDisplay.resetVisibility(index);
+   for (int index : visibleIndices) {
+      mapDisplay.resetVisibility(index);
 
-		//reset to view of terrain
-		mapDisplay.setDisplayAt(index, terrainMap.getDisplayAtIndex(index));
-	}
+      //reset to view of terrain
+      mapDisplay.setDisplayAt(index, terrainMap.getDisplayAtIndex(index));
+   }
 
-	visibleIndices.clear();
+   visibleIndices.clear();
 }
 
 
 void LocalMap::updateVisibleTileDisplays() {
    //normal state of affairs
-	for (int index : visibleIndices) {
-		mapDisplay.setDisplayAt(index, getDisplayAt(index));
-	}
+   for (int index : visibleIndices) {
+      mapDisplay.setDisplayAt(index, getDisplayAt(index));
+   }
 
    mapDisplay.resetVisibilityResets();
 
    /*
    //set everything visible
    for (int i=0; i<width*height; i++) {
-		mapDisplay.setDisplayAt(i, getDisplayAt(i));
-      mapDisplay.setVisibility(i, true);
+   mapDisplay.setDisplayAt(i, getDisplayAt(i));
+   mapDisplay.setVisibility(i, true);
    }
    */
 }
 
 
 void LocalMap::setMouseTile(TileCoords location) {
-	mouseTile = location;
+   if (mouseTile != location) {
+      focusTileChangedLast = false;
+      mouseTile = location;
+   }
 }
 
 
-PathingRoute LocalMap::getRouteToMouseTile() {
-	return pathToMouseTile;
+void LocalMap::makeHighlightRoute() {
+   unhighlightPathToMouseTile();
+
+
+   if (highlightType == HIGHLIGHT_MOVE_ROUTE) {
+      if (mouseTile.x == -1 || mouseTile.y == -1) {
+         pathToMouseTile.clear();
+         return;
+      }
+      Pathfinding::calcPlayerPathingRoute(playerTile, mouseTile, this, &pathToMouseTile);
+   }
+   else if (highlightType == HIGHLIGHT_LINE) {
+      if (focusTileChangedLast) {
+         Pathfinding::makeLineRoute(playerTile, mapDisplay.getFocusTile(), this, &LocalMap::isPenetratableAt, &pathToMouseTile);
+      }
+      else {
+         if (mouseTile.x == -1 || mouseTile.y == -1) {
+            pathToMouseTile.resetProgress();
+            return;
+         }
+         Pathfinding::makeLineRoute(playerTile, mouseTile, this, &LocalMap::isPenetratableAt, &pathToMouseTile);
+      }
+   }
+
+   pathToMouseTile.resetProgress();
+}
+
+void LocalMap::setHighlightRouteType(HighlightType type) {
+   highlightType = type;
+}
+
+PathingRoute LocalMap::getHighlightedPath() {
+   pathToMouseTile.resetProgress();
+   return pathToMouseTile;
 }
 
 
 void LocalMap::flagNeedToUpdateDisplay() {
-	needToUpdateDisplay = true;
+   needToUpdateDisplay = true;
 }
 
 
 TileDisplay LocalMap::getDisplayAt(int index) {
-	if (actors[index] != nullptr) {
-		return TileDisplay(actors[index]->display, terrainMap.getDisplayAtIndex(index).backColor);
-	}
+   if (actors[index] != nullptr) {
+      return TileDisplay(actors[index]->display, terrainMap.getDisplayAtIndex(index).backColor);
+   }
 
-	if (items[index].size() > 0) {
-		return TileDisplay(items[index][0]->display, terrainMap.getDisplayAtIndex(index).backColor);
-	}
+   if (items[index].size() > 0) {
+      return TileDisplay(items[index][0]->display, terrainMap.getDisplayAtIndex(index).backColor);
+   }
 
-	return terrainMap.getDisplayAtIndex(index);
+   return terrainMap.getDisplayAtIndex(index);
 }
 TileDisplay LocalMap::getDisplayAt(TileCoords location) {
-	return getDisplayAt(coordsToTileIndex(location));
+   return getDisplayAt(coordsToTileIndex(location));
 }
 
 void LocalMap::setDisplayAt(int index, TileDisplay display) {
-	mapDisplay.setDisplayAt(index, display);
+   mapDisplay.setDisplayAt(index, display);
 }
 void LocalMap::setDisplayAt(TileCoords location, TileDisplay display) {
-	mapDisplay.setDisplayAt(coordsToTileIndex(location), display);
+   mapDisplay.setDisplayAt(coordsToTileIndex(location), display);
 }
 
 
@@ -137,12 +177,12 @@ bool LocalMap::hasReticle(TileCoords tile) { return mapDisplay.hasReticle(coords
 
 void LocalMap::setHasReticle(int index, bool value) { mapDisplay.setHasReticle(index, value); }
 void LocalMap::setHasReticle(TileCoords tile, bool value) {
-	mapDisplay.setHasReticle(coordsToTileIndex(tile), value);
+   mapDisplay.setHasReticle(coordsToTileIndex(tile), value);
 }
 
 
 bool LocalMap::hasBeenSeen(TileCoords location) {
-	return mapDisplay.hasBeenSeen(coordsToTileIndex(location));
+   return mapDisplay.hasBeenSeen(coordsToTileIndex(location));
 }
 
 
@@ -152,37 +192,39 @@ bool LocalMap::hasBeenSeen(TileCoords location) {
 /* Manipulation */
 
 void LocalMap::setPlayerLocation(ActorEntity* player, TileCoords newLocation) {
-	if (player->location.x != -1) {
-		actors[coordsToTileIndex(player->location)] = nullptr;
-	}
+   if (player->location.x != -1) {
+      actors[coordsToTileIndex(player->location)] = nullptr;
+   }
 
-	player->location = newLocation;
+   player->location = newLocation;
 
-	playerTile = newLocation;
-	
-	actors[coordsToTileIndex(newLocation)] = player;
-	mapDisplay.setFocusTile(newLocation);
+   playerTile = newLocation;
+
+   actors[coordsToTileIndex(newLocation)] = player;
+   mapDisplay.setFocusTile(newLocation);
 }
 
 TileCoords LocalMap::getFocusTileLocation() {
-	return mapDisplay.getFocusTile();
+   return mapDisplay.getFocusTile();
 }
 
 void LocalMap::setFocusTileLocation(TileCoords location) {
-	mapDisplay.setFocusTile(location);
+   mapDisplay.setFocusTile(location);
+   focusTileChangedLast = true;
 }
 
 void LocalMap::stopLooking() {
-	setHasReticle(mapDisplay.getFocusTile(), false);
-	mapDisplay.setFocusTile(playerTile);
+   setHasReticle(mapDisplay.getFocusTile(), false);
+   mapDisplay.setFocusTile(playerTile);
    isLooking = false;
 }
 
 void LocalMap::setLookTile(TileCoords newCoords) {
-	setHasReticle(getFocusTileLocation(), false);
-	setHasReticle(newCoords, true);
-	mapDisplay.setFocusTile(newCoords);
+   setHasReticle(getFocusTileLocation(), false);
+   setHasReticle(newCoords, true);
+   mapDisplay.setFocusTile(newCoords);
    isLooking = true;
+   focusTileChangedLast = true;
 }
 
 void LocalMap::lookAtMouseTile() {
@@ -191,46 +233,54 @@ void LocalMap::lookAtMouseTile() {
 
 
 bool LocalMap::isInMapBounds(TileCoords location) {
-	return (location.x>-1 && location.y>-1 && location.x<width && location.y<height);
+   return (location.x>-1 && location.y>-1 && location.x<width && location.y<height);
 }
 
 void LocalMap::setTerrainAt(int index, TerrainTile& terrain) {
-	terrainMap.setTile(index, terrain);
+   terrainMap.setTile(index, terrain);
 }
 void LocalMap::setTerrainAt(TileCoords location, TerrainTile& terrain) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("setTerrainAt() coordinates out of bounds");
-		return;
-	}
-	setTerrainAt(coordsToTileIndex(location), terrain);
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("setTerrainAt() coordinates out of bounds");
+      return;
+   }
+   setTerrainAt(coordsToTileIndex(location), terrain);
 }
 
 bool LocalMap::isTraversibleAt(int index) {
-	return (terrainMap.isTraversibleAtIndex(index) && actors[index]==nullptr);
+   return (terrainMap.isTraversibleAtIndex(index) && actors[index]==nullptr);
 }
 bool LocalMap::isTraversibleAt(TileCoords location) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("isTraversibleAt() coordinates out of bounds");
-		return false;
-	}
-	return isTraversibleAt(coordsToTileIndex(location));
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("isTraversibleAt() coordinates out of bounds");
+      return false;
+   }
+   return isTraversibleAt(coordsToTileIndex(location));
+}
+
+bool LocalMap::isPenetratableAt(TileCoords location) {
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("isPenetratableAt() coordinates out of bounds");
+      return false;
+   }
+   return terrainMap.isTraversibleAtIndex(coordsToTileIndex(location));
 }
 
 bool LocalMap::isOpaqueAt(int index) { return terrainMap.isOpaqueAtIndex(index); }
 bool LocalMap::isOpaqueAt(TileCoords location) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("isOpaqueAt() coordinates out of bounds");
-		return false;
-	}
-	return terrainMap.isOpaqueAtIndex(coordsToTileIndex(location));
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("isOpaqueAt() coordinates out of bounds");
+      return false;
+   }
+   return terrainMap.isOpaqueAtIndex(coordsToTileIndex(location));
 }
 
 TerrainType LocalMap::getTerrainTypeAt(TileCoords location) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("getTerrainTypeAt() coordinates out of bounds");
-		return TERRAIN_NORMAL;
-	}
-	return terrainMap.getTerrainTypeAtIndex(coordsToTileIndex(location));
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("getTerrainTypeAt() coordinates out of bounds");
+      return TERRAIN_NORMAL;
+   }
+   return terrainMap.getTerrainTypeAtIndex(coordsToTileIndex(location));
 }
 
 int LocalMap::addTerrainName(std::string name) {
@@ -238,57 +288,57 @@ int LocalMap::addTerrainName(std::string name) {
 }
 
 std::string LocalMap::getTerrainNameAt(TileCoords location) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("getTerrainNameAt() coordinates out of bounds");
-		return "Out of bounds";
-	}
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("getTerrainNameAt() coordinates out of bounds");
+      return "Out of bounds";
+   }
    return terrainMap.getNameAt(coordsToTileIndex(location));
 }
 
 TileDisplay LocalMap::getTerrainDisplayAt(TileCoords location) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("getTerrainDisplayAt() coordinates out of bounds");
-		return TileDisplay();
-	}
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("getTerrainDisplayAt() coordinates out of bounds");
+      return TileDisplay();
+   }
    return terrainMap.getDisplayAtIndex(coordsToTileIndex(location));
 }
 
 bool LocalMap::isVisibleAt(TileCoords location) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("isVisibleAt() coordinates out of bounds");
-		return false;
-	}
-	return mapDisplay.isVisible(coordsToTileIndex(location));
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("isVisibleAt() coordinates out of bounds");
+      return false;
+   }
+   return mapDisplay.isVisible(coordsToTileIndex(location));
 }
 
 
 bool LocalMap::thereIsAnActorAt(int index) { return actors[index] != nullptr; }
 bool LocalMap::thereIsAnActorAt(TileCoords location) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("thereIsAnActorAt() coordinates out of bounds");
-		return false;
-	}
-	return actors[coordsToTileIndex(location)] != nullptr;
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("thereIsAnActorAt() coordinates out of bounds");
+      return false;
+   }
+   return actors[coordsToTileIndex(location)] != nullptr;
 }
 
 
 ActorEntity* LocalMap::getActorAt(int index) { return actors[index]; }
 ActorEntity* LocalMap::getActorAt(TileCoords location) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("getActorAt() coordinates out of bounds");
-		return nullptr;
-	}
-	return getActorAt( coordsToTileIndex(location) );
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("getActorAt() coordinates out of bounds");
+      return nullptr;
+   }
+   return getActorAt( coordsToTileIndex(location) );
 }
 
 
 void LocalMap::setActorAt(int index, ActorEntity* actor) { actors[index] = actor; }
 void LocalMap::setActorAt(TileCoords location, ActorEntity* actor) {
-	if (!isInMapBounds(location)) {
-		DebugLogger::log("setActorAt() coordinates out of bounds");
-		return;
-	}
-	setActorAt(coordsToTileIndex(location), actor);
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("setActorAt() coordinates out of bounds");
+      return;
+   }
+   setActorAt(coordsToTileIndex(location), actor);
 }
 
 
@@ -343,24 +393,24 @@ int LocalMap::getHeight() { return height; }
 
 
 int LocalMap::coordsToTileIndex(TileCoords coordinates) {
-	if (coordinates.x < 0 || coordinates.y < 0 || coordinates.x >= width || coordinates.x >= height) {
-		DebugLogger::log("Coords to tile ID out of bounds");
-		return -1;
-	}
+   if (coordinates.x < 0 || coordinates.y < 0 || coordinates.x >= width || coordinates.x >= height) {
+      DebugLogger::log("Coords to tile ID out of bounds");
+      return -1;
+   }
 
-	return coordinates.y * width + coordinates.x;
+   return coordinates.y * width + coordinates.x;
 }
 
 TileCoords LocalMap::tileIndexToCoords(int index) {
-	TileCoords coordinates;
+   TileCoords coordinates;
 
-	if (index <0 || index>width * height) {
-		coordinates.x = coordinates.y = -1;
-		return coordinates;
-	}
+   if (index <0 || index>width * height) {
+      coordinates.x = coordinates.y = -1;
+      return coordinates;
+   }
 
-	coordinates.x = index % width;
-	coordinates.y = index / width;
-	return coordinates;
+   coordinates.x = index % width;
+   coordinates.y = index / width;
+   return coordinates;
 }
 

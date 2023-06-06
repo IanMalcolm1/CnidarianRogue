@@ -12,6 +12,7 @@
 #include "Topography/LocalMap.h"
 #include "Interface/InputConfirmer.h"
 #include "Adventure/Scene/TurnQueue.h"
+#include "Topography/TileCoordinates.h"
 
 
 enum PlayerInputState {
@@ -42,6 +43,8 @@ private:
    bool doAutoMovement(); //reurns true if turn should be run
 	void startAutoMove(); //reurns true if turn should be run
    void lookAtMouseTile();
+   
+   TileCoords getNewLocation(TileCoords curr, PlayerCommand direction);
 
 public:
    PlayerManager(GameLog* gameLog);
@@ -55,6 +58,7 @@ public:
 	void placePlayer(TileCoords location);
 
 	void updateInputState(PlayerCommand command);
+   void resetInputState();
 	bool doAutoAct();
 	void clearAutoAct();
    bool isAutoActing(); //reurns true if turn should be run

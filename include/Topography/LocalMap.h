@@ -12,6 +12,11 @@
 #include "Topography/TileCoordinates.h"
 
 
+enum HighlightType {
+   HIGHLIGHT_LINE,
+   HIGHLIGHT_MOVE_ROUTE
+};
+
 /* Should be pretty obvious what this class does. The
  * 'Local' part is just because I was thinking to also
  * have a 'Global' version at one point */
@@ -24,6 +29,8 @@ private:
 	TileCoords playerTile;
    bool isLooking;
 
+   bool focusTileChangedLast; //false = opposite is mouse tile changed last
+   HighlightType highlightType;
 	PathingRoute pathToMouseTile;
 
 	MapDisplay mapDisplay;
@@ -49,12 +56,16 @@ private:
 	void setHasReticle(int index, bool hasReticle);
 	void setHasReticle(TileCoords tile, bool hasReticle);
 
+   void highlightPathToMouseTile();
+   void unhighlightPathToMouseTile();
+   void makeHighlightRoute();
+
 public:
 	LocalMap(int width, int height) : mapDisplay(width, height),
 	terrainMap(width, height), actors(width*height, nullptr),
 	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(),
    width(width), height(height), needToUpdateDisplay(true), isLooking(false),
-   mouseTile(-1,-1) {};
+   mouseTile(-1,-1), focusTileChangedLast(false), highlightType(HIGHLIGHT_MOVE_ROUTE) {};
 
 
 	MapDisplay* getMapDisplay();
@@ -72,6 +83,7 @@ public:
 	void setTerrainAt(TileCoords location, TerrainTile& terrain);
 	bool isTraversibleAt(int index);
 	bool isTraversibleAt(TileCoords location);
+	bool isPenetratableAt(TileCoords location);
 	bool isOpaqueAt(int index);
    TerrainType getTerrainTypeAt(TileCoords location);
    int addTerrainName(std::string);
@@ -105,7 +117,8 @@ public:
 	void makeVisible(TileCoords location);
 
 	void setMouseTile(TileCoords coordinates);
-	PathingRoute getRouteToMouseTile();
+   void setHighlightRouteType(HighlightType type);
+   PathingRoute getHighlightedPath();
 
 	void flagNeedToUpdateDisplay();
 };
