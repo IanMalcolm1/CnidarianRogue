@@ -26,7 +26,8 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    GameText strength = textMaker.makeGameText(player->stats.getStrengthAsString());
    GameText intelligence = textMaker.makeGameText(player->stats.getIntelligenceAsString());
    GameText speed = textMaker.makeGameText(player->stats.getSpeedAsString());
-   GameText weaponDesc = textMaker.makeGameText(itemDescriber.describeWeapon(player->getActiveWeapon()));
+   GameText weaponDesc = textMaker.makeGameText(itemDescriber.describeWeapon(player->getPhysicalWeapon()));
+   GameText magicWeaponDesc = textMaker.makeGameText(itemDescriber.describeWeapon(player->getMagicWeapon()));
    GameText effects = textMaker.makeGameText(actorDescriber.listEffects(player));
 
    int startY = textSpecs.margin;
@@ -45,6 +46,8 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    startY = textRenderer.renderGameText(textSpecs, weaponTitle, startY);
    startY += textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, weaponDesc, startY);
+   startY += textSpecs.messageSpacing;
+   startY = textRenderer.renderGameText(textSpecs, magicWeaponDesc, startY);
 
    startY += 3*textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, effects, startY);

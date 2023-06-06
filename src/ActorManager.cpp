@@ -13,10 +13,11 @@
 #include <string>
 
 
-void ActorManager::initialize(TurnQueue *turnQueue, LocalMap *map, GameLog *gameLog) {
+void ActorManager::initialize(TurnQueue *turnQueue, LocalMap *map, GameLog *gameLog, ItemManager* itemMan) {
    this->turnQueue = turnQueue;
    this->map = map;
    this->gameLog = gameLog;
+   this->itemMan = itemMan;
 }
 
 void ActorManager::initializeFactory(ActorFactory* factory, ItemFactory* itemFactory) {
@@ -28,7 +29,8 @@ void ActorManager::destroyActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, nullptr);
 	turnQueue->removeActor(actor);
 
-   map->addItemAt(actor->location, actor->getHeldWeapon());
+   itemMan->moveItem(actor->getMagicWeaponDirect(), actor->location);
+   itemMan->moveItem(actor->getPhysicalWeaponDirect(), actor->location);
 
    if (actor->isPlayer()) {
       notifyListeners(EVENT_PLAYERDED);

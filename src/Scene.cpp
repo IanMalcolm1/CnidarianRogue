@@ -6,10 +6,10 @@
 void Scene::initialize(EffectDescriber* effectDescriber) {
    itemManager.initialize(&map);
    itemManager.initializeFactory(&itemFactory);
-   actorManager.initialize(&turnQueue, &map, gameLog);
+   actorManager.initialize(&turnQueue, &map, gameLog, &itemManager);
    actorManager.initializeFactory(&actorFactory, &itemFactory);
    effectManager.initialize(effectDescriber, &actorManager, &turnQueue);
-   actorUtils.initialize(&actorManager, &itemManager, &effectManager);
+   actorUtils.initialize(&actorManager, &itemManager, &effectManager, &map);
    aiRunner.initialize(&map, &actorManager, &actorUtils);
 }
 

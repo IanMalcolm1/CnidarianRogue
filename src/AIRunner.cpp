@@ -72,7 +72,7 @@ int AIRunner::approachAndWhack(ActorEntity* actor) {
 
    //do attack if next to target
    if (actor->location.isAdjacentTo(targetActor->location)) {
-      actorUtils->doAttack(actor, targetActor);
+      actorUtils->doAttack(actor, actor->getPhysicalWeapon(), targetActor);
       return actor->stats.speed;
    }
 

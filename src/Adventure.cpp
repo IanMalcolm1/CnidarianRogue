@@ -70,6 +70,10 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
       }
    }
 
+   else if (command == PC_CONFIRM) {
+      needToRunTurn = playerMan.processConfirm();
+   }
+
    else if (command == PC_TOGGLE_LOOK || command == PC_TOGGLE_SELECT) {
       playerMan.updateInputState(command);
    }
@@ -77,10 +81,6 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
    else if (command == PC_ESCAPEKEY) {
       playerMan.resetInputState();
    }
-
-   else if (command == PC_CHANGE_LEVEL) {
-   }
-
 
    if (needToRunTurn) {
       scene->runTurn();

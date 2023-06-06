@@ -4,6 +4,7 @@
  * actor's state, and runs the corresponding logic function.
  * Logic functions will be private functions of this class */
 
+#include "Adventure/Scene/ItemManager.h"
 #include "Algorithms/Randomizer.h"
 #include "Entities/Actors/ActorDescriber.h"
 #include "Entities/Actors/ActorEntity.h"
@@ -23,6 +24,7 @@ class ActorManager : public Blabber {
 private:
    EntityColiseum<ActorEntity> actorColiseum;
 
+   ItemManager* itemMan;
    TurnQueue* turnQueue;
    LocalMap* map;
    GameLog* gameLog;
@@ -40,7 +42,7 @@ public:
       damageTypeNames[DAMAGE_POISON] = " </green:poison\\>";
    };
 
-   void initialize(TurnQueue* turnQueue, LocalMap* map, GameLog* gameLog);
+   void initialize(TurnQueue* turnQueue, LocalMap* map, GameLog* gameLog, ItemManager* itemMan);
    void initializeFactory(ActorFactory* factory, ItemFactory* itemFactory);
 
    void destroyActor(ActorEntity* actor);

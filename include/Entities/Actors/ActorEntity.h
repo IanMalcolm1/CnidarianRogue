@@ -27,10 +27,8 @@ private:
 	PathingRoute currentRoute;
    ActorEntity* targetEntity;
 
-
-	//std::vector<Ability> abilities; (unimplemented)
-
-   ItemEntity* weapon;
+   ItemEntity* magicWeapon;
+   ItemEntity* phyisicalWeapon;
    ItemEntity* naturalWeapon;
 
 public:
@@ -43,9 +41,9 @@ public:
 
 
 	ActorEntity(int id, int bytesUsed, int totalSpace, bool player = false)
-      : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
-      display(EntityDisplay()), ai(AI()), player(player),
-      targetEntity(nullptr), weapon(nullptr), naturalWeapon(nullptr) {};
+   : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
+   display(EntityDisplay()), ai(AI()), player(player), targetEntity(nullptr),
+   phyisicalWeapon(nullptr), magicWeapon(nullptr), naturalWeapon(nullptr) {};
 
    void reset();
 
@@ -75,8 +73,13 @@ public:
 	AiStateId getState();
 	void setState(AiStateId stateID);
 
-   ItemEntity* getActiveWeapon();
-   ItemEntity* getHeldWeapon();
+   ItemEntity* getPhysicalWeapon();
+   ItemEntity* getMagicWeapon();
+   ItemEntity* getPhysicalWeaponDirect();
+   ItemEntity* getMagicWeaponDirect();
+   bool hasDedicatedPhysicalWeapon();
+   bool hasDedicatedMagicWeapon();
    void setNaturalWeapon(ItemEntity* natWeapon);
-   void setWeapon(ItemEntity* weapon);
+   void setPhysicalWeapon(ItemEntity* weapon);
+   void setMagicWeapon(ItemEntity* weapon);
 };

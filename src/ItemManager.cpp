@@ -21,6 +21,10 @@ void ItemManager::destroyItem(ItemEntity* item) {
 }
 
 void ItemManager::moveItem(ItemEntity* item, TileCoords location) {
+   if (item == nullptr) {
+      return;
+   }
+
    if (item->location != TileCoords(-1,-1)) {
       map->removeItemAt(item->location, item);
    }

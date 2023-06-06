@@ -40,6 +40,7 @@ enum ComponentType {
    COMPONENT_WIELDABLE,
    COMPONENT_DAMAGING,
    COMPONENT_CONSUMABLE,
+   COMPONENT_RANGED,
 
    NUM_COMPONENT_TYPES
 };
@@ -88,4 +89,11 @@ struct ConsumableComp : public Component {
    int charges;
 
    ConsumableComp(int charges = 1) : charges(charges) {};
+};
+
+
+struct RangedComp : public Component {
+   int range;
+
+   RangedComp(int range = 10) : range(range) {};
 };

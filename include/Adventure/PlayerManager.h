@@ -66,6 +66,7 @@ public:
    bool pickUpItem();
    void waitTurn();
    bool attemptLevelChange();
+   bool processConfirm();
 
    void setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory, ActorUtils* actorUtils);
 };

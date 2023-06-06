@@ -57,7 +57,7 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
 
    if (inputState == PLAYER_INPUT_MOVE) {
       if (map->thereIsAnActorAt(newCoords) && player->isHostileTo(map->getActorAt(newCoords))) {
-         actorUtils->doAttack(player, map->getActorAt(newCoords));
+         actorUtils->doAttack(player, player->getPhysicalWeapon(), map->getActorAt(newCoords));
          turnQueue->insertActor(player, player->stats.speed);
          return true;
       }
@@ -236,6 +236,17 @@ bool PlayerManager::attemptLevelChange() {
    if (terrainType == TERRAIN_DOWNSTAIRS) {
       return true;
    }
+   return false;
+}
+
+bool PlayerManager::processConfirm() {
+   if (inputState == PLAYER_INPUT_SELECT) {
+      selectionRoute = map->getHighlightedPath();
+      actorUtils->doLineAttack(player, player->getMagicWeapon(), &selectionRoute);
+      turnQueue->insertActor(player, player->stats.speed);
+      return true;
+   }
+
    return false;
 }
 

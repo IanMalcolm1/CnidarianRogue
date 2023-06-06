@@ -3,16 +3,17 @@
 #include "Entities/EntityDescriber.h"
 
 
-void ActorUtils::initialize(ActorManager* actorManager, ItemManager* itemManager, EffectManager* effectManager) {
+void ActorUtils::initialize(ActorManager* actorManager, ItemManager* itemManager, EffectManager* effectManager, LocalMap* map) {
    this->actorMan = actorManager;
    this->itemMan = itemManager;
    this->effectMan = effectManager;
+   this->map = map;
 }
 
 
 
-void ActorUtils::doAttack(ActorEntity* attacker, ActorEntity* defender) {
-   DamagingComp* damageComp = (DamagingComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_DAMAGING);
+void ActorUtils::doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity* defender) {
+   DamagingComp* damageComp = (DamagingComp*) weapon->getComponent(COMPONENT_DAMAGING);
    
    std::string message = EntityDescriber::makeName(attacker);
    message.append(" attacks ");
@@ -25,9 +26,21 @@ void ActorUtils::doAttack(ActorEntity* attacker, ActorEntity* defender) {
 
    actorMan->damageActor(defender, damageAndMessage.first);
    
-   if (attacker->getActiveWeapon()->hasComponent(COMPONENT_EFFECT)) {
-      EffectComp* effect = (EffectComp*) attacker->getActiveWeapon()->getComponent(COMPONENT_EFFECT);
+   if (weapon->hasComponent(COMPONENT_EFFECT)) {
+      EffectComp* effect = (EffectComp*) weapon->getComponent(COMPONENT_EFFECT);
       effectMan->attachEffect(effect->effect1, defender);
+   }
+}
+
+
+void ActorUtils::doLineAttack(ActorEntity* attacker, ItemEntity* weapon, PathingRoute* route) {
+   route->resetProgress();
+   while (route->hasNextTile()) {
+      TileCoords coords = route->getNextTile();
+      if (map->thereIsAnActorAt(coords)) {
+         doAttack(attacker, weapon, map->getActorAt(coords));
+      }
+      route->incrementProgress();
    }
 }
 
@@ -36,10 +49,18 @@ void ActorUtils::doItemPickup(ItemEntity *item, ActorEntity* actor) {
    itemMan->moveItem(item, {-1,-1});
 
    if (item->hasComponent(COMPONENT_WIELDABLE)) {
-      if (actor->getHeldWeapon() != nullptr) {
-         itemMan->moveItem(actor->getHeldWeapon(), currLocation);
+      if (item->hasComponent(COMPONENT_RANGED)) {
+         if (actor->hasDedicatedMagicWeapon()) {
+            itemMan->moveItem(actor->getMagicWeapon(), currLocation);
+         }
+         actor->setMagicWeapon(item);
       }
-      actor->setWeapon(item);
+      else {
+         if (actor->hasDedicatedPhysicalWeapon()) {
+            itemMan->moveItem(actor->getPhysicalWeapon(), currLocation);
+         }
+         actor->setPhysicalWeapon(item);
+      }
    }
 
    else if (item->hasComponent(COMPONENT_CONSUMABLE)) {

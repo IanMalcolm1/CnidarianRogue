@@ -26,6 +26,7 @@ enum PlayerCommand {
 	PC_TOGGLE_LOOK, //To begin/end looking around
    PC_TOGGLE_SELECT,
    PC_CHANGE_LEVEL,
+   PC_CONFIRM,
 
 	PC_END_OF_PLAYER_ACTIONS,
 
