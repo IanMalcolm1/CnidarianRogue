@@ -121,6 +121,12 @@ void GameWindow::processCursorLocation(int x, int y) {
    }
 }
 
+void GameWindow::processCursorMovement() {
+   if (exitConfirmerUI.hidden && gameOverUI.hidden) {
+      adventureUI.processCursorMovement();
+   }
+}
+
 void GameWindow::processClick(int x, int y, bool isRightClick) {
    if (!exitConfirmerUI.hidden) {
       exitConfirmerUI.processMouseClick(x,y);

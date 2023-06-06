@@ -117,6 +117,7 @@ public:
 	void makeVisible(TileCoords location);
 
 	void setMouseTile(TileCoords coordinates);
+   void flagMouseMoved();
    void setHighlightRouteType(HighlightType type);
    PathingRoute getHighlightedPath();
 

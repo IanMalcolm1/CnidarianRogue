@@ -100,10 +100,11 @@ void LocalMap::updateVisibleTileDisplays() {
 
 
 void LocalMap::setMouseTile(TileCoords location) {
-   if (mouseTile != location) {
-      focusTileChangedLast = false;
-      mouseTile = location;
-   }
+   mouseTile = location;
+}
+
+void LocalMap::flagMouseMoved() {
+   focusTileChangedLast = false;
 }
 
 

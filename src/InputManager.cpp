@@ -52,6 +52,10 @@ bool InputManager::processInput() {
 			gameWindow->processScroll(x, y, sdlEvent.wheel.y, controlDown);
 			break;
 
+      case SDL_MOUSEMOTION:
+         gameWindow->processCursorMovement();
+         break;
+
 		case SDL_WINDOWEVENT:
 			if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED) {
 				gameWindow->updateWindowDimensions(sdlEvent.window.data1, sdlEvent.window.data2);

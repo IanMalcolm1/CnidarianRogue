@@ -39,6 +39,9 @@ void AdventureUI::render(const SDL_Rect& screenDimensions) {
 void AdventureUI::processCursorLocation(int x, int y) {
    sceneUI.processCursorLocation(x, y);
 }
+void AdventureUI::processCursorMovement() {
+   adventure->getScene()->getMap()->flagMouseMoved();
+}
 void AdventureUI::processScroll(int x, int y, int offset, bool isRightClick) {
    sceneUI.processScroll(x, y, offset, isRightClick);
    messagesUI.processScroll(x, y, offset, isRightClick);
