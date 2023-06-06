@@ -3,11 +3,15 @@
 std::string Damage::getDescription() {
    std::string desc = "Deals ";
 
-   if (dice != 0) {
-      desc.append( std::to_string(dice) + "d6+" );
+   if (dice > 0) {
+      desc.append(std::to_string(dice) + "d" + std::to_string(diceSize));
    }
-
-   desc.append( std::to_string(constant) );
+   if (dice >0 && constant !=0) {
+      desc.append("+");
+   }
+   if (constant != 0) {
+      desc.append(std::to_string(constant));
+   }
 
    switch (type) {
    case DAMAGE_PHYSICAL:

@@ -32,7 +32,7 @@ ItemEntity* ItemFactory::makeBasicSword(TileCoords location) {
 
    sword->display.symbol = ASYM_FORWARD_SLASH;
    
-   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 1, 0));
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 6, 1, 0));
    sword->addComponent(damage, COMPONENT_DAMAGING);
 
    sword->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
@@ -50,7 +50,7 @@ ItemEntity* ItemFactory::makeForceWand(TileCoords location) {
    wand->display.symbol = ASYM_SMALL_DASH;
    wand->display.symbolColor = colorMap.getColor("brown");
 
-   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 1, 0));
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 3, 1, 0));
    wand->addComponent(damage, COMPONENT_DAMAGING);
 
    wand->addComponent(RangedComp(10), COMPONENT_RANGED);
@@ -139,7 +139,7 @@ ItemEntity* ItemFactory::makeFists() {
 
    fists->display.symbol = ASYM_ASTERISK;
    
-   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 1));
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 2, 1, 0));
    fists->addComponent(damage, COMPONENT_DAMAGING);
 
    fists->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
@@ -156,7 +156,7 @@ ItemEntity* ItemFactory::makePoisonFangs() {
    fangs->display.symbol = ASYM_FAT_ARROW_DOWN;
    fangs->display.symbolColor = colorMap.getColor("green");
    
-   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 1));
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 0, 1));
    fangs->addComponent(damage, COMPONENT_DAMAGING);
 
    EffectComp poisonComp = EffectComp(EffectComp(effectFactory.makePoison(1)));
@@ -176,7 +176,7 @@ ItemEntity* ItemFactory::makeForceCantrip() {
    cantrip->display.symbol = ASYM_ASTERISK;
    cantrip->display.symbolColor = MyColor(255,255,255);
 
-   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 1));
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 0, 1));
    cantrip->addComponent(damage, COMPONENT_DAMAGING);
 
    RangedComp range = RangedComp(10);

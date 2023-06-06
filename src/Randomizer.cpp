@@ -1,22 +1,28 @@
 #include "Algorithms/Randomizer.h"
 
-Randomizer::Randomizer() : d6Dist(1,6) {
+Randomizer::Randomizer() : coinDist(0,1) {
    std::random_device seeder;
    generator = std::mt19937(seeder());
 }
 
 bool Randomizer::flipCoin() {
-   if ((d6Dist(generator) & 1)==1) {
+   if ((coinDist(generator) & 1)==1) {
       return true;
    }
    return false;
 };
 
-int Randomizer::rollD6s(int numDice) {
+int Randomizer::rollDice(int diceSize, int numDice) {
+   if (diceSize < 1 || numDice < 1) {
+      return 0;
+   }
+
+   std::uniform_int_distribution<int> dist(1, diceSize);
+
    int sum = 0;
 
    for (int i=0; i<numDice; i++) {
-      sum += d6Dist(generator);
+      sum += dist(generator);
    }
 
    return sum;

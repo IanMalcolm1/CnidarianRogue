@@ -14,9 +14,6 @@ Ranged attacks
    - Weapon describer should account for range component
    - Allow click to confirm attack selection (might need to do some listener hookups with scene)
    - Add intelligence to ranged damage calculations
-   - Magic damage should use 1d2s, and there should be far fewer intelligence mushrooms to
-     balance range and ability to damage multiple enemies at once
-     - Need to add a value to Damage that specifies dice size
 
 
 Next:

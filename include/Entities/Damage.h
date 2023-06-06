@@ -11,10 +11,11 @@ enum DamageType {
 };
 struct Damage {
    DamageType type;
-   int dice, constant;
+   int diceSize, dice, constant;
 
-   Damage(DamageType type = DAMAGE_NONE, int dice = 0, int constant = 0)
-      : type(type), dice(dice), constant(constant) {};
+   Damage(DamageType type = DAMAGE_NONE, int diceSize = 6, int dice = 0,
+   int constant = 0) : type(type), dice(dice), diceSize(diceSize),
+   constant(constant) {};
 
 	bool operator == (const Damage damage) const {
       return (type==damage.type && dice==damage.dice && constant==damage.constant);

@@ -63,7 +63,7 @@ std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* attacker, Acto
    std::pair<int, std::string> damageAndMessage;
 
    int constant = damage.constant;
-   int diceRoll = randomizer.rollD6s(damage.dice);
+   int diceRoll = randomizer.rollDice(damage.diceSize, damage.dice);
 
    if (attacker != nullptr && damage.type == DAMAGE_PHYSICAL) {
       constant += attacker->stats.strength;

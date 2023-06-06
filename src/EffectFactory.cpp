@@ -8,7 +8,7 @@
 Effect EffectFactory::makePoison(int strength) {
    Effect poison = Effect(EFFECT_POISON, EFFECT_TIMING_DOT, EFFECT_TYPE_DAMAGE);
 
-   poison.damageInfo.damage = Damage(DAMAGE_POISON, 0, 1);
+   poison.damageInfo.damage = Damage(DAMAGE_POISON, 0, 0, 1);
 
    poison.dotInfo.tickTime = FULL_TURN_TIME;
    poison.dotInfo.duration = FULL_TURN_TIME*10;
