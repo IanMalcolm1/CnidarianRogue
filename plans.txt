@@ -12,7 +12,6 @@ Ranged attacks
    - Implement selection range. Can have a struct that stores info on how far a route is
      allowed to go, penetration, and which traversibility check it should use.
    - Allow click to confirm attack selection (might need to do some listener hookups with scene)
-   - Add intelligence to ranged damage calculations
 
 
 Next:

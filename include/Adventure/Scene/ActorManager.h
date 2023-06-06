@@ -52,7 +52,7 @@ public:
    //When a class needs to damage an entity, it should use calcDamage
    // to decide what to print to the GameLog, then pass the amount of
    // damage into the damageActor function
-   std::pair<int, std::string> calcDamage(ActorEntity* attacker, ActorEntity* recipient, Damage damage);
+   std::pair<int, std::string> calcDamage(ActorEntity* attacker, ActorEntity* recipient, Damage damage, int relevantStat = 0);
    void damageActor(ActorEntity* actor, int damage);
 
    void sendMsgIfActorIsVisible(ActorEntity* actor, std::string message);

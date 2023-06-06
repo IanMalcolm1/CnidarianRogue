@@ -59,18 +59,11 @@ void ActorManager::addActorToTurnQueue(ActorEntity* actor, int turnTime) {
 }
 
 
-std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* attacker, ActorEntity* recipient, Damage damage) {
+std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* attacker, ActorEntity* recipient, Damage damage, int relevantStat) {
    std::pair<int, std::string> damageAndMessage;
 
-   int constant = damage.constant;
+   int constant = damage.constant + relevantStat;
    int diceRoll = randomizer.rollDice(damage.diceSize, damage.dice);
-
-   if (attacker != nullptr && damage.type == DAMAGE_PHYSICAL) {
-      constant += attacker->stats.strength;
-   }
-   else if (attacker != nullptr) {
-      constant += attacker->stats.intelligence;
-   }
 
    //TODO: add armor calculations
    damageAndMessage.first = (diceRoll + constant);

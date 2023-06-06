@@ -14,13 +14,21 @@ void ActorUtils::initialize(ActorManager* actorManager, ItemManager* itemManager
 
 void ActorUtils::doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity* defender) {
    DamagingComp* damageComp = (DamagingComp*) weapon->getComponent(COMPONENT_DAMAGING);
+   int relevantStat;
+
+   if (weapon->hasComponent(COMPONENT_RANGED)) {
+      relevantStat = attacker->stats.intelligence;
+   }
+   else {
+      relevantStat = attacker->stats.strength;
+   }
    
    std::string message = EntityDescriber::makeName(attacker);
    message.append(" attacks ");
    message.append(EntityDescriber::makeName(defender));
    message.append(" for ");
 
-   auto damageAndMessage = actorMan->calcDamage(attacker, defender, damageComp->damage1);
+   auto damageAndMessage = actorMan->calcDamage(attacker, defender, damageComp->damage1, relevantStat);
    message.append(damageAndMessage.second);
    actorMan->sendMsgIfActorIsVisible(defender, message);
 
