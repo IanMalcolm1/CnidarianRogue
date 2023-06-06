@@ -123,7 +123,8 @@ void ActorEntity::reset() {
    location = TileCoords();
    description.name = "ded entity";
    description.desc = "if you're seeing this there's a bug";
-   naturalWeapon = nullptr;
+   natPhyisicalWeapon = nullptr;
+   natMagicWeapon = nullptr;
    phyisicalWeapon = nullptr;
    magicWeapon = nullptr;
    faction = FACTION_PACIFIST;
@@ -138,14 +139,14 @@ void ActorEntity::reset() {
 
 ItemEntity* ActorEntity::getPhysicalWeapon() {
    if (!phyisicalWeapon) {
-      return naturalWeapon;
+      return natPhyisicalWeapon;
    }
    else { return phyisicalWeapon; }
 }
 
 ItemEntity* ActorEntity::getMagicWeapon() {
    if (!magicWeapon) {
-      return naturalWeapon;
+      return natMagicWeapon;
    }
    else { return magicWeapon; }
 }
@@ -165,8 +166,12 @@ bool ActorEntity::hasDedicatedMagicWeapon() {
    return magicWeapon != nullptr;
 }
 
-void ActorEntity::setNaturalWeapon(ItemEntity* natWeapon) {
-   naturalWeapon = natWeapon;
+void ActorEntity::setNaturalPhysicalWeapon(ItemEntity* weapon) {
+   natPhyisicalWeapon = weapon;
+}
+
+void ActorEntity::setNaturalMagicWeapon(ItemEntity* weapon) {
+   natMagicWeapon = weapon;
 }
 
 void ActorEntity::setPhysicalWeapon(ItemEntity* weapon) {

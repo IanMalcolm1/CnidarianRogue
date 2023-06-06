@@ -29,7 +29,8 @@ private:
 
    ItemEntity* magicWeapon;
    ItemEntity* phyisicalWeapon;
-   ItemEntity* naturalWeapon;
+   ItemEntity* natMagicWeapon;
+   ItemEntity* natPhyisicalWeapon;
 
 public:
    EffectList activeEffects;
@@ -43,7 +44,8 @@ public:
 	ActorEntity(int id, int bytesUsed, int totalSpace, bool player = false)
    : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
    display(EntityDisplay()), ai(AI()), player(player), targetEntity(nullptr),
-   phyisicalWeapon(nullptr), magicWeapon(nullptr), naturalWeapon(nullptr) {};
+   phyisicalWeapon(nullptr), magicWeapon(nullptr),
+   natPhyisicalWeapon(nullptr), natMagicWeapon(nullptr) {};
 
    void reset();
 
@@ -79,7 +81,8 @@ public:
    ItemEntity* getMagicWeaponDirect();
    bool hasDedicatedPhysicalWeapon();
    bool hasDedicatedMagicWeapon();
-   void setNaturalWeapon(ItemEntity* natWeapon);
+   void setNaturalPhysicalWeapon(ItemEntity* weapon);
+   void setNaturalMagicWeapon(ItemEntity* weapon);
    void setPhysicalWeapon(ItemEntity* weapon);
    void setMagicWeapon(ItemEntity* weapon);
 };

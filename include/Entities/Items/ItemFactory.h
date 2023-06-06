@@ -11,6 +11,7 @@
 enum NaturalWeaponType {
    NATWEAP_FIST,
    NATWEAP_POISON_FANGS,
+   NATWEAP_FORCE_CANTRIP,
    NUM_NATURALWEAPONS
 };
 
@@ -31,6 +32,7 @@ private:
    //Natural weapons
    ItemEntity* makeFists();
    ItemEntity* makePoisonFangs();
+   ItemEntity* makeForceCantrip();
 
 public:
    ItemFactory() : coliseum(nullptr), map(nullptr) {
@@ -43,6 +45,7 @@ public:
 
    //Weapons
    ItemEntity* makeBasicSword(TileCoords location);
+   ItemEntity* makeForceWand(TileCoords location);
 
    //Consumables
    ItemEntity* makeIntelligenceMushroom(TileCoords location);

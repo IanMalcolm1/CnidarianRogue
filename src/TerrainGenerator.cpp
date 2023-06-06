@@ -126,6 +126,9 @@ void TerrainGenerator::makeRandomItemAt(TileCoords tile) {
       case 2:
          itemFactory->makeBasicSword(tile);
          break;
+      case 3:
+         itemFactory->makeForceWand(tile);
+         break;
       default:
          break;
    }

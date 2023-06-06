@@ -37,7 +37,7 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
 
    evilSmiley->faction = FACTION_BAD;
 
-   evilSmiley->setNaturalWeapon(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
+   evilSmiley->setNaturalPhysicalWeapon(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
 
    evilSmiley->addAttackingSubstate(AiState(AISTATE_APPROACH_AND_WHACK));
    evilSmiley->addIdleSubstate(AiState(AISTATE_WANDERING));

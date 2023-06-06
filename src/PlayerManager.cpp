@@ -259,7 +259,8 @@ void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, E
    this->itemFactory = itemFactory;
    this->actorUtils = actorUtils;
 
-   player->setNaturalWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
+   player->setNaturalMagicWeapon(itemFactory->getNaturalWeapon(NATWEAP_FORCE_CANTRIP));
+   player->setNaturalPhysicalWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
 }
 
 

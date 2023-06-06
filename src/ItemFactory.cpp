@@ -1,6 +1,8 @@
 #include "Entities/Items/ItemFactory.h"
 #include "Entities/Actors/ActorStatBlock.h"
 #include "Entities/Components.h"
+#include "Entities/Damage.h"
+#include "Entities/Items/ItemEntity.h"
 #include "Enums/AsciiSymbols.h"
 #include "Enums/TurnTime.h"
 
@@ -37,6 +39,26 @@ ItemEntity* ItemFactory::makeBasicSword(TileCoords location) {
 
    registerItem(sword, location);
    return sword;
+}
+
+ItemEntity* ItemFactory::makeForceWand(TileCoords location) {
+   ItemEntity* wand = coliseum->makeEntity();
+
+   wand->description.name = "Force Wand";
+   wand->description.desc = "A stick that shoots a ball of force.";
+
+   wand->display.symbol = ASYM_SMALL_DASH;
+   wand->display.symbolColor = colorMap.getColor("brown");
+
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 1, 0));
+   wand->addComponent(damage, COMPONENT_DAMAGING);
+
+   wand->addComponent(RangedComp(10), COMPONENT_RANGED);
+
+   wand->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
+   registerItem(wand, location);
+   return wand;
 }
 
 
@@ -99,6 +121,10 @@ ItemEntity* ItemFactory::getNaturalWeapon(NaturalWeaponType type) {
          naturalWeapons[NATWEAP_POISON_FANGS] = makePoisonFangs();
          return naturalWeapons[NATWEAP_POISON_FANGS];
 
+      case NATWEAP_FORCE_CANTRIP:
+         naturalWeapons[NATWEAP_FORCE_CANTRIP] = makeForceCantrip();
+         return naturalWeapons[NATWEAP_FORCE_CANTRIP];
+
       case NUM_NATURALWEAPONS:
          return nullptr;
    }
@@ -109,7 +135,7 @@ ItemEntity* ItemFactory::makeFists() {
    ItemEntity* fists = coliseum->makeEntity();
 
    fists->description.name = "Fists";
-   fists->description.desc = "A pair of flimsy bones wrapped in a thin layer of skin.";
+   fists->description.desc = "Hands, wrapped into balls.";
 
    fists->display.symbol = ASYM_ASTERISK;
    
@@ -139,4 +165,24 @@ ItemEntity* ItemFactory::makePoisonFangs() {
    fangs->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
 
    return fangs;
+}
+
+ItemEntity* ItemFactory::makeForceCantrip() {
+   ItemEntity* cantrip = coliseum->makeEntity();
+   
+   cantrip->description.name = "Force Bolt";
+   cantrip->description.desc = "A simple combat cantrip."; 
+
+   cantrip->display.symbol = ASYM_ASTERISK;
+   cantrip->display.symbolColor = MyColor(255,255,255);
+
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 1));
+   cantrip->addComponent(damage, COMPONENT_DAMAGING);
+
+   RangedComp range = RangedComp(10);
+   cantrip->addComponent(range, COMPONENT_RANGED);
+
+   cantrip->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
+   return cantrip;
 }
