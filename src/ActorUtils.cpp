@@ -15,16 +15,19 @@ void ActorUtils::initialize(ActorManager* actorManager, ItemManager* itemManager
 void ActorUtils::doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity* defender) {
    DamagingComp* damageComp = (DamagingComp*) weapon->getComponent(COMPONENT_DAMAGING);
    int relevantStat;
+   std::string attackDescriptor;
 
    if (weapon->hasComponent(COMPONENT_RANGED)) {
       relevantStat = attacker->stats.intelligence;
+      attackDescriptor = " blasts ";
    }
    else {
       relevantStat = attacker->stats.strength;
+      attackDescriptor = " hits ";
    }
    
    std::string message = EntityDescriber::makeName(attacker);
-   message.append(" attacks ");
+   message.append(attackDescriptor);
    message.append(EntityDescriber::makeName(defender));
    message.append(" for ");
 
