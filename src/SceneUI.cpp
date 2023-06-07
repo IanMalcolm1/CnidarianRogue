@@ -23,14 +23,17 @@ void SceneUI::processCursorLocation(int x, int y) {
 	mapUI.processCursorLocation(x, y);
 }
 
-void SceneUI::processScroll(int x, int y, int offset, bool isRightClick) {
-	mapUI.processScroll(x, y, offset, isRightClick);
+void SceneUI::processScroll(int x, int y, int offset) {
+	mapUI.processScroll(x, y, offset);
 }
 
 void SceneUI::processClick(int x, int y, bool isRightClick) {
 	SDL_Point point = { x,y };
 	if (SDL_PointInRect(&point, &mapViewport)) {
 	   mapUI.processCursorLocation(x, y);
-      playerMan->processMouseClick(isRightClick);
+      bool needToRunTurn = playerMan->processMouseClick(isRightClick);
+      if (needToRunTurn) {
+         scene->runTurn();
+      }
 	}
 }

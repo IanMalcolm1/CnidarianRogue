@@ -102,17 +102,20 @@ TileCoords PlayerManager::getNewLocation(TileCoords curr, PlayerCommand directio
 }
 
 
-void PlayerManager::processMouseClick(bool isRightClick) {
-   if (inputState == PLAYER_INPUT_SELECT) {
+bool PlayerManager::processMouseClick(bool isRightClick) {
+   if (isRightClick) {
       map->lookAtMouseTile();
+      return false;
    }
 
-   else if (isRightClick) {
-      map->lookAtMouseTile();
+   else if (inputState == PLAYER_INPUT_SELECT) {
+      processConfirm();
+      return true;
    }
 
    else {
       startAutoMove();
+      return false;
    }
 }
 

@@ -139,8 +139,8 @@ void GameWindow::processClick(int x, int y, bool isRightClick) {
    }
 }
 
-void GameWindow::processScroll(int x, int y, int scrollOffset, bool isRightClick) {
-   adventureUI.processScroll(x, y, scrollOffset, isRightClick);
+void GameWindow::processScroll(int x, int y, int scrollOffset, bool ctrlDown) {
+   adventureUI.processScroll(x, y, scrollOffset, ctrlDown);
 }
 
 void GameWindow::processKeyPress(SDL_Keycode keycode, SDL_Keymod modification) {

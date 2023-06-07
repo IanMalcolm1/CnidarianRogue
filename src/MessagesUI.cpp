@@ -49,14 +49,14 @@ void MessagesUI::render(const SDL_Rect& viewport) {
 	}
 }
 
-void MessagesUI::processScroll(int x, int y, int offset, bool isRightClick) {
+void MessagesUI::processScroll(int x, int y, int offset, bool ctrlDown) {
 	SDL_Point point = { x,y };
 
 	if (!SDL_PointInRect(&point, &mainViewport)) {
 		return;
 	}
 
-	if (isRightClick) {
+	if (ctrlDown) {
 		textSpecs.modifyFontSize(offset);
 		makeFormattedMessages();
 	}

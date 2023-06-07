@@ -42,9 +42,9 @@ void AdventureUI::processCursorLocation(int x, int y) {
 void AdventureUI::processCursorMovement() {
    adventure->getScene()->getMap()->flagMouseMoved();
 }
-void AdventureUI::processScroll(int x, int y, int offset, bool isRightClick) {
-   sceneUI.processScroll(x, y, offset, isRightClick);
-   messagesUI.processScroll(x, y, offset, isRightClick);
+void AdventureUI::processScroll(int x, int y, int offset, bool ctrlDown) {
+   sceneUI.processScroll(x, y, offset);
+   messagesUI.processScroll(x, y, offset, ctrlDown);
 }
 void AdventureUI::processClick(int x, int y, bool isRightClick) {
    sceneUI.processClick(x, y, isRightClick);

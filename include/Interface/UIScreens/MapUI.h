@@ -53,7 +53,7 @@ public:
 
 	void render(LocalMap* map, const SDL_Rect& viewport);
 
-	void processScroll(int x, int y, int offset, bool isRightClick); //changes scale
+	void processScroll(int x, int y, int offset); //changes scale
 	void processCursorLocation(int x, int y);
 	void processClick(int x, int y, bool isRightClick);
 	TileCoords findMapTileFromScreenCoords(int x, int y);

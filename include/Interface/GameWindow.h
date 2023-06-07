@@ -43,7 +43,7 @@ public:
 	void processCursorLocation(int x, int y);
    void processCursorMovement();
 	void processClick(int x, int y, bool isRightClick);
-	void processScroll(int x, int y, int scrollOffset, bool isRightClick);
+	void processScroll(int x, int y, int scrollOffset, bool ctrlDown);
 	void processKeyPress(SDL_Keycode keycode, SDL_Keymod modification);
 
    void reset(Adventure* adventure, Listener* gameListener);

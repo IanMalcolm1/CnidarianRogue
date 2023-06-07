@@ -51,7 +51,7 @@ public:
    ~PlayerManager();
 
 	bool processDirectionalCommand(PlayerCommand command); //reurns true if turn should be run
-   void processMouseClick(bool isRightClick);
+   bool processMouseClick(bool isRightClick);
    void processEvent(EventType event);
 
 	ActorEntity* getPlayer();

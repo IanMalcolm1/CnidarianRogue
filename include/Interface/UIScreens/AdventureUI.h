@@ -46,7 +46,7 @@ public:
 
 	void processCursorLocation(int x, int y);
    void processCursorMovement();
-	void processScroll(int x, int y, int offset, bool isRightClick);
+	void processScroll(int x, int y, int offset, bool ctrlDown);
 	void processClick(int x, int y, bool isRightClick);
 	void processKeyPress(SDL_Keycode keycode);
 };
