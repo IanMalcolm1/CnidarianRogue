@@ -1,6 +1,7 @@
 #include "Topography/LocalMap.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
+#include "Algorithms/PathingSpecs.h"
 #include "Logs/DebugLogger.h"
 #include "Topography/TerrainMap.h"
 
@@ -111,32 +112,31 @@ void LocalMap::flagMouseMoved() {
 void LocalMap::makeHighlightRoute() {
    unhighlightPathToMouseTile();
 
+   pathToMouseTile.clear();
+   pathingSpecs.start = playerTile;
 
-   if (highlightType == HIGHLIGHT_MOVE_ROUTE) {
-      if (mouseTile.x == -1 || mouseTile.y == -1) {
-         pathToMouseTile.clear();
-         return;
-      }
-      Pathfinding::calcPlayerPathingRoute(playerTile, mouseTile, this, &pathToMouseTile);
+   if (pathingSpecs.type == PATH_ROUTE) {
+      pathingSpecs.end = mouseTile;
    }
-   else if (highlightType == HIGHLIGHT_LINE) {
+
+   else if (pathingSpecs.type == PATH_LINE) {
       if (focusTileChangedLast) {
-         Pathfinding::makeLineRoute(playerTile, mapDisplay.getFocusTile(), this, &LocalMap::isPenetratableAt, &pathToMouseTile);
+         pathingSpecs.end = mapDisplay.getFocusTile();
       }
-      else {
-         if (mouseTile.x == -1 || mouseTile.y == -1) {
-            pathToMouseTile.resetProgress();
-            return;
-         }
-         Pathfinding::makeLineRoute(playerTile, mouseTile, this, &LocalMap::isPenetratableAt, &pathToMouseTile);
+      else  {
+         pathingSpecs.end = mouseTile;
       }
    }
 
-   pathToMouseTile.resetProgress();
+   if (!isInMapBounds(pathingSpecs.start) || !isInMapBounds(pathingSpecs.end)) {
+      return;
+   }
+
+   Pathfinding::calcPath(pathingSpecs, this, pathToMouseTile);
 }
 
-void LocalMap::setHighlightRouteType(HighlightType type) {
-   highlightType = type;
+void LocalMap::setHighlightRouteSpecs(PathingSpecs specs) {
+   pathingSpecs = specs;
 }
 
 PathingRoute LocalMap::getHighlightedPath() {
@@ -184,6 +184,9 @@ void LocalMap::setHasReticle(TileCoords tile, bool value) {
 
 bool LocalMap::hasBeenSeen(TileCoords location) {
    return mapDisplay.hasBeenSeen(coordsToTileIndex(location));
+}
+bool LocalMap::isTraversibleAndSeen(TileCoords location) {
+   return isTraversibleAt(location) && hasBeenSeen(location);
 }
 
 

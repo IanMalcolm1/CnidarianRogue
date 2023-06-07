@@ -1,6 +1,8 @@
 #include "Adventure/Scene/AIRunner.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
+#include "Algorithms/PathingSpecs.h"
+#include "Logs/DebugLogger.h"
 
 
 void AIRunner::initialize(LocalMap* map, ActorManager* actorMan, ActorUtils* actorUtils) {
@@ -56,7 +58,11 @@ int AIRunner::wander(ActorEntity* actor) {
 		newLocation = visibleTiles->at(newTileIndex);
 	} while (!map->isTraversibleAt(newLocation));
 
-	Pathfinding::makeLineRoute(actor->location, visibleTiles->at(newTileIndex), map, &LocalMap::isTraversibleAt, actor->getCurrentRoute());
+   PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE);
+   specs.start = actor->location;
+   specs.end = visibleTiles->at(newTileIndex);
+
+	Pathfinding::calcPath(specs, map, (*actor->getCurrentRoute()));
 
 	return actor->stats.speed;
 }
@@ -64,7 +70,7 @@ int AIRunner::wander(ActorEntity* actor) {
 
 
 int AIRunner::approachAndWhack(ActorEntity* actor) {
-   //find target
+   //choose new target if previous target not visible
    if (!actor->canSeeTarget()) {
       actor->chooseTarget();
    }
@@ -80,19 +86,16 @@ int AIRunner::approachAndWhack(ActorEntity* actor) {
    auto route = actor->getCurrentRoute();
    route->clear();
 
-	Pathfinding::makeLineRoute(actor->location, targetActor->location, map, &LocalMap::isTraversibleAt, route);
+   PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE);
+   specs.start = actor->location;
+   specs.end = targetActor->location;
+	Pathfinding::calcPath(specs, map, (*route));
 
 	if (route->hasNextTile()) {
       actorMan->moveActor(actor, route->getNextTile());
       return actor->stats.speed;
    }
 
-   Pathfinding::makeAStarRoute(actor->location, targetActor->location, map, (*route));
-   if (route->hasNextTile()) {
-      actorMan->moveActor(actor, route->getNextTile());
-      return actor->stats.speed;
-   }
-
-   //this should only be hit if the actor is completely stuck
+   DebugLogger::log("Approach and whack stalled");
    return actor->stats.speed;
 }

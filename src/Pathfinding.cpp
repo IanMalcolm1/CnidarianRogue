@@ -1,33 +1,65 @@
 #include "Algorithms/Pathfinding.h"
+#include "Algorithms/PathingSpecs.h"
+#include "Logs/DebugLogger.h"
+#include "Topography/TileCoordinates.h"
 #include <functional>
 #include <queue>
 #include <unordered_map>
 #include <string>
 
 
-void Pathfinding::calcPlayerPathingRoute(TileCoords startTile, TileCoords endTile, LocalMap* map, PathingRoute* route) {
-	MapDisplay* display = map->getMapDisplay();
-	int endIndex = map->coordsToTileIndex(endTile);
-	if (display->isVisible(endIndex)) {
-		makeLineRoute(startTile, endTile, map, &LocalMap::isTraversibleAt, route);
-	}
-	else if (display->hasBeenSeen(endIndex)) {
-		makeAStarRoute(startTile, endTile, map, *route);
-	}
-	else {
-		route->clear();
-		return;
-	}
+void Pathfinding::calcPath(PathingSpecs specs, LocalMap* map, PathingRoute& route) {
+   if(!map->isInMapBounds(specs.start) || !map->isInMapBounds(specs.end)) {
+      DebugLogger::log("calcPath() start or end tile is out of bounds");
+      return;
+   }
+
+   TraversibilityFunc traversible;
+
+   switch (specs.traversibility) {
+   case TRAV_IGNORE_NONE:
+      traversible = &LocalMap::isTraversibleAt;
+      break;
+   case TRAV_INCLUDE_UNSEEN_TILES:
+      traversible = &LocalMap::isTraversibleAndSeen;
+      break;
+   case TRAV_IGNORE_ACTORS:
+      traversible = &LocalMap::isPenetratableAt;
+      break;
+   }
+
+   switch (specs.type) {
+   case PATH_ROUTE:
+      calcRoute(specs, map, traversible, route);
+      break;
+   case PATH_LINE:
+      makeLineRoute(specs, map, traversible, route);
+      break;
+   }
+
+   route.resetProgress();
 }
 
-void Pathfinding::makeLineRoute(TileCoords startTile, TileCoords endTile, LocalMap* localMap, bool (LocalMap::*traversible)(TileCoords), PathingRoute* route) {
+
+void Pathfinding::calcRoute(PathingSpecs& specs, LocalMap* map, TraversibilityFunc traversible, PathingRoute& route) {
+   //TODO: try bresenham, then A* if failed
+   makeLineRoute(specs, map, traversible, route);
+   if (route.endTile() != specs.end) {
+      makeAStarRoute(specs, map, traversible, route);
+   }
+}
+   
+
+void Pathfinding::makeLineRoute(PathingSpecs& specs, LocalMap* map, TraversibilityFunc traversible, PathingRoute& route) {
 	/*
 	Based on the following article: https://www.cs.helsinki.fi/group/goa/mallinnus/lines/bresenh.html
 	And this: https://github.com/anushaihalapathirana/Bresenham-line-drawing-algorithm/blob/master/src/index.js
 	*/
 
-	route->clear();
+	route.clear();
 
+   TileCoords startTile = specs.start;
+   TileCoords endTile = specs.end;
 	int deltaX = abs(endTile.x - startTile.x);
 	int deltaY = abs(endTile.y - startTile.y);
 
@@ -50,14 +82,17 @@ void Pathfinding::makeLineRoute(TileCoords startTile, TileCoords endTile, LocalM
 			y += secondaryIncrement;
 			modifiedError += deltaY - deltaX;
 		}
-		int x = startTile.x;
-		x += loopIncrement;
 
-		for (x; x != endTile.x + loopIncrement; x += loopIncrement) {
-			if ( !std::invoke(traversible, localMap, TileCoords(x,y)) ) {
+		for (int x = startTile.x+loopIncrement; x != endTile.x + loopIncrement; x += loopIncrement) {
+         if (TileCoords(x,y) == endTile) {
+            route.addTile({x,y});
+            break;
+         }
+			if ( !std::invoke(traversible, map, TileCoords(x,y)) ) {
+            route.addTile({x,y});
 				break;
 			}
-			route->addTile({ x,y });
+			route.addTile({ x,y });
 
 			if (2 * (modifiedError + deltaY) < deltaX) {
 				modifiedError += deltaY;
@@ -84,15 +119,17 @@ void Pathfinding::makeLineRoute(TileCoords startTile, TileCoords endTile, LocalM
 			x += secondaryIncrement;
 			modifiedError += deltaX - deltaY;
 		}
-		int y = startTile.y;
-		y += loopIncrement;
-		
 
-		for (y; y != endTile.y + loopIncrement; y += loopIncrement) {
-			if ( !std::invoke(traversible, localMap, TileCoords(x, y)) ) {
+		for (int y = startTile.y+loopIncrement; y != endTile.y + loopIncrement; y += loopIncrement) {
+         if (TileCoords(x,y) == endTile) {
+            route.addTile({x,y});
+            break;
+         }
+			if ( !std::invoke(traversible, map, TileCoords(x,y)) ) {
+            route.addTile({x,y});
 				break;
 			}
-			route->addTile({ x,y });
+			route.addTile({ x,y });
 
 			if (2 * modifiedError + deltaX < deltaY) {
 				modifiedError += deltaX;
@@ -106,9 +143,12 @@ void Pathfinding::makeLineRoute(TileCoords startTile, TileCoords endTile, LocalM
 	}
 }
 
-void Pathfinding::makeAStarRoute(TileCoords startTile, TileCoords endTile, LocalMap* map, PathingRoute& route) {
+void Pathfinding::makeAStarRoute(PathingSpecs& specs, LocalMap* map, TraversibilityFunc traversible, PathingRoute& route) {
 	/* Thanks to Amit Patel for his blogs on pathfinding */
 	route.clear();
+
+   TileCoords startTile = specs.start;
+   TileCoords endTile = specs.end;
 
 	std::priority_queue<PathingNode, std::vector<PathingNode>, std::greater<PathingNode>> frontier;
 	std::unordered_map<TileCoords, PathingNode, TileCoordsHash> visited;
@@ -131,7 +171,7 @@ void Pathfinding::makeAStarRoute(TileCoords startTile, TileCoords endTile, Local
 
 		for (int i = 0; i < surroundOffsets.size(); i++) {
 			TileCoords tile = current.tile + surroundOffsets[i];
-			if (!map->isInMapBounds(tile) || !map->hasBeenSeen(tile) || (tile != startTile && !map->isTraversibleAt(tile))) {
+			if (!map->isInMapBounds(tile) || (!std::invoke(traversible, map, tile) && tile != startTile)) {
 				continue;
 			}
 

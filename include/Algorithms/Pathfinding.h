@@ -2,6 +2,7 @@
 
 #include "Topography/LocalMap.h"
 #include "PathfindingRoute.h"
+#include "PathingSpecs.h"
 #include <vector>
 #include <climits>
 
@@ -29,14 +30,19 @@ public:
 };
 
 
+typedef bool (LocalMap::*TraversibilityFunc)(TileCoords);
+
 class Pathfinding {
 private:
 	static std::vector<TileCoords> getSurroundingTiles(TileCoords center);
 
+
+	static void makeLineRoute(PathingSpecs& specs, LocalMap* map, TraversibilityFunc traversible, PathingRoute& route);
+
+	static void makeAStarRoute(PathingSpecs& specs, LocalMap* map, TraversibilityFunc traversible, PathingRoute& route);
+
+   static void calcRoute(PathingSpecs& specs, LocalMap* map, TraversibilityFunc traversible, PathingRoute& route);
+
 public:
-	static void calcPlayerPathingRoute(TileCoords startTile, TileCoords endTile, LocalMap* map, PathingRoute* route);
-
-	static void makeLineRoute(TileCoords startTile, TileCoords endTile, LocalMap* map, bool (LocalMap::*traversible)(TileCoords), PathingRoute* route);
-
-	static void makeAStarRoute(TileCoords startTile, TileCoords endTile, LocalMap* map, PathingRoute& route);
+   static void calcPath(PathingSpecs specs, LocalMap* map, PathingRoute& route);
 };

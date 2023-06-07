@@ -1,6 +1,7 @@
 #include "Adventure/PlayerManager.h"
 #include "Adventure/Scene/ActorManager.h"
 #include "Algorithms/PathfindingRoute.h"
+#include "Algorithms/PathingSpecs.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include "Entities/Actors/ActorUtils.h"
@@ -145,7 +146,7 @@ void PlayerManager::updateInputState(PlayerCommand command) {
       }
       else {
          inputState = PLAYER_INPUT_SELECT;
-         map->setHighlightRouteType(HIGHLIGHT_LINE);
+         map->setHighlightRouteSpecs(PathingSpecs(PATH_LINE, TRAV_INCLUDE_UNSEEN_TILES));
       }
    }
 
@@ -156,7 +157,7 @@ void PlayerManager::updateInputState(PlayerCommand command) {
 
 void PlayerManager::resetInputState() {
    map->stopLooking();
-   map->setHighlightRouteType(HIGHLIGHT_MOVE_ROUTE);
+   map->setHighlightRouteSpecs(PathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE));
    inputState = PLAYER_INPUT_MOVE;
 }
 

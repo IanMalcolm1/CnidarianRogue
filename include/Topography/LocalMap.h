@@ -3,6 +3,7 @@
 
 
 #include "GraphicsThings/TileDisplay.h"
+#include "Algorithms/PathingSpecs.h"
 #include "TerrainMap.h"
 #include "MapDisplay.h"
 #include "Entities/Actors/ActorEntity.h"
@@ -11,11 +12,6 @@
 #include "Algorithms/PathfindingRoute.h"
 #include "Topography/TileCoordinates.h"
 
-
-enum HighlightType {
-   HIGHLIGHT_LINE,
-   HIGHLIGHT_MOVE_ROUTE
-};
 
 /* Should be pretty obvious what this class does. The
  * 'Local' part is just because I was thinking to also
@@ -29,9 +25,9 @@ private:
 	TileCoords playerTile;
    bool isLooking;
 
-   bool focusTileChangedLast; //false = opposite is mouse tile changed last
-   HighlightType highlightType;
+   PathingSpecs pathingSpecs;
 	PathingRoute pathToMouseTile;
+   bool focusTileChangedLast; //false = opposite is mouse tile changed last
 
 	MapDisplay mapDisplay;
 	std::vector<int> visibleIndices;
@@ -65,7 +61,8 @@ public:
 	terrainMap(width, height), actors(width*height, nullptr),
 	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(),
    width(width), height(height), needToUpdateDisplay(true), isLooking(false),
-   mouseTile(-1,-1), focusTileChangedLast(false), highlightType(HIGHLIGHT_MOVE_ROUTE) {};
+   mouseTile(-1,-1), focusTileChangedLast(false),
+   pathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE) {};
 
 
 	MapDisplay* getMapDisplay();
@@ -92,6 +89,7 @@ public:
 	bool isOpaqueAt(TileCoords location);
    bool isVisibleAt(TileCoords location);
 	bool hasBeenSeen(TileCoords location);
+   bool isTraversibleAndSeen(TileCoords location);
 
 	bool thereIsAnActorAt(int index);
 	bool thereIsAnActorAt(TileCoords location);
@@ -118,7 +116,7 @@ public:
 
 	void setMouseTile(TileCoords coordinates);
    void flagMouseMoved();
-   void setHighlightRouteType(HighlightType type);
+   void setHighlightRouteSpecs(PathingSpecs specs);
    PathingRoute getHighlightedPath();
 
 	void flagNeedToUpdateDisplay();
