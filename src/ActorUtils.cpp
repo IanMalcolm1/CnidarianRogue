@@ -1,6 +1,9 @@
 #include "Entities/Actors/ActorUtils.h"
+#include "Algorithms/Pathfinding.h"
+#include "Algorithms/PathingSpecs.h"
 #include "Entities/Components.h"
 #include "Entities/EntityDescriber.h"
+#include "Logs/DebugLogger.h"
 
 
 void ActorUtils::initialize(ActorManager* actorManager, ItemManager* itemManager, EffectManager* effectManager, LocalMap* map) {
@@ -44,16 +47,31 @@ void ActorUtils::doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity
 }
 
 
-void ActorUtils::doLineAttack(ActorEntity* attacker, ItemEntity* weapon, PathingRoute* route) {
-   route->resetProgress();
-   while (route->hasNextTile()) {
-      TileCoords coords = route->getNextTile();
+void ActorUtils::doLineAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoords targetTile) {
+   if (!map->isInMapBounds(targetTile)) {
+      DebugLogger::log("doLineAttack() target tile out of bounds");
+      return;
+   }
+
+   PathingSpecs specs = PathingSpecs(PATH_LINE, TRAV_IGNORE_NONE);
+   specs.lineInfo.range = ((RangedComp*)weapon->getComponent(COMPONENT_RANGED))->range;
+   Pathfinding::calcPath(specs, map, lineRoute);
+
+   attackAlongRoute(attacker, weapon, lineRoute);
+}
+
+
+void ActorUtils::attackAlongRoute(ActorEntity* attacker, ItemEntity* weapon, PathingRoute& route) {
+   route.resetProgress();
+   while (route.hasNextTile()) {
+      TileCoords coords = route.getNextTile();
       if (map->thereIsAnActorAt(coords)) {
          doAttack(attacker, weapon, map->getActorAt(coords));
       }
-      route->incrementProgress();
+      route.incrementProgress();
    }
 }
+
 
 void ActorUtils::doItemPickup(ItemEntity *item, ActorEntity* actor) {
    TileCoords currLocation = item->location;

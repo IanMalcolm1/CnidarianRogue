@@ -8,14 +8,12 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Ranged attacks
-   - Implement selection range. Can have a struct that stores info on how far a route is
-     allowed to go, penetration, and which traversibility check it should use.
+Add armor
 
 
 Next:
-Add armor
 Add more creatures
+   Including some with ranged attacks
 Slightly better generation
    - Generation for the three floors
    - First rectangles (abandoned complex or inhabited cult), second caves, third something

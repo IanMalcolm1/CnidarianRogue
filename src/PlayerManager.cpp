@@ -146,7 +146,9 @@ void PlayerManager::updateInputState(PlayerCommand command) {
       }
       else {
          inputState = PLAYER_INPUT_SELECT;
-         map->setHighlightRouteSpecs(PathingSpecs(PATH_LINE, TRAV_INCLUDE_UNSEEN_TILES));
+         PathingSpecs pathSpecs = PathingSpecs(PATH_LINE, TRAV_INCLUDE_UNSEEN_TILES);
+         pathSpecs.lineInfo.range = ((RangedComp*) player->getMagicWeapon()->getComponent(COMPONENT_RANGED))->range;
+         map->setHighlightRouteSpecs(pathSpecs);
       }
    }
 
@@ -245,8 +247,8 @@ bool PlayerManager::attemptLevelChange() {
 
 bool PlayerManager::processConfirm() {
    if (inputState == PLAYER_INPUT_SELECT) {
-      selectionRoute = map->getHighlightedPath();
-      actorUtils->doLineAttack(player, player->getMagicWeapon(), &selectionRoute);
+      PathingRoute line = map->getHighlightedPath();
+      actorUtils->attackAlongRoute(player, player->getMagicWeapon(), line);
       turnQueue->insertActor(player, player->stats.speed);
       return true;
    }

@@ -15,12 +15,17 @@ private:
    EffectManager* effectMan;
    LocalMap* map;
 
+   PathingRoute lineRoute;
+
+
 public:
    ActorUtils() : actorMan(nullptr), itemMan(nullptr), effectMan(nullptr) {};
 
    void initialize(ActorManager* actorManager, ItemManager* itemManager, EffectManager* effectManager, LocalMap* map);
    
    void doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity* defender);
-   void doLineAttack(ActorEntity* attacker, ItemEntity* weapon, PathingRoute* route);
+   void doLineAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoords targetTile);
+   void attackAlongRoute(ActorEntity* attacker, ItemEntity* weapon, PathingRoute& route);
+
    void doItemPickup(ItemEntity* item, ActorEntity* actor);
 };

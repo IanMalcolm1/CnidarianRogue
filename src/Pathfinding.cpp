@@ -2,6 +2,7 @@
 #include "Algorithms/PathingSpecs.h"
 #include "Logs/DebugLogger.h"
 #include "Topography/TileCoordinates.h"
+#include <climits>
 #include <functional>
 #include <queue>
 #include <unordered_map>
@@ -58,14 +59,20 @@ void Pathfinding::makeLineRoute(PathingSpecs& specs, LocalMap* map, Traversibili
 
 	route.clear();
 
+
    TileCoords startTile = specs.start;
    TileCoords endTile = specs.end;
+   int maxLength = 500;
 	int deltaX = abs(endTile.x - startTile.x);
 	int deltaY = abs(endTile.y - startTile.y);
 
 	int modifiedError = 0;
 
 	int loopIncrement, secondaryIncrement;
+
+   if (specs.type == PATH_LINE) {
+      maxLength = specs.lineInfo.range;
+   }
 
 	if (deltaY <= deltaX) {
 
@@ -84,6 +91,9 @@ void Pathfinding::makeLineRoute(PathingSpecs& specs, LocalMap* map, Traversibili
 		}
 
 		for (int x = startTile.x+loopIncrement; x != endTile.x + loopIncrement; x += loopIncrement) {
+         if (route.length() >= maxLength) {
+            break;
+         }
          if (TileCoords(x,y) == endTile) {
             route.addTile({x,y});
             break;
@@ -121,6 +131,9 @@ void Pathfinding::makeLineRoute(PathingSpecs& specs, LocalMap* map, Traversibili
 		}
 
 		for (int y = startTile.y+loopIncrement; y != endTile.y + loopIncrement; y += loopIncrement) {
+         if (route.length() >= maxLength) {
+            break;
+         }
          if (TileCoords(x,y) == endTile) {
             route.addTile({x,y});
             break;

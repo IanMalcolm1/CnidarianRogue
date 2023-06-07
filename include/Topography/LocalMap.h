@@ -117,6 +117,7 @@ public:
 	void setMouseTile(TileCoords coordinates);
    void flagMouseMoved();
    void setHighlightRouteSpecs(PathingSpecs specs);
+   TileCoords getTargetTile();
    PathingRoute getHighlightedPath();
 
 	void flagNeedToUpdateDisplay();

@@ -15,7 +15,7 @@ enum TraversibilityType {
 };
 
 struct LinePathInfo {
-   int penetration;
+   int range;
 };
 
 struct PathingSpecs {

@@ -105,7 +105,9 @@ void LocalMap::setMouseTile(TileCoords location) {
 }
 
 void LocalMap::flagMouseMoved() {
-   focusTileChangedLast = false;
+   if (isInMapBounds(mouseTile)) {
+      focusTileChangedLast = false;
+   }
 }
 
 
@@ -137,6 +139,15 @@ void LocalMap::makeHighlightRoute() {
 
 void LocalMap::setHighlightRouteSpecs(PathingSpecs specs) {
    pathingSpecs = specs;
+}
+
+TileCoords LocalMap::getTargetTile() {
+   if (focusTileChangedLast) {
+      return mapDisplay.getFocusTile();
+   }
+   else {
+      return mouseTile;
+   }
 }
 
 PathingRoute LocalMap::getHighlightedPath() {

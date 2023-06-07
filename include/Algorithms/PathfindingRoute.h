@@ -16,7 +16,7 @@ public:
 	void addTile(TileCoords tile);
 	TileCoords getNextTile();
 	void incrementProgress();
-	int size();
 	bool hasNextTile();
 	TileCoords endTile();
+   int length();
 };

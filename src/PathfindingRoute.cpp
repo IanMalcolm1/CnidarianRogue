@@ -18,7 +18,7 @@ void PathingRoute::incrementProgress() {
 	progress++;
 }
 
-int PathingRoute::size() { return route.size(); }
+int PathingRoute::length() { return route.size(); }
 
 bool PathingRoute::hasNextTile() {
 	return (route.size() > 0 && progress < route.size());
