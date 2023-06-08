@@ -28,7 +28,7 @@ private:
    ActorEntity* targetEntity;
 
    ItemEntity* magicWeapon;
-   ItemEntity* phyisicalWeapon;
+   ItemEntity* physicalWeapon;
    ItemEntity* natMagicWeapon;
    ItemEntity* natPhyisicalWeapon;
 
@@ -46,7 +46,7 @@ public:
 	ActorEntity(int id, int bytesUsed, int totalSpace, bool player = false)
    : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
    display(EntityDisplay()), ai(AI()), player(player), targetEntity(nullptr),
-   phyisicalWeapon(nullptr), magicWeapon(nullptr),
+   physicalWeapon(nullptr), magicWeapon(nullptr),
    natPhyisicalWeapon(nullptr), natMagicWeapon(nullptr) {};
 
    void reset();

@@ -125,7 +125,7 @@ void ActorEntity::reset() {
    description.desc = "if you're seeing this there's a bug";
    natPhyisicalWeapon = nullptr;
    natMagicWeapon = nullptr;
-   phyisicalWeapon = nullptr;
+   physicalWeapon = nullptr;
    magicWeapon = nullptr;
    armor = nullptr;
    faction = FACTION_PACIFIST;
@@ -139,10 +139,10 @@ void ActorEntity::reset() {
 
 
 ItemEntity* ActorEntity::getPhysicalWeapon() {
-   if (!phyisicalWeapon) {
+   if (!physicalWeapon) {
       return natPhyisicalWeapon;
    }
-   else { return phyisicalWeapon; }
+   else { return physicalWeapon; }
 }
 
 ItemEntity* ActorEntity::getMagicWeapon() {
@@ -153,14 +153,14 @@ ItemEntity* ActorEntity::getMagicWeapon() {
 }
 
 ItemEntity* ActorEntity::getPhysicalWeaponDirect() {
-   return phyisicalWeapon;
+   return physicalWeapon;
 }
 ItemEntity* ActorEntity::getMagicWeaponDirect() {
    return magicWeapon;
 }
 
 bool ActorEntity::hasDedicatedPhysicalWeapon() {
-   return phyisicalWeapon != nullptr;
+   return physicalWeapon != nullptr;
 }
 
 bool ActorEntity::hasDedicatedMagicWeapon() {
@@ -176,7 +176,7 @@ void ActorEntity::setNaturalMagicWeapon(ItemEntity* weapon) {
 }
 
 void ActorEntity::setPhysicalWeapon(ItemEntity* weapon) {
-   phyisicalWeapon = weapon;
+   physicalWeapon = weapon;
 }
 
 void ActorEntity::setMagicWeapon(ItemEntity* weapon) {

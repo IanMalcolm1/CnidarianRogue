@@ -17,6 +17,8 @@ private:
 
    PathingRoute lineRoute;
 
+   void sendPickupItemMessage(ActorEntity* actor, ItemEntity* item);
+   void dropItem(ActorEntity* actor, ItemEntity* item);
 
 public:
    ActorUtils() : actorMan(nullptr), itemMan(nullptr), effectMan(nullptr) {};

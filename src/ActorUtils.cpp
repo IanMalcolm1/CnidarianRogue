@@ -80,26 +80,32 @@ void ActorUtils::doItemPickup(ItemEntity *item, ActorEntity* actor) {
    if (item->hasComponent(COMPONENT_WIELDABLE)) {
       if (item->hasComponent(COMPONENT_RANGED)) {
          if (actor->hasDedicatedMagicWeapon()) {
-            itemMan->moveItem(actor->getMagicWeapon(), currLocation);
+            dropItem(actor, actor->getMagicWeaponDirect());
          }
          actor->setMagicWeapon(item);
+         sendPickupItemMessage(actor, item);
       }
       else {
          if (actor->hasDedicatedPhysicalWeapon()) {
-            itemMan->moveItem(actor->getPhysicalWeapon(), currLocation);
+            dropItem(actor, actor->getPhysicalWeaponDirect());
          }
          actor->setPhysicalWeapon(item);
+         sendPickupItemMessage(actor, item);
       }
    }
 
    else if (item->hasComponent(COMPONENT_WEARABLE)) {
       if (actor->hasArmor()) {
          itemMan->moveItem(actor->getArmor(), currLocation);
+         dropItem(actor, actor->getArmor());
       }
       actor->setArmor(item);
+      sendPickupItemMessage(actor, item);
    }
 
    else if (item->hasComponent(COMPONENT_CONSUMABLE)) {
+      sendPickupItemMessage(actor, item);
+
       EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
       effectMan->attachEffect(effectComp->effect1, actor);
 
@@ -112,5 +118,24 @@ void ActorUtils::doItemPickup(ItemEntity *item, ActorEntity* actor) {
 
    else {
       itemMan->moveItem(item, currLocation);
+      if (actor->isPlayer()) {
+         actorMan->sendMsgIfActorIsVisible(actor, "This item cannot be picked up.");
+      }
    }
+
+}
+
+
+void ActorUtils::sendPickupItemMessage(ActorEntity* actor, ItemEntity* item) {
+   std::string actorName = EntityDescriber::makeName(actor);
+   std::string itemName = EntityDescriber::makeName(item);
+   actorMan->sendMsgIfActorIsVisible(actor, actorName+" picks up "+itemName);
+}
+
+void ActorUtils::dropItem(ActorEntity* actor, ItemEntity* item) {
+   itemMan->moveItem(actor->getMagicWeapon(), actor->location);
+
+   std::string actorName = EntityDescriber::makeName(actor);
+   std::string itemName = EntityDescriber::makeName(item);
+   actorMan->sendMsgIfActorIsVisible(actor, actorName+" drops "+itemName);
 }
