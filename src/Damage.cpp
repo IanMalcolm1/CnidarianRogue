@@ -1,7 +1,7 @@
 #include "Entities/Damage.h"
 
 std::string Damage::getDescription() {
-   std::string desc = "Deals ";
+   std::string desc = "";
 
    if (dice > 0) {
       desc.append(std::to_string(dice) + "d" + std::to_string(diceSize));

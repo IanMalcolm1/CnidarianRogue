@@ -63,6 +63,25 @@ ItemEntity* ItemFactory::makeForceWand(TileCoords location) {
 
 
 
+/* Armor */
+ItemEntity* ItemFactory::makeGambeson(TileCoords location) {
+   ItemEntity* gambeson = coliseum->makeEntity();
+
+   gambeson->description.name = "Gambeson";
+   gambeson->description.desc = "A sturdy jacked made of layered cloth.";
+
+   gambeson->display.symbol = ASYM_AMPERSAND;
+   gambeson->display.symbolColor = colorMap.getColor("slategrey");
+
+   gambeson->addComponent(WearableComp(DAMAGE_PHYSICAL,0,0,1), COMPONENT_WEARABLE);
+
+   registerItem(gambeson, location);
+   return gambeson;
+}
+
+
+
+
 /* Consumables */
 
 ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {

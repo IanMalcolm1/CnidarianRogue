@@ -9,11 +9,13 @@ class ItemDescriber {
 private:
    EffectDescriber* effectDescriber;
 
+   std::string getComponentDescriptions(ItemEntity* item);
+
 public:
    ItemDescriber() : effectDescriber(nullptr) {};
 
    void initialize(EffectDescriber* effectDescriber);
  
    std::string describe(ItemEntity* item);
-   std::string describeWeapon(ItemEntity* item);
+   std::string describeMinusDesc(ItemEntity* item);
 };

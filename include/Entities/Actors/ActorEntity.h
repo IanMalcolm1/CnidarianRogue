@@ -32,6 +32,8 @@ private:
    ItemEntity* natMagicWeapon;
    ItemEntity* natPhyisicalWeapon;
 
+   ItemEntity* armor;
+
 public:
    EffectList activeEffects;
 	ActorStatBlock stats;
@@ -85,4 +87,8 @@ public:
    void setNaturalMagicWeapon(ItemEntity* weapon);
    void setPhysicalWeapon(ItemEntity* weapon);
    void setMagicWeapon(ItemEntity* weapon);
+
+   bool hasArmor();
+   ItemEntity* getArmor();
+   void setArmor(ItemEntity* armor);
 };

@@ -21,8 +21,12 @@ ColorMap::ColorMap() {
 
 void ColorMap::initializeColorMap() {
 	colorMap.insert({ "red", MyColor(255, 0, 0) });
-   colorMap.insert({ "brown", MyColor(150, 75, 0) });
+	colorMap.insert({ "darkred", MyColor(165, 42, 42) });
+	colorMap.insert({ "maroon", MyColor(128, 0, 0) });
+
 	colorMap.insert({ "orange", MyColor(255,165,0) });
+   colorMap.insert({ "brown", MyColor(150, 75, 0) });
+
 	colorMap.insert({ "yellow", MyColor(255,255,0) });
 	colorMap.insert({ "gold", MyColor(255,215,0) });
 
@@ -36,7 +40,8 @@ void ColorMap::initializeColorMap() {
    colorMap.insert({ "lavender", MyColor(220, 208, 255) });
 	colorMap.insert({ "pink", MyColor(255,192,203) });
 
-	colorMap.insert({ "pink", MyColor(165, 42, 42) });
+   colorMap.insert({ "grey", MyColor(128,128,128) });
+   colorMap.insert({ "slategrey", MyColor(119,136,153) });
 }
 
 MyColor ColorMap::getColor(std::string name) {

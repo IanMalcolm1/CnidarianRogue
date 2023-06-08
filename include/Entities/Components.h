@@ -60,12 +60,11 @@ struct DurabilityComp : public Component {
 };
 
 
-struct WearableComp : public Component {
-   int dice;
-   int constant;
+struct WearableComp : public Component { //aka armor
+   Damage damage; //for damage negated
 
-   WearableComp(int dice = 0, int constant = 0) :
-      dice(dice), constant(constant) {};
+   WearableComp(DamageType type = DAMAGE_NONE, int diceSize = 6, int dice = 0,
+   int constant = 0) : damage(type, diceSize, dice, constant) {};
 };
 
 

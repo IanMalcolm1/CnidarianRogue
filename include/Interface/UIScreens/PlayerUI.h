@@ -22,7 +22,7 @@ private:
    ItemDescriber itemDescriber;
    ActorDescriber actorDescriber;
 
-   GameText title, weaponTitle;
+   GameText title, weaponTitle, armorTitle;
 
 public:
 	PlayerUI(int fontSize = 3) : playerMan(nullptr), renderer(NULL),

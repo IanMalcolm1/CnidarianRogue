@@ -127,6 +127,7 @@ void ActorEntity::reset() {
    natMagicWeapon = nullptr;
    phyisicalWeapon = nullptr;
    magicWeapon = nullptr;
+   armor = nullptr;
    faction = FACTION_PACIFIST;
    targetEntity = nullptr;
    visibleTiles.clear();
@@ -180,4 +181,18 @@ void ActorEntity::setPhysicalWeapon(ItemEntity* weapon) {
 
 void ActorEntity::setMagicWeapon(ItemEntity* weapon) {
    magicWeapon = weapon;
+}
+
+
+
+bool ActorEntity::hasArmor() {
+   return (armor != nullptr);
+}
+
+ItemEntity* ActorEntity::getArmor() {
+   return armor;
+}
+
+void ActorEntity::setArmor(ItemEntity* armor) {
+   this->armor = armor;
 }

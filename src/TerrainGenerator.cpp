@@ -116,7 +116,7 @@ void TerrainGenerator::drawRightAngleLine(TileCoords start, TileCoords end, Terr
 
 
 void TerrainGenerator::makeRandomItemAt(TileCoords tile) {
-   switch (randomizer.getRandomNumber(4)) {
+   switch (randomizer.getRandomNumber(5)) {
       case 0:
          itemFactory->makeIntelligenceMushroom(tile);
          break;
@@ -128,6 +128,9 @@ void TerrainGenerator::makeRandomItemAt(TileCoords tile) {
          break;
       case 3:
          itemFactory->makeForceWand(tile);
+         break;
+      case 4:
+         itemFactory->makeGambeson(tile);
          break;
       default:
          break;

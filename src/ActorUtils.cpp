@@ -92,6 +92,13 @@ void ActorUtils::doItemPickup(ItemEntity *item, ActorEntity* actor) {
       }
    }
 
+   else if (item->hasComponent(COMPONENT_WEARABLE)) {
+      if (actor->hasArmor()) {
+         itemMan->moveItem(actor->getArmor(), currLocation);
+      }
+      actor->setArmor(item);
+   }
+
    else if (item->hasComponent(COMPONENT_CONSUMABLE)) {
       EffectComp* effectComp = (EffectComp*) item->getComponent(COMPONENT_EFFECT);
       effectMan->attachEffect(effectComp->effect1, actor);
@@ -101,5 +108,9 @@ void ActorUtils::doItemPickup(ItemEntity *item, ActorEntity* actor) {
       if (consumableComp->charges <= 0) {
          itemMan->destroyItem(item);
       }
+   }
+
+   else {
+      itemMan->moveItem(item, currLocation);
    }
 }

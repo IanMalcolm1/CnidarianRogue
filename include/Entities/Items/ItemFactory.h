@@ -47,6 +47,9 @@ public:
    ItemEntity* makeBasicSword(TileCoords location);
    ItemEntity* makeForceWand(TileCoords location);
 
+   //Armor
+   ItemEntity* makeGambeson(TileCoords location);
+
    //Consumables
    ItemEntity* makeIntelligenceMushroom(TileCoords location);
    ItemEntity* makeStrengthFruit(TileCoords location);

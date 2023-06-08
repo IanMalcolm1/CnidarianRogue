@@ -8,9 +8,9 @@
 #include "Entities/Damage.h"
 #include "Entities/EntityDescriber.h"
 #include "EventListener/Listener.h"
+#include <cstdlib>
 #include <cwchar>
 #include <random>
-#include <string>
 
 
 void ActorManager::initialize(TurnQueue *turnQueue, LocalMap *map, GameLog *gameLog, ItemManager* itemMan) {
@@ -61,17 +61,47 @@ void ActorManager::addActorToTurnQueue(ActorEntity* actor, int turnTime) {
 
 std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* attacker, ActorEntity* recipient, Damage damage, int relevantStat) {
    std::pair<int, std::string> damageAndMessage;
+   std::string damageMsg;
+   int totalDamage;
+   int damVal;
 
-   int constant = damage.constant + relevantStat;
-   int diceRoll = randomizer.rollDice(damage.diceSize, damage.dice);
+   int damConst = damage.constant + relevantStat;
+   int damRoll = randomizer.rollDice(damage.diceSize, damage.dice);
+   damVal = damRoll+damConst;
 
-   //TODO: add armor calculations
-   damageAndMessage.first = (diceRoll + constant);
+   if (recipient->hasArmor()) {
+      WearableComp* armor = (WearableComp*) recipient->getArmor()->getComponent(COMPONENT_WEARABLE);
+      if (armor->damage.type == damage.type) {
+         int defConstant = armor->damage.constant;
+         int defRoll = randomizer.rollDice(armor->damage.diceSize, armor->damage.dice);
 
-   std::string damageMsg = std::to_string(constant+diceRoll);
-   damageMsg.append(damageTypeNames[damage.type]);
-   damageMsg.append( " damage");
+         int defVal = defConstant+defRoll;
+         totalDamage = std::max(0, damVal-defVal);
 
+         damageMsg = std::to_string(damVal);
+         damageMsg.append("-"+std::to_string(defVal));
+         damageMsg.append("="+std::to_string(totalDamage));
+         damageMsg.append(damageTypeNames[damage.type]);
+         damageMsg.append( " damage");
+      }
+      else {
+         totalDamage =  damVal;
+
+         damageMsg = std::to_string(totalDamage);
+         damageMsg.append(damageTypeNames[damage.type]);
+         damageMsg.append( " damage");
+      }
+   }
+
+   else {
+      totalDamage =  damVal;
+
+      damageMsg = std::to_string(totalDamage);
+      damageMsg.append(damageTypeNames[damage.type]);
+      damageMsg.append( " damage");
+   }
+
+   damageAndMessage.first = totalDamage;
    damageAndMessage.second = damageMsg;
 
    return damageAndMessage;
