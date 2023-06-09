@@ -1,4 +1,5 @@
 #include "Interface/UIScreens/PlayerUI.h"
+#include "Entities/Actors/Inventory.h"
 
 void PlayerUI::initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
    this->playerMan = adventure->getPlayerManager();
@@ -23,13 +24,15 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    textSpecsTitle.setViewportWidth(viewport.w);
 
    ActorEntity* player = playerMan->getPlayer();
+   Inventory* inventory = &player->inventory;
+
    GameText health = textMaker.makeGameText(player->stats.getHealthAsString());
    GameText strength = textMaker.makeGameText(player->stats.getStrengthAsString());
    GameText intelligence = textMaker.makeGameText(player->stats.getIntelligenceAsString());
    GameText speed = textMaker.makeGameText(player->stats.getSpeedAsString());
-   GameText weaponDesc = textMaker.makeGameText(itemDescriber.describeMinusDesc(player->getPhysicalWeapon()));
-   GameText magicWeaponDesc = textMaker.makeGameText(itemDescriber.describeMinusDesc(player->getMagicWeapon()));
-   GameText armorDesc = textMaker.makeGameText(itemDescriber.describeMinusDesc(player->getArmor()));
+   GameText weaponDesc = textMaker.makeGameText(itemDescriber.describeMinusDesc(inventory->getMeleeWeapon()));
+   GameText magicWeaponDesc = textMaker.makeGameText(itemDescriber.describeMinusDesc(inventory->getMagicWeapon()));
+   GameText armorDesc = textMaker.makeGameText(itemDescriber.describeMinusDesc(inventory->getArmor()));
    GameText effects = textMaker.makeGameText(actorDescriber.listEffects(player));
 
    int startY = textSpecs.margin;
@@ -51,7 +54,7 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    startY += textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, magicWeaponDesc, startY);
 
-   if (player->hasArmor()) {
+   if (player->inventory.hasArmor()) {
       startY += 3*textSpecs.messageSpacing;
       startY = textRenderer.renderGameText(textSpecs, armorTitle, startY);
       startY += textSpecs.messageSpacing;

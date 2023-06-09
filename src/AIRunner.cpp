@@ -2,6 +2,9 @@
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
 #include "Algorithms/PathingSpecs.h"
+#include "Entities/Actors/AI.h"
+#include "Entities/Actors/ActorEntity.h"
+#include "Enums/TurnTime.h"
 #include "Logs/DebugLogger.h"
 
 
@@ -15,15 +18,13 @@ void AIRunner::initialize(LocalMap* map, ActorManager* actorMan, ActorUtils* act
 void AIRunner::runActorTurn(ActorEntity *actor) {
 	FoV::calcActorFoV(map, actor);
 
-   actor->checkForHostiles();
-
    int turnTime;
-	switch (actor->getState()) {
-      case AISTATE_WANDERING:
-         turnTime = wander(actor);
+	switch (actor->aiType) {
+      case AITYPE_MELEE:
+         turnTime = meleeAI(actor);
          break;
-      case AISTATE_APPROACH_AND_WHACK:
-         turnTime = approachAndWhack(actor);
+      case AITYPE_RANGED:
+         turnTime = rangedAI(actor);
       default:
          turnTime = actor->stats.speed;
 	}
@@ -32,7 +33,7 @@ void AIRunner::runActorTurn(ActorEntity *actor) {
 }
 
 
-int AIRunner::wander(ActorEntity* actor) {
+int AIRunner::doWander(ActorEntity* actor) {
 	PathingRoute* currentRoute = actor->getCurrentRoute();
 
 	if (currentRoute->hasNextTile()) {
@@ -69,26 +70,30 @@ int AIRunner::wander(ActorEntity* actor) {
 
 
 
-int AIRunner::approachAndWhack(ActorEntity* actor) {
-   //choose new target if previous target not visible
-   if (!actor->canSeeTarget()) {
-      actor->chooseTarget();
+int AIRunner::doApproachAndWhack(ActorEntity* actor) {
+   actor->setState(AISTATE_APPROACH_AND_WHACK);
+   actor->pickTarget();
+   
+   if (actor->location == actor->getTargetLastKnownLocation()) {
+      actor->setState(AISTATE_IDLE);
+      return meleeAI(actor);
    }
+
    auto targetActor = actor->getTarget();
 
    //do attack if next to target
    if (actor->location.isAdjacentTo(targetActor->location)) {
-      actorUtils->doAttack(actor, actor->getPhysicalWeapon(), targetActor);
+      actorUtils->doMeleeAttack(actor, targetActor);
       return actor->stats.speed;
    }
 
-   //approach target
+   //approach last known location of target
    auto route = actor->getCurrentRoute();
    route->clear();
 
    PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE);
    specs.start = actor->location;
-   specs.end = targetActor->location;
+   specs.end = actor->getTargetLastKnownLocation();
 	Pathfinding::calcPath(specs, map, (*route));
 
 	if (route->hasNextTile()) {
@@ -96,6 +101,34 @@ int AIRunner::approachAndWhack(ActorEntity* actor) {
       return actor->stats.speed;
    }
 
-   DebugLogger::log("Approach and whack stalled");
+   //if hits this point, actor can't find way to get to target
+   // normally means they're being blocked by another actor
+   // so they go as close as they can until they get physically blocked
+   specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
+   specs.start = actor->location;
+   specs.end = actor->getTargetLastKnownLocation();
+	Pathfinding::calcPath(specs, map, (*route));
+
+	if (route->hasNextTile()) {
+      if (map->isTraversibleAt(route->getNextTile())) {
+         actorMan->moveActor(actor, route->getNextTile());
+         return actor->stats.speed;
+      }
+   }
+
    return actor->stats.speed;
+}
+
+
+
+int AIRunner::meleeAI(ActorEntity* actor) {
+   if (actor->isAggroed() || actor->canSeeHostile()) {
+      return doApproachAndWhack(actor);
+   }
+
+   return doWander(actor);
+}
+
+int AIRunner::rangedAI(ActorEntity* actor) {
+   return FULL_TURN_TIME;
 }

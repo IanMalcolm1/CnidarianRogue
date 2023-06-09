@@ -37,10 +37,36 @@ ActorEntity* ActorFactory::makeEvilSmileyFace(TileCoords location) {
 
    evilSmiley->faction = FACTION_BAD;
 
-   evilSmiley->setNaturalPhysicalWeapon(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
+   evilSmiley->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
 
-   evilSmiley->addAttackingSubstate(AiState(AISTATE_APPROACH_AND_WHACK));
-   evilSmiley->addIdleSubstate(AiState(AISTATE_WANDERING));
+   evilSmiley->aiType = AITYPE_MELEE;
+   
+   registerActor(evilSmiley);
+   return evilSmiley;
+}
+
+
+ActorEntity* ActorFactory::makeWandCultist(TileCoords location) {
+   ActorEntity* evilSmiley = actorColiseum->makeEntity();
+   ActorStatBlock* smileyStats = &evilSmiley->stats;
+
+   smileyStats->maxHealth = 10 + randomizer.getRandomNumber(5);
+   smileyStats->health = smileyStats->maxHealth;
+   smileyStats->speed = FULL_TURN_TIME + FULL_TURN_TIME/4;
+
+   evilSmiley->description.name = "Evil Smiley Face";
+   evilSmiley->description.desc = "Its insipid grin unnerves you.";
+
+   evilSmiley->display.symbol = ASYM_SMILE_THIN;
+   evilSmiley->display.symbolColor = colorMap.getColor("red");
+
+   evilSmiley->location = location;
+
+   evilSmiley->faction = FACTION_BAD;
+
+   evilSmiley->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
+
+   evilSmiley->aiType = AITYPE_MELEE;
    
    registerActor(evilSmiley);
    return evilSmiley;

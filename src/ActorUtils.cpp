@@ -46,6 +46,11 @@ void ActorUtils::doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity
    }
 }
 
+void ActorUtils::doMeleeAttack(ActorEntity* attacker, ActorEntity* defender) {
+   ItemEntity* weapon = attacker->inventory.getMeleeWeapon();
+   doAttack(attacker, weapon, defender);
+}
+
 
 void ActorUtils::doLineAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoords targetTile) {
    if (!map->isInMapBounds(targetTile)) {
@@ -75,31 +80,32 @@ void ActorUtils::attackAlongRoute(ActorEntity* attacker, ItemEntity* weapon, Pat
 
 void ActorUtils::doItemPickup(ItemEntity *item, ActorEntity* actor) {
    TileCoords currLocation = item->location;
+   Inventory* inventory = &actor->inventory;
    itemMan->moveItem(item, {-1,-1});
 
    if (item->hasComponent(COMPONENT_WIELDABLE)) {
       if (item->hasComponent(COMPONENT_RANGED)) {
-         if (actor->hasDedicatedMagicWeapon()) {
-            dropItem(actor, actor->getMagicWeaponDirect());
+         if (inventory->hasHeldMagicWeapon()) {
+            actorMan->dropItem(actor, inventory->getMagicWeapon());
          }
-         actor->setMagicWeapon(item);
+         inventory->setMagicWeapon(item);
          sendPickupItemMessage(actor, item);
       }
       else {
-         if (actor->hasDedicatedPhysicalWeapon()) {
-            dropItem(actor, actor->getPhysicalWeaponDirect());
+         if (inventory->hasHeldMeleeWeapon()) {
+            actorMan->dropItem(actor, inventory->getMeleeWeapon());
          }
-         actor->setPhysicalWeapon(item);
+         inventory->setMeleeWeapon(item);
          sendPickupItemMessage(actor, item);
       }
    }
 
    else if (item->hasComponent(COMPONENT_WEARABLE)) {
-      if (actor->hasArmor()) {
-         itemMan->moveItem(actor->getArmor(), currLocation);
-         dropItem(actor, actor->getArmor());
+      if (inventory->hasWornArmor()) {
+         itemMan->moveItem(inventory->getArmor(), currLocation);
+         actorMan->dropItem(actor, inventory->getArmor());
       }
-      actor->setArmor(item);
+      inventory->setArmor(item);
       sendPickupItemMessage(actor, item);
    }
 
@@ -132,10 +138,3 @@ void ActorUtils::sendPickupItemMessage(ActorEntity* actor, ItemEntity* item) {
    actorMan->sendMsgIfActorIsVisible(actor, actorName+" picks up "+itemName);
 }
 
-void ActorUtils::dropItem(ActorEntity* actor, ItemEntity* item) {
-   itemMan->moveItem(actor->getMagicWeapon(), actor->location);
-
-   std::string actorName = EntityDescriber::makeName(actor);
-   std::string itemName = EntityDescriber::makeName(item);
-   actorMan->sendMsgIfActorIsVisible(actor, actorName+" drops "+itemName);
-}

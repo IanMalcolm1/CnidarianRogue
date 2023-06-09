@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entities/Actors/AI.h"
+#include "Entities/Actors/Inventory.h"
 #include "Entities/Components.h"
 #include "Entities/Effects/EffectList.h"
 #include "Entities/Items/ItemEntity.h"
@@ -20,21 +21,17 @@ class ActorEntity : public Entity {
 private:
 	bool player;
 
-	AI ai;
-
+   AiState aiState;
 	std::vector<TileCoords> visibleTiles;
 	std::vector<ActorEntity*> visibleActors;
 	PathingRoute currentRoute;
    ActorEntity* targetEntity;
+   TileCoords targetEntityLastLocation;
 
-   ItemEntity* magicWeapon;
-   ItemEntity* physicalWeapon;
-   ItemEntity* natMagicWeapon;
-   ItemEntity* natPhyisicalWeapon;
-
-   ItemEntity* armor;
 
 public:
+   AiType aiType;
+   Inventory inventory;
    EffectList activeEffects;
 	ActorStatBlock stats;
 	EntityDisplay display;
@@ -45,9 +42,8 @@ public:
 
 	ActorEntity(int id, int bytesUsed, int totalSpace, bool player = false)
    : Entity(id, bytesUsed, totalSpace), location(TileCoords()),
-   display(EntityDisplay()), ai(AI()), player(player), targetEntity(nullptr),
-   physicalWeapon(nullptr), magicWeapon(nullptr),
-   natPhyisicalWeapon(nullptr), natMagicWeapon(nullptr) {};
+   display(EntityDisplay()), player(player), targetEntity(nullptr),
+   aiState(AISTATE_IDLE) {};
 
    void reset();
 
@@ -59,36 +55,20 @@ public:
 
    void setFaction(Faction newFaction);
    bool isHostileTo(ActorEntity* actor);
-   void checkForHostiles();
+
+   void setTarget(ActorEntity* actor);
    bool canSeeHostile();
    bool isTargetting(ActorEntity* actor);
-   void setTarget(ActorEntity* actor);
+   void pickTarget();
    ActorEntity* getTarget();
+   TileCoords getTargetLastKnownLocation();
    bool canSeeTarget();
-   void chooseTarget();
 
 	void clearVisibilityArrays();
 	void addVisibleTile(TileCoords tile);
 	void addVisibleActor(ActorEntity* actor);
 
-	void addIdleSubstate(AiState state);
-	void addAttackingSubstate(AiState state);
    bool isAggroed();
-	AiStateId getState();
-	void setState(AiStateId stateID);
-
-   ItemEntity* getPhysicalWeapon();
-   ItemEntity* getMagicWeapon();
-   ItemEntity* getPhysicalWeaponDirect();
-   ItemEntity* getMagicWeaponDirect();
-   bool hasDedicatedPhysicalWeapon();
-   bool hasDedicatedMagicWeapon();
-   void setNaturalPhysicalWeapon(ItemEntity* weapon);
-   void setNaturalMagicWeapon(ItemEntity* weapon);
-   void setPhysicalWeapon(ItemEntity* weapon);
-   void setMagicWeapon(ItemEntity* weapon);
-
-   bool hasArmor();
-   ItemEntity* getArmor();
-   void setArmor(ItemEntity* armor);
+   AiState getState();
+	void setState(AiState stateID);
 };

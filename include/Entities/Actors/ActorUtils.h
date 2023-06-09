@@ -18,7 +18,6 @@ private:
    PathingRoute lineRoute;
 
    void sendPickupItemMessage(ActorEntity* actor, ItemEntity* item);
-   void dropItem(ActorEntity* actor, ItemEntity* item);
 
 public:
    ActorUtils() : actorMan(nullptr), itemMan(nullptr), effectMan(nullptr) {};
@@ -26,6 +25,7 @@ public:
    void initialize(ActorManager* actorManager, ItemManager* itemManager, EffectManager* effectManager, LocalMap* map);
    
    void doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity* defender);
+   void doMeleeAttack(ActorEntity* attacker, ActorEntity* defender);
    void doLineAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoords targetTile);
    void attackAlongRoute(ActorEntity* attacker, ItemEntity* weapon, PathingRoute& route);
 

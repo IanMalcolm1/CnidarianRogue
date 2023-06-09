@@ -58,7 +58,7 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
 
    if (inputState == PLAYER_INPUT_MOVE) {
       if (map->thereIsAnActorAt(newCoords) && player->isHostileTo(map->getActorAt(newCoords))) {
-         actorUtils->doAttack(player, player->getPhysicalWeapon(), map->getActorAt(newCoords));
+         actorUtils->doMeleeAttack(player, map->getActorAt(newCoords));
          turnQueue->insertActor(player, player->stats.speed);
          return true;
       }
@@ -147,7 +147,7 @@ void PlayerManager::updateInputState(PlayerCommand command) {
       else {
          inputState = PLAYER_INPUT_SELECT;
          PathingSpecs pathSpecs = PathingSpecs(PATH_LINE, TRAV_INCLUDE_UNSEEN_TILES);
-         pathSpecs.lineInfo.range = ((RangedComp*) player->getMagicWeapon()->getComponent(COMPONENT_RANGED))->range;
+         pathSpecs.lineInfo.range = ((RangedComp*) player->inventory.getMagicWeapon()->getComponent(COMPONENT_RANGED))->range;
          map->setHighlightRouteSpecs(pathSpecs);
       }
    }
@@ -248,7 +248,7 @@ bool PlayerManager::attemptLevelChange() {
 bool PlayerManager::processConfirm() {
    if (inputState == PLAYER_INPUT_SELECT) {
       PathingRoute line = map->getHighlightedPath();
-      actorUtils->attackAlongRoute(player, player->getMagicWeapon(), line);
+      actorUtils->attackAlongRoute(player, player->inventory.getMagicWeapon(), line);
       turnQueue->insertActor(player, player->stats.speed);
       return true;
    }
@@ -265,8 +265,8 @@ void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, E
    this->itemFactory = itemFactory;
    this->actorUtils = actorUtils;
 
-   player->setNaturalMagicWeapon(itemFactory->getNaturalWeapon(NATWEAP_FORCE_CANTRIP));
-   player->setNaturalPhysicalWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
+   player->inventory.setNatMagicWeapon(itemFactory->getNaturalWeapon(NATWEAP_FORCE_CANTRIP));
+   player->inventory.setNatMeleeWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
 }
 
 

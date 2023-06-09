@@ -29,8 +29,16 @@ void ActorManager::destroyActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, nullptr);
 	turnQueue->removeActor(actor);
 
-   itemMan->moveItem(actor->getMagicWeaponDirect(), actor->location);
-   itemMan->moveItem(actor->getPhysicalWeaponDirect(), actor->location);
+   Inventory* inventory = &actor->inventory;
+   if (inventory->hasWornArmor()) {
+      itemMan->moveItem(inventory->getArmor(), actor->location);
+   }
+   if (inventory->hasHeldMeleeWeapon()) {
+      itemMan->moveItem(inventory->getMeleeWeapon(), actor->location);
+   }
+   if (inventory->hasMagicWeapon()) {
+      itemMan->moveItem(inventory->getMagicWeapon(), actor->location);
+   }
 
    if (actor->isPlayer()) {
       notifyListeners(EVENT_PLAYERDED);
@@ -69,8 +77,8 @@ std::pair<int, std::string> ActorManager::calcDamage(ActorEntity* attacker, Acto
    int damRoll = randomizer.rollDice(damage.diceSize, damage.dice);
    damVal = damRoll+damConst;
 
-   if (recipient->hasArmor()) {
-      WearableComp* armor = (WearableComp*) recipient->getArmor()->getComponent(COMPONENT_WEARABLE);
+   if (recipient->inventory.hasArmor()) {
+      WearableComp* armor = (WearableComp*) recipient->inventory.getArmor()->getComponent(COMPONENT_WEARABLE);
       if (armor->damage.type == damage.type) {
          int defConstant = armor->damage.constant;
          int defRoll = randomizer.rollDice(armor->damage.diceSize, armor->damage.dice);
@@ -130,4 +138,17 @@ void ActorManager::sendMsgIfActorIsVisible(ActorEntity* actor, std::string messa
    if (map->isVisibleAt(actor->location)) {
       gameLog->sendMessage(message);
    }
+}
+
+
+void ActorManager::dropItem(ActorEntity* actor, ItemEntity* item) {
+   if (item == nullptr) {
+      return;
+   }
+
+   itemMan->moveItem(item, actor->location);
+
+   std::string actorName = EntityDescriber::makeName(actor);
+   std::string itemName = EntityDescriber::makeName(item);
+   sendMsgIfActorIsVisible(actor, actorName+" drops "+itemName);
 }

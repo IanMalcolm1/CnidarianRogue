@@ -55,6 +55,8 @@ public:
    std::pair<int, std::string> calcDamage(ActorEntity* attacker, ActorEntity* recipient, Damage damage, int relevantStat = 0);
    void damageActor(ActorEntity* actor, int damage);
 
+   void dropItem(ActorEntity* actor, ItemEntity* item);
+
    void sendMsgIfActorIsVisible(ActorEntity* actor, std::string message);
 
    ActorEntity* getActor(int id) {

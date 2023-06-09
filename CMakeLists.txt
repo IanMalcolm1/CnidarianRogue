@@ -19,7 +19,6 @@ add_executable(Roguelike
    src/ActorUtils.cpp
    src/Adventure.cpp
    src/AdventureUI.cpp
-   src/AI.cpp
    src/AIRunner.cpp
    src/Blabber.cpp
    src/ConfirmerUI.cpp
@@ -43,6 +42,7 @@ add_executable(Roguelike
    src/GraphicsThings.cpp
    src/InputConfirmer.cpp
    src/InputManager.cpp
+   src/Inventory.cpp
    src/ItemDescriber.cpp
    src/ItemEntity.cpp
    src/ItemFactory.cpp

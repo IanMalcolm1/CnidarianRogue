@@ -90,11 +90,11 @@ void LocalMap::updateVisibleTileDisplays() {
 
    mapDisplay.resetVisibilityResets();
 
-   /*
    //set everything visible
+   /*
    for (int i=0; i<width*height; i++) {
-   mapDisplay.setDisplayAt(i, getDisplayAt(i));
-   mapDisplay.setVisibility(i, true);
+      mapDisplay.setDisplayAt(i, getDisplayAt(i));
+      mapDisplay.setVisible(i);
    }
    */
 }

@@ -15,8 +15,13 @@ private:
 
    Randomizer randomizer;
 
-   int wander(ActorEntity* actor);
-   int approachAndWhack(ActorEntity* actor);
+   int doWander(ActorEntity* actor);
+   int doApproachAndWhack(ActorEntity* actor);
+
+   int meleeAI(ActorEntity* actor);
+   int rangedAI(ActorEntity* actor);
+
+   int chooseAction(ActorEntity* actor);
 
 public:
    AIRunner() : map(nullptr), actorMan(nullptr), actorUtils(nullptr) {};

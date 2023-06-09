@@ -6,11 +6,8 @@ bool ActorEntity::isPlayer() {
    return player;
 }
 
-std::vector<TileCoords>* ActorEntity::getVisibleTiles() { return &visibleTiles; }
-std::vector<ActorEntity*>* ActorEntity::getVisibleActors() { return &visibleActors; }
 
-PathingRoute* ActorEntity::getCurrentRoute() { return &currentRoute; }
-
+/* For FOV */
 void ActorEntity::clearVisibilityArrays() {
 	visibleTiles.clear();
 	visibleActors.clear();
@@ -18,32 +15,26 @@ void ActorEntity::clearVisibilityArrays() {
 void ActorEntity::addVisibleTile(TileCoords tile) { visibleTiles.push_back(tile); }
 void ActorEntity::addVisibleActor(ActorEntity* actor) { visibleActors.push_back(actor); }
 
-AiStateId ActorEntity::getState() {
-	auto stuff = ai.getState();
-   bool stateChanged = stuff.first;
-	if (stateChanged) {
-		currentRoute.clear();
-	}
-	return stuff.second;
+
+
+/* AI Stuff */
+std::vector<TileCoords>* ActorEntity::getVisibleTiles() { return &visibleTiles; }
+std::vector<ActorEntity*>* ActorEntity::getVisibleActors() { return &visibleActors; }
+
+PathingRoute* ActorEntity::getCurrentRoute() { return &currentRoute; }
+AiState ActorEntity::getState() {
+	return aiState;
 }
 
-void ActorEntity::setState(AiStateId stateID) {
-   if (ai.changeStateTo(stateID)) {
+void ActorEntity::setState(AiState stateID) {
+   if (stateID != aiState) {
       currentRoute.clear();
+      aiState = stateID;
    }
 }
 
-void ActorEntity::addIdleSubstate(AiState state) {
-	ai.addIdleSubstate(state);
-}
-void ActorEntity::addAttackingSubstate(AiState state) {
-	ai.addAttackingSubstate(state);
-}
-
-
 bool ActorEntity::isAggroed() {
-   AiStateId state = getState();
-   return (state > AISTATE_ATTACKING && state < AISTATE_TOTAL_STATES);
+   return (aiState > AISTATE_ATTACKING && aiState < AISTATE_TOTAL_STATES);
 }
 
 
@@ -57,17 +48,6 @@ bool ActorEntity::isHostileTo(ActorEntity* actor) {
 
    else
       return false;
-}
-
-void ActorEntity::checkForHostiles() {
-   bool canSeeHostile = this->canSeeHostile();
-
-   if (canSeeHostile && !isAggroed()) {
-      setState(AISTATE_ATTACKING);
-   }
-   else if (!canSeeHostile && isAggroed()) {
-      setState(AISTATE_IDLE);
-   }
 }
 
 bool ActorEntity::canSeeHostile() {
@@ -88,12 +68,13 @@ bool ActorEntity::isTargetting(ActorEntity *actor) {
    return false;
 }
 
-void ActorEntity::setTarget(ActorEntity* actor) {
-   targetEntity = actor;
-}
 
 ActorEntity* ActorEntity::getTarget() {
    return targetEntity;
+}
+
+TileCoords ActorEntity::getTargetLastKnownLocation() {
+   return targetEntityLastLocation;
 }
 
 bool ActorEntity::canSeeTarget() {
@@ -108,91 +89,44 @@ bool ActorEntity::canSeeTarget() {
    return false;
 }
 
-void ActorEntity::chooseTarget() {
-   for (auto visibleActor : visibleActors) {
-      if (isHostileTo(visibleActor)) {
-         setTarget(visibleActor);
+void ActorEntity::pickTarget() {
+   if (canSeeTarget()) {
+      setTarget(targetEntity);
+      return;
+   }
+
+   else if (canSeeHostile()) {
+      //pick random hostile for target
+      for (auto visibleActor : visibleActors) {
+         if (isHostileTo(visibleActor)) {
+            setTarget(visibleActor);
+         }
       }
    }
+
+   //otherwise leave as is
 }
-      
+
+void ActorEntity::setTarget(ActorEntity *actor) {
+   targetEntity = actor;
+   targetEntityLastLocation = targetEntity->location;
+}
 
 
+
+/* Meta */
 void ActorEntity::reset() {
    display = EntityDisplay();
    location = TileCoords();
    description.name = "ded entity";
    description.desc = "if you're seeing this there's a bug";
-   natPhyisicalWeapon = nullptr;
-   natMagicWeapon = nullptr;
-   physicalWeapon = nullptr;
-   magicWeapon = nullptr;
-   armor = nullptr;
+   inventory = Inventory();
    faction = FACTION_PACIFIST;
+   aiState = AISTATE_IDLE;
    targetEntity = nullptr;
    visibleTiles.clear();
    visibleActors.clear();
    currentRoute.clear();
 
    Entity::reset();
-}
-
-
-ItemEntity* ActorEntity::getPhysicalWeapon() {
-   if (!physicalWeapon) {
-      return natPhyisicalWeapon;
-   }
-   else { return physicalWeapon; }
-}
-
-ItemEntity* ActorEntity::getMagicWeapon() {
-   if (!magicWeapon) {
-      return natMagicWeapon;
-   }
-   else { return magicWeapon; }
-}
-
-ItemEntity* ActorEntity::getPhysicalWeaponDirect() {
-   return physicalWeapon;
-}
-ItemEntity* ActorEntity::getMagicWeaponDirect() {
-   return magicWeapon;
-}
-
-bool ActorEntity::hasDedicatedPhysicalWeapon() {
-   return physicalWeapon != nullptr;
-}
-
-bool ActorEntity::hasDedicatedMagicWeapon() {
-   return magicWeapon != nullptr;
-}
-
-void ActorEntity::setNaturalPhysicalWeapon(ItemEntity* weapon) {
-   natPhyisicalWeapon = weapon;
-}
-
-void ActorEntity::setNaturalMagicWeapon(ItemEntity* weapon) {
-   natMagicWeapon = weapon;
-}
-
-void ActorEntity::setPhysicalWeapon(ItemEntity* weapon) {
-   physicalWeapon = weapon;
-}
-
-void ActorEntity::setMagicWeapon(ItemEntity* weapon) {
-   magicWeapon = weapon;
-}
-
-
-
-bool ActorEntity::hasArmor() {
-   return (armor != nullptr);
-}
-
-ItemEntity* ActorEntity::getArmor() {
-   return armor;
-}
-
-void ActorEntity::setArmor(ItemEntity* armor) {
-   this->armor = armor;
 }
