@@ -15,6 +15,10 @@ void Pathfinding::calcPath(PathingSpecs specs, LocalMap* map, PathingRoute& rout
       return;
    }
 
+   if (specs.start == specs.end) {
+      return;
+   }
+
    TraversibilityFunc traversible;
 
    switch (specs.traversibility) {

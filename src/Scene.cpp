@@ -24,7 +24,7 @@ ActorUtils* Scene::getActorUtils() { return &actorUtils; }
 
 void Scene::runTurn() {
 	while (!turnQueue.isEmpty()) {
-	TurnQueueNode* node = turnQueue.pop();
+	   TurnQueueNode* node = turnQueue.pop();
       if (node->isActor) {
          if (node->actor->isPlayer()) {
             break;

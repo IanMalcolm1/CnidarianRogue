@@ -26,7 +26,7 @@ public:
    
    void doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity* defender);
    void doMeleeAttack(ActorEntity* attacker, ActorEntity* defender);
-   void doRangedAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoords targetTile);
+   void doRangedAttack(ActorEntity* attacker, TileCoords targetTile);
    void attackAlongRoute(ActorEntity* attacker, ItemEntity* weapon, PathingRoute& route);
 
    void doItemPickup(ItemEntity* item, ActorEntity* actor);

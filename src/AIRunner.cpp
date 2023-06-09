@@ -1,6 +1,7 @@
 #include "Adventure/Scene/AIRunner.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
+#include "Algorithms/PathfindingRoute.h"
 #include "Algorithms/PathingSpecs.h"
 #include "Entities/Actors/AI.h"
 #include "Entities/Actors/ActorEntity.h"
@@ -87,6 +88,27 @@ int AIRunner::doApproachAndWhack(ActorEntity* actor) {
       return actor->stats.speed;
    }
 
+   return doApproachTarget(actor);
+}
+   
+int AIRunner::doShootAndApproach(ActorEntity* actor) {
+   actor->setState(AISTATE_SHOOT_AND_APPROACH);
+   actor->pickTarget();
+
+   if (actor->location == actor->getTargetLastKnownLocation()) {
+      actor->setState(AISTATE_IDLE);
+      return meleeAI(actor);
+   }
+
+   if (actor->canSeeTarget() && targetIsInShootRange(actor)) {
+      actorUtils->doRangedAttack(actor, actor->getTargetLastKnownLocation());
+      return actor->stats.speed;
+   }
+
+   return doApproachTarget(actor);
+ }
+
+int AIRunner::doApproachTarget(ActorEntity* actor) {
    //approach last known location of target
    auto route = actor->getCurrentRoute();
    route->clear();
@@ -102,7 +124,7 @@ int AIRunner::doApproachAndWhack(ActorEntity* actor) {
    }
 
    //if hits this point, actor can't find way to get to target
-   // normally means they're being blocked by another actor
+   // this normally means they're being blocked by another actor
    // so they go as close as they can until they get physically blocked
    specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
    specs.start = actor->location;
@@ -116,9 +138,9 @@ int AIRunner::doApproachAndWhack(ActorEntity* actor) {
       }
    }
 
+   //stuck
    return actor->stats.speed;
 }
-
 
 
 int AIRunner::meleeAI(ActorEntity* actor) {
@@ -130,5 +152,28 @@ int AIRunner::meleeAI(ActorEntity* actor) {
 }
 
 int AIRunner::rangedAI(ActorEntity* actor) {
-   return FULL_TURN_TIME;
+   if (actor->isAggroed() || actor->canSeeHostile()) {
+      return doShootAndApproach(actor);
+   }
+
+   return doWander(actor);
+}
+
+
+
+bool AIRunner::targetIsInShootRange(ActorEntity* actor) {
+   ItemEntity* weapon = actor->inventory.getMagicWeapon();
+
+   PathingSpecs specs = PathingSpecs(PATH_LINE, TRAV_IGNORE_NONE);
+   specs.lineInfo.range = ((RangedComp*)weapon->getComponent(COMPONENT_RANGED))->range;
+   specs.start = actor->location;
+   specs.end = actor->getTargetLastKnownLocation();
+
+   testingRoute.clear();
+   Pathfinding::calcPath(specs, map, testingRoute);
+
+   if (testingRoute.endTile() == actor->getTargetLastKnownLocation()) {
+      return true;
+   }
+   return false;
 }

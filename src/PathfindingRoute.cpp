@@ -25,5 +25,8 @@ bool PathingRoute::hasNextTile() {
 }
 
 TileCoords PathingRoute::endTile() {
-	return route.back();
+   if (route.size()>0) {
+	   return route.back();
+   }
+   return {-1,-1};
 }

@@ -36,7 +36,7 @@ void ActorManager::destroyActor(ActorEntity* actor) {
    if (inventory->hasHeldMeleeWeapon()) {
       itemMan->moveItem(inventory->getMeleeWeapon(), actor->location);
    }
-   if (inventory->hasMagicWeapon()) {
+   if (inventory->hasHeldMagicWeapon()) {
       itemMan->moveItem(inventory->getMagicWeapon(), actor->location);
    }
 

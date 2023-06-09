@@ -3,6 +3,7 @@
 #include "Algorithms/PathingSpecs.h"
 #include "Entities/Components.h"
 #include "Entities/EntityDescriber.h"
+#include "Entities/Items/ItemEntity.h"
 #include "Logs/DebugLogger.h"
 
 
@@ -55,14 +56,19 @@ void ActorUtils::doMeleeAttack(ActorEntity* attacker, ActorEntity* defender) {
 }
 
 
-void ActorUtils::doRangedAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoords targetTile) {
+void ActorUtils::doRangedAttack(ActorEntity* attacker, TileCoords targetTile) {
    if (!map->isInMapBounds(targetTile)) {
       DebugLogger::log("doLineAttack() target tile out of bounds");
       return;
    }
 
+   ItemEntity* weapon = attacker->inventory.getMagicWeapon();
+
    PathingSpecs specs = PathingSpecs(PATH_LINE, TRAV_IGNORE_NONE);
    specs.lineInfo.range = ((RangedComp*)weapon->getComponent(COMPONENT_RANGED))->range;
+   specs.start = attacker->location;
+   specs.end = targetTile;
+
    Pathfinding::calcPath(specs, map, lineRoute);
 
    attackAlongRoute(attacker, weapon, lineRoute);
