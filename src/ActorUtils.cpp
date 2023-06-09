@@ -36,6 +36,9 @@ void ActorUtils::doAttack(ActorEntity* attacker, ItemEntity* weapon, ActorEntity
 
    auto damageAndMessage = actorMan->calcDamage(attacker, defender, damageComp->damage1, relevantStat);
    message.append(damageAndMessage.second);
+
+   message.append(" using " + EntityDescriber::makeName(weapon));
+
    actorMan->sendMsgIfActorIsVisible(defender, message);
 
    actorMan->damageActor(defender, damageAndMessage.first);
@@ -52,7 +55,7 @@ void ActorUtils::doMeleeAttack(ActorEntity* attacker, ActorEntity* defender) {
 }
 
 
-void ActorUtils::doLineAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoords targetTile) {
+void ActorUtils::doRangedAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoords targetTile) {
    if (!map->isInMapBounds(targetTile)) {
       DebugLogger::log("doLineAttack() target tile out of bounds");
       return;
@@ -67,6 +70,8 @@ void ActorUtils::doLineAttack(ActorEntity* attacker, ItemEntity* weapon, TileCoo
 
 
 void ActorUtils::attackAlongRoute(ActorEntity* attacker, ItemEntity* weapon, PathingRoute& route) {
+
+
    route.resetProgress();
    while (route.hasNextTile()) {
       TileCoords coords = route.getNextTile();

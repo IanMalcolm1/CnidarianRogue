@@ -64,7 +64,7 @@ void TerrainGenerator::rectangleRooms(Scene* scene, int numRectangles, int maxSi
    for (int i=0; i<4; i++) {
       TileCoords enemyLoc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
       if (!map->thereIsAnActorAt(enemyLoc)) {
-	      actorFactory->makeEvilSmileyFace(enemyLoc);
+	      actorFactory->makeCultistWarrior(enemyLoc);
       }
    }
 }

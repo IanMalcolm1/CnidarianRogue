@@ -29,6 +29,6 @@ public:
 
    void initialize(EntityColiseum<ActorEntity>* actorColiseum, TurnQueue* turnQueue, LocalMap* map, ItemFactory* itemFactory);
 
-   ActorEntity* makeEvilSmileyFace(TileCoords location);
+   ActorEntity* makeCultistWarrior(TileCoords location);
    ActorEntity* makeWandCultist(TileCoords location);
 };
