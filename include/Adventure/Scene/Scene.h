@@ -38,7 +38,7 @@ private:
 
 public:
 	Scene(GameLog* gameLog, PlayerManager* playerManager) :
-   map(150, 150), gameLog(gameLog), playerManager(playerManager) {};
+   map(96, 96), gameLog(gameLog), playerManager(playerManager) {};
 
    void initialize(EffectDescriber* effectDescriber);
 

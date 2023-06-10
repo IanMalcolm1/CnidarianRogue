@@ -31,4 +31,5 @@ public:
 
    ActorEntity* makeCultistWarrior(TileCoords location);
    ActorEntity* makeWandCultist(TileCoords location);
+   ActorEntity* makeArmoredCultist(TileCoords location);
 };

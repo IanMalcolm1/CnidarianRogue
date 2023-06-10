@@ -44,11 +44,14 @@ public:
    void initialize(EntityColiseum<ItemEntity>* coliseum, LocalMap* map);
 
    //Weapons
+   ItemEntity* makeBasicDagger(TileCoords location);
    ItemEntity* makeBasicSword(TileCoords location);
+   ItemEntity* makeBasicMace(TileCoords location);
    ItemEntity* makeForceWand(TileCoords location);
 
    //Armor
    ItemEntity* makeGambeson(TileCoords location);
+   ItemEntity* makeLeatherArmor(TileCoords location);
 
    //Consumables
    ItemEntity* makeIntelligenceMushroom(TileCoords location);

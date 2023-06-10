@@ -8,26 +8,31 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
+Move ItemManager to Adventure so Player can keep items when moving floors.
+   Actually doesn't seem to matter since I never actually delete previous scenes.
+   Not sure I ever would delete scenes even in a dream roguelike (I'd want a consistent world)
+
+Make player a darker shade of gold
+Give player dagger and gambeson
+
 Slightly better generation
    - Generation for the three floors
-   - First rectangles (abandoned complex or inhabited cult), second caves, third something
+   - First rectangles (abandoned complex or inhabited cult), second caves, third bossfight
+   - Power-up bushes and mushroom clusters in caves
    - Reduced number of intelligence mushrooms, more powerful items on later floors, healing
      items
 
 Next:
-Simple gameplay loop
 Ability to choose name
-Scroll look and playerui screens
+Scrolling for look and playerui screens
    Maybe have a Scrollable class that gets passed text and spacing in the order I want rendered,
    coverts the text to formatted text, and tallies up the height of the entire thing. Probably
    should leave MessagesUI alone, though since that one is optimized for lots of messages that
    don't themselves change.
 
-Optional:
-Add scrolling to PlayerUI and LookUI
+Maybe in free time:
 Improve player-to-mouse path performance (A* implemenation)
-Redo AI
-Save functionality (maybe in free time)
+Save functionality
    Change terrain tiles to proper entities beforehand if I do do it
 Better generation (play around with perlin noise and things)
 Look into lua
@@ -48,8 +53,7 @@ player character moving npcs. Otherwise high potential for bad gameplay experien
 Maybe eventually include movement cost modifiers.
 
 _____________________________________________________________________________________________
-AI
-Necessary:
+AI WISHLIST
 - Creatures can either be hostile, wary, or passive towards other creatures (including the
   player depending on alignments and threat levels).
 - Creatures should retreat when their health percentage is low compared to that of their
@@ -58,20 +62,10 @@ Necessary:
   'cowardice' stat or something that weights using ranged weapons over melee ones.
 - Creatures should be able to use any abilities they have.
 
-Superfluous (maybe add in a later game):
+Wishfull Thinking (maybe add in a later game):
 - Have tool-wielding creatures to simulate doing work at workstations, congregate in taverns
   or around campfires in the evening, go to sleep on beds/bedrolls at night.
 - Have animals to go to their dens or lairs at different times depending on their circadian
   rhythms.
 - Creatures meant to guard things have a chance to fall asleep on the job
 - Support for house ownership
-
-_____________________________________________________________________________________________
-MODULAR AI
-Part 1.) Have a set of core/basic states, like idle, sleeping, attacking, and fleeing.
-Part 2.) Have component states that correspond to core states and have different weights.
-		 When an entity enters a main state, it immediately rolls one of the component sub-
-		 states to engage in. (Also includes some default sub-states like a standing around
-		 or wandering state.)
-Part 3.) For entity components like inventories, just do flag checks in various functions,
-		 so that we just modify possible state behaviors, rather than adding new ones.

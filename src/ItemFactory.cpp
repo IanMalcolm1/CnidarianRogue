@@ -24,21 +24,58 @@ void ItemFactory::registerItem(ItemEntity* item, TileCoords location) {
 
 /* Weapons */
 
+ItemEntity* ItemFactory::makeBasicDagger(TileCoords location) {
+   ItemEntity* dagger = coliseum->makeEntity();
+
+   dagger->description.name = "Dagger";
+   dagger->description.desc = "A small blade on a stick.";
+
+   dagger->display.symbol = ASYM_FORWARD_SLASH;
+   dagger->display.symbolColor = colorMap.getColor("slategrey");
+   
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 3, 1, 0));
+   dagger->addComponent(damage, COMPONENT_DAMAGING);
+
+   dagger->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
+   registerItem(dagger, location);
+   return dagger;
+}
+
 ItemEntity* ItemFactory::makeBasicSword(TileCoords location) {
    ItemEntity* sword = coliseum->makeEntity();
 
    sword->description.name = "Sword";
-   sword->description.desc = "It's pretty vanilla.";
+   sword->description.desc = "A very long dagger.";
 
    sword->display.symbol = ASYM_FORWARD_SLASH;
+   sword->display.symbolColor = colorMap.getColor("slategrey");
    
-   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 6, 1, 0));
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 4, 1, 0));
    sword->addComponent(damage, COMPONENT_DAMAGING);
 
    sword->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
 
    registerItem(sword, location);
    return sword;
+}
+
+ItemEntity* ItemFactory::makeBasicMace(TileCoords location) {
+   ItemEntity* mace = coliseum->makeEntity();
+
+   mace->description.name = "Mace";
+   mace->description.desc = "A metal ball on a stick.";
+
+   mace->display.symbol = ASYM_EXCLAMATION;
+   mace->display.symbolColor = colorMap.getColor("slategrey");
+   
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 2, 1, 1));
+   mace->addComponent(damage, COMPONENT_DAMAGING);
+
+   mace->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
+   registerItem(mace, location);
+   return mace;
 }
 
 ItemEntity* ItemFactory::makeForceWand(TileCoords location) {
@@ -68,7 +105,7 @@ ItemEntity* ItemFactory::makeGambeson(TileCoords location) {
    ItemEntity* gambeson = coliseum->makeEntity();
 
    gambeson->description.name = "Gambeson";
-   gambeson->description.desc = "A sturdy jacked made of layered cloth.";
+   gambeson->description.desc = "A sturdy jacket made of layered cloth.";
 
    gambeson->display.symbol = ASYM_AMPERSAND;
    gambeson->display.symbolColor = colorMap.getColor("slategrey");
@@ -77,6 +114,21 @@ ItemEntity* ItemFactory::makeGambeson(TileCoords location) {
 
    registerItem(gambeson, location);
    return gambeson;
+}
+
+ItemEntity* ItemFactory::makeLeatherArmor(TileCoords location) {
+   ItemEntity* armor = coliseum->makeEntity();
+
+   armor->description.name = "Leather Armor";
+   armor->description.desc = "Thick leather armor.";
+
+   armor->display.symbol = ASYM_AMPERSAND;
+   armor->display.symbolColor = colorMap.getColor("brown");
+
+   armor->addComponent(WearableComp(DAMAGE_PHYSICAL,2,1,0), COMPONENT_WEARABLE);
+
+   registerItem(armor, location);
+   return armor;
 }
 
 
@@ -192,7 +244,7 @@ ItemEntity* ItemFactory::makeForceCantrip() {
    cantrip->description.name = "Force Bolt";
    cantrip->description.desc = "A simple combat cantrip."; 
 
-   cantrip->display.symbol = ASYM_ASTERISK;
+   cantrip->display.symbol = ASYM_MAGIC;
    cantrip->display.symbolColor = MyColor(255,255,255);
 
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 0, 1));

@@ -21,6 +21,7 @@ add_executable(Roguelike
    src/AdventureUI.cpp
    src/AIRunner.cpp
    src/Blabber.cpp
+   src/ColorPalette.cpp
    src/ConfirmerUI.cpp
    src/Damage.cpp
    src/DebugLogger.cpp

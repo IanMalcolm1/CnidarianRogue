@@ -21,54 +21,88 @@ void ActorFactory::registerActor(ActorEntity* actor) {
 
 
 ActorEntity* ActorFactory::makeCultistWarrior(TileCoords location) {
-   ActorEntity* evilSmiley = actorColiseum->makeEntity();
-   ActorStatBlock* smileyStats = &evilSmiley->stats;
+   ActorEntity* cultist = actorColiseum->makeEntity();
+   ActorStatBlock* cultistStats = &cultist->stats;
 
-   smileyStats->maxHealth = 10 + randomizer.getRandomNumber(5);
-   smileyStats->health = smileyStats->maxHealth;
-   smileyStats->speed = FULL_TURN_TIME + FULL_TURN_TIME/4;
+   cultistStats->maxHealth = 10 + randomizer.getRandomNumber(5);
+   cultistStats->health = cultistStats->maxHealth;
+   cultistStats->speed = FULL_TURN_TIME + FULL_TURN_TIME/4;
 
-   evilSmiley->description.name = "Cultist Warrior";
-   evilSmiley->description.desc = "It stands hunched and ape-like, mace in hand.";
+   cultist->description.name = "Cultist Warrior";
+   cultist->description.desc = "It stands hunched and ape-like, mace in hand.";
 
-   evilSmiley->display.symbol = ASYM_LOWER_C;
-   evilSmiley->display.symbolColor = colorMap.getColor("maroon");
+   cultist->display.symbol = ASYM_LOWER_C;
+   cultist->display.symbolColor = colorMap.getColor("maroon");
 
-   evilSmiley->location = location;
+   cultist->location = location;
 
-   evilSmiley->faction = FACTION_BAD;
+   cultist->faction = FACTION_BAD;
 
-   evilSmiley->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
+   if (randomizer.flipCoin()==0) {
+      cultist->inventory.setMeleeWeapon(itemFactory->makeBasicSword({-1,-1}));
+   }
+   else {
+      cultist->inventory.setMeleeWeapon(itemFactory->makeBasicMace({-1,-1}));
+   }
 
-   evilSmiley->aiType = AITYPE_MELEE;
+   cultist->aiType = AITYPE_MELEE;
    
-   registerActor(evilSmiley);
-   return evilSmiley;
+   registerActor(cultist);
+   return cultist;
+}
+
+
+ActorEntity* ActorFactory::makeArmoredCultist(TileCoords location) {
+   ActorEntity* cultist = actorColiseum->makeEntity();
+   ActorStatBlock* cultistStats = &cultist->stats;
+
+   cultistStats->maxHealth = 13 + randomizer.getRandomNumber(3,5);
+   cultistStats->health = cultistStats->maxHealth;
+   cultistStats->strength = 1;
+   cultistStats->speed = FULL_TURN_TIME + FULL_TURN_TIME/4;
+
+   cultist->description.name = "Cultist Leader";
+   cultist->description.desc = "This cultist stands taller than the rest. It wears a set of leather armor.";
+
+   cultist->display.symbol = ASYM_LOWER_C;
+   cultist->display.symbolColor = colorMap.getColor("red");
+
+   cultist->location = location;
+
+   cultist->faction = FACTION_BAD;
+
+   cultist->inventory.setMeleeWeapon(itemFactory->makeBasicMace({-1,-1}));
+   cultist->inventory.setArmor(itemFactory->makeLeatherArmor({-1,-1}));
+
+   cultist->aiType = AITYPE_MELEE;
+   
+   registerActor(cultist);
+   return cultist;
 }
 
 
 ActorEntity* ActorFactory::makeWandCultist(TileCoords location) {
-   ActorEntity* evilSmiley = actorColiseum->makeEntity();
-   ActorStatBlock* smileyStats = &evilSmiley->stats;
+   ActorEntity* cultist = actorColiseum->makeEntity();
+   ActorStatBlock* cultistStats = &cultist->stats;
 
-   smileyStats->maxHealth = 10 + randomizer.getRandomNumber(5);
-   smileyStats->health = smileyStats->maxHealth;
-   smileyStats->speed = FULL_TURN_TIME + FULL_TURN_TIME/4;
+   cultistStats->maxHealth = 8 + randomizer.getRandomNumber(4);
+   cultistStats->health = cultistStats->maxHealth;
+   cultistStats->speed = FULL_TURN_TIME + FULL_TURN_TIME/4;
 
-   evilSmiley->description.name = "Cultist Preacher";
-   evilSmiley->description.desc = "Energy writhes along its distended arms.";
+   cultist->description.name = "Cultist Preacher";
+   cultist->description.desc = "It grasps a wand in a cage of distended fingers.";
 
-   evilSmiley->display.symbol = ASYM_LOWER_C;
-   evilSmiley->display.symbolColor = colorMap.getColor("darkgrey");
+   cultist->display.symbol = ASYM_LOWER_C;
+   cultist->display.symbolColor = colorMap.getColor("grey");
 
-   evilSmiley->location = location;
+   cultist->location = location;
 
-   evilSmiley->faction = FACTION_BAD;
+   cultist->faction = FACTION_BAD;
 
-   evilSmiley->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_FIST), itemFactory->getNaturalWeapon(NATWEAP_FORCE_CANTRIP));
+   cultist->inventory.setMagicWeapon(itemFactory->makeForceWand({-1,-1}));
 
-   evilSmiley->aiType = AITYPE_RANGED;
+   cultist->aiType = AITYPE_RANGED;
    
-   registerActor(evilSmiley);
-   return evilSmiley;
+   registerActor(cultist);
+   return cultist;
 }
