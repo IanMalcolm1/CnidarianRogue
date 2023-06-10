@@ -3,6 +3,7 @@
 #include "Algorithms/PathingSpecs.h"
 #include "Enums/AsciiSymbols.h"
 #include "GraphicsThings/ColorPalette.h"
+#include "SDL_rect.h"
 #include "Topography/TerrainMap.h"
 #include <functional>
 
@@ -69,8 +70,12 @@ void TerrainGenerator::floor1(Scene* scene) {
    TileCoords bosstile;
    int bossRoomIndex;
    SDL_Rect bossRoom;
-   while (true) {
-      bossRoomIndex = randomizer.getRandomNumber(rooms.size()-1);
+   for (int i=0; i<rooms.size(); i++) {
+      if (i==playerRoomIndex) {
+         continue;
+      }
+
+      bossRoomIndex = i;
       bossRoom = rooms[bossRoomIndex];
       
       bosstile.x = bossRoom.x+bossRoom.w/2;
@@ -79,7 +84,13 @@ void TerrainGenerator::floor1(Scene* scene) {
       if (distanceBetween(bosstile, playertile) > (mapWidth*3)/4) {
          break;
       }
+
+      if (i == rooms.size()-1) {
+         floor1(scene);
+         return;
+      }
    }
+
    actorFactory->makeArmoredCultist(bosstile);
    map->setTerrainAt({bosstile.x+1, bosstile.y}, altar);
    map->setTerrainAt({bosstile.x-1, bosstile.y}, altar);
@@ -89,23 +100,11 @@ void TerrainGenerator::floor1(Scene* scene) {
 
 
    //misc cultists
-   std::vector<int> cultistRoomIndices;
-   for (int i=0; i<2; i++) {
-      cultistRoomIndices.push_back(0);
-      while (true) {
-         cultistRoomIndices[i] = randomizer.getRandomNumber(rooms.size());
-         if (cultistRoomIndices[i] == playerRoomIndex)
-            continue;
-         if (cultistRoomIndices[i] == playerRoomIndex)
-            continue;
-         for (int j=0; j<i; j++) {
-            if (cultistRoomIndices[j] == cultistRoomIndices[i])
-               continue;
-         }
-         break;
+   for (int i=0; i<rooms.size(); i++) {
+      if (i==playerRoomIndex || i==bossRoomIndex) {
+         continue;
       }
-
-      spawnCultists(rooms[cultistRoomIndices[i]]);
+      spawnCultists(rooms[i]);
    }
 
    int downStairsInd = randomizer.getRandomNumber(placeableTiles.size()-1);
@@ -146,6 +145,17 @@ std::vector<SDL_Rect> TerrainGenerator::makeRectangleRooms(int numRectangles, in
 		currCenter.x = rect.x + rect.w/2;
 		currCenter.y = rect.y + rect.h/2;
 
+      bool needRedo = false;
+      for (SDL_Rect room : rooms) {
+         if (SDL_HasIntersection(&rect, &room)) {
+            needRedo = true;
+         }
+      }
+      if (needRedo) {
+         i--;
+         continue;
+      }
+
       drawRectangle(rect, terrain, palette);
       rooms.push_back(rect);
 
@@ -173,8 +183,8 @@ void TerrainGenerator::drawRectangle(SDL_Rect rect, TerrainTile& terrain, ColorP
 
 
 void TerrainGenerator::spawnCultists(SDL_Rect room) {
-   int numWarriors = randomizer.getRandomNumber(1,3);
-   int numPreachers = randomizer.getRandomNumber(2);
+   int numWarriors = randomizer.getRandomNumber(2);
+   int numPreachers = randomizer.getRandomNumber(1);
 
    for (int i=0; i<numWarriors; i++) {
       TileCoords tile;
