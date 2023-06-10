@@ -8,10 +8,6 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Move ItemManager to Adventure so Player can keep items when moving floors.
-   Actually doesn't seem to matter since I never actually delete previous scenes.
-   Not sure I ever would delete scenes even in a dream roguelike (I'd want a consistent world)
-
 Slightly better generation
    - Generation for the three floors
    - First rectangles (abandoned complex or inhabited cult), second caves, third bossfight
