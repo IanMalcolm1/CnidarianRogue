@@ -57,6 +57,8 @@ public:
 	ActorEntity* getPlayer();
 	void placePlayer(TileCoords location);
 
+   void armPlayer();
+
 	void updateInputState(PlayerCommand command);
    void resetInputState();
 	bool doAutoAct();

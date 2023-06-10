@@ -13,7 +13,18 @@ void Adventure::initialize() {
    scene->initialize(&effectDescriber);
    linkPlayerAndScene();
    scene->hookupListeners(gameWindowListener, (Listener*) &playerMan);
-   terrainGenerator.floor1(scene);
+
+   if (sceneIndex == 0) {
+      playerMan.armPlayer();
+      terrainGenerator.floor1(scene);
+   }
+   if (sceneIndex == 1) {
+      terrainGenerator.floor2(scene);
+   }
+   if (sceneIndex == 2) {
+      terrainGenerator.floor3(scene);
+   }
+
    FoV::calcPlayerFoV(scene->getMap(), playerMan.getPlayer());
    updateMapDisplay();
 }

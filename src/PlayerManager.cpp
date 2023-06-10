@@ -29,7 +29,7 @@ PlayerManager::PlayerManager(GameLog* gameLog) :
       player->description.desc = "It's you.";
 
       player->display.symbol = ASYM_AT;
-      player->display.symbolColor = MyColor(255,215,0);
+      player->display.symbolColor = MyColor(181,148,16);
 
       player->faction = FACTION_GOOD;
 
@@ -265,8 +265,11 @@ void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, E
    this->itemFactory = itemFactory;
    this->actorUtils = actorUtils;
 
+}
+
+void PlayerManager::armPlayer() {
+   player->inventory.setMeleeWeapon(itemFactory->makeBasicDagger({-1,-1}));
    player->inventory.setNatMagicWeapon(itemFactory->getNaturalWeapon(NATWEAP_FORCE_CANTRIP));
-   player->inventory.setNatMeleeWeapon(itemFactory->getNaturalWeapon(NATWEAP_FIST));
 }
 
 
