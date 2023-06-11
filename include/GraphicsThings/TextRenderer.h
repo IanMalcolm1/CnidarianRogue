@@ -29,6 +29,12 @@ enum TextRenderingOptions {
 };
 
 
+struct FormattedText {
+   std::string text;
+   int height;
+};
+
+
 class TextRenderer {
 private:
 	SDL_Renderer* renderer;
@@ -37,8 +43,8 @@ private:
 	void renderTextLeftAligned(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY);
    void renderTextCentered(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY);
 
-	int renderFormattedTextDown(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options);
-	int renderFormattedTextUp(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options);
+	int renderFormattedTextDown(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options);
+	int renderFormattedTextUp(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options);
 
    //Start index should be -1 for the first line
    int calcLineLength(TextRenderingSpecs& specs,std::string& text, int startIndex);
@@ -57,7 +63,7 @@ public:
    /* Renders a formatted GameText object (a string and a height).
     * Takes a bitmask of TextRenderingOptions in options argument.
     * Returns ending y coordinate. */
-	int renderFormattedText(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options = (TEXT_ALIGN_LEFT | TEXT_RENDER_DOWN));
+	int renderFormattedText(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options = (TEXT_ALIGN_LEFT | TEXT_RENDER_DOWN));
 
 
    int renderLineSeparator(TextRenderingSpecs& specs, GameTextMaker& textMaker, int startY);
@@ -66,5 +72,5 @@ public:
    /* Adds newline characters as necessary to keep text from exceeding
     * specs.maxLettersPerLine. Returns modified string with the calculated
     * height of the message. */
-	std::pair<std::string, int> formatGameText(TextRenderingSpecs& specs, GameText& gameText);
+	FormattedText formatGameText(TextRenderingSpecs& specs, GameText& gameText);
 };

@@ -15,7 +15,7 @@ private:
 
 	SDL_Rect mainViewport;
 	int totalHeight;
-	std::vector<std::pair<std::string, int>> formattedMsgs;
+   std::vector<FormattedText> formattedMsgs;
 
 	TextRenderer textRenderer;
 	TextRenderingSpecs textSpecs;

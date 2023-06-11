@@ -62,7 +62,7 @@ public:
 	items(width*height, std::vector<ItemEntity*>()), pathToMouseTile(),
    width(width), height(height), needToUpdateDisplay(true), isLooking(false),
    mouseTile(-1,-1), focusTileChangedLast(false),
-   pathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE) {};
+   pathingSpecs(PATH_ROUTE, TRAV_INCLUDE_UNSEEN_TILES) {};
 
 
 	MapDisplay* getMapDisplay();

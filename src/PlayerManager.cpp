@@ -159,7 +159,7 @@ void PlayerManager::updateInputState(PlayerCommand command) {
 
 void PlayerManager::resetInputState() {
    map->stopLooking();
-   map->setHighlightRouteSpecs(PathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE));
+   map->setHighlightRouteSpecs(PathingSpecs(PATH_ROUTE, TRAV_INCLUDE_UNSEEN_TILES));
    inputState = PLAYER_INPUT_MOVE;
 }
 

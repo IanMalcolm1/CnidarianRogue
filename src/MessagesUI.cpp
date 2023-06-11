@@ -39,8 +39,8 @@ void MessagesUI::render(const SDL_Rect& viewport) {
 			break;
 		}
 
-		if (startY - formattedMsgs.at(i).second > mainViewport.h) {
-			startY -= (formattedMsgs.at(i).second + textSpecs.messageSpacing);
+		if (startY - formattedMsgs[i].height > mainViewport.h) {
+			startY -= (formattedMsgs[i].height + textSpecs.messageSpacing);
 			continue;
 		}
 
@@ -86,10 +86,10 @@ void MessagesUI::makeFormattedMessages() {
 		entriesAdded = recentMessages->size();
 	}
 
-	std::pair<std::string, int> fMessage;
+	FormattedText fMessage;
 	for (int i = formattedMsgs.size(); i < recentMessages->size(); i++) {
 		fMessage = textRenderer.formatGameText(textSpecs, recentMessages->at(i));
-		totalHeight += fMessage.second;
+		totalHeight += fMessage.height;
 		formattedMsgs.push_back(fMessage);
 	}
 

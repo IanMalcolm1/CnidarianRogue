@@ -9,78 +9,79 @@ void TextRenderer::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) 
 	this->spritesheet = spritesheet;
 }
 
-std::pair<std::string, int> TextRenderer::formatGameText(TextRenderingSpecs& specs, GameText& gameText) {
-	int height = specs.fontSizePixels;
-	std::string text = gameText.getText();
+FormattedText TextRenderer::formatGameText(TextRenderingSpecs& specs, GameText& gameText) {
+   FormattedText ftext;
+	ftext.height = specs.fontSizePixels;
+	ftext.text = gameText.getText();
 
 
    int lastNewline = -1;
-   for (int i=0; i<text.size(); i++) {
-      if (text[i] == '\n') {
+   for (int i=0; i<ftext.text.size(); i++) {
+      if (ftext.text[i] == '\n') {
          lastNewline = i;
-         height += specs.fontSizePixels + specs.messageSpacing;
+         ftext.height += specs.fontSizePixels + specs.messageSpacing;
          continue;
       }
       if (i-lastNewline < specs.maxLettersPerLine+1) {
          continue;
       }
 
-		if (text[i] == ' ') {
-			text.insert(text.begin() + i + 1, '\r');
+		if (ftext.text[i] == ' ') {
+			ftext.text.insert(ftext.text.begin() + i + 1, '\r');
          lastNewline = i = i+1;
-			height += specs.fontSizePixels + specs.lineSpacing;
+			ftext.height += specs.fontSizePixels + specs.lineSpacing;
 		}
 
-		else if (i+1<text.size() && text[i + 1] == ' ') {
-			text.insert(text.begin() + i + 1, '\r');
+		else if (i+1<ftext.text.size() && ftext.text[i + 1] == ' ') {
+			ftext.text.insert(ftext.text.begin() + i + 1, '\r');
          lastNewline = i = i+1;
-			height += specs.fontSizePixels + specs.lineSpacing;
+			ftext.height += specs.fontSizePixels + specs.lineSpacing;
 		}
 
 		else {
          int j = i;
 			while (j > 0) {
 				j--;
-				if (text[j] == ' ') {
-					text.insert(text.begin() + j + 1, '\r');
+				if (ftext.text[j] == ' ') {
+					ftext.text.insert(ftext.text.begin() + j + 1, '\r');
                lastNewline = i = j+1;
-					height += specs.fontSizePixels + specs.lineSpacing;
+					ftext.height += specs.fontSizePixels + specs.lineSpacing;
 					break;
 				}
 				else if (i - j == specs.maxLettersPerLine) {
-					text.insert(text.begin() + i, '\r');
+					ftext.text.insert(ftext.text.begin() + i, '\r');
                lastNewline = i;
-					height += specs.fontSizePixels + specs.lineSpacing;
+					ftext.height += specs.fontSizePixels + specs.lineSpacing;
 					break;
 				}
 			}
 			if (j == -1) {
-				text.insert(text.begin() + i, '\r');
+				ftext.text.insert(ftext.text.begin() + i, '\r');
             lastNewline = i;
             i--;
-				height += specs.fontSizePixels + specs.lineSpacing;
+				ftext.height += specs.fontSizePixels + specs.lineSpacing;
 			}
 		}
    }
 
 
-	return std::make_pair(text, height);
+	return ftext;
 }
 
 
 int TextRenderer::renderGameText(TextRenderingSpecs& specs, GameText& gameText, int startY, int options) {
-	std::pair<std::string, int> formattedText;
-	formattedText = formatGameText(specs, gameText);
+	FormattedText ftext;
+	ftext = formatGameText(specs, gameText);
    
    if ((options & TEXT_RENDER_UP) == TEXT_RENDER_UP) {
-      return renderFormattedTextUp(specs, formattedText, gameText, startY, options);
+      return renderFormattedTextUp(specs, ftext, gameText, startY, options);
    }
    else {
-      return renderFormattedTextDown(specs, formattedText, gameText, startY, options);
+      return renderFormattedTextDown(specs, ftext, gameText, startY, options);
    }
 }
 
-int TextRenderer::renderFormattedText(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options) {
+int TextRenderer::renderFormattedText(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options) {
    if ((options & TEXT_RENDER_UP) == TEXT_RENDER_UP) {
       return renderFormattedTextUp(specs, fText, gameText, startY, options);
    }
@@ -90,35 +91,35 @@ int TextRenderer::renderFormattedText(TextRenderingSpecs& specs, std::pair<std::
 }
 
 
-int TextRenderer::renderFormattedTextDown(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options) {
-	int height = fText.second;
+int TextRenderer::renderFormattedTextDown(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options) {
+	int height = fText.height;
 
 	if (startY + height < 0) {
 		return startY + height;
 	}
 
    if ((options & TEXT_ALIGN_CENTER) == TEXT_ALIGN_CENTER) {
-      renderTextCentered(specs, fText.first, gameText, startY);
+      renderTextCentered(specs, fText.text, gameText, startY);
    }
    else {
-      renderTextLeftAligned(specs, fText.first, gameText, startY);
+      renderTextLeftAligned(specs, fText.text, gameText, startY);
    }
 
 	return startY + height;
 }
 
-int TextRenderer::renderFormattedTextUp(TextRenderingSpecs& specs, std::pair<std::string, int>& fText, GameText& gameText, int startY, int options) {
+int TextRenderer::renderFormattedTextUp(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options) {
 	if (startY < 0) {
-		return startY - fText.second;
+		return startY - fText.height;
 	}
 
-	startY -= fText.second;
+	startY -= fText.height;
 
    if ((options & TEXT_ALIGN_CENTER) == TEXT_ALIGN_CENTER) {
-      renderTextCentered(specs, fText.first, gameText, startY);
+      renderTextCentered(specs, fText.text, gameText, startY);
    }
    else {
-      renderTextLeftAligned(specs, fText.first, gameText, startY);
+      renderTextLeftAligned(specs, fText.text, gameText, startY);
    }
 
 	return startY;
