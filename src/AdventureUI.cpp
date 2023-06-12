@@ -46,12 +46,13 @@ void AdventureUI::processScroll(int x, int y, int offset, bool ctrlDown) {
    sceneUI.processScroll(x, y, offset);
    messagesUI.processScroll(x, y, offset, ctrlDown);
    playerUI.processScroll(x, y, offset);
+   lookUI.processScroll(x, y, offset);
 }
 void AdventureUI::processClick(int x, int y, bool isRightClick) {
    sceneUI.processClick(x, y, isRightClick);
 }
 void AdventureUI::processKeyPress(SDL_Keycode keycode) {
-   //For use if I get around to adding a input confirmer (for "Are you sure you want to do that?" purposes.)
+   return;
 }
 
 

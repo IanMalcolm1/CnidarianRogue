@@ -270,7 +270,6 @@ void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, E
 void PlayerManager::armPlayer() {
    player->inventory.setMeleeWeapon(itemFactory->makeBasicDagger({-1,-1}));
    player->inventory.setNatMagicWeapon(itemFactory->getNaturalWeapon(NATWEAP_FORCE_CANTRIP));
-   player->inventory.setArmor(itemFactory->makeGambeson({-1,-1}));
 }
 
 

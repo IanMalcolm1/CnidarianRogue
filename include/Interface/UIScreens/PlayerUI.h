@@ -17,8 +17,6 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
 
-   SDL_Rect currViewport;
-
    Scroller scroller;
    GameTextMaker textMaker;
 	TextRenderingSpecs textSpecs, textSpecsTitle;

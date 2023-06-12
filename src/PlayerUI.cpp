@@ -21,7 +21,6 @@ void PlayerUI::initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Text
 
 void PlayerUI::render(const SDL_Rect& viewport) {
 	SDL_RenderSetViewport(renderer, &viewport);
-   currViewport = viewport;
 
    scroller.clear();
 
@@ -73,44 +72,10 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    scroller.addItem(effects);
 
    scroller.render(viewport);
-
-   /*
-   int startY = textSpecs.margin;
-   startY = textRenderer.renderGameText(textSpecsTitle, title, startY);
-   startY += textSpecsTitle.messageSpacing;
-
-   startY = textRenderer.renderGameText(textSpecs, health, startY);
-   startY += 2*textSpecs.messageSpacing;
-   startY = textRenderer.renderGameText(textSpecs, strength, startY);
-   startY += textSpecs.messageSpacing;
-   startY = textRenderer.renderGameText(textSpecs, intelligence, startY);
-   startY += 2*textSpecs.messageSpacing;
-   startY = textRenderer.renderGameText(textSpecs, speed, startY);
-
-   startY += 3*textSpecs.messageSpacing;
-   startY = textRenderer.renderGameText(textSpecs, weaponTitle, startY);
-   startY += textSpecs.messageSpacing;
-   startY = textRenderer.renderGameText(textSpecs, weaponDesc, startY);
-   startY += textSpecs.messageSpacing;
-   startY = textRenderer.renderGameText(textSpecs, magicWeaponDesc, startY);
-
-   if (player->inventory.hasArmor()) {
-      startY += 3*textSpecs.messageSpacing;
-      startY = textRenderer.renderGameText(textSpecs, armorTitle, startY);
-      startY += textSpecs.messageSpacing;
-      startY = textRenderer.renderGameText(textSpecs, armorDesc, startY);
-   }
-
-   startY += 3*textSpecs.messageSpacing;
-   startY = textRenderer.renderGameText(textSpecs, effects, startY);
-   */
 }
 
 
 
 void PlayerUI::processScroll(int x, int y, int offset) {
-	SDL_Point point = { x,y };
-	if (SDL_PointInRect(&point, &currViewport)) {
-      scroller.processScroll(offset);
-   }
+   scroller.processScroll(x, y, offset);
 }

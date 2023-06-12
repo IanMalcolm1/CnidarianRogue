@@ -1,5 +1,6 @@
 #include "Interface/UIScreens/LookUI.h"
 #include "GraphicsThings/TextRenderer.h"
+#include <cwctype>
 
 
 void LookUI::initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Texture* spritesheet) {
@@ -9,7 +10,8 @@ void LookUI::initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Textur
    itemDescriber.initialize(adventure->getEffectDescriber());
    actorDescriber.initialize(adventure->getEffectDescriber());
 
-   textRenderer.initialize(renderer, spritesheet);
+   scroller.initialize(renderer, spritesheet);
+   scroller.setMarginAndScrollMulitplier(textSpecs.margin, textSpecs.fontSizePixels);
    
    titleText = textMaker.makeGameText("Tile Info");
    defaultText = textMaker.makeGameText("There's nothing here.");
@@ -23,6 +25,7 @@ void LookUI::render(Scene* scene, const SDL_Rect& viewport) {
 
 
 	SDL_RenderSetViewport(renderer, &viewport);
+   scroller.clear();
    
    textSpecs.setViewportWidth(viewport.w);
    textSpecsTitle.setViewportWidth(viewport.w);
@@ -31,18 +34,20 @@ void LookUI::render(Scene* scene, const SDL_Rect& viewport) {
    int startY = textSpecs.margin;
    std::vector<GameText> descriptions;
 
-   startY = textRenderer.renderGameText(textSpecsTitle, titleText, startY);
-   startY += textSpecsTitle.messageSpacing;
+   scroller.setSpecsForSubsequentItems(textSpecsTitle);
+   scroller.addItem(titleText);
+   scroller.addItem(textSpecsTitle.messageSpacing);
+   scroller.setSpecsForSubsequentItems(textSpecs);
 
    if (!map->getMapDisplay()->isVisible(map->coordsToTileIndex(focusTile))) {
-      textRenderer.renderGameText(textSpecs, defaultText, startY);
+      scroller.addItem(defaultText);
+      scroller.render(viewport);
       return;
    }
 
    GameText terrainText = textMaker.makeGameText(terrainDescriber.describeTerrainAt(focusTile));
-   startY = textRenderer.renderGameText(textSpecs, terrainText, startY);
-   startY += textSpecs.messageSpacing;
-
+   scroller.addItem(terrainText);
+   scroller.addItem(textSpecs.messageSpacing);
 
    if (map->thereIsAnActorAt(focusTile)) {
       ActorEntity* actor = map->getActorAt(focusTile);
@@ -56,10 +61,18 @@ void LookUI::render(Scene* scene, const SDL_Rect& viewport) {
       }
    }
 
+   
    for (int i=0; i<descriptions.size(); i++) {
-      startY = textRenderer.renderGameText(textSpecs, descriptions[i], startY);
+      scroller.addItem(descriptions[i]);
       if (i != descriptions.size()-1) {
-         startY = textRenderer.renderLineSeparator(textSpecs, textMaker, startY);
+         scroller.addLineSeparator();
       }
    }
+
+   scroller.render(viewport);
+}
+
+
+void LookUI::processScroll(int x, int y, int offset) {
+   scroller.processScroll(x, y, offset);
 }

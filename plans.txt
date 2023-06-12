@@ -17,11 +17,6 @@ Slightly better generation
 
 Next:
 Ability to choose name
-Scrolling for look and playerui screens
-   Maybe have a Scrollable class that gets passed text and spacing in the order I want rendered,
-   coverts the text to formatted text, and tallies up the height of the entire thing. Probably
-   should leave MessagesUI alone, though since that one is optimized for lots of messages that
-   don't themselves change.
 
 Maybe in free time:
 Improve player-to-mouse path performance (A* implemenation)

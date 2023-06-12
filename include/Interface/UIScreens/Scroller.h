@@ -2,14 +2,20 @@
 
 #include "GraphicsThings/TextRenderer.h"
 
+enum ScrollerItemType : uint8_t {
+   SCROLLITEM_SPACING,
+   SCROLLITEM_TEXT,
+   SCROLLITEM_LINE,
+};
 
 struct ScrollerItem {
-   bool isText; //if not text, it's spacing
+   ScrollerItemType type; //if not text, it's spacing
    int height;
    FormattedText ftext;
 
-   ScrollerItem(int height) : isText(false), height(height) {};
-   ScrollerItem(FormattedText text, GameText gtext) :  isText(true), ftext(text) {};
+   ScrollerItem(int height) : type(SCROLLITEM_SPACING), height(height) {};
+   ScrollerItem(FormattedText text) :  type(SCROLLITEM_TEXT), ftext(text) {};
+   ScrollerItem(ScrollerItemType type) : type(type) {};
 };
 
 struct ItemSpecsNode {
@@ -20,6 +26,7 @@ struct ItemSpecsNode {
 class Scroller {
 private:
    TextRenderer renderer;
+   GameTextMaker textMaker;
    std::vector<ScrollerItem> items;
    std::vector<ItemSpecsNode> specsNodes;
    SDL_Rect currViewport;
@@ -37,8 +44,10 @@ public:
    void setSpecsForSubsequentItems(TextRenderingSpecs specs);
    void addItem(int height);
    void addItem(GameText& gameText);
+   void addLineSeparator();
+
    void render(const SDL_Rect viewport);
 
-   void processScroll(int offset);
+   void processScroll(int x, int y, int offset);
    void clear();
 };
