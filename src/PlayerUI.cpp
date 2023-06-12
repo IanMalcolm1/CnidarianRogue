@@ -10,15 +10,20 @@ void PlayerUI::initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Text
 	this->renderer = renderer;
 	this->spritesheet = spritesheet;
 
-   textRenderer.initialize(renderer, spritesheet);
+   scroller.initialize(renderer, spritesheet);
+   scroller.setMarginAndScrollMulitplier(textSpecs.margin, textSpecs.fontSizePixels);
 
    title = textMaker.makeGameText("Player Info");
-   weaponTitle = textMaker.makeGameText("Wielding:");
-   armorTitle = textMaker.makeGameText("Wearing:");
+   statsTitle = textMaker.makeGameText("Stats");
+   weaponTitle = textMaker.makeGameText("Wielding");
+   armorTitle = textMaker.makeGameText("Wearing");
 }
 
 void PlayerUI::render(const SDL_Rect& viewport) {
 	SDL_RenderSetViewport(renderer, &viewport);
+   currViewport = viewport;
+
+   scroller.clear();
 
    textSpecs.setViewportWidth(viewport.w);
    textSpecsTitle.setViewportWidth(viewport.w);
@@ -35,6 +40,41 @@ void PlayerUI::render(const SDL_Rect& viewport) {
    GameText armorDesc = textMaker.makeGameText(itemDescriber.describeMinusDesc(inventory->getArmor()));
    GameText effects = textMaker.makeGameText(actorDescriber.listEffects(player));
 
+   scroller.setSpecsForSubsequentItems(textSpecsTitle);
+   scroller.addItem(title);
+   scroller.addItem(textSpecsTitle.messageSpacing);
+
+   scroller.setSpecsForSubsequentItems(textSpecs);
+   scroller.addItem(statsTitle);
+   scroller.addItem(textSpecs.messageSpacing);
+   scroller.addItem(health);
+   scroller.addItem(textSpecs.messageSpacing);
+   scroller.addItem(strength);
+   scroller.addItem(textSpecs.messageSpacing);
+   scroller.addItem(intelligence);
+   scroller.addItem(textSpecs.messageSpacing);
+   scroller.addItem(speed);
+
+   scroller.addItem(3*textSpecs.messageSpacing);
+   scroller.addItem(weaponTitle);
+   scroller.addItem(textSpecs.messageSpacing);
+   scroller.addItem(weaponDesc);
+   scroller.addItem(2*textSpecs.lineSpacing);
+   scroller.addItem(magicWeaponDesc);
+
+   if (player->inventory.hasArmor()) {
+      scroller.addItem(3*textSpecs.messageSpacing);
+      scroller.addItem(armorTitle);
+      scroller.addItem(textSpecs.messageSpacing);
+      scroller.addItem(armorDesc);
+   }
+
+   scroller.addItem(3*textSpecs.messageSpacing);
+   scroller.addItem(effects);
+
+   scroller.render(viewport);
+
+   /*
    int startY = textSpecs.margin;
    startY = textRenderer.renderGameText(textSpecsTitle, title, startY);
    startY += textSpecsTitle.messageSpacing;
@@ -63,4 +103,14 @@ void PlayerUI::render(const SDL_Rect& viewport) {
 
    startY += 3*textSpecs.messageSpacing;
    startY = textRenderer.renderGameText(textSpecs, effects, startY);
+   */
+}
+
+
+
+void PlayerUI::processScroll(int x, int y, int offset) {
+	SDL_Point point = { x,y };
+	if (SDL_PointInRect(&point, &currViewport)) {
+      scroller.processScroll(offset);
+   }
 }

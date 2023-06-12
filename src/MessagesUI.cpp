@@ -32,19 +32,19 @@ void MessagesUI::render(const SDL_Rect& viewport) {
 		makeFormattedMessages();
 	}
 	
-	int startY = viewport.h + textSpecs.startOffset;
+	int startY = viewport.h + startOffset;
 
 	for (int i = formattedMsgs.size()-1; i >= 0; i--) {
 		if (startY < 0) {
 			break;
 		}
 
-		if (startY - formattedMsgs[i].height > mainViewport.h) {
-			startY -= (formattedMsgs[i].height + textSpecs.messageSpacing);
+		if (startY - formattedMsgs[i].getHeight() > mainViewport.h) {
+			startY -= (formattedMsgs[i].getHeight() + textSpecs.messageSpacing);
 			continue;
 		}
 
-		startY = textRenderer.renderFormattedText(textSpecs, formattedMsgs.at(i), recentMessages->at(i), startY, (TEXT_RENDER_UP|TEXT_ALIGN_LEFT));
+		startY = textRenderer.renderFormattedText(textSpecs, formattedMsgs.at(i), startY, (TEXT_RENDER_UP|TEXT_ALIGN_LEFT));
 		startY -= textSpecs.messageSpacing;
 	}
 }
@@ -61,14 +61,14 @@ void MessagesUI::processScroll(int x, int y, int offset, bool ctrlDown) {
 		makeFormattedMessages();
 	}
 	else {
-		textSpecs.startOffset += offset * textSpecs.fontSizePixels;
+		startOffset += offset * textSpecs.fontSizePixels;
 	}
 
-	if (textSpecs.startOffset < -textSpecs.margin || totalHeight < mainViewport.h - textSpecs.margin) {
-		textSpecs.startOffset = -textSpecs.margin;
+	if (startOffset < -textSpecs.margin || totalHeight < mainViewport.h - textSpecs.margin) {
+		startOffset = -textSpecs.margin;
 	}
-	else if (totalHeight < textSpecs.startOffset + mainViewport.h - textSpecs.margin) {
-		textSpecs.startOffset = totalHeight - mainViewport.h + textSpecs.margin;
+	else if (totalHeight < startOffset + mainViewport.h - textSpecs.margin) {
+		startOffset = totalHeight - mainViewport.h + textSpecs.margin;
 	}
 }
 
@@ -86,10 +86,9 @@ void MessagesUI::makeFormattedMessages() {
 		entriesAdded = recentMessages->size();
 	}
 
-	FormattedText fMessage;
 	for (int i = formattedMsgs.size(); i < recentMessages->size(); i++) {
-		fMessage = textRenderer.formatGameText(textSpecs, recentMessages->at(i));
-		totalHeight += fMessage.height;
+		FormattedText fMessage = textRenderer.formatGameText(textSpecs, recentMessages->at(i));
+		totalHeight += fMessage.getHeight();
 		formattedMsgs.push_back(fMessage);
 	}
 

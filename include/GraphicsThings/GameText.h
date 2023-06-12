@@ -1,54 +1,60 @@
 #pragma once
 
+#include "GraphicsThings/MyColor.h"
 #include <vector>
 #include <string>
-#include "ColorMap.h"
+#include <cstdint>
 
 
-struct GameTextColorNode {
+struct TextColorNode {
 	MyColor color;
 	uint16_t endIndex;
 
-	GameTextColorNode() : color({ 0,0,0 }), endIndex(0) {};
-	GameTextColorNode(MyColor color, uint16_t endIndex) : color(color), endIndex(endIndex) {};
+	TextColorNode() : color({ 0,0,0 }), endIndex(0) {};
+	TextColorNode(MyColor color, uint16_t endIndex) : color(color), endIndex(endIndex) {};
+};
+
+class TextColorMap {
+private:
+	std::vector<TextColorNode> nodes;
+
+public:
+   void addColorNode(MyColor color, int endIndex);
+	MyColor getColorAtIndex(int index);
+   bool empty();
+   int lastIndex();
 };
 
 
 class GameText {
 private:
-	std::vector<GameTextColorNode> colorNodes;
+   TextColorMap colorMap;
 	std::string text;
 
 public:
-	GameText() : colorNodes(std::vector<GameTextColorNode>()), text("") {};
-	GameText(std::string text, std::vector<GameTextColorNode> colorNodes) : text(text),
-		colorNodes(colorNodes) {};
+	GameText() : text(), colorMap() {};
+	GameText(std::string text, TextColorMap colorMap) : text(text),
+	colorMap(colorMap) {};
 
 	MyColor getColorAtIndex(int index);
 	std::string getText();
+   TextColorMap getColorMap();
 };
 
 
-class GameTextMaker {
-   ColorMap colorMap;
-
-	MyColor readColor(int& index, std::string& text);
-	MyColor readColorByRGB(int& index, std::string& text);
-	int readColorRGBValue(int& index, std::string& text);
-	MyColor readColorByColorName(int& index, std::string& text);
+class FormattedText {
+private:
+   std::string text;
+   TextColorMap colorMap;
+   int height;
 
 public:
-	GameTextMaker() : colorMap() {};
+   FormattedText() : height(0) {};
+   FormattedText(std::string text, int height, TextColorMap colorMap) :
+   text(text), height(height), colorMap(colorMap) {};
 
-	/*
-	By default text is white.
-
-	To start a colored section of text, use </colorName: or </rrrgggbbb:
-	Examples: </red: or </255000000:
-
-	To end a colored section of text, use \\>
-
-   Example: "Hi, I'm </000255000:Ian\\>. Te</000255000:eeeeeeeee\\>est. Another </red:test\\>. Now I have more </lightblue:colors\\>!"
-	*/
-	GameText makeGameText(std::string rawText);
+   int textSize();
+   uint8_t charAt(int index);
+   int getHeight();
+	MyColor getColorAtIndex(int index);
 };

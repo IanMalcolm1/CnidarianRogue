@@ -8,6 +8,7 @@
 #include "Entities/Items/ItemDescriber.h"
 #include "GraphicsThings/GameText.h"
 #include "GraphicsThings/TextRenderer.h"
+#include "Interface/UIScreens/Scroller.h"
 
 class PlayerUI {
 private:
@@ -16,13 +17,15 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
 
+   SDL_Rect currViewport;
+
+   Scroller scroller;
    GameTextMaker textMaker;
-	TextRenderer textRenderer;
 	TextRenderingSpecs textSpecs, textSpecsTitle;
    ItemDescriber itemDescriber;
    ActorDescriber actorDescriber;
 
-   GameText title, weaponTitle, armorTitle;
+   GameText title, statsTitle, weaponTitle, armorTitle;
 
 public:
 	PlayerUI(int fontSize = 3) : playerMan(nullptr), renderer(NULL),
@@ -31,4 +34,6 @@ public:
 	void initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
 	void render(const SDL_Rect& viewport);
+
+   void processScroll(int x, int y, int offset);
 };

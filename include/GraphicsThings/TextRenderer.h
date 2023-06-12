@@ -3,18 +3,17 @@
 #include <string>
 #include "SDL.h"
 #include "SDL_image.h"
-#include "GraphicsThings/GameText.h"
+#include "GraphicsThings/GameTextMaker.h"
 
 
 struct TextRenderingSpecs {
 	int fontSize, fontSizePixels;
 	int margin, lineSpacing, messageSpacing;
 	int viewportWidth, maxLettersPerLine;
-	int startOffset;
 
 	TextRenderingSpecs(int fontSize = 2, int margin = 16) : fontSize(fontSize),
 		fontSizePixels(8 * fontSize), margin(margin), lineSpacing(fontSizePixels / 4),
-		messageSpacing(fontSizePixels / 2), startOffset(-margin), maxLettersPerLine(0) {};
+		messageSpacing(fontSizePixels / 2), maxLettersPerLine(0) {};
 
 	void modifyFontSize(int modification);
 	void setViewportWidth(int viewportWidth);
@@ -29,27 +28,19 @@ enum TextRenderingOptions {
 };
 
 
-struct FormattedText {
-   std::string text;
-   GameText gameText;
-   TextRenderingSpecs specs;
-   int height;
-};
-
-
 class TextRenderer {
 private:
 	SDL_Renderer* renderer;
 	SDL_Texture* spritesheet;
 
-	void renderTextLeftAligned(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY);
-   void renderTextCentered(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY);
+	void renderTextLeftAligned(TextRenderingSpecs& specs, FormattedText& fText, int startY);
+   void renderTextCentered(TextRenderingSpecs& specs, FormattedText& fText, int startY);
 
-	int renderFormattedTextDown(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options);
-	int renderFormattedTextUp(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options);
+	int renderFormattedTextDown(TextRenderingSpecs& specs, FormattedText& fText, int startY, int options);
+	int renderFormattedTextUp(TextRenderingSpecs& specs, FormattedText& fText, int startY, int options);
 
    //Start index should be -1 for the first line
-   int calcLineLength(TextRenderingSpecs& specs,std::string& text, int startIndex);
+   int calcLineLength(TextRenderingSpecs& specs, FormattedText& fText, int startIndex);
 
 
 public:
@@ -65,7 +56,7 @@ public:
    /* Renders a formatted GameText object (a string and a height).
     * Takes a bitmask of TextRenderingOptions in options argument.
     * Returns ending y coordinate. */
-	int renderFormattedText(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options = (TEXT_ALIGN_LEFT | TEXT_RENDER_DOWN));
+	int renderFormattedText(TextRenderingSpecs& specs, FormattedText& fText, int startY, int options = (TEXT_ALIGN_LEFT | TEXT_RENDER_DOWN));
 
 
    int renderLineSeparator(TextRenderingSpecs& specs, GameTextMaker& textMaker, int startY);

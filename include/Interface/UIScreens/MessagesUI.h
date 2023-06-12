@@ -20,12 +20,14 @@ private:
 	TextRenderer textRenderer;
 	TextRenderingSpecs textSpecs;
 
+   int startOffset;
+
 	void makeFormattedMessages();
 
 public:
 	MessagesUI(int fontSize = 3) : renderer(NULL), spritesheet(NULL),
    mainViewport({0,0,0,0}), totalHeight(0), log(nullptr),
-	textRenderer(), textSpecs(fontSize) {};
+	textRenderer(), textSpecs(fontSize), startOffset(-textSpecs.margin) {};
 
 	void initialize(GameLog* log, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 

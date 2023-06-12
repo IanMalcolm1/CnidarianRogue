@@ -38,12 +38,15 @@ ActorEntity* ActorFactory::makeCultistWarrior(TileCoords location) {
 
    cultist->faction = FACTION_BAD;
 
+   cultist->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
+   /*
    if (randomizer.flipCoin()==0) {
       cultist->inventory.setMeleeWeapon(itemFactory->makeBasicSword({-1,-1}));
    }
    else {
       cultist->inventory.setMeleeWeapon(itemFactory->makeBasicMace({-1,-1}));
    }
+   */
 
    cultist->aiType = AITYPE_MELEE;
    

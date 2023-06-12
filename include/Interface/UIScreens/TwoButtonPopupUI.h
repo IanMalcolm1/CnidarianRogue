@@ -34,7 +34,7 @@ public:
    std::string rightText, int fontSize = 4) : renderer(NULL), spritesheet(NULL),
    parentViewport(), leftButtonViewport(), rightButtonViewport(),
    screenViewport(), highlightLeftButton(false), highlightRightButton(false),
-   textRenderer(), textSpecs(fontSize), hidden(true) {
+   textSpecs(fontSize), hidden(true) {
       buttonLength = std::max(leftText.size(), rightText.size());
 	   GameTextMaker textMaker = GameTextMaker();
       this->mainText = textMaker.makeGameText(mainText);

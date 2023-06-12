@@ -7,10 +7,9 @@ struct ScrollerItem {
    bool isText; //if not text, it's spacing
    int height;
    FormattedText ftext;
-   GameText gtext;
 
    ScrollerItem(int height) : isText(false), height(height) {};
-   ScrollerItem(FormattedText text, GameText gtext) :  gtext(gtext), isText(true), ftext(text) {};
+   ScrollerItem(FormattedText text, GameText gtext) :  isText(true), ftext(text) {};
 };
 
 struct ItemSpecsNode {
@@ -30,13 +29,15 @@ private:
    TextRenderingSpecs& getSpecsForIndex(int index);
 
 public:
-   Scroller(int margin, int scrollMulitplier) : margin(margin),
-   scrollMulitplier(scrollMulitplier), scrollOffset(0), itemsHeight(0) {};
+   Scroller() : margin(0), scrollMulitplier(0), scrollOffset(0), itemsHeight(0) {};
+
+	void initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet);
+   void setMarginAndScrollMulitplier(int margin, int multiplier);
 
    void setSpecsForSubsequentItems(TextRenderingSpecs specs);
    void addItem(int height);
    void addItem(GameText& gameText);
-   void render(SDL_Rect& viewport);
+   void render(const SDL_Rect viewport);
 
    void processScroll(int offset);
    void clear();

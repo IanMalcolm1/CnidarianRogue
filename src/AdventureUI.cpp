@@ -45,6 +45,7 @@ void AdventureUI::processCursorMovement() {
 void AdventureUI::processScroll(int x, int y, int offset, bool ctrlDown) {
    sceneUI.processScroll(x, y, offset);
    messagesUI.processScroll(x, y, offset, ctrlDown);
+   playerUI.processScroll(x, y, offset);
 }
 void AdventureUI::processClick(int x, int y, bool isRightClick) {
    sceneUI.processClick(x, y, isRightClick);

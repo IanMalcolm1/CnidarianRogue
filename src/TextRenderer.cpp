@@ -10,123 +10,121 @@ void TextRenderer::initialize(SDL_Renderer* renderer, SDL_Texture* spritesheet) 
 }
 
 FormattedText TextRenderer::formatGameText(TextRenderingSpecs& specs, GameText& gameText) {
-   FormattedText ftext;
-	ftext.height = specs.fontSizePixels;
-	ftext.text = gameText.getText();
+	int fHeight = specs.fontSizePixels;
+   std::string fText = gameText.getText();
 
 
    int lastNewline = -1;
-   for (int i=0; i<ftext.text.size(); i++) {
-      if (ftext.text[i] == '\n') {
+   for (int i=0; i<fText.size(); i++) {
+      if (fText[i] == '\n') {
          lastNewline = i;
-         ftext.height += specs.fontSizePixels + specs.messageSpacing;
+         fHeight += specs.fontSizePixels + specs.messageSpacing;
          continue;
       }
       if (i-lastNewline < specs.maxLettersPerLine+1) {
          continue;
       }
 
-		if (ftext.text[i] == ' ') {
-			ftext.text.insert(ftext.text.begin() + i + 1, '\r');
+		if (fText[i] == ' ') {
+			fText.insert(fText.begin() + i + 1, '\r');
          lastNewline = i = i+1;
-			ftext.height += specs.fontSizePixels + specs.lineSpacing;
+			fHeight += specs.fontSizePixels + specs.lineSpacing;
 		}
 
-		else if (i+1<ftext.text.size() && ftext.text[i + 1] == ' ') {
-			ftext.text.insert(ftext.text.begin() + i + 1, '\r');
+		else if (i+1<fText.size() && fText[i + 1] == ' ') {
+			fText.insert(fText.begin() + i + 1, '\r');
          lastNewline = i = i+1;
-			ftext.height += specs.fontSizePixels + specs.lineSpacing;
+			fHeight += specs.fontSizePixels + specs.lineSpacing;
 		}
 
 		else {
          int j = i;
 			while (j > 0) {
 				j--;
-				if (ftext.text[j] == ' ') {
-					ftext.text.insert(ftext.text.begin() + j + 1, '\r');
+				if (fText[j] == ' ') {
+					fText.insert(fText.begin() + j + 1, '\r');
                lastNewline = i = j+1;
-					ftext.height += specs.fontSizePixels + specs.lineSpacing;
+					fHeight += specs.fontSizePixels + specs.lineSpacing;
 					break;
 				}
 				else if (i - j == specs.maxLettersPerLine) {
-					ftext.text.insert(ftext.text.begin() + i, '\r');
+					fText.insert(fText.begin() + i, '\r');
                lastNewline = i;
-					ftext.height += specs.fontSizePixels + specs.lineSpacing;
+					fHeight += specs.fontSizePixels + specs.lineSpacing;
 					break;
 				}
 			}
 			if (j == -1) {
-				ftext.text.insert(ftext.text.begin() + i, '\r');
+				fText.insert(fText.begin() + i, '\r');
             lastNewline = i;
             i--;
-				ftext.height += specs.fontSizePixels + specs.lineSpacing;
+				fHeight += specs.fontSizePixels + specs.lineSpacing;
 			}
 		}
    }
 
 
-	return ftext;
+	return FormattedText(fText, fHeight, gameText.getColorMap());
 }
 
 
 int TextRenderer::renderGameText(TextRenderingSpecs& specs, GameText& gameText, int startY, int options) {
-	FormattedText ftext;
-	ftext = formatGameText(specs, gameText);
+	FormattedText ftext = formatGameText(specs, gameText);
    
    if ((options & TEXT_RENDER_UP) == TEXT_RENDER_UP) {
-      return renderFormattedTextUp(specs, ftext, gameText, startY, options);
+      return renderFormattedTextUp(specs, ftext, startY, options);
    }
    else {
-      return renderFormattedTextDown(specs, ftext, gameText, startY, options);
+      return renderFormattedTextDown(specs, ftext, startY, options);
    }
 }
 
-int TextRenderer::renderFormattedText(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options) {
+int TextRenderer::renderFormattedText(TextRenderingSpecs& specs, FormattedText& fText, int startY, int options) {
    if ((options & TEXT_RENDER_UP) == TEXT_RENDER_UP) {
-      return renderFormattedTextUp(specs, fText, gameText, startY, options);
+      return renderFormattedTextUp(specs, fText, startY, options);
    }
    else {
-      return renderFormattedTextDown(specs, fText, gameText, startY, options);
+      return renderFormattedTextDown(specs, fText, startY, options);
    }
 }
 
 
-int TextRenderer::renderFormattedTextDown(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options) {
-	int height = fText.height;
+int TextRenderer::renderFormattedTextDown(TextRenderingSpecs& specs, FormattedText& fText, int startY, int options) {
+	int height = fText.getHeight();
 
 	if (startY + height < 0) {
 		return startY + height;
 	}
 
    if ((options & TEXT_ALIGN_CENTER) == TEXT_ALIGN_CENTER) {
-      renderTextCentered(specs, fText.text, gameText, startY);
+      renderTextCentered(specs, fText, startY);
    }
    else {
-      renderTextLeftAligned(specs, fText.text, gameText, startY);
+      renderTextLeftAligned(specs, fText, startY);
    }
 
 	return startY + height;
 }
 
-int TextRenderer::renderFormattedTextUp(TextRenderingSpecs& specs, FormattedText& fText, GameText& gameText, int startY, int options) {
+int TextRenderer::renderFormattedTextUp(TextRenderingSpecs& specs, FormattedText& fText, int startY, int options) {
 	if (startY < 0) {
-		return startY - fText.height;
+		return startY - fText.getHeight();
 	}
 
-	startY -= fText.height;
+	startY -= fText.getHeight();
 
    if ((options & TEXT_ALIGN_CENTER) == TEXT_ALIGN_CENTER) {
-      renderTextCentered(specs, fText.text, gameText, startY);
+      renderTextCentered(specs, fText, startY);
    }
    else {
-      renderTextLeftAligned(specs, fText.text, gameText, startY);
+      renderTextLeftAligned(specs, fText, startY);
    }
 
 	return startY;
 }
 
 
-void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY) {
+void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, FormattedText& fText, int startY) {
 	SDL_Rect sourceRect = { 0,0,8,8 };
 	SDL_Rect destinationRect = { specs.margin, startY, specs.fontSizePixels, specs.fontSizePixels };
 
@@ -135,8 +133,8 @@ void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, std::string&
 
 	uint8_t currChar;
 
-	for (int i = 0; i < fText.size(); i++) {
-		currChar = fText[i];
+	for (int i = 0; i < fText.textSize(); i++) {
+		currChar = fText.charAt(i);
 
 		if (currChar == '\n') {
 			destinationRect.y += specs.fontSizePixels + specs.messageSpacing;
@@ -153,7 +151,7 @@ void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, std::string&
 		sourceRect.x = currChar % 16 * 8;
 		sourceRect.y = currChar / 16 * 8;
 
-		currentColor = gameText.getColorAtIndex(unformattedIndex);
+		currentColor = fText.getColorAtIndex(unformattedIndex);
 
 		SDL_SetTextureColorMod(spritesheet, currentColor.r, currentColor.g, currentColor.b);
 		SDL_RenderCopy(renderer, spritesheet, &sourceRect, &destinationRect);
@@ -165,7 +163,7 @@ void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, std::string&
 }
 
 
-void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, std::string& fText, GameText& gameText, int startY) {
+void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, FormattedText& fText, int startY) {
 	SDL_Rect sourceRect = { 0,0,8,8 };
 	SDL_Rect destinationRect = { 0, startY, specs.fontSizePixels, specs.fontSizePixels };
 
@@ -176,8 +174,8 @@ void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, std::string& fT
 
 	uint8_t currChar;
 
-	for (int i = 0; i < fText.size(); i++) {
-		currChar = fText[i];
+	for (int i = 0; i < fText.textSize(); i++) {
+		currChar = fText.charAt(i);
 
 		if (currChar == '\n') {
 			destinationRect.y += specs.fontSizePixels + specs.messageSpacing;
@@ -194,7 +192,7 @@ void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, std::string& fT
 		sourceRect.x = currChar % 16 * 8;
 		sourceRect.y = currChar / 16 * 8;
 
-		currentColor = gameText.getColorAtIndex(unformattedIndex);
+		currentColor = fText.getColorAtIndex(unformattedIndex);
 
 		SDL_SetTextureColorMod(spritesheet, currentColor.r, currentColor.g, currentColor.b);
 		SDL_RenderCopy(renderer, spritesheet, &sourceRect, &destinationRect);
@@ -206,10 +204,10 @@ void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, std::string& fT
 }
 
 
-int TextRenderer::calcLineLength(TextRenderingSpecs& specs,std::string& text, int startIndex) {
+int TextRenderer::calcLineLength(TextRenderingSpecs& specs, FormattedText& fText, int startIndex) {
    int length = 0;
-   for (int i=startIndex+1; i<text.length(); i++) {
-      if (text[i] == '\n') {
+   for (int i=startIndex+1; i<fText.textSize(); i++) {
+      if (fText.charAt(i) == '\n') {
          return length;
       }
       length += specs.fontSizePixels;

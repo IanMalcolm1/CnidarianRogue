@@ -39,6 +39,7 @@ add_executable(Roguelike
    src/GameLog.cpp
    src/GameOverUI.cpp
    src/GameText.cpp
+   src/GameTextMaker.cpp
    src/GameWindow.cpp
    src/GraphicsThings.cpp
    src/InputConfirmer.cpp

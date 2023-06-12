@@ -7,7 +7,7 @@
 #include <chrono>
 #include "GraphicsThings/MyColor.h"
 #include "GraphicsThings/ColorMap.h"
-#include "GraphicsThings/GameText.h"
+#include "GraphicsThings/GameTextMaker.h"
 
 class GameLog {
 private:
