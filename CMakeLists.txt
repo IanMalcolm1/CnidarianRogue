@@ -60,6 +60,7 @@ add_executable(Roguelike
    src/Randomizer.cpp
    src/Scene.cpp
    src/SceneUI.cpp
+   src/Scroller.cpp
    src/TerrainDescriber.cpp
    src/TerrainGenerator.cpp
    src/TerrainMap.cpp

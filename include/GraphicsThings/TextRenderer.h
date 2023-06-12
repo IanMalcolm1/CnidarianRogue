@@ -31,6 +31,8 @@ enum TextRenderingOptions {
 
 struct FormattedText {
    std::string text;
+   GameText gameText;
+   TextRenderingSpecs specs;
    int height;
 };
 
