@@ -11,9 +11,11 @@ Current:
 Slightly better generation
    - Generation for the three floors
    - First rectangles (abandoned complex or inhabited cult), second caves, third bossfight
-   - Power-up bushes and mushroom clusters in caves
-   - Reduced number of intelligence mushrooms, more powerful items on later floors, healing
-     items
+   - Power-up fruit bushes and mushroom clusters in caves
+
+Floor 1: Complete
+Floor 2: Pending
+Floor 3: Pending
 
 Next:
 Ability to choose name

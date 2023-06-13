@@ -92,6 +92,7 @@ void TerrainGenerator::floor1(Scene* scene) {
    }
 
    actorFactory->makeArmoredCultist(bosstile);
+   map->setTerrainAt(bosstile, stairsDown);
    map->setTerrainAt({bosstile.x+1, bosstile.y}, altar);
    map->setTerrainAt({bosstile.x-1, bosstile.y}, altar);
    map->setTerrainAt({bosstile.x, bosstile.y+1}, altar);
@@ -106,9 +107,6 @@ void TerrainGenerator::floor1(Scene* scene) {
       }
       spawnCultists(rooms[i]);
    }
-
-   int downStairsInd = randomizer.getRandomNumber(placeableTiles.size()-1);
-   map->setTerrainAt(placeableTiles[downStairsInd], stairsDown);
 }
 
 
