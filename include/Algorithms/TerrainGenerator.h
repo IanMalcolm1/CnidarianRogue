@@ -4,6 +4,13 @@
 #include "GraphicsThings/ColorPalette.h"
 
 
+struct GeneratorTile {
+   TerrainTile tile;
+   ColorPalette palette;
+
+   GeneratorTile(TerrainTile tile, ColorPalette palette) :
+   tile(tile), palette(palette) {};
+};
 
 class TerrainGenerator {
    typedef void (TerrainGenerator::*SpawningFunction)(std::vector<TileCoords>&);
@@ -23,13 +30,14 @@ private:
 
    void setSceneAndMap(Scene* scene);
 
-   void fillMap(TerrainTile& terrain, ColorPalette& palette);
-   void drawRectangle(SDL_Rect rect, TerrainTile& terrain, ColorPalette& palette);
-   void drawRightAngleLine(TileCoords start, TileCoords end, TerrainTile& terrain, ColorPalette& palette);
+   void fillMap(GeneratorTile& terrain);
+   void drawRectangle(SDL_Rect rect, GeneratorTile& terrain);
+   void drawRightAngleLine(TileCoords start, TileCoords end, GeneratorTile& terrain);
+   std::vector<TileCoords> carveDrunkard(GeneratorTile& terrain, int lifespan);
 
-   std::vector<SDL_Rect> makeRectangleRooms(int numRectangles, int maxSideLength, TerrainTile& terrain, ColorPalette& palette);
+   std::vector<SDL_Rect> makeRectangleRooms(int numRectangles, int maxSideLength, GeneratorTile& terrain);
 
-   void placePaletteTile(TileCoords location, TerrainTile& terrain, ColorPalette& palette);
+   void placeTerrain(TileCoords location, GeneratorTile& terrain);
 
    void makeRandomItemAt(TileCoords tile);
    void spawnCultists(SDL_Rect room);

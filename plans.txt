@@ -14,7 +14,7 @@ Slightly better generation
    - Power-up fruit bushes and mushroom clusters in caves
 
 Floor 1: Complete
-Floor 2: Pending
+Floor 2: In-Progress
 Floor 3: Pending
 
 Next:

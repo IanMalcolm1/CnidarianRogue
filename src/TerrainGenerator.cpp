@@ -8,6 +8,7 @@
 #include <functional>
 
 
+
 void TerrainGenerator::setSceneAndMap(Scene* scene) {
    this->scene = scene;
    map = scene->getMap();
@@ -38,14 +39,17 @@ void TerrainGenerator::floor1(Scene* scene) {
 	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN, white, black);
 	TileDisplay altarDisp = TileDisplay(ASYM_PYRAMID, MyColor(255,96,96), black);
 
-   TerrainTile wall = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
-   TerrainTile floor = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
+   TerrainTile wallTile = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
+   TerrainTile floorTile = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
    TerrainTile altar = TerrainTile(TERRAIN_NORMAL, altarNameId, altarDisp, false, false);
    TerrainTile stairsDown = TerrainTile(TERRAIN_DOWNSTAIRS, stairsNameId, stairsDownDisp, true, false);
 
+   GeneratorTile floor = GeneratorTile(floorTile, floorPalette);
+   GeneratorTile wall = GeneratorTile(wallTile, floorPalette);
 
-   fillMap(wall, floorPalette);
-   auto rooms = makeRectangleRooms(10, 20, floor, floorPalette);
+
+   fillMap(wall);
+   auto rooms = makeRectangleRooms(10, 20, floor);
 
    
    //player
@@ -115,10 +119,38 @@ void TerrainGenerator::floor2(Scene* scene) {
 
    ColorPalette caveFloorPalette;
    caveFloorPalette.addColor(145, 124, 89);
-   caveFloorPalette.addColor(130, 124, 116);
-   caveFloorPalette.addColor(158, 158, 158);
+   caveFloorPalette.addColor(131, 151, 129);
+   caveFloorPalette.addColor(172, 132, 70);
 
-   floor1(scene);
+   ColorPalette caveWallPalette;
+   caveWallPalette.addColor(84, 128, 77);
+   caveWallPalette.addColor( 115, 132, 113 );
+   caveWallPalette.addColor( 84, 110, 80 );
+
+   int wallNameId = map->addTerrainName("Cave Wall");
+   int floorNameId = map->addTerrainName("Ground");
+   int stairsNameId = map->addTerrainName("Stairs Down");
+
+   MyColor white = {255,255,255};
+   MyColor black = {0,0,0};
+	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG, white, black);
+	TileDisplay floorDisp = TileDisplay(ASYM_DOT, white, black);
+	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN, white, black);
+
+   TerrainTile wallTile = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
+   TerrainTile floorTile = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
+   TerrainTile stairsDown = TerrainTile(TERRAIN_DOWNSTAIRS, stairsNameId, stairsDownDisp, true, false);
+
+   GeneratorTile wall = GeneratorTile(wallTile, caveWallPalette);
+   GeneratorTile floor = GeneratorTile(floorTile, caveFloorPalette);
+
+   fillMap(wall);
+
+   auto rooms = makeRectangleRooms(10, 20, floor);
+   TileCoords playertile;
+   playertile.x = rooms[0].x+rooms[0].w/2;
+   playertile.y = rooms[0].y+rooms[0].h/2;
+   scene->setPlayerAt(playertile);
 }
 
 
@@ -128,7 +160,7 @@ void TerrainGenerator::floor3(Scene* scene) {
 }
 
 
-std::vector<SDL_Rect> TerrainGenerator::makeRectangleRooms(int numRectangles, int maxSideLength, TerrainTile& terrain, ColorPalette& palette) {
+std::vector<SDL_Rect> TerrainGenerator::makeRectangleRooms(int numRectangles, int maxSideLength, GeneratorTile& terrain) {
    std::vector<SDL_Rect> rooms;
    SDL_Rect rect;
 	TileCoords currCenter;
@@ -154,11 +186,11 @@ std::vector<SDL_Rect> TerrainGenerator::makeRectangleRooms(int numRectangles, in
          continue;
       }
 
-      drawRectangle(rect, terrain, palette);
+      drawRectangle(rect, terrain);
       rooms.push_back(rect);
 
 		if (prevCenter.x > -1) {
-         drawRightAngleLine(currCenter, prevCenter, terrain, palette);
+         drawRightAngleLine(currCenter, prevCenter, terrain);
 		}
 
       prevCenter = currCenter;
@@ -168,15 +200,20 @@ std::vector<SDL_Rect> TerrainGenerator::makeRectangleRooms(int numRectangles, in
 }
 
    
-void TerrainGenerator::drawRectangle(SDL_Rect rect, TerrainTile& terrain, ColorPalette& palette) {
+void TerrainGenerator::drawRectangle(SDL_Rect rect, GeneratorTile& terrain) {
    for (int x = rect.x; x < rect.x+rect.w; x++) {
       for (int y = rect.y; y < rect.y+rect.h; y++) {
-         placePaletteTile({x,y}, terrain, palette);
-         if (terrain.isTraversible) {
+         placeTerrain({x,y}, terrain);
+         if (terrain.tile.isTraversible) {
             placeableTiles.push_back({x,y});
          }
       }
    }
+}
+
+
+std::vector<TileCoords> TerrainGenerator::carveDrunkard(GeneratorTile& terrain, int lifespan) {
+   TileCoords drunkard;
 }
 
 
@@ -206,42 +243,42 @@ void TerrainGenerator::spawnCultists(SDL_Rect room) {
 }
 
 
-void TerrainGenerator::fillMap(TerrainTile& terrain, ColorPalette& palette) {
+void TerrainGenerator::fillMap(GeneratorTile& terrain) {
    for (int x = 0; x<mapWidth; x++) {
       for (int y = 0; y<mapHeight; y++) {
-         placePaletteTile({x,y}, terrain, palette);
+         placeTerrain({x,y}, terrain);
       }
    }
 }
 
-void TerrainGenerator::drawRightAngleLine(TileCoords start, TileCoords end, TerrainTile& terrain, ColorPalette& palette) {
+void TerrainGenerator::drawRightAngleLine(TileCoords start, TileCoords end, GeneratorTile& terrain) {
    int linex;
    if (start.x < end.x) {
       for (linex = start.x; linex <= end.x; linex++) {
-         placePaletteTile({linex,start.y}, terrain, palette);
+         placeTerrain({linex,start.y}, terrain);
       }
    }
    else {
       for (linex = start.x; linex >= end.x; linex--) {
-         placePaletteTile({linex,start.y}, terrain, palette);
+         placeTerrain({linex,start.y}, terrain);
       }
    }
 
    if (start.y < end.y) {
       for (int liney = start.y; liney <= end.y; liney++) {
-         placePaletteTile({linex,liney}, terrain, palette);
+         placeTerrain({linex,liney}, terrain);
       }
    }
    else {
       for (int liney = start.y; liney >= end.y; liney--) {
-         placePaletteTile({linex,liney}, terrain, palette);
+         placeTerrain({linex,liney}, terrain);
       }
    }
 }
 
-void TerrainGenerator::placePaletteTile(TileCoords location, TerrainTile& terrain, ColorPalette& palette) {
-   terrain.display.symbolColor = palette.getRandomColor(&randomizer);
-   map->setTerrainAt(location, terrain);
+void TerrainGenerator::placeTerrain(TileCoords location, GeneratorTile& terrain) {
+   terrain.tile.display.symbolColor = terrain.palette.getRandomColor(&randomizer);
+   map->setTerrainAt(location, terrain.tile);
 }
 
 
