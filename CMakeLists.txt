@@ -35,6 +35,7 @@ add_executable(Roguelike
    src/FoV.cpp
    src/FpsCounter.cpp
    src/FpsUI.cpp
+   src/Fraction.cpp
    src/Game.cpp
    src/GameLog.cpp
    src/GameOverUI.cpp

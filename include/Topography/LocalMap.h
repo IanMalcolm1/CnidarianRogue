@@ -78,6 +78,7 @@ public:
 	bool isInMapBounds(TileCoords location);
 	void setTerrainAt(int index, TerrainTile& terrain);
 	void setTerrainAt(TileCoords location, TerrainTile& terrain);
+   TerrainTile getTerrainAt(TileCoords location);
 	bool isTraversibleAt(int index);
 	bool isTraversibleAt(TileCoords location);
 	bool isPenetratableAt(TileCoords location);

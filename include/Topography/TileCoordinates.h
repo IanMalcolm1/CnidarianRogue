@@ -1,5 +1,6 @@
 #pragma once
 
+#include <unordered_set>
 
 struct TileCoords {
 	int x, y;
@@ -25,4 +26,12 @@ struct TileCoords {
 
       return false;
    }
+
+   struct HashFunction {
+      std::size_t operator()(const TileCoords& coord) const {
+         std::size_t xHash = std::hash<int>()(coord.x);
+         std::size_t yHash = std::hash<int>()(coord.y) << 1;
+         return xHash ^ yHash;
+      }
+   };
 };

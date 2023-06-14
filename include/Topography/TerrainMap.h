@@ -18,9 +18,18 @@ struct TerrainTile {
    bool isTraversible;
    bool isOpaque;
 
-   TerrainTile(TerrainType type, int nameId, TileDisplay display, bool traversible,
-   bool opaque) : type(type), display(display), isTraversible(traversible),
-   isOpaque(opaque), nameId(nameId) {};
+   TerrainTile(TerrainType type = TERRAIN_NORMAL, int nameId = -1,
+   TileDisplay display = TileDisplay(), bool traversible = false,
+   bool opaque = false) : type(type), display(display),
+   isTraversible(traversible), isOpaque(opaque), nameId(nameId) {};
+
+   bool operator == (const TerrainTile tile) const {
+      return (nameId==tile.nameId && type==tile.type && display.symbol==tile.display.symbol && isTraversible==tile.isTraversible && isOpaque==tile.isOpaque);
+   }
+
+   bool operator != (const TerrainTile tile) const {
+      return !((*this)==tile);
+   }
 };
 
 class TerrainMap {
@@ -45,6 +54,7 @@ public:
 	bool isOpaqueAtIndex(int index);
    TerrainType getTerrainTypeAtIndex(int index);
    std::string getNameAt(int index);
+   TerrainTile getTileAt(int index);
 
    int addName(std::string name) {
       return nameCatalogue.addName(name);

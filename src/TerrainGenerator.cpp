@@ -3,9 +3,13 @@
 #include "Algorithms/PathingSpecs.h"
 #include "Enums/AsciiSymbols.h"
 #include "GraphicsThings/ColorPalette.h"
+#include "Logs/DebugLogger.h"
 #include "SDL_rect.h"
 #include "Topography/TerrainMap.h"
+#include "Topography/TileCoordinates.h"
 #include <functional>
+#include <string>
+#include <unordered_set>
 
 
 
@@ -146,11 +150,10 @@ void TerrainGenerator::floor2(Scene* scene) {
 
    fillMap(wall);
 
-   auto rooms = makeRectangleRooms(10, 20, floor);
-   TileCoords playertile;
-   playertile.x = rooms[0].x+rooms[0].w/2;
-   playertile.y = rooms[0].y+rooms[0].h/2;
-   scene->setPlayerAt(playertile);
+   auto rooms = makeDrunkardRooms(floor, Fraction(2,5), 100);
+   rooms = cullRooms(rooms, wall);
+
+   scene->setPlayerAt(rooms[0][0]);
 }
 
 
@@ -212,8 +215,52 @@ void TerrainGenerator::drawRectangle(SDL_Rect rect, GeneratorTile& terrain) {
 }
 
 
-std::vector<TileCoords> TerrainGenerator::carveDrunkard(GeneratorTile& terrain, int lifespan) {
-   TileCoords drunkard;
+TileVector TerrainGenerator::carveDrunkard(GeneratorTile& terrain, TileCoords startTile, int lifespan) {
+   TileCoords drunkard = startTile;
+   placeTerrain(drunkard, terrain);
+   TileVector roomTiles;
+   roomTiles.push_back(drunkard);
+
+   for (int i=0; i<lifespan; i++) {
+      TileCoords prevTile = drunkard;
+
+      switch (randomizer.getRandomNumber(3)) {
+      case 0:
+         drunkard.x++;
+         break;
+      case 1:
+         drunkard.y++;
+         break;
+      case 2:
+         drunkard.x--;
+         break;
+      case 3:
+         drunkard.y--;
+         break;
+      }
+
+      if (drunkard.y < 1 || drunkard.y >= mapHeight-1 || drunkard.x < 1 || drunkard.x >= mapWidth-1) {
+         drunkard = prevTile;
+         continue;
+      }
+
+      placeTerrain(drunkard, terrain);
+      roomTiles.push_back(drunkard);
+   }
+
+   return roomTiles;
+}
+
+
+std::vector<TileVector> TerrainGenerator::makeDrunkardRooms(GeneratorTile& terrain, Fraction fraction, int drunkLifespan) {
+   std::vector<TileVector> rooms;
+   int spaceDesired = fraction.multiplyInt(mapWidth*mapHeight);
+
+   while(calcSize(rooms) < spaceDesired) {
+      rooms.push_back(carveDrunkard(terrain, makeRandomTile(10), 100));
+   }
+
+   return rooms;
 }
 
 
@@ -305,11 +352,110 @@ void TerrainGenerator::makeRandomItemAt(TileCoords tile) {
 }
 
 
-int TerrainGenerator::distanceBetween(TileCoords tile1, TileCoords tile2) {
+int TerrainGenerator::distanceBetween(TileCoords start, TileCoords end) {
    PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
-   specs.start = tile1;
-   specs.end = tile2;
+   specs.start = start;
+   specs.end = end;
    Pathfinding::calcPath(specs, map, distanceTester);
 
    return distanceTester.length();
+}
+
+bool TerrainGenerator::thereIsAPathBetween(TileCoords start, TileCoords end) {
+   if (start==end) {
+      return true;
+   }
+
+   PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
+   specs.start = start;
+   specs.end = end;
+   Pathfinding::calcPath(specs, map, distanceTester);
+
+   return distanceTester.length() > 0;
+}
+
+
+TileCoords TerrainGenerator::makeRandomTile(int margin) {
+   return TileCoords(randomizer.getRandomNumber(margin, mapWidth-1-margin), randomizer.getRandomNumber(margin, mapHeight-1-margin));
+}
+
+
+std::vector<TileVector> TerrainGenerator::cullRooms(std::vector<TileVector>& rooms, GeneratorTile& fillTerrain) {
+   std::vector<std::vector<TileVector>> roomGroups;
+   std::vector<int> visitedRooms;
+   int index;
+
+   for (int i=0; i<rooms.size(); i++) {
+      //if index is in visited rooms, skip it
+      if (std::find(visitedRooms.begin(), visitedRooms.end(), i) != visitedRooms.end()) {
+         continue;
+      }
+
+      visitedRooms.push_back(i); //unnecesssary?
+
+      std::vector<TileVector> roomGroup;
+      roomGroup.push_back(rooms[i]);
+      roomGroups.push_back(roomGroup);
+
+      int j=i+1;
+      for (; j<rooms.size(); j++) {
+         if (std::find(visitedRooms.begin(), visitedRooms.end(), j) != visitedRooms.end()) {
+            continue;
+         }
+
+         if (thereIsAPathBetween(rooms[i][0], rooms[j][0])) {
+            roomGroups.back().push_back(rooms[j]);
+            visitedRooms.push_back(j);
+         }
+      }
+   }
+
+   int largestGroup = 0;
+   int largestGroupSize = calcSize(roomGroups[0]);
+
+   for (int i=1; i<roomGroups.size(); i++) {
+      int iSize = calcSize(roomGroups[i]);
+      if (iSize > largestGroupSize) {
+         largestGroup = i;
+         largestGroupSize = iSize;
+      }
+   }
+
+   for (int i=0; i<roomGroups.size(); i++) {
+      if (i==largestGroup) {
+         continue;
+      }
+      fillRooms(roomGroups[i], fillTerrain);
+   }
+
+   return roomGroups[largestGroup];
+}
+
+int TerrainGenerator::calcSize(std::vector<TileVector>& rooms) {
+   std::unordered_set<TileCoords, TileCoords::HashFunction> visitedTiles;
+   int size = 0;
+
+   for (auto room : rooms) {
+      for (auto tile : room) {
+         if (visitedTiles.find(tile)==visitedTiles.end()) {
+            visitedTiles.insert(tile);
+            size++;
+         }
+      }
+   }
+
+   return size;
+}
+
+
+void TerrainGenerator::fillRooms(std::vector<TileVector>& rooms, GeneratorTile& terrain) {
+   for (auto room : rooms) {
+      fillRoom(room, terrain);
+   }
+}
+
+void TerrainGenerator::fillRoom(TileVector& room, GeneratorTile& terrain) {
+   for (auto tile : room) {
+      placeTerrain(tile, terrain);
+   }
 }

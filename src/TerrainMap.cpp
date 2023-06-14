@@ -16,3 +16,6 @@ TerrainType TerrainMap::getTerrainTypeAtIndex(int index) { return types[index]; 
 std::string TerrainMap::getNameAt(int index) {
    return nameCatalogue.getName(nameIndices[index]);
 }
+TerrainTile TerrainMap::getTileAt(int i) {
+   return TerrainTile(types[i], nameIndices[i], displays[i], traversibilities[i], opacities[i]);
+}

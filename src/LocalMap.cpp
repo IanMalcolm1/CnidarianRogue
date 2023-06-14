@@ -262,6 +262,14 @@ void LocalMap::setTerrainAt(TileCoords location, TerrainTile& terrain) {
    setTerrainAt(coordsToTileIndex(location), terrain);
 }
 
+TerrainTile LocalMap::getTerrainAt(TileCoords location) {
+   if (!isInMapBounds(location)) {
+      DebugLogger::log("getTerrainAt() coordinates out of bounds");
+      return TerrainTile();
+   }
+   return terrainMap.getTileAt(coordsToTileIndex(location));
+}
+
 bool LocalMap::isTraversibleAt(int index) {
    return (terrainMap.isTraversibleAtIndex(index) && actors[index]==nullptr);
 }
