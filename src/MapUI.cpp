@@ -214,7 +214,7 @@ void MapUI::renderTile(int index, SDL_Rect dstrect) {
 	//remembered but not visible tiles are faded
 	if (!mapDisplay->isVisible(index)) {
 		SDLHelper::fillRect(renderer, spritesheet, dstrect, { 0,0,0 });
-		SDL_SetTextureAlphaMod(spritesheet, 64);
+		SDL_SetTextureAlphaMod(spritesheet, 128);
 	}
 	else {
 		SDL_SetTextureAlphaMod(spritesheet, 255);
