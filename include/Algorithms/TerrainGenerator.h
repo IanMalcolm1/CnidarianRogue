@@ -2,6 +2,7 @@
 
 #include "Adventure/Scene/Scene.h"
 #include "Algorithms/Fraction.h"
+#include "GraphicsThings/ColorMap.h"
 #include "GraphicsThings/ColorPalette.h"
 #include "Topography/TileCoordinates.h"
 
@@ -34,11 +35,15 @@ private:
 
    TileVector placeableTiles;
 
+   ColorMap colorMap;
+
    void setSceneAndMap(Scene* scene);
 
    void fillMap(GeneratorTile& terrain);
    void fillRooms(std::vector<TileVector>& rooms, GeneratorTile& terrain);
    void fillRoom(TileVector& room, GeneratorTile& terrain);
+
+   void populatePlaceableTiles(std::vector<TileVector>& rooms);
 
    void drawRectangle(SDL_Rect rect, GeneratorTile& terrain);
    void drawRightAngleLine(TileCoords start, TileCoords end, GeneratorTile& terrain);
@@ -49,7 +54,6 @@ private:
 
    void placeTerrain(TileCoords location, GeneratorTile& terrain);
 
-   void makeRandomItemAt(TileCoords tile);
    void spawnCultists(SDL_Rect room);
 
    //only keep largest group of rooms that all connect. Fill in reset
@@ -58,7 +62,7 @@ private:
    //accounts for tiles that may be shared between rooms
    int calcSize(std::vector<TileVector>& rooms);
 
-   TileCoords makeRandomTile(int margin = 1);
+   TileCoords getRandomTile(int margin = 1);
 
    bool thereIsAPathBetween(TileCoords start, TileCoords end);
    int distanceBetween(TileCoords start, TileCoords end);

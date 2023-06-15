@@ -36,12 +36,10 @@ void TerrainGenerator::floor1(Scene* scene) {
    int stairsNameId = map->addTerrainName("Stairs Down");
    int altarNameId = map->addTerrainName("Sacrificial Altar");
 
-   MyColor white = {255,255,255};
-   MyColor black = {0,0,0};
-	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG, white, black);
-	TileDisplay floorDisp = TileDisplay(ASYM_DOT, white, black);
-	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN, white, black);
-	TileDisplay altarDisp = TileDisplay(ASYM_PYRAMID, MyColor(255,96,96), black);
+	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG);
+	TileDisplay floorDisp = TileDisplay(ASYM_DOT);
+	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN);
+	TileDisplay altarDisp = TileDisplay(ASYM_PYRAMID, MyColor(255,96,96));
 
    TerrainTile wallTile = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
    TerrainTile floorTile = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
@@ -128,30 +126,52 @@ void TerrainGenerator::floor2(Scene* scene) {
 
    ColorPalette caveWallPalette;
    caveWallPalette.addColor(84, 128, 77);
-   caveWallPalette.addColor( 115, 132, 113 );
-   caveWallPalette.addColor( 84, 110, 80 );
+   caveWallPalette.addColor(115, 132, 113);
+   caveWallPalette.addColor(84, 110, 80);
+
+   ColorPalette mushroomPalette;
+   mushroomPalette.addColor(177, 150, 196);
+   mushroomPalette.addColor(182, 164, 195);
 
    int wallNameId = map->addTerrainName("Cave Wall");
    int floorNameId = map->addTerrainName("Ground");
    int stairsNameId = map->addTerrainName("Stairs Down");
+   int mushroomNameId = map->addTerrainName("Mushroom Patch");
+   int bushNameId = map->addTerrainName("Cave Bush");
 
-   MyColor white = {255,255,255};
-   MyColor black = {0,0,0};
-	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG, white, black);
-	TileDisplay floorDisp = TileDisplay(ASYM_DOT, white, black);
-	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN, white, black);
+	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG);
+	TileDisplay floorDisp = TileDisplay(ASYM_DOT);
+	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN);
+	TileDisplay mushroomDisp = TileDisplay(ASYM_SPARSE_DOTS);
+	TileDisplay bushDisp = TileDisplay(ASYM_AE, MyColor(226, 166, 55));
 
    TerrainTile wallTile = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
    TerrainTile floorTile = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
    TerrainTile stairsDown = TerrainTile(TERRAIN_DOWNSTAIRS, stairsNameId, stairsDownDisp, true, false);
+   TerrainTile mushroomTile = TerrainTile(TERRAIN_NORMAL, mushroomNameId, mushroomDisp, true, false);
+   TerrainTile bush = TerrainTile(TERRAIN_NORMAL, bushNameId, bushDisp, true, false);
 
    GeneratorTile wall = GeneratorTile(wallTile, caveWallPalette);
    GeneratorTile floor = GeneratorTile(floorTile, caveFloorPalette);
+   GeneratorTile mushrooms = GeneratorTile(mushroomTile, mushroomPalette);
 
    fillMap(wall);
 
    auto rooms = makeDrunkardRooms(floor, Fraction(2,5), 100);
    rooms = cullRooms(rooms, wall);
+   populatePlaceableTiles(rooms);
+
+   for (int i=0; i<2; i++) {
+      TileCoords loc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
+      map->setTerrainAt(loc, bush);
+      itemFactory->makeStrengthFruit(loc);
+   }
+
+   for (int i=0; i<2; i++) {
+      TileCoords loc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
+      itemFactory->makeIntelligenceMushroom(loc);
+      carveDrunkard(mushrooms, loc, 2);
+   }
 
    scene->setPlayerAt(rooms[0][0]);
 }
@@ -257,7 +277,7 @@ std::vector<TileVector> TerrainGenerator::makeDrunkardRooms(GeneratorTile& terra
    int spaceDesired = fraction.multiplyInt(mapWidth*mapHeight);
 
    while(calcSize(rooms) < spaceDesired) {
-      rooms.push_back(carveDrunkard(terrain, makeRandomTile(10), 100));
+      rooms.push_back(carveDrunkard(terrain, getRandomTile(10), 100));
    }
 
    return rooms;
@@ -298,6 +318,15 @@ void TerrainGenerator::fillMap(GeneratorTile& terrain) {
    }
 }
 
+void TerrainGenerator::populatePlaceableTiles(std::vector<TileVector>& rooms) {
+   for (auto room : rooms) {
+      for (auto tile : room) {
+         placeableTiles.push_back(tile);
+      }
+   }
+}
+
+
 void TerrainGenerator::drawRightAngleLine(TileCoords start, TileCoords end, GeneratorTile& terrain) {
    int linex;
    if (start.x < end.x) {
@@ -329,29 +358,6 @@ void TerrainGenerator::placeTerrain(TileCoords location, GeneratorTile& terrain)
 }
 
 
-void TerrainGenerator::makeRandomItemAt(TileCoords tile) {
-   switch (randomizer.getRandomNumber(5)) {
-      case 0:
-         itemFactory->makeIntelligenceMushroom(tile);
-         break;
-      case 1:
-         itemFactory->makeStrengthFruit(tile);
-         break;
-      case 2:
-         itemFactory->makeBasicSword(tile);
-         break;
-      case 3:
-         itemFactory->makeForceWand(tile);
-         break;
-      case 4:
-         itemFactory->makeGambeson(tile);
-         break;
-      default:
-         break;
-   }
-}
-
-
 int TerrainGenerator::distanceBetween(TileCoords start, TileCoords end) {
    PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
    specs.start = start;
@@ -375,7 +381,7 @@ bool TerrainGenerator::thereIsAPathBetween(TileCoords start, TileCoords end) {
 }
 
 
-TileCoords TerrainGenerator::makeRandomTile(int margin) {
+TileCoords TerrainGenerator::getRandomTile(int margin) {
    return TileCoords(randomizer.getRandomNumber(margin, mapWidth-1-margin), randomizer.getRandomNumber(margin, mapHeight-1-margin));
 }
 
