@@ -287,6 +287,7 @@ std::vector<TileVector> TerrainGenerator::makeDrunkardRooms(GeneratorTile& terra
 void TerrainGenerator::spawnCultists(SDL_Rect room) {
    int numWarriors = randomizer.getRandomNumber(2);
    int numPreachers = randomizer.getRandomNumber(1);
+   int numDogs = randomizer.getRandomNumber(1);
 
    for (int i=0; i<numWarriors; i++) {
       TileCoords tile;
@@ -306,6 +307,16 @@ void TerrainGenerator::spawnCultists(SDL_Rect room) {
       } while (!map->isTraversibleAt(tile));
 
       actorFactory->makeWandCultist(tile);
+   }
+
+   for (int i=0; i<numWarriors; i++) {
+      TileCoords tile;
+      do {
+         tile.x = room.x + randomizer.getRandomNumber(room.w-1);
+         tile.y = room.y + randomizer.getRandomNumber(room.h-1);
+      } while (!map->isTraversibleAt(tile));
+
+      actorFactory->makeBadDog(tile);
    }
 }
 

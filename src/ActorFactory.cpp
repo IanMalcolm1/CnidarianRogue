@@ -106,3 +106,30 @@ ActorEntity* ActorFactory::makeWandCultist(TileCoords location) {
    registerActor(cultist);
    return cultist;
 }
+
+
+ActorEntity* ActorFactory::makeBadDog(TileCoords location) {
+   ActorEntity* cultist = actorColiseum->makeEntity();
+   ActorStatBlock* cultistStats = &cultist->stats;
+
+   cultistStats->maxHealth = 5 + randomizer.getRandomNumber(3);
+   cultistStats->health = cultistStats->maxHealth;
+   cultistStats->speed = FULL_TURN_TIME - FULL_TURN_TIME/4;
+
+   cultist->description.name = "Hound";
+   cultist->description.desc = "A bad dog.";
+
+   cultist->display.symbol = ASYM_LOWER_D;
+   cultist->display.symbolColor = colorMap.getColor("brown");
+
+   cultist->location = location;
+
+   cultist->faction = FACTION_BAD;
+
+   cultist->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_FANGS));
+
+   cultist->aiType = AITYPE_MELEE;
+   
+   registerActor(cultist);
+   return cultist;
+}

@@ -11,6 +11,7 @@
 enum NaturalWeaponType {
    NATWEAP_FIST,
    NATWEAP_POISON_FANGS,
+   NATWEAP_FANGS,
    NATWEAP_FORCE_CANTRIP,
    NUM_NATURALWEAPONS
 };
@@ -32,6 +33,7 @@ private:
    //Natural weapons
    ItemEntity* makeFists();
    ItemEntity* makePoisonFangs();
+   ItemEntity* makeFangs();
    ItemEntity* makeForceCantrip();
 
 public:

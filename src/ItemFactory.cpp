@@ -192,6 +192,10 @@ ItemEntity* ItemFactory::getNaturalWeapon(NaturalWeaponType type) {
          naturalWeapons[NATWEAP_POISON_FANGS] = makePoisonFangs();
          return naturalWeapons[NATWEAP_POISON_FANGS];
 
+      case NATWEAP_FANGS:
+         naturalWeapons[NATWEAP_FANGS] = makeFangs();
+         return naturalWeapons[NATWEAP_FANGS];
+
       case NATWEAP_FORCE_CANTRIP:
          naturalWeapons[NATWEAP_FORCE_CANTRIP] = makeForceCantrip();
          return naturalWeapons[NATWEAP_FORCE_CANTRIP];
@@ -222,7 +226,7 @@ ItemEntity* ItemFactory::makePoisonFangs() {
    ItemEntity* fangs = coliseum->makeEntity();
 
    fangs->description.name = "</green:Poisonous Fangs\\>";
-   fangs->description.desc = "They look pretty nasty.";
+   fangs->description.desc = "They drip poison.";
 
    fangs->display.symbol = ASYM_FAT_ARROW_DOWN;
    fangs->display.symbolColor = colorMap.getColor("green");
@@ -232,6 +236,23 @@ ItemEntity* ItemFactory::makePoisonFangs() {
 
    EffectComp poisonComp = EffectComp(EffectComp(effectFactory.makePoison(1)));
    fangs->addComponent(poisonComp, COMPONENT_EFFECT);
+
+   fangs->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
+   return fangs;
+}
+
+ItemEntity* ItemFactory::makeFangs() {
+   ItemEntity* fangs = coliseum->makeEntity();
+
+   fangs->description.name = "</grey:Fangs\\>";
+   fangs->description.desc = "They look pretty nasty.";
+
+   fangs->display.symbol = ASYM_FAT_ARROW_DOWN;
+   fangs->display.symbolColor = colorMap.getColor("grey");
+   
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 3, 1, 0));
+   fangs->addComponent(damage, COMPONENT_DAMAGING);
 
    fangs->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
 

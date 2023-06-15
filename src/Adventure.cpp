@@ -16,7 +16,7 @@ void Adventure::initialize() {
 
    if (sceneIndex == 0) {
       playerMan.armPlayer();
-      terrainGenerator.floor2(scene);
+      terrainGenerator.floor1(scene);
    }
    if (sceneIndex == 1) {
       terrainGenerator.floor2(scene);
