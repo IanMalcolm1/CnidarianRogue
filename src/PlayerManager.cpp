@@ -2,6 +2,7 @@
 #include "Adventure/Scene/ActorManager.h"
 #include "Algorithms/PathfindingRoute.h"
 #include "Algorithms/PathingSpecs.h"
+#include "Entities/Abilities/AbilityFactory.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/TurnQueue.h"
 #include "Entities/Actors/ActorUtils.h"
@@ -15,14 +16,14 @@
 #include "Topography/TileCoordinates.h"
 
 PlayerManager::PlayerManager(GameLog* gameLog) :
-   turnQueue(nullptr), player(nullptr), map(nullptr),
+   actorMan(nullptr), player(nullptr), map(nullptr),
    inputState(PLAYER_INPUT_MOVE), autoActing(false), 
    gameLog(gameLog) {
 
       playerArena = malloc(sizeof(ActorEntity) + 64);
       player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64, true);
 
-      player->stats.maxHealth = 150;
+      player->stats.maxHealth = 18;
       player->stats.health = player->stats.maxHealth;
 
       player->description.name = "Tamren";
@@ -34,6 +35,8 @@ PlayerManager::PlayerManager(GameLog* gameLog) :
       player->faction = FACTION_GOOD;
 
       player->stats.speed = FULL_TURN_TIME;
+
+      player->ability = AbilityFactory::makeHealAbility(7);
    }
 
 PlayerManager::~PlayerManager() {
@@ -59,13 +62,13 @@ bool PlayerManager::processDirectionalCommand(PlayerCommand direction) {
    if (inputState == PLAYER_INPUT_MOVE) {
       if (map->thereIsAnActorAt(newCoords) && player->isHostileTo(map->getActorAt(newCoords))) {
          actorUtils->doMeleeAttack(player, map->getActorAt(newCoords));
-         turnQueue->insertActor(player, player->stats.speed);
+         actorMan->addActorToTurnQueue(player, player->stats.speed);
          return true;
       }
 
       else if (map->isTraversibleAt(newCoords) && !map->thereIsAnActorAt(newCoords)) {
          map->setPlayerLocation(player, newCoords);
-         turnQueue->insertActor(player, player->stats.speed);
+         actorMan->addActorToTurnQueue(player, player->stats.speed);
          return true;
       }
       return false;
@@ -206,7 +209,7 @@ bool PlayerManager::doAutoMovement() {
    if (map->isTraversibleAt(newTile)) {
       map->setPlayerLocation(player, newTile);
       autoMoveRoute.incrementProgress();
-      turnQueue->insertActor(player, player->stats.speed);
+      actorMan->addActorToTurnQueue(player, player->stats.speed);
       return true;
    }
    else {
@@ -228,13 +231,21 @@ bool PlayerManager::pickUpItem() {
 
    actorUtils->doItemPickup(itemsInTile->at(0), player);
 
-   turnQueue->insertActor(player, player->stats.speed);
+   actorMan->addActorToTurnQueue(player, player->stats.speed);
 
    return true;
 }
 
 void PlayerManager::waitTurn() {
-   turnQueue->insertActor(player, player->stats.speed);
+   actorMan->addActorToTurnQueue(player, player->stats.speed);
+}
+
+bool PlayerManager::doAbility() {
+   bool doTurn = abilityMan->doAbility(player->ability, player);
+   if (doTurn) {
+      actorMan->addActorToTurnQueue(player, player->stats.speed);
+   }
+   return doTurn;
 }
 
 bool PlayerManager::attemptLevelChange() {
@@ -249,7 +260,7 @@ bool PlayerManager::processConfirm() {
    if (inputState == PLAYER_INPUT_SELECT) {
       PathingRoute line = map->getHighlightedPath();
       actorUtils->attackAlongRoute(player, player->inventory.getMagicWeapon(), line);
-      turnQueue->insertActor(player, player->stats.speed);
+      actorMan->addActorToTurnQueue(player, player->stats.speed);
       return true;
    }
 
@@ -257,14 +268,14 @@ bool PlayerManager::processConfirm() {
 }
 
 
-void PlayerManager::setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory, ActorUtils* actorUtils) {
-   turnQueue = queue;
+void PlayerManager::setSceneDependencies(ActorManager* actorMan, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory, ActorUtils* actorUtils, AbilityManager* abilityMan) {
+   this->actorMan = actorMan;
    map = localMap;
    effectMan = effectManager;
    itemMan = itemManager;
    this->itemFactory = itemFactory;
    this->actorUtils = actorUtils;
-
+   this->abilityMan = abilityMan;
 }
 
 void PlayerManager::armPlayer() {

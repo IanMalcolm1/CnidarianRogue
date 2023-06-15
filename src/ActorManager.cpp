@@ -1,4 +1,5 @@
 #include "Adventure/Scene/ActorManager.h"
+#include "Entities/Abilities/Ability.h"
 #include "Entities/Actors/AI.h"
 #include "Algorithms/FoV.h"
 #include "Algorithms/Pathfinding.h"
@@ -63,6 +64,10 @@ void ActorManager::moveActor(ActorEntity* actor, TileCoords newLocation) {
 
 
 void ActorManager::addActorToTurnQueue(ActorEntity* actor, int turnTime) {
+   if (actor->ability.type != ABILITY_NONE) {
+      actor->ability.currentCooldown = std::max(0, actor->ability.currentCooldown - turnTime);
+   }
+
    turnQueue->insertActor(actor, turnTime);
 }
 

@@ -2,6 +2,7 @@
 
 #include "Adventure/Scene/AIRunner.h"
 #include "Adventure/Scene/EffectManager.h"
+#include "Entities/Abilities/AbilityManager.h"
 #include "Entities/Actors/ActorFactory.h"
 #include "Entities/Actors/ActorUtils.h"
 #include "Entities/Items/ItemFactory.h"
@@ -29,6 +30,8 @@ private:
 
    EffectManager effectManager;
 
+   AbilityManager abilityManager;
+
 	PathingRoute pathToMouseTile;
 
    PlayerManager* playerManager;
@@ -49,6 +52,8 @@ public:
    EffectManager* getEffectManager();
    EffectDescriber* getEffectDescriber();
    ActorUtils* getActorUtils();
+   AbilityManager* getAbilityManager();
+   ActorManager* getActorManager();
 
    void runTurn();
 	void updateMapDisplay();

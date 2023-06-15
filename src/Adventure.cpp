@@ -81,6 +81,10 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
       }
    }
 
+   else if (command == PC_USE_ABILITY) {
+      needToRunTurn = playerMan.doAbility();
+   }
+
    else if (command == PC_CONFIRM) {
       needToRunTurn = playerMan.processConfirm();
    }
@@ -126,5 +130,5 @@ void Adventure::newScene() {
 }
 
 void Adventure::linkPlayerAndScene() {
-   playerMan.setSceneDependencies(scene->getTurnQueue(), scene->getMap(), scene->getEffectManager(), scene->getItemManager(), scene->getItemFactory(), scene->getActorUtils());
+   playerMan.setSceneDependencies(scene->getActorManager(), scene->getMap(), scene->getEffectManager(), scene->getItemManager(), scene->getItemFactory(), scene->getActorUtils(), scene->getAbilityManager());
 }

@@ -9,8 +9,8 @@ private:
    
 
 public:
-   Effect makePoison(int strength);
-   Effect makeStrengthen(int strength);
-   Effect makeEnlighten(int strength);
-   Effect makeHeal(int health);
+   static Effect makePoison(int strength);
+   static Effect makeStrengthen(int strength);
+   static Effect makeEnlighten(int strength);
+   static Effect makeHeal(int health);
 };

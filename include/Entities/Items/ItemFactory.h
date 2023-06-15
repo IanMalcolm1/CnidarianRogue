@@ -5,7 +5,6 @@
 #include "Topography/LocalMap.h"
 #include "GraphicsThings/ColorLibrary.h"
 #include "Topography/TileCoordinates.h"
-#include "Entities/Effects/EffectFactory.h"
 
 
 enum NaturalWeaponType {
@@ -26,8 +25,6 @@ private:
 
    ItemEntity* naturalWeapons[NUM_NATURALWEAPONS];
    
-   EffectFactory effectFactory;
-
    void registerItem(ItemEntity* item, TileCoords location);
 
    //Natural weapons

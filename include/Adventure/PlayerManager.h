@@ -2,6 +2,7 @@
 
 #include "Adventure/Scene/ActorManager.h"
 #include "Adventure/Scene/EffectManager.h"
+#include "Entities/Abilities/AbilityManager.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/ItemManager.h"
 #include "Entities/Actors/ActorUtils.h"
@@ -29,11 +30,12 @@ private:
 	PlayerInputState inputState;
 
 	LocalMap* map;
-   TurnQueue* turnQueue;
+   ActorManager* actorMan;
    EffectManager* effectMan;
    ItemManager* itemMan;
    ItemFactory* itemFactory;
    ActorUtils* actorUtils;
+   AbilityManager* abilityMan;
 
    GameLog* gameLog;
 
@@ -67,8 +69,9 @@ public:
 
    bool pickUpItem();
    void waitTurn();
+   bool doAbility();
    bool attemptLevelChange();
    bool processConfirm();
 
-   void setSceneDependencies(TurnQueue* queue, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory, ActorUtils* actorUtils);
+   void setSceneDependencies(ActorManager* actorMan, LocalMap* localMap, EffectManager* effectManager, ItemManager* itemManager, ItemFactory* itemFactory, ActorUtils* actorUtils, AbilityManager* abilityMan);
 };

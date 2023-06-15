@@ -2,6 +2,7 @@
 #include "Entities/Actors/ActorStatBlock.h"
 #include "Entities/Components.h"
 #include "Entities/Damage.h"
+#include "Entities/Effects/EffectFactory.h"
 #include "Entities/Items/ItemEntity.h"
 #include "Enums/AsciiSymbols.h"
 #include "Enums/TurnTime.h"
@@ -145,7 +146,7 @@ ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
    mush->display.symbol = ASYM_UFO;
    mush->display.symbolColor = colorMap.getColor("lavender");
 
-   EffectComp effectComp = EffectComp(effectFactory.makeEnlighten(1));
+   EffectComp effectComp = EffectComp(EffectFactory::makeEnlighten(1));
    mush->addComponent(effectComp, COMPONENT_EFFECT);
 
    ConsumableComp consumableComp = ConsumableComp(1);
@@ -164,7 +165,7 @@ ItemEntity* ItemFactory::makeStrengthFruit(TileCoords location) {
    fruit->display.symbol = ASYM_UFO;
    fruit->display.symbolColor = colorMap.getColor("orange");
 
-   EffectComp effectComp = EffectComp(effectFactory.makeStrengthen(1));
+   EffectComp effectComp = EffectComp(EffectFactory::makeStrengthen(1));
    fruit->addComponent(effectComp , COMPONENT_EFFECT);
 
    ConsumableComp consumableComp = ConsumableComp(1);
@@ -234,7 +235,7 @@ ItemEntity* ItemFactory::makePoisonFangs() {
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 0, 1));
    fangs->addComponent(damage, COMPONENT_DAMAGING);
 
-   EffectComp poisonComp = EffectComp(EffectComp(effectFactory.makePoison(1)));
+   EffectComp poisonComp = EffectComp(EffectComp(EffectFactory::makePoison(1)));
    fangs->addComponent(poisonComp, COMPONENT_EFFECT);
 
    fangs->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
@@ -253,9 +254,6 @@ ItemEntity* ItemFactory::makeFangs() {
    
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 3, 1, 0));
    fangs->addComponent(damage, COMPONENT_DAMAGING);
-
-   EffectComp healComp = EffectComp(EffectComp(effectFactory.makeHeal(10)));
-   fangs->addComponent(healComp, COMPONENT_EFFECT);
 
    fangs->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
 

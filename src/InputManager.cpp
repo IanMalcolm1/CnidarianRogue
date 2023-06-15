@@ -22,8 +22,7 @@ gameWindow(window), adventure(adventure) {
 
 	keyMappings.insert({ SDLK_COMMA, PC_PICKUP });
 	keyMappings.insert({ SDLK_PERIOD, PC_WAIT });
-
-	keyMappings.insert({ SDLK_PERIOD, PC_WAIT });
+	keyMappings.insert({ SDLK_f, PC_USE_ABILITY });
 
 	keyMappings.insert({ SDLK_l, PC_TOGGLE_LOOK });
    keyMappings.insert({ SDLK_t, PC_TOGGLE_SELECT });

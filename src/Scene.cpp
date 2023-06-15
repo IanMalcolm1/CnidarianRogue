@@ -9,6 +9,7 @@ void Scene::initialize(EffectDescriber* effectDescriber) {
    actorManager.initialize(&turnQueue, &map, gameLog, &itemManager);
    actorManager.initializeFactory(&actorFactory, &itemFactory);
    effectManager.initialize(effectDescriber, &actorManager, &turnQueue);
+   abilityManager.initialize(gameLog, &effectManager, &turnQueue);
    actorUtils.initialize(&actorManager, &itemManager, &effectManager, &map);
    aiRunner.initialize(&map, &actorManager, &actorUtils);
 }
@@ -20,6 +21,8 @@ TurnQueue* Scene::getTurnQueue() { return &turnQueue; }
 ItemManager* Scene::getItemManager() { return &itemManager; }
 EffectManager* Scene::getEffectManager() { return &effectManager; }
 ActorUtils* Scene::getActorUtils() { return &actorUtils; }
+AbilityManager* Scene::getAbilityManager() { return &abilityManager; }
+ActorManager* Scene::getActorManager() { return &actorManager; }
 
 
 void Scene::runTurn() {

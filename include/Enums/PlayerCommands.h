@@ -25,6 +25,7 @@ enum PlayerCommand {
 	PC_THROW, //To begin throw dialogue
 	PC_TOGGLE_LOOK, //To begin/end looking around
    PC_TOGGLE_SELECT,
+   PC_USE_ABILITY,
    PC_CHANGE_LEVEL,
    PC_CONFIRM,
 

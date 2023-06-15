@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Entities/Abilities/Ability.h"
 #include "Entities/Actors/AI.h"
 #include "Entities/Actors/Inventory.h"
 #include "Entities/Components.h"
@@ -38,6 +39,7 @@ public:
 	TileCoords location;
    Description description;
    Faction faction;
+   Ability ability;
 
 
 	ActorEntity(int id, int bytesUsed, int totalSpace, bool player = false)
