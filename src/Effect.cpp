@@ -27,6 +27,10 @@ std::string StatModEffectInfo::getDescription() {
    return desc;
 }
 
+std::string HealEffectInfo::getDescription() {
+   return "Restores "+std::to_string(health)+" health";
+}
+
 
 std::string TimedEffectInfo::getDescription() {
    return "for " + std::to_string(duration/FULL_TURN_TIME) + " turn(s)";

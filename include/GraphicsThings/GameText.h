@@ -1,17 +1,17 @@
 #pragma once
 
-#include "GraphicsThings/MyColor.h"
+#include "GraphicsThings/Color.h"
 #include <vector>
 #include <string>
 #include <cstdint>
 
 
 struct TextColorNode {
-	MyColor color;
+	Color color;
 	uint16_t endIndex;
 
 	TextColorNode() : color({ 0,0,0 }), endIndex(0) {};
-	TextColorNode(MyColor color, uint16_t endIndex) : color(color), endIndex(endIndex) {};
+	TextColorNode(Color color, uint16_t endIndex) : color(color), endIndex(endIndex) {};
 };
 
 class TextColorMap {
@@ -19,8 +19,8 @@ private:
 	std::vector<TextColorNode> nodes;
 
 public:
-   void addColorNode(MyColor color, int endIndex);
-	MyColor getColorAtIndex(int index);
+   void addColorNode(Color color, int endIndex);
+	Color getColorAtIndex(int index);
    bool empty();
    int lastIndex();
 };
@@ -36,7 +36,7 @@ public:
 	GameText(std::string text, TextColorMap colorMap) : text(text),
 	colorMap(colorMap) {};
 
-	MyColor getColorAtIndex(int index);
+	Color getColorAtIndex(int index);
 	std::string getText();
    TextColorMap getColorMap();
 };
@@ -56,5 +56,5 @@ public:
    int textSize();
    uint8_t charAt(int index);
    int getHeight();
-	MyColor getColorAtIndex(int index);
+	Color getColorAtIndex(int index);
 };

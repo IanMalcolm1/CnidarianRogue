@@ -6,8 +6,8 @@
 GameText GameTextMaker::makeGameText(std::string rawText) {
 	TextColorMap textColorMap;
 
-	std::stack<MyColor> colorStack;
-	colorStack.push(MyColor(255, 255, 255));
+	std::stack<Color> colorStack;
+	colorStack.push(Color(255, 255, 255));
 
 	std::string newText;
 	int newTextIndex = -1;
@@ -64,8 +64,8 @@ int GameTextMaker::readColorRGBValue(int& index, std::string& text) {
 }
 
 
-MyColor GameTextMaker::readColorByRGB(int& index, std::string& text) {
-	MyColor color;
+Color GameTextMaker::readColorByRGB(int& index, std::string& text) {
+	Color color;
 
 	color.r = readColorRGBValue(index, text);
 	color.g = readColorRGBValue(index, text);
@@ -74,7 +74,7 @@ MyColor GameTextMaker::readColorByRGB(int& index, std::string& text) {
 	return color;
 }
 
-MyColor GameTextMaker::readColorByColorName(int& index, std::string& text) {
+Color GameTextMaker::readColorByColorName(int& index, std::string& text) {
 	std::string colorName;
 
 	while (index < text.size()) {
@@ -89,11 +89,11 @@ MyColor GameTextMaker::readColorByColorName(int& index, std::string& text) {
 	}
 
 	DebugLogger::log("Game message format error: End of string reached while trying to parse color name\n" + text);
-	return MyColor(255, 255, 255);
+	return Color(255, 255, 255);
 }
 
 
-MyColor GameTextMaker::readColor(int& index, std::string& text) {
+Color GameTextMaker::readColor(int& index, std::string& text) {
 	index += 2;
 
 	if (text[index] >= '0' && text[index] <= '9') {

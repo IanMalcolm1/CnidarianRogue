@@ -129,7 +129,7 @@ void TextRenderer::renderTextLeftAligned(TextRenderingSpecs& specs, FormattedTex
 	SDL_Rect destinationRect = { specs.margin, startY, specs.fontSizePixels, specs.fontSizePixels };
 
 	int unformattedIndex = 0;
-	MyColor currentColor;
+	Color currentColor;
 
 	uint8_t currChar;
 
@@ -170,7 +170,7 @@ void TextRenderer::renderTextCentered(TextRenderingSpecs& specs, FormattedText& 
    destinationRect.x = (specs.viewportWidth - calcLineLength(specs, fText, -1))/2;
 
 	int unformattedIndex = 0;
-	MyColor currentColor;
+	Color currentColor;
 
 	uint8_t currChar;
 

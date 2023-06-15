@@ -34,3 +34,11 @@ Effect EffectFactory::makeEnlighten(int strength) {
 
    return powerUp;
 }
+
+Effect EffectFactory::makeHeal(int health) {
+   Effect heal = Effect(EFFECT_HEAL, EFFECT_TIMING_INSTANT, EFFECT_TYPE_HEAL);
+
+   heal.healInfo.health = health;
+
+   return heal;
+}

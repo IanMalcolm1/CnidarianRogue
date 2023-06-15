@@ -19,6 +19,7 @@ enum EffectTiming {
    EFFECT_TIMING_TIMED,
    EFFECT_TIMING_DOT,
    EFFECT_TIMING_EQUIPPED,
+   EFFECT_TIMING_INSTANT,
 };
 
 struct TimedEffectInfo {
@@ -43,6 +44,7 @@ enum EffectType {
    EFFECT_TYPE_NONE,
    EFFECT_TYPE_STAT_MOD,
    EFFECT_TYPE_DAMAGE,
+   EFFECT_TYPE_HEAL,
 };
 
 struct StatModEffectInfo {
@@ -55,12 +57,17 @@ struct DamageEffectInfo {
    Damage damage;
 };
 
+struct HealEffectInfo {
+   int health;
+   std::string getDescription();
+};
 
 
 enum EffectName {
    EFFECT_POISON,
    EFFECT_STRENGTH,
    EFFECT_INTELLIGENCE,
+   EFFECT_HEAL,
    EFFECT_NONAME, //also acts as number of effect description types
 };
 
@@ -74,6 +81,7 @@ struct Effect {
    union {
       StatModEffectInfo statModInfo;
       DamageEffectInfo damageInfo;
+      HealEffectInfo healInfo;
    };
 
    union {

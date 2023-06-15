@@ -14,6 +14,10 @@ EffectDescriber::EffectDescriber() {
    names[EFFECT_INTELLIGENCE] = "</lavender:Enlightenment\\>";
    adjectives[EFFECT_INTELLIGENCE] = "</lavender:Enlightened\\>";
    messages[EFFECT_INTELLIGENCE] = "'s mind clears.";
+
+   names[EFFECT_HEAL] = "</lightgreen:Regeneration\\>";
+   adjectives[EFFECT_HEAL] = "</lightgreen:Regenerating\\>";
+   messages[EFFECT_HEAL] = "'s wounds close.";
 }
 
 std::string EffectDescriber::getAdjective(Effect& effect) {

@@ -17,7 +17,6 @@
 class Scene {
 private:
 	LocalMap map;
-
    TurnQueue turnQueue;
 
    ActorManager actorManager;

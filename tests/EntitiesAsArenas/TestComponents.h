@@ -4,7 +4,7 @@
 #include <string>
 
 
-struct MyColor {
+struct Color {
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
@@ -12,8 +12,8 @@ struct MyColor {
 
 struct TileDisplay {
 	uint8_t symbol;
-	MyColor symbolColor;
-	MyColor backColor;
+	Color symbolColor;
+	Color backColor;
 };
 
 

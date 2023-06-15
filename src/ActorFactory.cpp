@@ -109,27 +109,53 @@ ActorEntity* ActorFactory::makeWandCultist(TileCoords location) {
 
 
 ActorEntity* ActorFactory::makeBadDog(TileCoords location) {
-   ActorEntity* cultist = actorColiseum->makeEntity();
-   ActorStatBlock* cultistStats = &cultist->stats;
+   ActorEntity* dog = actorColiseum->makeEntity();
+   ActorStatBlock* dogStats = &dog->stats;
 
-   cultistStats->maxHealth = 5 + randomizer.getRandomNumber(3);
-   cultistStats->health = cultistStats->maxHealth;
-   cultistStats->speed = FULL_TURN_TIME - FULL_TURN_TIME/4;
+   dogStats->maxHealth = 5 + randomizer.getRandomNumber(3);
+   dogStats->health = dogStats->maxHealth;
+   dogStats->speed = FULL_TURN_TIME - FULL_TURN_TIME/4;
 
-   cultist->description.name = "Hound";
-   cultist->description.desc = "A bad dog.";
+   dog->description.name = "Hound";
+   dog->description.desc = "Lean muscle covered in coarse fur.";
 
-   cultist->display.symbol = ASYM_LOWER_D;
-   cultist->display.symbolColor = colorMap.getColor("brown");
+   dog->display.symbol = ASYM_LOWER_D;
+   dog->display.symbolColor = colorMap.getColor("brown");
 
-   cultist->location = location;
+   dog->location = location;
 
-   cultist->faction = FACTION_BAD;
+   dog->faction = FACTION_BAD;
 
-   cultist->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_FANGS));
+   dog->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_FANGS));
 
-   cultist->aiType = AITYPE_MELEE;
+   dog->aiType = AITYPE_MELEE;
    
-   registerActor(cultist);
-   return cultist;
+   registerActor(dog);
+   return dog;
+}
+
+ActorEntity* ActorFactory::makeSnake(TileCoords location) {
+   ActorEntity* snake = actorColiseum->makeEntity();
+   ActorStatBlock* snakeStats = &snake->stats;
+
+   snakeStats->maxHealth = 5 + randomizer.getRandomNumber(3);
+   snakeStats->health = snakeStats->maxHealth;
+   snakeStats->speed = FULL_TURN_TIME;
+
+   snake->description.name = "Snake";
+   snake->description.desc = "Scalie noodle.";
+
+   snake->display.symbol = ASYM_LOWER_S;
+   snake->display.symbolColor = colorMap.getColor("green");
+
+   snake->location = location;
+
+   snake->faction = FACTION_BAD;
+
+   snake->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_POISON_FANGS));
+
+   snake->aiType = AITYPE_MELEE;
+   
+   registerActor(snake);
+   return snake;
 }

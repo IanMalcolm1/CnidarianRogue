@@ -3,7 +3,7 @@
 #include "Entities/Items/ItemEntity.h"
 #include "Entities/EntityColiseum.h"
 #include "Topography/LocalMap.h"
-#include "GraphicsThings/ColorMap.h"
+#include "GraphicsThings/ColorLibrary.h"
 #include "Topography/TileCoordinates.h"
 #include "Entities/Effects/EffectFactory.h"
 
@@ -22,7 +22,7 @@ private:
    EntityColiseum<ItemEntity>* coliseum;
    LocalMap* map;
 
-   ColorMap colorMap;
+   ColorLibrary colorMap;
 
    ItemEntity* naturalWeapons[NUM_NATURALWEAPONS];
    

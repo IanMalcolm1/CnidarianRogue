@@ -39,7 +39,7 @@ void TerrainGenerator::floor1(Scene* scene) {
 	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG);
 	TileDisplay floorDisp = TileDisplay(ASYM_DOT);
 	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN);
-	TileDisplay altarDisp = TileDisplay(ASYM_PYRAMID, MyColor(255,96,96));
+	TileDisplay altarDisp = TileDisplay(ASYM_PYRAMID, Color(255,96,96));
 
    TerrainTile wallTile = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
    TerrainTile floorTile = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
@@ -143,7 +143,7 @@ void TerrainGenerator::floor2(Scene* scene) {
 	TileDisplay floorDisp = TileDisplay(ASYM_DOT);
 	TileDisplay stairsDownDisp = TileDisplay(ASYM_LESS_THAN);
 	TileDisplay mushroomDisp = TileDisplay(ASYM_SPARSE_DOTS);
-	TileDisplay bushDisp = TileDisplay(ASYM_AE, MyColor(226, 166, 55));
+	TileDisplay bushDisp = TileDisplay(ASYM_AE, Color(226, 166, 55));
 
    TerrainTile wallTile = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
    TerrainTile floorTile = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
@@ -171,6 +171,10 @@ void TerrainGenerator::floor2(Scene* scene) {
       TileCoords loc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
       itemFactory->makeIntelligenceMushroom(loc);
       carveDrunkard(mushrooms, loc, 2);
+   }
+
+   for (auto room : rooms) {
+      spawnCaveWildlife(room);
    }
 
    scene->setPlayerAt(rooms[0][0]);
@@ -286,8 +290,8 @@ std::vector<TileVector> TerrainGenerator::makeDrunkardRooms(GeneratorTile& terra
 
 void TerrainGenerator::spawnCultists(SDL_Rect room) {
    int numWarriors = randomizer.getRandomNumber(2);
-   int numPreachers = randomizer.getRandomNumber(1);
-   int numDogs = randomizer.getRandomNumber(1);
+   int numPreachers = randomizer.flipCoin();
+   int numDogs = randomizer.getRandomNumber(3)/3;
 
    for (int i=0; i<numWarriors; i++) {
       TileCoords tile;
@@ -317,6 +321,21 @@ void TerrainGenerator::spawnCultists(SDL_Rect room) {
       } while (!map->isTraversibleAt(tile));
 
       actorFactory->makeBadDog(tile);
+   }
+}
+
+
+void TerrainGenerator::spawnCaveWildlife(TileVector room) {
+   int numSnakes = randomizer.getRandomNumber(4)/4;
+
+
+   for (int i=0; i<numSnakes; i++) {
+      TileCoords tile;
+      do {
+         tile = room[randomizer.getRandomNumber(room.size()-1)];
+      } while (!map->isTraversibleAt(tile));
+
+      actorFactory->makeSnake(tile);
    }
 }
 

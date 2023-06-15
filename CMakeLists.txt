@@ -21,6 +21,8 @@ add_executable(Roguelike
    src/AdventureUI.cpp
    src/AIRunner.cpp
    src/Blabber.cpp
+   src/Color.cpp
+   src/ColorLibrary.cpp
    src/ColorPalette.cpp
    src/ConfirmerUI.cpp
    src/Damage.cpp
@@ -42,7 +44,6 @@ add_executable(Roguelike
    src/GameText.cpp
    src/GameTextMaker.cpp
    src/GameWindow.cpp
-   src/GraphicsThings.cpp
    src/InputConfirmer.cpp
    src/InputManager.cpp
    src/Inventory.cpp

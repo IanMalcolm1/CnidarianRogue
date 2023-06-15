@@ -133,6 +133,17 @@ void ActorManager::damageActor(ActorEntity* actor, int damage) {
    }
 }
 
+void ActorManager::healActor(ActorEntity* actor, int health) {
+   actor->stats.health += health;
+   actor->stats.health = std::min(actor->stats.health, actor->stats.maxHealth);
+
+   std::string message = EntityDescriber::makeName(actor);
+   message.append(" recieves </" + colorMap.getColor("lightgreen").getString() +":");
+   message.append(std::to_string(health) + "\\> points of healing.");
+
+   sendMsgIfActorIsVisible(actor, message);
+}
+
 
 void ActorManager::sendMsgIfActorIsVisible(ActorEntity* actor, std::string message) {
    if (map->isVisibleAt(actor->location)) {

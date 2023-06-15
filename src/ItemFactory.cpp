@@ -225,7 +225,7 @@ ItemEntity* ItemFactory::makeFists() {
 ItemEntity* ItemFactory::makePoisonFangs() {
    ItemEntity* fangs = coliseum->makeEntity();
 
-   fangs->description.name = "</green:Poisonous Fangs\\>";
+   fangs->description.name = "Poisonous Fangs";
    fangs->description.desc = "They drip poison.";
 
    fangs->display.symbol = ASYM_FAT_ARROW_DOWN;
@@ -245,7 +245,7 @@ ItemEntity* ItemFactory::makePoisonFangs() {
 ItemEntity* ItemFactory::makeFangs() {
    ItemEntity* fangs = coliseum->makeEntity();
 
-   fangs->description.name = "</grey:Fangs\\>";
+   fangs->description.name = "Fangs";
    fangs->description.desc = "They look pretty nasty.";
 
    fangs->display.symbol = ASYM_FAT_ARROW_DOWN;
@@ -253,6 +253,9 @@ ItemEntity* ItemFactory::makeFangs() {
    
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 3, 1, 0));
    fangs->addComponent(damage, COMPONENT_DAMAGING);
+
+   EffectComp healComp = EffectComp(EffectComp(effectFactory.makeHeal(10)));
+   fangs->addComponent(healComp, COMPONENT_EFFECT);
 
    fangs->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
 
@@ -266,7 +269,7 @@ ItemEntity* ItemFactory::makeForceCantrip() {
    cantrip->description.desc = "A simple combat cantrip."; 
 
    cantrip->display.symbol = ASYM_MAGIC;
-   cantrip->display.symbolColor = MyColor(255,255,255);
+   cantrip->display.symbolColor = Color(255,255,255);
 
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 0, 1));
    cantrip->addComponent(damage, COMPONENT_DAMAGING);

@@ -2,11 +2,11 @@
 #include "Logs/DebugLogger.h"
 
 
-void TextColorMap::addColorNode(MyColor color, int endIndex) {
+void TextColorMap::addColorNode(Color color, int endIndex) {
    nodes.push_back(TextColorNode(color, endIndex));
 }
 
-MyColor TextColorMap::getColorAtIndex(int index) {
+Color TextColorMap::getColorAtIndex(int index) {
 	for (TextColorNode node : nodes) {
 		if (index <= node.endIndex) {
 			return node.color;
@@ -15,7 +15,7 @@ MyColor TextColorMap::getColorAtIndex(int index) {
 
 
    DebugLogger::log("Message display error: Reached end of color nodes");
-	return MyColor(255, 255, 255);
+	return Color(255, 255, 255);
 }
 
 bool TextColorMap::empty() { return nodes.size()==0; }
@@ -27,7 +27,7 @@ int TextColorMap::lastIndex() {
 
 /* Game Text */
 
-MyColor GameText::getColorAtIndex(int index) {
+Color GameText::getColorAtIndex(int index) {
    return colorMap.getColorAtIndex(index);
 }
 
@@ -46,6 +46,6 @@ uint8_t FormattedText::charAt(int index) { return text[index]; }
 
 int FormattedText::getHeight() { return height; };
 
-MyColor FormattedText::getColorAtIndex(int index) {
+Color FormattedText::getColorAtIndex(int index) {
    return colorMap.getColorAtIndex(index);
 }

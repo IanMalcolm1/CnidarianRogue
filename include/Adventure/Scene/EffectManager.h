@@ -15,10 +15,12 @@ private:
    ActorManager* actorMan;
    TurnQueue* turnQueue;
 
-   void applyDamageEffect(Effect& effect, ActorEntity* effectee);
 
    void applyEffect(Effect& effect, ActorEntity* effectee);
    void applyStatModification(Effect& effect, ActorEntity* effectee);
+   void applyDamageEffect(Effect& effect, ActorEntity* effectee);
+   void applyHealEffect(Effect& effect, ActorEntity* effectee);
+
    void removeStatModification(Effect& effect, ActorEntity* effectee);
 
    void updateDoTEffect(Effect& effect, ActorEntity* effectee);

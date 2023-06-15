@@ -29,7 +29,7 @@ PlayerManager::PlayerManager(GameLog* gameLog) :
       player->description.desc = "It's you.";
 
       player->display.symbol = ASYM_AT;
-      player->display.symbolColor = MyColor(207,181,59);
+      player->display.symbolColor = Color(207,181,59);
 
       player->faction = FACTION_GOOD;
 

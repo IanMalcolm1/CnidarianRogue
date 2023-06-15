@@ -2,7 +2,7 @@
 
 #include "Adventure/Scene/Scene.h"
 #include "Algorithms/Fraction.h"
-#include "GraphicsThings/ColorMap.h"
+#include "GraphicsThings/ColorLibrary.h"
 #include "GraphicsThings/ColorPalette.h"
 #include "Topography/TileCoordinates.h"
 
@@ -35,7 +35,7 @@ private:
 
    TileVector placeableTiles;
 
-   ColorMap colorMap;
+   ColorLibrary colorMap;
 
    void setSceneAndMap(Scene* scene);
 
@@ -55,6 +55,7 @@ private:
    void placeTerrain(TileCoords location, GeneratorTile& terrain);
 
    void spawnCultists(SDL_Rect room);
+   void spawnCaveWildlife(TileVector room);
 
    //only keep largest group of rooms that all connect. Fill in reset
    std::vector<TileVector> cullRooms(std::vector<TileVector>& rooms, GeneratorTile& fillTerrain);

@@ -43,6 +43,9 @@ void EffectManager::applyEffect(Effect& effect, ActorEntity* effectee) {
       case EFFECT_TYPE_DAMAGE:
          applyDamageEffect(effect, effectee);
          break;
+      case EFFECT_TYPE_HEAL:
+         applyHealEffect(effect, effectee);
+         break;
       default:
          DebugLogger::log("Effect has no type.");
         return; 
@@ -103,6 +106,10 @@ void EffectManager::applyDamageEffect(Effect& effect, ActorEntity* effectee) {
    actorMan->sendMsgIfActorIsVisible(effectee, msg);
 
    actorMan->damageActor(effectee, damageAndMsg.first);
+}
+
+void EffectManager::applyHealEffect(Effect& effect, ActorEntity* effectee) {
+   actorMan->healActor(effectee, effect.healInfo.health);
 }
 
 

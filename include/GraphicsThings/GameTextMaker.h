@@ -1,16 +1,16 @@
 #pragma once
 
 #include "GraphicsThings/GameText.h"
-#include "ColorMap.h"
+#include "ColorLibrary.h"
 
 
 class GameTextMaker {
-   ColorMap colorMap;
+   ColorLibrary colorMap;
 
-	MyColor readColor(int& index, std::string& text);
-	MyColor readColorByRGB(int& index, std::string& text);
+	Color readColor(int& index, std::string& text);
+	Color readColorByRGB(int& index, std::string& text);
 	int readColorRGBValue(int& index, std::string& text);
-	MyColor readColorByColorName(int& index, std::string& text);
+	Color readColorByColorName(int& index, std::string& text);
 
 public:
 	GameTextMaker() : colorMap() {};

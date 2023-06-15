@@ -1,27 +1,27 @@
 #pragma once
 
 #include "Enums/AsciiSymbols.h"
-#include "MyColor.h"
+#include "Color.h"
 
 
 struct EntityDisplay {
 	uint8_t symbol;
-	MyColor symbolColor;
+	Color symbolColor;
 
-	EntityDisplay(uint8_t symbol = ASYM_SMILE_THIN, MyColor symbolColor = MyColor(255, 255, 255)) :
+	EntityDisplay(uint8_t symbol = ASYM_SMILE_THIN, Color symbolColor = Color(255, 255, 255)) :
    symbol(symbol), symbolColor(symbolColor) {};
 };
 
 
 struct TileDisplay {
 	uint8_t symbol;
-	MyColor symbolColor;
-	MyColor backColor;
+	Color symbolColor;
+	Color backColor;
 
-	TileDisplay(uint8_t symbol = ASYM_SMILE_THIN, MyColor symbolColor = MyColor(255, 255, 255),
-	MyColor backColor = MyColor()) : symbol(symbol), symbolColor(symbolColor), backColor(backColor) {};
+	TileDisplay(uint8_t symbol = ASYM_SMILE_THIN, Color symbolColor = Color(255, 255, 255),
+	Color backColor = Color()) : symbol(symbol), symbolColor(symbolColor), backColor(backColor) {};
 
-   TileDisplay(EntityDisplay entityDisplay, MyColor backColor) : symbol(entityDisplay.symbol),
+   TileDisplay(EntityDisplay entityDisplay, Color backColor) : symbol(entityDisplay.symbol),
    symbolColor(entityDisplay.symbolColor), backColor(backColor) {};
 
 	bool operator == (const TileDisplay display) const {

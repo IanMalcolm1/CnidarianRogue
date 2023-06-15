@@ -5,8 +5,8 @@
 #include <fstream>
 #include <unordered_map>
 #include <chrono>
-#include "GraphicsThings/MyColor.h"
-#include "GraphicsThings/ColorMap.h"
+#include "GraphicsThings/Color.h"
+#include "GraphicsThings/ColorLibrary.h"
 #include "GraphicsThings/GameTextMaker.h"
 
 class GameLog {

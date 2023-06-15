@@ -8,6 +8,15 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
+Add Abilities
+   Cooldowns should be maintained between scenes. Either move TurnQueue into Adventure and
+   remove all actors from scene being left behind (Scene would save snapshot of relevant
+   actors and effects), or move Player and Player's effects between Scene TurnQueues. I
+   prefer the first. It seems more extensible (can load scenes in and out like CoQ). TurnQueue
+   nodes should include what scene they belong to.
+Add press F to heal 10. 20 turn cooldown.
+Reduce player max health
+
 Slightly better generation
    - Generation for the three floors
    - First rectangles (abandoned complex or inhabited cult), second caves, third bossfight
@@ -18,6 +27,7 @@ Floor 2: In-Progress
 Floor 3: Pending
 
 Next:
+Pre-Generate levels so there isn't a long pause at level 2?
 Ability to choose name
 
 Maybe in free time:

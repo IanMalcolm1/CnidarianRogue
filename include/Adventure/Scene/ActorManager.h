@@ -28,6 +28,7 @@ private:
    TurnQueue* turnQueue;
    LocalMap* map;
    GameLog* gameLog;
+   ColorLibrary colorMap;
 
    Randomizer randomizer;
 
@@ -54,6 +55,8 @@ public:
    // damage into the damageActor function
    std::pair<int, std::string> calcDamage(ActorEntity* attacker, ActorEntity* recipient, Damage damage, int relevantStat = 0);
    void damageActor(ActorEntity* actor, int damage);
+
+   void healActor(ActorEntity* actor, int health);
 
    void dropItem(ActorEntity* actor, ItemEntity* item);
 

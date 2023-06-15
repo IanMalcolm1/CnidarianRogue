@@ -6,7 +6,7 @@
 #include "Adventure/Scene/TurnQueue.h"
 #include "Entities/Items/ItemEntity.h"
 #include "Entities/Items/ItemFactory.h"
-#include "GraphicsThings/ColorMap.h"
+#include "GraphicsThings/ColorLibrary.h"
 #include "Topography/LocalMap.h"
 
 
@@ -18,7 +18,7 @@ private:
 
    ItemFactory* itemFactory;
 
-   ColorMap colorMap;
+   ColorLibrary colorMap;
    Randomizer randomizer;
 
    void registerActor(ActorEntity* actor);
@@ -33,4 +33,6 @@ public:
    ActorEntity* makeWandCultist(TileCoords location);
    ActorEntity* makeArmoredCultist(TileCoords location);
    ActorEntity* makeBadDog(TileCoords location);
+
+   ActorEntity* makeSnake(TileCoords location);
 };
