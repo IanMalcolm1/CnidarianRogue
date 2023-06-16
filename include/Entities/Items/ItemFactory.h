@@ -9,9 +9,10 @@
 
 enum NaturalWeaponType {
    NATWEAP_FIST,
-   NATWEAP_POISON_FANGS,
+   NATWEAP_POISON_SKIN,
    NATWEAP_FANGS,
    NATWEAP_FORCE_CANTRIP,
+   NATWEAP_TOUGH_SKIN, //yes, this is armor
    NUM_NATURALWEAPONS
 };
 
@@ -29,9 +30,10 @@ private:
 
    //Natural weapons
    ItemEntity* makeFists();
-   ItemEntity* makePoisonFangs();
+   ItemEntity* makePoisonSkin();
    ItemEntity* makeFangs();
    ItemEntity* makeForceCantrip();
+   ItemEntity* makeToughSkin();
 
 public:
    ItemFactory() : coliseum(nullptr), map(nullptr) {
@@ -46,6 +48,7 @@ public:
    ItemEntity* makeBasicDagger(TileCoords location);
    ItemEntity* makeBasicSword(TileCoords location);
    ItemEntity* makeBasicMace(TileCoords location);
+   ItemEntity* makeBigMace(TileCoords location);
    ItemEntity* makeForceWand(TileCoords location);
 
    //Armor

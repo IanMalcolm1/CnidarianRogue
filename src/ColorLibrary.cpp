@@ -29,6 +29,7 @@ void ColorLibrary::initialize() {
 	colorMap.insert({ "pink", Color(255,192,203) });
 
    colorMap.insert({ "grey", Color(128,128,128) });
+   colorMap.insert({ "lightgrey", Color(192,192,192) });
    colorMap.insert({ "darkgrey", Color(64,64,64) });
    colorMap.insert({ "slategrey", Color(119,136,153) });
 }

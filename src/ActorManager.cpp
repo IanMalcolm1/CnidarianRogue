@@ -21,9 +21,7 @@ void ActorManager::initialize(TurnQueue *turnQueue, LocalMap *map, GameLog *game
    this->itemMan = itemMan;
 }
 
-void ActorManager::initializeFactory(ActorFactory* factory, ItemFactory* itemFactory) {
-   factory->initialize(&actorColiseum, turnQueue, map, itemFactory);
-}
+EntityColiseum<ActorEntity>* ActorManager::getColiseum() { return &actorColiseum; }
 
 
 void ActorManager::destroyActor(ActorEntity* actor) {

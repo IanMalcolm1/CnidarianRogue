@@ -34,7 +34,7 @@ void TerrainGenerator::floor1(Scene* scene) {
    int wallNameId = map->addTerrainName("Wall");
    int floorNameId = map->addTerrainName("Floor");
    int stairsNameId = map->addTerrainName("Stairs Down");
-   int altarNameId = map->addTerrainName("Sacrificial Altar");
+   int altarNameId = map->addTerrainName("Feeding Altar");
 
 	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG);
 	TileDisplay floorDisp = TileDisplay(ASYM_DOT);
@@ -161,7 +161,24 @@ void TerrainGenerator::floor2(Scene* scene) {
    rooms = cullRooms(rooms, wall);
    populatePlaceableTiles(rooms);
 
-   for (int i=0; i<2; i++) {
+   TileCoords playerTile = rooms[0][0];
+   TileCoords bossTile;
+
+   for (int i=0; i<rooms.size(); i++) {
+      bossTile = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
+
+      if (distanceBetween(bossTile, playerTile) > (mapWidth*3)/4) {
+         break;
+      }
+
+      if (i == rooms.size()-1) {
+         floor1(scene);
+         return;
+      }
+   }
+   actorFactory->makeCultistIdol(bossTile);
+
+   for (int i=0; i<3; i++) {
       TileCoords loc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
       map->setTerrainAt(loc, bush);
       itemFactory->makeStrengthFruit(loc);
@@ -177,7 +194,7 @@ void TerrainGenerator::floor2(Scene* scene) {
       spawnCaveWildlife(room);
    }
 
-   scene->setPlayerAt(rooms[0][0]);
+   scene->setPlayerAt(playerTile);
 }
 
 
@@ -326,7 +343,7 @@ void TerrainGenerator::spawnCultists(SDL_Rect room) {
 
 
 void TerrainGenerator::spawnCaveWildlife(TileVector room) {
-   int numSnakes = randomizer.getRandomNumber(4)/4;
+   int numSnakes = randomizer.getRandomNumber(7)/7;
 
 
    for (int i=0; i<numSnakes; i++) {
@@ -335,7 +352,7 @@ void TerrainGenerator::spawnCaveWildlife(TileVector room) {
          tile = room[randomizer.getRandomNumber(room.size()-1)];
       } while (!map->isTraversibleAt(tile));
 
-      actorFactory->makeSnake(tile);
+      actorFactory->makeCnidas(tile);
    }
 }
 

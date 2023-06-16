@@ -13,13 +13,20 @@ Slightly better generation
    - First rectangles (abandoned complex or inhabited cult), second caves, third bossfight
    - Power-up fruit bushes and mushroom clusters in caves
 
+   Cultists eat corpses (put something about "...rumors of corpse-eating cultists..." in a
+   message upon level entry) and are symbiotes with Hydra clones (maybe they replace tongues?)
+
+   Boss is hydra. Stationary but spawns clones every 3 turns.
+
 Floor 1: Complete
-Floor 2: In-Progress
-Floor 3: Pending
+Floor 2: Complete
+Floor 3: In-Progress
 
 Next:
-Pre-Generate levels so there isn't a long pause at level 2?
-Ability to choose name
+Put player's health back at 18
+Add flavor text on level changes
+Add winning
+Give character gender-neutral name
 
 Maybe in free time:
 Improve player-to-mouse path performance (A* implemenation)

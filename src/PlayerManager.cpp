@@ -23,7 +23,7 @@ PlayerManager::PlayerManager(GameLog* gameLog) :
       playerArena = malloc(sizeof(ActorEntity) + 64);
       player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64, true);
 
-      player->stats.maxHealth = 18;
+      player->stats.maxHealth = 10000;
       player->stats.health = player->stats.maxHealth;
 
       player->description.name = "Tamren";

@@ -7,8 +7,8 @@ void Scene::initialize(EffectDescriber* effectDescriber) {
    itemManager.initialize(&map);
    itemManager.initializeFactory(&itemFactory);
    actorManager.initialize(&turnQueue, &map, gameLog, &itemManager);
-   actorManager.initializeFactory(&actorFactory, &itemFactory);
    effectManager.initialize(effectDescriber, &actorManager, &turnQueue);
+   actorFactory.initialize(actorManager.getColiseum(), &turnQueue, &map, &itemFactory, &effectManager);
    abilityManager.initialize(gameLog, &effectManager, &turnQueue);
    actorUtils.initialize(&actorManager, &itemManager, &effectManager, &map);
    aiRunner.initialize(&map, &actorManager, &actorUtils);

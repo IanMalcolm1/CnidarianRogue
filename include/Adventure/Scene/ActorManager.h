@@ -12,8 +12,6 @@
 #include "Entities/Damage.h"
 #include "Entities/EntityColiseum.h"
 #include "Adventure/Scene/TurnQueue.h"
-#include "Adventure/Scene/EffectManager.h"
-#include "Entities/Actors/ActorFactory.h"
 #include "Entities/Items/ItemFactory.h"
 #include "EventListener/Blabber.h"
 #include "Topography/LocalMap.h"
@@ -44,7 +42,8 @@ public:
    };
 
    void initialize(TurnQueue* turnQueue, LocalMap* map, GameLog* gameLog, ItemManager* itemMan);
-   void initializeFactory(ActorFactory* factory, ItemFactory* itemFactory);
+
+   EntityColiseum<ActorEntity>* getColiseum();
 
    void destroyActor(ActorEntity* actor);
    void addActorToTurnQueue(ActorEntity* actor, int turnTime);

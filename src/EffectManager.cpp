@@ -56,16 +56,14 @@ void EffectManager::applyEffect(Effect& effect, ActorEntity* effectee) {
 void EffectManager::attachDoTEffect(Effect& effect, ActorEntity* effectee) {
    Effect* activeEffect = effectee->activeEffects.getEffect(effect);
 
-   //if this effect is new, add it to queue
-   if (activeEffect == nullptr) {
+   if (activeEffect == nullptr) { //if this effect is new, add it to queue
       effectee->activeEffects.addEffect(effect);
-      turnQueue->insertEffect(effect, effectee, effect.dotInfo.tickTime);
-      return;
+   }
+   else { //if an existing effect exists, replace it
+      activeEffect->dotInfo.duration = effect.dotInfo.duration;
+      turnQueue->removeEffect(effect, effectee);
    }
 
-   //if an existing effect exists, replace it
-   activeEffect->dotInfo.duration = effect.dotInfo.duration;
-   turnQueue->removeEffect(effect, effectee);
    turnQueue->insertEffect(effect, effectee, effect.dotInfo.tickTime);
 }
 

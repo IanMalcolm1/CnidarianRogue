@@ -42,3 +42,14 @@ Effect EffectFactory::makeHeal(int health) {
 
    return heal;
 }
+
+Effect EffectFactory::makeRegeneration(int health, int duration, int tickTime) {
+   Effect heal = Effect(EFFECT_HEAL, EFFECT_TIMING_DOT, EFFECT_TYPE_HEAL);
+
+   heal.healInfo.health = health;
+
+   heal.dotInfo.duration = duration;
+   heal.dotInfo.tickTime = tickTime;
+
+   return heal;
+}

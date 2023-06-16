@@ -79,6 +79,24 @@ ItemEntity* ItemFactory::makeBasicMace(TileCoords location) {
    return mace;
 }
 
+ItemEntity* ItemFactory::makeBigMace(TileCoords location) {
+   ItemEntity* mace = coliseum->makeEntity();
+
+   mace->description.name = "Spiked Mace";
+   mace->description.desc = "The spikes have a reddish tint. You're not sure it's rust.";
+
+   mace->display.symbol = ASYM_EXCLAMATION;
+   mace->display.symbolColor = colorMap.getColor("slategrey");
+   
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 2, 1, 2));
+   mace->addComponent(damage, COMPONENT_DAMAGING);
+
+   mace->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
+   registerItem(mace, location);
+   return mace;
+}
+
 ItemEntity* ItemFactory::makeForceWand(TileCoords location) {
    ItemEntity* wand = coliseum->makeEntity();
 
@@ -189,9 +207,9 @@ ItemEntity* ItemFactory::getNaturalWeapon(NaturalWeaponType type) {
          naturalWeapons[NATWEAP_FIST] = makeFists();
          return naturalWeapons[NATWEAP_FIST];
 
-      case NATWEAP_POISON_FANGS:
-         naturalWeapons[NATWEAP_POISON_FANGS] = makePoisonFangs();
-         return naturalWeapons[NATWEAP_POISON_FANGS];
+      case NATWEAP_POISON_SKIN:
+         naturalWeapons[NATWEAP_POISON_SKIN] = makePoisonSkin();
+         return naturalWeapons[NATWEAP_POISON_SKIN];
 
       case NATWEAP_FANGS:
          naturalWeapons[NATWEAP_FANGS] = makeFangs();
@@ -200,6 +218,10 @@ ItemEntity* ItemFactory::getNaturalWeapon(NaturalWeaponType type) {
       case NATWEAP_FORCE_CANTRIP:
          naturalWeapons[NATWEAP_FORCE_CANTRIP] = makeForceCantrip();
          return naturalWeapons[NATWEAP_FORCE_CANTRIP];
+
+      case NATWEAP_TOUGH_SKIN:
+         naturalWeapons[NATWEAP_TOUGH_SKIN] = makeToughSkin();
+         return naturalWeapons[NATWEAP_TOUGH_SKIN];
 
       case NUM_NATURALWEAPONS:
          return nullptr;
@@ -223,24 +245,24 @@ ItemEntity* ItemFactory::makeFists() {
    return fists;
 }
 
-ItemEntity* ItemFactory::makePoisonFangs() {
-   ItemEntity* fangs = coliseum->makeEntity();
+ItemEntity* ItemFactory::makePoisonSkin() {
+   ItemEntity* skin = coliseum->makeEntity();
 
-   fangs->description.name = "Poisonous Fangs";
-   fangs->description.desc = "They drip poison.";
+   skin->description.name = "Poison Skin";
+   skin->description.desc = "Slimy.";
 
-   fangs->display.symbol = ASYM_FAT_ARROW_DOWN;
-   fangs->display.symbolColor = colorMap.getColor("green");
+   skin->display.symbol = ASYM_DENSE_DOTS;
+   skin->display.symbolColor = colorMap.getColor("lightgrey");
    
    DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 0, 0, 1));
-   fangs->addComponent(damage, COMPONENT_DAMAGING);
+   skin->addComponent(damage, COMPONENT_DAMAGING);
 
    EffectComp poisonComp = EffectComp(EffectComp(EffectFactory::makePoison(1)));
-   fangs->addComponent(poisonComp, COMPONENT_EFFECT);
+   skin->addComponent(poisonComp, COMPONENT_EFFECT);
 
-   fangs->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+   skin->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
 
-   return fangs;
+   return skin;
 }
 
 ItemEntity* ItemFactory::makeFangs() {
@@ -278,4 +300,19 @@ ItemEntity* ItemFactory::makeForceCantrip() {
    cantrip->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
 
    return cantrip;
+}
+
+
+ItemEntity* ItemFactory::makeToughSkin() {
+   ItemEntity* armor = coliseum->makeEntity();
+
+   armor->description.name = "Tough Skin";
+   armor->description.desc = "As strong as leather, but more flexible.";
+
+   armor->display.symbol = ASYM_DENSE_DOTS;
+   armor->display.symbolColor = colorMap.getColor("lightgrey");
+
+   armor->addComponent(WearableComp(DAMAGE_PHYSICAL,2,1,0), COMPONENT_WEARABLE);
+
+   return armor;
 }
