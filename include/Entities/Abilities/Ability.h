@@ -6,6 +6,7 @@
 
 enum AbilityType {
    ABILITY_HEAL,
+   ABILITY_SPAWN_CNIDAS,
    ABILITY_NONE,
 };
 

@@ -34,9 +34,6 @@ typedef bool (LocalMap::*TraversibilityFunc)(TileCoords);
 
 class Pathfinding {
 private:
-	static std::vector<TileCoords> getSurroundingTiles(TileCoords center);
-
-
 	static void makeLineRoute(PathingSpecs& specs, LocalMap* map, TraversibilityFunc traversible, PathingRoute& route);
 
 	static void makeAStarRoute(PathingSpecs& specs, LocalMap* map, TraversibilityFunc traversible, PathingRoute& route);

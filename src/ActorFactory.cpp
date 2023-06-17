@@ -1,4 +1,5 @@
 #include "Entities/Actors/ActorFactory.h"
+#include "Entities/Abilities/AbilityFactory.h"
 #include "Entities/Actors/AI.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Entities/Effects/EffectFactory.h"
@@ -152,7 +153,7 @@ ActorEntity* ActorFactory::makeCnidas(TileCoords location) {
    cnidas->description.name = "Cnidas";
    cnidas->description.desc = "Translucent-skinned and wormlike. You realize why the cultists' tongues seemed so... active.";
 
-   cnidas->display.symbol = ASYM_LOWER_S;
+   cnidas->display.symbol = ASYM_LOWER_C;
    cnidas->display.symbolColor = colorMap.getColor("lightgrey");
 
    cnidas->location = location;
@@ -218,10 +219,11 @@ ActorEntity* ActorFactory::makeHydra(TileCoords location) {
 
    hydra->faction = FACTION_BAD;
 
-   hydra->inventory = Inventory(nullptr, nullptr, itemFactory->getNaturalWeapon(NATWEAP_TOUGH_SKIN));
-   hydra->inventory.setMeleeWeapon(itemFactory->makeBigMace({-1,-1}));
+   hydra->inventory = Inventory(itemFactory->getNaturalWeapon(NATWEAP_CNIDAS_BUDS), nullptr, itemFactory->getNaturalWeapon(NATWEAP_TOUGH_SKIN));
 
-   hydra->aiType = AITYPE_MELEE;
+   hydra->aiType = AITYPE_HYDRA;
+
+   hydra->ability = AbilityFactory::makeSpawnCnidas();
 
    Effect regeneration = EffectFactory::makeRegeneration(1, FULL_TURN_TIME*10000, FULL_TURN_TIME*3);
    effectMan->attachEffect(regeneration, hydra);

@@ -437,3 +437,26 @@ TileCoords LocalMap::tileIndexToCoords(int index) {
    return coordinates;
 }
 
+
+std::vector<TileCoords> LocalMap::getSurroundingTiles(TileCoords center) {
+	std::vector<TileCoords> tiles;
+
+	center.x++;
+	tiles.push_back(center);
+	center.y++;
+	tiles.push_back(center);
+	center.x--;
+	tiles.push_back(center);
+	center.x--;
+	tiles.push_back(center);
+	center.y--;
+	tiles.push_back(center);
+	center.y--;
+	tiles.push_back(center);
+	center.x++;
+	tiles.push_back(center);
+	center.x++;
+	tiles.push_back(center);
+
+	return tiles;
+}

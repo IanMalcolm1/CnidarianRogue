@@ -9,10 +9,11 @@
 #include "Logs/DebugLogger.h"
 
 
-void AIRunner::initialize(LocalMap* map, ActorManager* actorMan, ActorUtils* actorUtils) {
+void AIRunner::initialize(LocalMap* map, ActorManager* actorMan, ActorUtils* actorUtils, AbilityManager* abilityMan) {
    this->map = map;
    this->actorMan = actorMan;
    this->actorUtils = actorUtils;
+   this->abilityMan = abilityMan;
 }
 
 
@@ -26,8 +27,10 @@ void AIRunner::runActorTurn(ActorEntity *actor) {
          break;
       case AITYPE_RANGED:
          turnTime = rangedAI(actor);
-      default:
-         turnTime = actor->stats.speed;
+         break;
+      case AITYPE_HYDRA:
+         turnTime = hydraAI(actor);
+         break;
 	}
 
    actorMan->addActorToTurnQueue(actor, turnTime);
@@ -80,11 +83,7 @@ int AIRunner::doApproachAndWhack(ActorEntity* actor) {
       return meleeAI(actor);
    }
 
-   auto targetActor = actor->getTarget();
-
-   //do attack if next to target
-   if (actor->location.isAdjacentTo(targetActor->location)) {
-      actorUtils->doMeleeAttack(actor, targetActor);
+   if (tryMeleeAttack(actor)) {
       return actor->stats.speed;
    }
 
@@ -108,6 +107,7 @@ int AIRunner::doShootAndApproach(ActorEntity* actor) {
    return doApproachTarget(actor);
  }
 
+
 int AIRunner::doApproachTarget(ActorEntity* actor) {
    //approach last known location of target
    auto route = actor->getCurrentRoute();
@@ -129,6 +129,18 @@ int AIRunner::doApproachTarget(ActorEntity* actor) {
    return actor->stats.speed;
 }
 
+bool AIRunner::tryMeleeAttack(ActorEntity* actor) {
+   actor->pickTarget();
+   auto targetActor = actor->getTarget();
+
+   if (actor->location.isAdjacentTo(targetActor->location)) {
+      actorUtils->doMeleeAttack(actor, targetActor);
+      return true;
+   }
+
+   return false;
+}
+
 
 int AIRunner::meleeAI(ActorEntity* actor) {
    if (actor->isAggroed() || actor->canSeeHostile()) {
@@ -144,6 +156,20 @@ int AIRunner::rangedAI(ActorEntity* actor) {
    }
 
    return doWander(actor);
+}
+
+int AIRunner::hydraAI(ActorEntity* actor) {
+   //always try spawning cnidas
+   if (abilityMan->doAbility(actor->ability, actor)) {
+      return actor->stats.speed;
+   }
+
+   if (actor->isAggroed() || actor->canSeeHostile()) {
+      tryMeleeAttack(actor);
+   }
+
+   //whether or not attack succeeded, wait a turn
+   return actor->stats.speed;
 }
 
 

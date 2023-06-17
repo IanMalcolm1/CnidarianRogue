@@ -10,6 +10,7 @@
 enum NaturalWeaponType {
    NATWEAP_FIST,
    NATWEAP_POISON_SKIN,
+   NATWEAP_CNIDAS_BUDS,
    NATWEAP_FANGS,
    NATWEAP_FORCE_CANTRIP,
    NATWEAP_TOUGH_SKIN, //yes, this is armor
@@ -34,6 +35,7 @@ private:
    ItemEntity* makeFangs();
    ItemEntity* makeForceCantrip();
    ItemEntity* makeToughSkin();
+   ItemEntity* makeCnidasBuds();
 
 public:
    ItemFactory() : coliseum(nullptr), map(nullptr) {

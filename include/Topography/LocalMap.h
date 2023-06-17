@@ -71,6 +71,7 @@ public:
 
 	int coordsToTileIndex(TileCoords coordinates);
 	TileCoords tileIndexToCoords(int index);
+   std::vector<TileCoords> getSurroundingTiles(TileCoords center);
 
 	int getWidth();
 	int getHeight();

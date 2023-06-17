@@ -5,6 +5,7 @@
 enum AiType {
    AITYPE_MELEE,
    AITYPE_RANGED,
+   AITYPE_HYDRA,
 };
 
 enum AiState {
@@ -18,6 +19,7 @@ enum AiState {
 	AISTATE_FLEEING,
    AISTATE_APPROACH_AND_WHACK,
    AISTATE_SHOOT_AND_APPROACH,
+   AISTATE_SIT_AND_USE_ABILITY,
 
 	//Total number of AI states
 	AISTATE_TOTAL_STATES

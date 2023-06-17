@@ -1,12 +1,13 @@
 #include "Entities/Abilities/AbilityManager.h"
-#include "Entities/Abilities/Ability.h"
 #include "Enums/TurnTime.h"
 
 
-void AbilityManager::initialize(GameLog* gameLog, EffectManager* effectManager, TurnQueue* turnQueue) {
+void AbilityManager::initialize(GameLog* gameLog, EffectManager* effectManager, TurnQueue* turnQueue, LocalMap* map, ActorFactory* actorFactory) {
    effectMan = effectManager;
    this->turnQueue = turnQueue;
    this->gameLog = gameLog;
+   this->map = map;
+   this->actorFactory = actorFactory;
 }
 
 bool AbilityManager::doAbility(Ability& ability, ActorEntity* actor) {
@@ -24,11 +25,37 @@ bool AbilityManager::doAbility(Ability& ability, ActorEntity* actor) {
       return false;
    }
 
+   bool success = true;
+
    if (ability.type == ABILITY_HEAL) {
       effectMan->attachEffect(ability.effect, actor);
-      ability.currentCooldown = ability.cooldown;
-      return true;
+   }
+   else if (ability.type == ABILITY_SPAWN_CNIDAS) {
+      success = doSpawnCnidas(actor);
+   }
+   else {
+      success = false;
    }
 
-   return false;
+   if (success) {
+      ability.currentCooldown = ability.cooldown;
+   }
+   
+   return success;
+}
+
+
+bool AbilityManager::doSpawnCnidas(ActorEntity* actor) {
+   bool success = false;
+   auto surroundingTiles = map->getSurroundingTiles(actor->location);
+
+   for (TileCoords tile : surroundingTiles) {
+      if (map->isTraversibleAt(tile)) {
+         actorFactory->makeCnidas(tile);
+         success = true;
+         break;
+      }
+   }
+
+   return true;
 }

@@ -211,6 +211,10 @@ ItemEntity* ItemFactory::getNaturalWeapon(NaturalWeaponType type) {
          naturalWeapons[NATWEAP_POISON_SKIN] = makePoisonSkin();
          return naturalWeapons[NATWEAP_POISON_SKIN];
 
+      case NATWEAP_CNIDAS_BUDS:
+         naturalWeapons[NATWEAP_CNIDAS_BUDS] = makePoisonSkin();
+         return naturalWeapons[NATWEAP_CNIDAS_BUDS];
+
       case NATWEAP_FANGS:
          naturalWeapons[NATWEAP_FANGS] = makeFangs();
          return naturalWeapons[NATWEAP_FANGS];
@@ -315,4 +319,24 @@ ItemEntity* ItemFactory::makeToughSkin() {
    armor->addComponent(WearableComp(DAMAGE_PHYSICAL,2,1,0), COMPONENT_WEARABLE);
 
    return armor;
+}
+
+ItemEntity* ItemFactory::makeCnidasBuds() {
+   ItemEntity* cnidas = coliseum->makeEntity();
+
+   cnidas->description.name = "Writhing Cnidas";
+   cnidas->description.desc = "A swarm of Cnidas budding from the Hydra's body.";
+
+   cnidas->display.symbol = ASYM_DOLLAR;
+   cnidas->display.symbolColor = colorMap.getColor("lightgrey");
+   
+   DamagingComp damage = DamagingComp(Damage(DAMAGE_PHYSICAL, 4, 1, 0));
+   cnidas->addComponent(damage, COMPONENT_DAMAGING);
+
+   EffectComp poisonComp = EffectComp(EffectComp(EffectFactory::makePoison(1)));
+   cnidas->addComponent(poisonComp, COMPONENT_EFFECT);
+
+   cnidas->addComponent(WieldableComp(), COMPONENT_WIELDABLE);
+
+   return cnidas;
 }

@@ -11,3 +11,9 @@ Ability AbilityFactory::makeHealAbility(int health) {
 
    return heal;
 }
+
+Ability AbilityFactory::makeSpawnCnidas() {
+   Ability heal = Ability(ABILITY_SPAWN_CNIDAS, 7*FULL_TURN_TIME);
+
+   return heal;
+}

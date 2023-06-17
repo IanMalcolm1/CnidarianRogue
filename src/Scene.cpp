@@ -9,9 +9,9 @@ void Scene::initialize(EffectDescriber* effectDescriber) {
    actorManager.initialize(&turnQueue, &map, gameLog, &itemManager);
    effectManager.initialize(effectDescriber, &actorManager, &turnQueue);
    actorFactory.initialize(actorManager.getColiseum(), &turnQueue, &map, &itemFactory, &effectManager);
-   abilityManager.initialize(gameLog, &effectManager, &turnQueue);
+   abilityManager.initialize(gameLog, &effectManager, &turnQueue, &map, &actorFactory);
    actorUtils.initialize(&actorManager, &itemManager, &effectManager, &map);
-   aiRunner.initialize(&map, &actorManager, &actorUtils);
+   aiRunner.initialize(&map, &actorManager, &actorUtils, &abilityManager);
 }
 
 LocalMap* Scene::getMap() {	return &map; }

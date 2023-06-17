@@ -233,27 +233,3 @@ void Pathfinding::makeAStarRoute(PathingSpecs& specs, LocalMap* map, Traversibil
 		route.addTile(tile);
 	}
 }
-
-
-std::vector<TileCoords> Pathfinding::getSurroundingTiles(TileCoords center) {
-	std::vector<TileCoords> tiles;
-
-	center.x++;
-	tiles.push_back(center);
-	center.y++;
-	tiles.push_back(center);
-	center.x--;
-	tiles.push_back(center);
-	center.x--;
-	tiles.push_back(center);
-	center.y--;
-	tiles.push_back(center);
-	center.y--;
-	tiles.push_back(center);
-	center.x++;
-	tiles.push_back(center);
-	center.x++;
-	tiles.push_back(center);
-
-	return tiles;
-}

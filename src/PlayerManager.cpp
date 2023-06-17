@@ -241,11 +241,11 @@ void PlayerManager::waitTurn() {
 }
 
 bool PlayerManager::doAbility() {
-   bool doTurn = abilityMan->doAbility(player->ability, player);
-   if (doTurn) {
+   bool didTurn = abilityMan->doAbility(player->ability, player);
+   if (didTurn) {
       actorMan->addActorToTurnQueue(player, player->stats.speed);
    }
-   return doTurn;
+   return didTurn;
 }
 
 bool PlayerManager::attemptLevelChange() {

@@ -9,4 +9,5 @@ private:
 
 public:
    static Ability makeHealAbility(int health = 10);
+   static Ability makeSpawnCnidas();
 };
