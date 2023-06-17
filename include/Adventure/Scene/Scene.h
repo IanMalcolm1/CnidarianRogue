@@ -39,8 +39,8 @@ private:
 
 
 public:
-	Scene(GameLog* gameLog, PlayerManager* playerManager, int mapWidth = 96,
-   int mapHeight = 96) : map(mapWidth, mapHeight), gameLog(gameLog),
+	Scene(GameLog* gameLog, PlayerManager* playerManager, int mapWidth = 16,
+   int mapHeight = 16) : map(mapWidth, mapHeight), gameLog(gameLog),
    playerManager(playerManager) {};
 
    void initialize(EffectDescriber* effectDescriber);

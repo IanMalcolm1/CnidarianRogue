@@ -64,8 +64,6 @@ public:
    mouseTile(-1,-1), focusTileChangedLast(false),
    pathingSpecs(PATH_ROUTE, TRAV_INCLUDE_UNSEEN_TILES) {};
 
-   ~LocalMap();
-
 
 	MapDisplay* getMapDisplay();
 	void updateMapDisplay();

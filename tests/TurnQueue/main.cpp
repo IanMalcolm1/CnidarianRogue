@@ -76,7 +76,9 @@ void testTwo(std::vector<ActorEntity> actors) {
 
    auto node = testQueue.pop();
    actual[0] = node->actor->id;
-   passed = actual[0] == expected[0] ? true : false;
+   if (actual[0] != expected[0]) {
+      passed = false;
+   }
 
    testQueue.insertActor(&actors[2], 10);
    testQueue.insertActor(&actors[3], 30);
@@ -84,7 +86,9 @@ void testTwo(std::vector<ActorEntity> actors) {
    for (int i=1; i<arrLength; i++) {
       node = testQueue.pop();
       actual[i] = node->actor->id;
-      passed = actual[0] == expected[0] ? true : false;
+      if (actual[0] != expected[0]) {
+         passed = false;
+      }
    }
 
    if (passed) {
@@ -113,7 +117,9 @@ void testThree(std::vector<ActorEntity> actors) {
 
    auto node = testQueue.pop();
    actual[0] = node->actor->id;
-   passed = actual[0] == expected[0] ? true : false;
+   if (actual[0] != expected[0]) {
+      passed = false;
+   }
 
    testQueue.insertEffect(testEffect, &actors[2], 10);
    testQueue.insertEffect(testEffect, &actors[3], 30);
@@ -121,7 +127,9 @@ void testThree(std::vector<ActorEntity> actors) {
    for (int i=1; i<arrLength; i++) {
       node = testQueue.pop();
       actual[i] = node->actor->id;
-      passed = actual[0] == expected[0] ? true : false;
+      if (actual[0] != expected[0]) {
+         passed = false;
+      }
    }
 
    if (passed) {
@@ -154,11 +162,15 @@ void testFour(std::vector<ActorEntity> actors) {
 
    auto node = testQueue.pop();
    actual[0] = node->actor->id;
-   passed = actual[0] == expected[0] ? true : false;
+   if (actual[0] != expected[0]) {
+      passed = false;
+   }
 
    node = testQueue.pop();
    actual[1] = node->actor->id;
-   passed = actual[1] == expected[1] ? true : false;
+   if (actual[1] != expected[1]) {
+      passed = false;
+   }
    if (node->next != 1) {
       passed = false;
       std::cout << "Node does not point to correct next index\n";
@@ -166,7 +178,9 @@ void testFour(std::vector<ActorEntity> actors) {
 
    node = testQueue.pop();
    actual[2] = node->actor->id;
-   passed = actual[2] == expected[2] ? true : false;
+   if (actual[2] != expected[2]) {
+      passed = false;
+   }
 
 
    if (passed) {
@@ -205,11 +219,15 @@ void testFive(std::vector<ActorEntity> actors) {
 
    auto node = testQueue.pop();
    actual[0] = node->actor->id;
-   passed = actual[0] == expected[0] ? true : false;
+   if (actual[0] != expected[0]) {
+      passed = false;
+   }
 
    node = testQueue.pop();
    actual[1] = node->actor->id;
-   passed = actual[1] == expected[1] ? true : false;
+   if (actual[1] != expected[1]) {
+      passed = false;
+   }
    if (node->next != 1) {
       passed = false;
       std::cout << "Node does not point to correct next index\n";
@@ -217,7 +235,9 @@ void testFive(std::vector<ActorEntity> actors) {
 
    node = testQueue.pop();
    actual[2] = node->actor->id;
-   passed = actual[2] == expected[2] ? true : false;
+   if (actual[2] != expected[2]) {
+      passed = false;
+   }
 
 
    if (passed) {
@@ -247,6 +267,51 @@ void testSix(std::vector<ActorEntity> actors) {
 }
 
 
+void testSeven(std::vector<ActorEntity> actors) {
+   std::cout << "\nTest 7: Removing slowest actor from queue\n";
+
+   TurnQueue testQueue = TurnQueue();
+   bool passed = true;
+
+   int arrLength = 3;
+   int expected[] = {0,1,3};
+   int actual[arrLength];
+
+   testQueue.insertActor(&actors[0], 42);
+   testQueue.insertActor(&actors[1], 84);
+   testQueue.insertActor(&actors[2], 126);
+
+   testQueue.removeActor(&actors[2]);
+
+   testQueue.insertActor(&actors[3], 168);
+
+   auto node = testQueue.pop();
+   actual[0] = node->actor->id;
+   if (actual[0] != expected[0]) {
+      passed = false;
+   }
+
+   node = testQueue.pop();
+   actual[1] = node->actor->id;
+   if (actual[1] != expected[1]) {
+      passed = false;
+   }
+
+   node = testQueue.pop();
+   actual[2] = node->actor->id;
+   if (actual[2] != expected[2]) {
+      passed = false;
+   }
+
+
+   if (passed) {
+      std::cout << "Passed\n\n";
+   }
+   else {
+      printFailMessage(expected, actual, arrLength);
+   }
+}
+
 int main() {
    std::vector<ActorEntity> actors;
    for (int i=0; i<10; i++) {
@@ -264,4 +329,6 @@ int main() {
    testFive(actors);
 
    testSix(actors);
+
+   testSeven(actors);
 }

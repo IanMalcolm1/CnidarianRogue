@@ -7,14 +7,6 @@
 
 
 
-LocalMap::~LocalMap() {
-   //for some reason the vector tries to free pointers to the actors
-   // unless they're nullptrs. At least, I think that's what was causing the crash
-   for (ActorEntity* actor : actors) {
-      actor = nullptr;
-   }
-}
-
 /* Graphics */
 
 MapDisplay* LocalMap::getMapDisplay() {

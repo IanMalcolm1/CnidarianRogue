@@ -1,6 +1,5 @@
 #include "TurnQueue.h"
 
-
 int TurnQueue::getNextIndex() {
    int nodeIndex;
 
@@ -62,7 +61,7 @@ void TurnQueue::removeActor(ActorEntity* actor) {
       return;
    }
 
-   if (nodes[frontIndex].actor == actor) {
+   if (nodes[frontIndex].isActor && nodes[frontIndex].actor == actor) {
       reusableIndices.push_back(frontIndex);
       frontIndex = nodes[frontIndex].next;
       return;
@@ -72,7 +71,7 @@ void TurnQueue::removeActor(ActorEntity* actor) {
    int current = nodes[frontIndex].next;
 
    while (current != -1) {
-      if (nodes[current].actor == actor) {
+      if (nodes[current].isActor && nodes[current].actor == actor) {
          nodes[previous].next = nodes[current].next;
          reusableIndices.push_back(current);
          return;
@@ -98,7 +97,7 @@ void TurnQueue::removeEffect(Effect effect, ActorEntity* actor) {
       return;
    }
 
-   if (nodes[frontIndex].actor == actor && nodes[frontIndex].effect == effect) {
+   if (!nodes[frontIndex].isActor && nodes[frontIndex].actor == actor && nodes[frontIndex].effect == effect) {
       reusableIndices.push_back(frontIndex);
       frontIndex = nodes[frontIndex].next;
       return;
@@ -108,7 +107,7 @@ void TurnQueue::removeEffect(Effect effect, ActorEntity* actor) {
    int current = nodes[frontIndex].next;
 
    while (current != -1) {
-      if (nodes[current].actor == actor && nodes[current].effect == effect) {
+      if (!nodes[current].isActor && nodes[current].actor == actor && nodes[current].effect == effect) {
          nodes[previous].next = nodes[current].next;
          reusableIndices.push_back(current);
          return;

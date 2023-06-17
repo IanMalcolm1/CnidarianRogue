@@ -241,7 +241,7 @@ void TerrainGenerator::floor2(Scene* scene) {
    fillMap(wall);
 
    TileCoords bossTile = TileCoords(mapWidth/2, mapHeight/2);
-   TileVector room = carveDrunkard(floor, bossTile, 500);
+   TileVector room = carveDrunkard(floor, bossTile, 1000);
 
    actorFactory->makeHydra(bossTile);
 
