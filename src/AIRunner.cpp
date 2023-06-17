@@ -113,20 +113,7 @@ int AIRunner::doApproachTarget(ActorEntity* actor) {
    auto route = actor->getCurrentRoute();
    route->clear();
 
-   PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE);
-   specs.start = actor->location;
-   specs.end = actor->getTargetLastKnownLocation();
-	Pathfinding::calcPath(specs, map, (*route));
-
-	if (route->hasNextTile()) {
-      actorMan->moveActor(actor, route->getNextTile());
-      return actor->stats.speed;
-   }
-
-   //if hits this point, actor can't find way to get to target
-   // this normally means they're being blocked by another actor
-   // so they go as close as they can until they get physically blocked
-   specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
+   PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
    specs.start = actor->location;
    specs.end = actor->getTargetLastKnownLocation();
 	Pathfinding::calcPath(specs, map, (*route));

@@ -27,6 +27,9 @@ EntityColiseum<ActorEntity>* ActorManager::getColiseum() { return &actorColiseum
 void ActorManager::destroyActor(ActorEntity* actor) {
 	map->setActorAt(actor->location, nullptr);
 	turnQueue->removeActor(actor);
+   for (Effect effect : (*actor->activeEffects.getAllEffects())) {
+      turnQueue->removeEffect(effect, actor);
+   }
 
    Inventory* inventory = &actor->inventory;
    if (inventory->hasWornArmor()) {

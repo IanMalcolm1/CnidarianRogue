@@ -9,6 +9,7 @@
 #include "Interface/InputConfirmer.h"
 #include <cwchar>
 
+#define NUM_SCENES 3
 
 class Adventure {
 private:
@@ -25,12 +26,13 @@ private:
 
    bool alreadyRanTurn;
 
+   void initScene();
    void linkPlayerAndScene();
    void newScene();
 
 public:
-   Adventure() : log(), sceneIndex(0), scene(nullptr), alreadyRanTurn(false),
-   playerMan(&log), terrainGenerator(), scenes(3, Scene(&log, &playerMan)) {};
+   Adventure() : sceneIndex(0), scene(nullptr), alreadyRanTurn(false),
+   playerMan(&log), scenes(NUM_SCENES, Scene(&log, &playerMan)) {};
 
    void setListeners(Listener* gameWindowListener);
    void initialize();

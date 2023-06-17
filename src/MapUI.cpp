@@ -16,6 +16,10 @@ void MapUI::makeTexture() {
 	int textureHeight = map->getHeight() * 8;
 	mapTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
       SDL_TEXTUREACCESS_TARGET, textureWidth, textureHeight);
+
+	SDL_SetRenderTarget(renderer, mapTexture);
+   SDLHelper::fillRect(renderer, spritesheet, {0,0,textureWidth, textureHeight}, Color(0,0,0));
+	SDL_SetRenderTarget(renderer, NULL);
 }
 
 void MapUI::setMaps(LocalMap* map) {

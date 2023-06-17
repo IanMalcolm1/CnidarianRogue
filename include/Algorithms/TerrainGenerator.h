@@ -66,18 +66,17 @@ private:
    TileCoords getRandomTile(int margin = 1);
 
    bool thereIsAPathBetween(TileCoords start, TileCoords end);
-   int distanceBetween(TileCoords start, TileCoords end);
+ 
+   //Catacombs. Best for scene of size 100x100.
+	void floor0(Scene* scene);
+   //Caves. Best for scene of size 80,80.
+	void floor1(Scene* scene);
+   //Boss floor. Best for scene of size 50x50.
+   void floor2(Scene* scene);  int distanceBetween(TileCoords start, TileCoords end);
 
 
 public:
    TerrainGenerator() : scene(nullptr), map(nullptr), randomizer() {};
 
-   //Catacombs. Best for scene of size 96x96.
-	void floor1(Scene* scene);
-
-   //Caves. Best for scene of size 128,128.
-	void floor2(Scene* scene);
-
-   //Boss floor. Best for scene of size 32,32.
-   void floor3(Scene* scene);
+   void makeFloor(int floorNum, Scene* scene);
 };

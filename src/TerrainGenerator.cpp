@@ -23,9 +23,26 @@ void TerrainGenerator::setSceneAndMap(Scene* scene) {
    placeableTiles.clear();
 }
 
-void TerrainGenerator::floor1(Scene* scene) {
+
+void TerrainGenerator::makeFloor(int floorNum, Scene* scene) {
    setSceneAndMap(scene);
 
+   switch (floorNum) {
+      case 0:
+         floor0(scene);
+         break;
+      case 1:
+         floor1(scene);
+         break;
+      case 2:
+         floor2(scene);
+         break;
+      default:
+         DebugLogger::log("Invalid floor number");
+   }
+}
+
+void TerrainGenerator::floor0(Scene* scene) {
    ColorPalette floorPalette;
    floorPalette.addColor(158,158,158);
    floorPalette.addColor(164, 164, 164);
@@ -92,7 +109,7 @@ void TerrainGenerator::floor1(Scene* scene) {
       }
 
       if (i == rooms.size()-1) {
-         floor1(scene);
+         floor0(scene);
          return;
       }
    }
@@ -116,9 +133,7 @@ void TerrainGenerator::floor1(Scene* scene) {
 }
 
 
-void TerrainGenerator::floor2(Scene* scene) {
-   setSceneAndMap(scene);
-
+void TerrainGenerator::floor1(Scene* scene) {
    ColorPalette caveFloorPalette;
    caveFloorPalette.addColor(145, 124, 89);
    caveFloorPalette.addColor(131, 151, 129);
@@ -177,6 +192,7 @@ void TerrainGenerator::floor2(Scene* scene) {
       }
    }
    actorFactory->makeCultistIdol(bossTile);
+   map->setTerrainAt(bossTile, stairsDown);
 
    for (int i=0; i<3; i++) {
       TileCoords loc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
@@ -199,8 +215,37 @@ void TerrainGenerator::floor2(Scene* scene) {
 
 
 
-void TerrainGenerator::floor3(Scene* scene) {
-   floor1(scene);
+void TerrainGenerator::floor2(Scene* scene) {
+   ColorPalette caveFloorPalette;
+   caveFloorPalette.addColor(145, 124, 89);
+   caveFloorPalette.addColor(131, 151, 129);
+   caveFloorPalette.addColor(172, 132, 70);
+
+   ColorPalette caveWallPalette;
+   caveWallPalette.addColor(84, 128, 77);
+   caveWallPalette.addColor(115, 132, 113);
+   caveWallPalette.addColor(84, 110, 80);
+
+   int wallNameId = map->addTerrainName("Cave Wall");
+   int floorNameId = map->addTerrainName("Ground");
+
+	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG);
+	TileDisplay floorDisp = TileDisplay(ASYM_DOT);
+
+   TerrainTile wallTile = TerrainTile(TERRAIN_NORMAL, wallNameId, wallDisp, false, true);
+   TerrainTile floorTile = TerrainTile(TERRAIN_NORMAL, floorNameId, floorDisp, true, false);
+
+   GeneratorTile wall = GeneratorTile(wallTile, caveWallPalette);
+   GeneratorTile floor = GeneratorTile(floorTile, caveFloorPalette);
+
+   fillMap(wall);
+
+   TileCoords bossTile = TileCoords(mapWidth/2, mapHeight/2);
+   TileVector room = carveDrunkard(floor, bossTile, 500);
+
+   actorFactory->makeHydra(bossTile);
+
+   scene->setPlayerAt(room.back());
 }
 
 
@@ -285,8 +330,10 @@ TileVector TerrainGenerator::carveDrunkard(GeneratorTile& terrain, TileCoords st
          continue;
       }
 
-      placeTerrain(drunkard, terrain);
-      roomTiles.push_back(drunkard);
+      if (map->getTerrainAt(drunkard) != terrain.tile) {
+         placeTerrain(drunkard, terrain);
+         roomTiles.push_back(drunkard);
+      }
    }
 
    return roomTiles;

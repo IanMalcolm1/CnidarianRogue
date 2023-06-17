@@ -1,6 +1,7 @@
 #include "Adventure/Adventure.h"
 #include "Algorithms/FoV.h"
 #include "Enums/PlayerCommands.h"
+#include "Logs/DebugLogger.h"
 #include "SDL_keycode.h"
 
 
@@ -8,22 +9,40 @@ void Adventure::setListeners(Listener* gameWindowListener) {
    this->gameWindowListener =  gameWindowListener;
 }
 
-void Adventure::initialize() {
-   scene = &scenes[sceneIndex];
+
+void Adventure::initScene() {
    scene->initialize(&effectDescriber);
    linkPlayerAndScene();
    scene->hookupListeners(gameWindowListener, (Listener*) &playerMan);
+}
 
-   if (sceneIndex == 0) {
+void Adventure::initialize() {
+   switch (sceneIndex) {
+   case 0:
+      scenes[sceneIndex] = Scene(&log, &playerMan, 100, 100);
+      scene = &scenes[sceneIndex];
+      initScene();
       playerMan.armPlayer();
-      terrainGenerator.floor1(scene);
+      break;
+
+   case 1:
+      scenes[sceneIndex] = Scene(&log, &playerMan, 80, 80);
+      scene = &scenes[sceneIndex];
+      initScene();
+      break;
+
+   case 2:
+      scenes[sceneIndex] = Scene(&log, &playerMan, 50, 50);
+      scene = &scenes[sceneIndex];
+      initScene();
+      break;
+
+   default:
+      DebugLogger::log("AAAAAAAAAAAAAAAAAAAAA");
+      break;
    }
-   if (sceneIndex == 1) {
-      terrainGenerator.floor2(scene);
-   }
-   if (sceneIndex == 2) {
-      terrainGenerator.floor3(scene);
-   }
+
+   terrainGenerator.makeFloor(sceneIndex, scene);
 
    FoV::calcPlayerFoV(scene->getMap(), playerMan.getPlayer());
    updateMapDisplay();
@@ -120,7 +139,7 @@ void Adventure::updateMapDisplay() {
 
 
 void Adventure::newScene() {
-   if (sceneIndex >= scenes.size()-1) {
+   if (sceneIndex >= NUM_SCENES) {
       log.sendMessage("Last floor");
       return;
    }

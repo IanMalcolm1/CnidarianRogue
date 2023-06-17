@@ -8,6 +8,8 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
+Make hydra spawning ability and ai
+
 Slightly better generation
    - Generation for the three floors
    - First rectangles (abandoned complex or inhabited cult), second caves, third bossfight

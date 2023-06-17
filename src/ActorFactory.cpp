@@ -198,3 +198,34 @@ ActorEntity* ActorFactory::makeCultistIdol(TileCoords location) {
    registerActor(cultist);
    return cultist;
 }
+
+ActorEntity* ActorFactory::makeHydra(TileCoords location) {
+   ActorEntity* hydra = actorColiseum->makeEntity();
+   ActorStatBlock* hydraStats = &hydra->stats;
+
+   hydraStats->maxHealth = 30 + randomizer.getRandomNumber(3,5);
+   hydraStats->health = hydraStats->maxHealth;
+   hydraStats->strength = 3;
+   hydraStats->speed = FULL_TURN_TIME;
+
+   hydra->description.name = "Hydra";
+   hydra->description.desc = "A massive white worm sits embedded in the ground. Budding clones writhe along its exposed length.";
+
+   hydra->display.symbol = ASYM_YEN;
+   hydra->display.symbolColor = colorMap.getColor("offwhite");
+
+   hydra->location = location;
+
+   hydra->faction = FACTION_BAD;
+
+   hydra->inventory = Inventory(nullptr, nullptr, itemFactory->getNaturalWeapon(NATWEAP_TOUGH_SKIN));
+   hydra->inventory.setMeleeWeapon(itemFactory->makeBigMace({-1,-1}));
+
+   hydra->aiType = AITYPE_MELEE;
+
+   Effect regeneration = EffectFactory::makeRegeneration(1, FULL_TURN_TIME*10000, FULL_TURN_TIME*3);
+   effectMan->attachEffect(regeneration, hydra);
+
+   registerActor(hydra);
+   return hydra;
+}

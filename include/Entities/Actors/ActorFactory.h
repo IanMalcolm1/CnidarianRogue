@@ -38,4 +38,6 @@ public:
 
    ActorEntity* makeCnidas(TileCoords location);
    ActorEntity* makeCultistIdol(TileCoords location);
+
+   ActorEntity* makeHydra(TileCoords location);
 };

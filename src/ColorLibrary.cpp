@@ -28,10 +28,15 @@ void ColorLibrary::initialize() {
    colorMap.insert({ "lavender", Color(220, 208, 255) });
 	colorMap.insert({ "pink", Color(255,192,203) });
 
-   colorMap.insert({ "grey", Color(128,128,128) });
+   colorMap.insert({ "white", Color(255,255,255) });
+   colorMap.insert({ "offwhite", Color(224,224,224) });
    colorMap.insert({ "lightgrey", Color(192,192,192) });
+
+   colorMap.insert({ "grey", Color(128,128,128) });
    colorMap.insert({ "darkgrey", Color(64,64,64) });
    colorMap.insert({ "slategrey", Color(119,136,153) });
+
+   colorMap.insert({ "black", Color(0,0,0) });
 }
 
 Color ColorLibrary::getColor(std::string name) {
