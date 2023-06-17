@@ -209,14 +209,14 @@ bool LocalMap::isTraversibleAndSeen(TileCoords location) {
 
 void LocalMap::setPlayerLocation(ActorEntity* player, TileCoords newLocation) {
    if (player->location.x != -1) {
-      actors[coordsToTileIndex(player->location)] = nullptr;
+      setActorAt(player->location, nullptr);
    }
 
    player->location = newLocation;
 
    playerTile = newLocation;
 
-   actors[coordsToTileIndex(newLocation)] = player;
+   setActorAt(newLocation, player);
    mapDisplay.setFocusTile(newLocation);
 }
 
@@ -356,13 +356,12 @@ ActorEntity* LocalMap::getActorAt(TileCoords location) {
 }
 
 
-void LocalMap::setActorAt(int index, ActorEntity* actor) { actors[index] = actor; }
 void LocalMap::setActorAt(TileCoords location, ActorEntity* actor) {
    if (!isInMapBounds(location)) {
       DebugLogger::log("setActorAt() coordinates out of bounds");
       return;
    }
-   setActorAt(coordsToTileIndex(location), actor);
+   actors[coordsToTileIndex(location)] = actor;
 }
 
 

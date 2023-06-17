@@ -96,7 +96,6 @@ public:
 	bool thereIsAnActorAt(TileCoords location);
 	ActorEntity* getActorAt(int index);
 	ActorEntity* getActorAt(TileCoords location);
-	void setActorAt(int index, ActorEntity* actor);
 	void setActorAt(TileCoords location, ActorEntity* actor);
 	void setPlayerLocation(ActorEntity* player, TileCoords newLocation);
 
