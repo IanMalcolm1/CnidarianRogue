@@ -15,7 +15,7 @@ struct MapRenderingData {
 	int scaleSize; //Actual number of pixels to a side of a tile
 
 	MapRenderingData() :  srcRect({ 0,0,0,0 }), dstRect({ 0,0,0,0 }),
-		scale(12), scaleSize(12 * 8), startTile(), endTile() {};
+		scale(4), scaleSize(scale * 8), startTile(), endTile() {};
 };
 
 
