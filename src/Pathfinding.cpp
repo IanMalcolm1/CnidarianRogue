@@ -164,6 +164,8 @@ void Pathfinding::makeAStarRoute(PathingSpecs& specs, LocalMap* map, Traversibil
 	/* Thanks to Amit Patel for his blogs on pathfinding */
 	route.clear();
 
+   int maxTilesVisited = specs.routeInfo.maxAStarTiles;
+
    TileCoords startTile = specs.start;
    TileCoords endTile = specs.end;
 
@@ -186,7 +188,7 @@ void Pathfinding::makeAStarRoute(PathingSpecs& specs, LocalMap* map, Traversibil
 			break;
 		}
 
-		for (int i = 0; i < surroundOffsets.size(); i++) {
+		for (int i = 0; i < surroundOffsets.size() && visited.size() <= maxTilesVisited; i++) {
 			TileCoords tile = current.tile + surroundOffsets[i];
 			if (!map->isInMapBounds(tile) || (!std::invoke(traversible, map, tile) && tile != startTile)) {
 				continue;
@@ -210,7 +212,6 @@ void Pathfinding::makeAStarRoute(PathingSpecs& specs, LocalMap* map, Traversibil
 			PathingNode next = visited[tile];
 
 			if (next.distance > nextDistance) {
-				next = visited[tile];
 				next.distance = nextDistance;
 				next.priority = nextPriority;
 

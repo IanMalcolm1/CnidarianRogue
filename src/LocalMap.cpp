@@ -4,6 +4,7 @@
 #include "Algorithms/PathingSpecs.h"
 #include "Logs/DebugLogger.h"
 #include "Topography/TerrainMap.h"
+#include <climits>
 
 
 
@@ -120,6 +121,7 @@ void LocalMap::makeHighlightRoute() {
 
    if (pathingSpecs.type == PATH_ROUTE) {
       pathingSpecs.end = mouseTile;
+      pathingSpecs.routeInfo.maxAStarTiles = INT_MAX;
    }
 
    else if (pathingSpecs.type == PATH_LINE) {

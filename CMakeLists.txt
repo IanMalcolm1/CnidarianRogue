@@ -60,6 +60,7 @@ add_executable(Roguelike
    src/MessagesUI.cpp
    src/Pathfinding.cpp
    src/PathfindingRoute.cpp
+   src/PathingSpecs.cpp
    src/PlayerManager.cpp
    src/PlayerUI.cpp
    src/Randomizer.cpp

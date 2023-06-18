@@ -7,6 +7,7 @@
 #include "Entities/Actors/ActorEntity.h"
 #include "Enums/TurnTime.h"
 #include "Logs/DebugLogger.h"
+#include <climits>
 
 
 void AIRunner::initialize(LocalMap* map, ActorManager* actorMan, ActorUtils* actorUtils, AbilityManager* abilityMan) {
@@ -108,14 +109,29 @@ int AIRunner::doShootAndApproach(ActorEntity* actor) {
  }
 
 
+//approach last known location of target
 int AIRunner::doApproachTarget(ActorEntity* actor) {
-   //approach last known location of target
    auto route = actor->getCurrentRoute();
    route->clear();
 
-   PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
+   PathingSpecs specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_NONE);
    specs.start = actor->location;
    specs.end = actor->getTargetLastKnownLocation();
+   specs.routeInfo.maxAStarTiles = 300; //limited in the hopes of improving performance
+	Pathfinding::calcPath(specs, map, (*route));
+
+	if (route->hasNextTile()) {
+      if (map->isTraversibleAt(route->getNextTile())) {
+         actorMan->moveActor(actor, route->getNextTile());
+         return actor->stats.speed;
+      }
+   }
+
+   //try ignoring actors (means will line up to attack target)
+   specs = PathingSpecs(PATH_ROUTE, TRAV_IGNORE_ACTORS);
+   specs.start = actor->location;
+   specs.end = actor->getTargetLastKnownLocation();
+   specs.routeInfo.maxAStarTiles = INT_MAX;
 	Pathfinding::calcPath(specs, map, (*route));
 
 	if (route->hasNextTile()) {

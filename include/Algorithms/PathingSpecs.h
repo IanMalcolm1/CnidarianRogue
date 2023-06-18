@@ -18,6 +18,10 @@ struct LinePathInfo {
    int range;
 };
 
+struct RouteInfo {
+   int maxAStarTiles;
+};
+
 struct PathingSpecs {
    PathingType type;
    TileCoords start, end;
@@ -25,8 +29,8 @@ struct PathingSpecs {
 
    union {
       LinePathInfo lineInfo;
+      RouteInfo routeInfo;
    };
 
-   PathingSpecs(PathingType type = PATH_ROUTE, TraversibilityType traversibility = TRAV_IGNORE_NONE) :
-   type(type), traversibility(traversibility) {};
+   PathingSpecs(PathingType type = PATH_ROUTE, TraversibilityType traversibility = TRAV_IGNORE_NONE);
 };

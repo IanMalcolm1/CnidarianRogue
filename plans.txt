@@ -8,9 +8,6 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Fix AI (need to put A* back in the melee ai, but need a way to limit how many tiles A* is
-   allowed to check so there aren't all those lag spikes)
-
 Slightly better generation
    - Generation for the three floors
    - First rectangles (abandoned complex or inhabited cult), second caves, third bossfight

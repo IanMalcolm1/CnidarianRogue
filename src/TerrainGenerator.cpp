@@ -7,6 +7,7 @@
 #include "SDL_rect.h"
 #include "Topography/TerrainMap.h"
 #include "Topography/TileCoordinates.h"
+#include <climits>
 #include <functional>
 #include <string>
 #include <unordered_set>
