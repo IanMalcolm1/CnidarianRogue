@@ -50,7 +50,7 @@ void TerrainGenerator::floor0(Scene* scene) {
 
    int wallNameId = map->addTerrainName("Wall");
    int floorNameId = map->addTerrainName("Floor");
-   int stairsNameId = map->addTerrainName("Stairs Down");
+   int stairsNameId = map->addTerrainName("Damp Tunnel");
    int altarNameId = map->addTerrainName("Feeding Altar");
 
 	TileDisplay wallDisp = TileDisplay(ASYM_HASHTAG);
@@ -150,7 +150,7 @@ void TerrainGenerator::floor1(Scene* scene) {
 
    int wallNameId = map->addTerrainName("Cave Wall");
    int floorNameId = map->addTerrainName("Ground");
-   int stairsNameId = map->addTerrainName("Stairs Down");
+   int stairsNameId = map->addTerrainName("Small Opening");
    int mushroomNameId = map->addTerrainName("Mushroom Patch");
    int bushNameId = map->addTerrainName("Cave Bush");
 

@@ -158,8 +158,8 @@ ItemEntity* ItemFactory::makeLeatherArmor(TileCoords location) {
 ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
    ItemEntity* mush = coliseum->makeEntity();
 
-   mush->description.name = "Magic Mushroom";
-   mush->description.desc = "It has a slight rainbow iridescence.";
+   mush->description.name = "Scioshroom";
+   mush->description.desc = "Rarer even than the Visberry, this mushroom can grant a clarity of thought essential to Aetheric practice.";
 
    mush->display.symbol = ASYM_UFO;
    mush->display.symbolColor = colorMap.getColor("lavender");
@@ -177,8 +177,8 @@ ItemEntity* ItemFactory::makeIntelligenceMushroom(TileCoords location) {
 ItemEntity* ItemFactory::makeStrengthFruit(TileCoords location) {
    ItemEntity* fruit = coliseum->makeEntity();
 
-   fruit->description.name = "Magic Fruit";
-   fruit->description.desc = "It looks like a sparkly mango.";
+   fruit->description.name = "Visberry";
+   fruit->description.desc = "Despite being coveted for its powerful strengthening properties, this fruit has never been successfully cultivated. Every man, woman, and child on the continent dreams of finding one.";
 
    fruit->display.symbol = ASYM_UFO;
    fruit->display.symbolColor = colorMap.getColor("orange");

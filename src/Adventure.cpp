@@ -23,18 +23,21 @@ void Adventure::initialize() {
       scene = &scenes[sceneIndex];
       initScene();
       playerMan.armPlayer();
+      log.sendMessage("You are </gold:Arta\\>, a fledgling adventurer recently arrived in the town of </brown:Murvell\\>. Here the townsfolk whisper fearfully of a dark cult inhabiting the town's catacombs; of a tribe of twisted once-humans feeding on the bodies interred along the dark tunnels they call home.\n</darkishred:You have decided to investigate.\\>\n");
       break;
 
    case 1:
       scenes[sceneIndex] = Scene(&log, &playerMan, 80, 80);
       scene = &scenes[sceneIndex];
       initScene();
+      log.sendMessage("\nYou exit the tunnel into a large, mossy </darkgreen:Cavern\\>.\n");
       break;
 
    case 2:
       scenes[sceneIndex] = Scene(&log, &playerMan, 50, 50);
       scene = &scenes[sceneIndex];
       initScene();
+      log.sendMessage("\nYou squeeze through the opening into an offshoot of the main cavern.\n");
       break;
 
    default:

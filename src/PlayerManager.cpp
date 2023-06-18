@@ -26,7 +26,7 @@ PlayerManager::PlayerManager(GameLog* gameLog) :
       player->stats.maxHealth = 10000;
       player->stats.health = player->stats.maxHealth;
 
-      player->description.name = "Tamren";
+      player->description.name = "Arta";
       player->description.desc = "It's you.";
 
       player->display.symbol = ASYM_AT;

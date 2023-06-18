@@ -8,7 +8,8 @@ consumables that increase them on pickup. No main menu.
 
 TODOS:
 Current:
-Make hydra spawning ability and ai
+Fix AI (need to put A* back in the melee ai, but need a way to limit how many tiles A* is
+   allowed to check so there aren't all those lag spikes)
 
 Slightly better generation
    - Generation for the three floors
@@ -25,10 +26,8 @@ Floor 2: Complete
 Floor 3: In-Progress
 
 Next:
-Add flavor text on level changes
 Add winning
 Put player's health back at 18
-Give character gender-neutral name
 Figure out std::vector deallocation bug in LocalMap actors data member
    Probably trying to modify the actors array in LocalMap beyond bounds sometimes. Maybe remove
    direct actors[index] function and give the tilecoords one a bounds check

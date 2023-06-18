@@ -10,6 +10,7 @@ void ColorLibrary::initialize() {
 	colorMap.insert({ "red", Color(255, 0, 0) });
 	colorMap.insert({ "darkred", Color(165, 42, 42) });
 	colorMap.insert({ "maroon", Color(128, 0, 0) });
+	colorMap.insert({ "darkishred", Color(196, 0, 0) });
 
 	colorMap.insert({ "orange", Color(255,165,0) });
    colorMap.insert({ "brown", Color(150, 75, 0) });
@@ -19,6 +20,7 @@ void ColorLibrary::initialize() {
 	colorMap.insert({ "darkgold", Color(181,148,16) });
 
 	colorMap.insert({ "green", Color(0, 255, 0) });
+	colorMap.insert({ "darkgreen", Color(0, 128, 0) });
 	colorMap.insert({ "lightgreen", Color(144, 238, 144) });
 
 	colorMap.insert({ "blue", Color(0, 0, 255) });
