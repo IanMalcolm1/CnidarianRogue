@@ -86,6 +86,13 @@ void TwoButtonPopupUI::processMouseLocation(int x, int y) {
 	}
 }
 
+
+void TwoButtonPopupUI::setMessage(std::string message) {
+   GameTextMaker textMaker = GameTextMaker();
+   mainText = textMaker.makeGameText(message);
+}
+
+
 void TwoButtonPopupUI::processMouseClick(int x, int y) {
    if (hidden) {
 		return;

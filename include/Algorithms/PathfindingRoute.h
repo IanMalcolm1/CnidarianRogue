@@ -19,4 +19,5 @@ public:
 	bool hasNextTile();
 	TileCoords endTile();
    int length();
+   bool started();
 };

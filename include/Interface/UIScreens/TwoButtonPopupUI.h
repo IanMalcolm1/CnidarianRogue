@@ -46,6 +46,8 @@ public:
 
 	void render(const SDL_Rect& viewport);
 
+   void setMessage(std::string message);
+
 	void processMouseLocation(int x, int y);
 	void processMouseClick(int x, int y);
 };

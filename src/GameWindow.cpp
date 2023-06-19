@@ -20,8 +20,6 @@ adventureUI(adventure), exitConfirmerUI(4), gameOverUI(4), fpsUI() {
 }
 
 GameWindow::~GameWindow() {
-	printf("Window destructor called.\n");
-
    adventureUI.cleanUp();
 
 	SDL_DestroyTexture(spritesheet);
@@ -160,6 +158,12 @@ void GameWindow::processKeyPress(SDL_Keycode keycode, SDL_Keymod modification) {
 
 void GameWindow::processEvent(EventType event) {
    if (event == EVENT_PLAYERDED) {
+      gameOverUI.setMessage("Game Over");
+      gameOverUI.hidden = false;
+   }
+
+   else if (event == EVENT_WIN) {
+      gameOverUI.setMessage("You Win!");
       gameOverUI.hidden = false;
    }
 }

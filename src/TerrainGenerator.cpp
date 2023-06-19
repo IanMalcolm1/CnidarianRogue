@@ -195,16 +195,23 @@ void TerrainGenerator::floor1(Scene* scene) {
    actorFactory->makeCultistIdol(bossTile);
    map->setTerrainAt(bossTile, stairsDown);
 
-   for (int i=0; i<3; i++) {
+   
+   std::unordered_set<TileCoords, TileCoords::HashFunction> usedTiles;
+   while (usedTiles.size() < 2) {
       TileCoords loc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
-      map->setTerrainAt(loc, bush);
-      itemFactory->makeStrengthFruit(loc);
+      if (usedTiles.find(loc) == usedTiles.end()) {
+         itemFactory->makeIntelligenceMushroom(loc);
+         carveDrunkard(mushrooms, loc, 2);
+         usedTiles.insert(loc);
+      }
    }
-
-   for (int i=0; i<2; i++) {
+   while (usedTiles.size() < 5) {
       TileCoords loc = placeableTiles[randomizer.getRandomNumber(placeableTiles.size()-1)];
-      itemFactory->makeIntelligenceMushroom(loc);
-      carveDrunkard(mushrooms, loc, 2);
+      if (usedTiles.find(loc) == usedTiles.end()) {
+         map->setTerrainAt(loc, bush);
+         itemFactory->makeStrengthFruit(loc);
+         usedTiles.insert(loc);
+      }
    }
 
    for (auto room : rooms) {
@@ -356,7 +363,7 @@ std::vector<TileVector> TerrainGenerator::makeDrunkardRooms(GeneratorTile& terra
 void TerrainGenerator::spawnCultists(SDL_Rect room) {
    int numWarriors = randomizer.getRandomNumber(2);
    int numPreachers = randomizer.flipCoin();
-   int numDogs = randomizer.getRandomNumber(3)/3;
+   int numDogs = randomizer.getRandomNumber(4)/4;
 
    for (int i=0; i<numWarriors; i++) {
       TileCoords tile;

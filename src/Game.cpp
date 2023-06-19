@@ -22,12 +22,9 @@ Game::Game() {
 	gameWindow = std::make_unique<GameWindow>(adventure.get());
 
 	inputManager = std::make_unique<InputManager>(gameWindow.get(), adventure.get());
-
-	printf("Game constructor called.\n");
 }
 
 Game::~Game() {
-	printf("Game destructor called.\n");
    DebugLogger::closeDebugLogger();
 }
 

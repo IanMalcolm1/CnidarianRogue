@@ -97,7 +97,7 @@ int AIRunner::doShootAndApproach(ActorEntity* actor) {
 
    if (actor->location == actor->getTargetLastKnownLocation()) {
       actor->setState(AISTATE_IDLE);
-      return meleeAI(actor);
+      return rangedAI(actor);
    }
 
    if (actor->canSeeTarget() && targetIsInShootRange(actor)) {
@@ -175,12 +175,11 @@ int AIRunner::rangedAI(ActorEntity* actor) {
 }
 
 int AIRunner::hydraAI(ActorEntity* actor) {
-   //always try spawning cnidas
-   if (abilityMan->doAbility(actor->ability, actor)) {
-      return actor->stats.speed;
-   }
-
    if (actor->isAggroed() || actor->canSeeHostile()) {
+      //first, always try spawining a cnidas
+      if (abilityMan->doAbility(actor->ability, actor)) {
+         return actor->stats.speed;
+      }
       tryMeleeAttack(actor);
    }
 

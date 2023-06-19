@@ -2,6 +2,7 @@
 
 #include "Adventure/Scene/ActorManager.h"
 #include "Adventure/Scene/EffectManager.h"
+#include "Algorithms/PathfindingRoute.h"
 #include "Entities/Abilities/AbilityManager.h"
 #include "Entities/Actors/ActorEntity.h"
 #include "Adventure/Scene/ItemManager.h"
@@ -22,6 +23,12 @@ enum PlayerInputState {
 	PLAYER_INPUT_SELECT
 };
 
+enum PlayerAutoActState {
+   PLAYER_AACT_NONE,
+   PLAYER_AACT_MOVE,
+   PLAYER_AACT_WAIT,
+};
+
 class PlayerManager : public Listener {
 private:
 	ActorEntity* player;
@@ -39,11 +46,17 @@ private:
 
    GameLog* gameLog;
 
-	bool autoActing;
-	PathingRoute autoMoveRoute, selectionRoute;
+	PlayerAutoActState autoActingState;
+   int waitTurnsLeft;
+	PathingRoute autoMoveRoute;
 
+   PathingRoute selectionRoute;
+
+	void startAutoMove();
    bool doAutoMovement(); //reurns true if turn should be run
-	void startAutoMove(); //reurns true if turn should be run
+
+   bool doLongWait(); //reurns true if turn should be run
+
    void lookAtMouseTile();
    
    TileCoords getNewLocation(TileCoords curr, PlayerCommand direction);
@@ -66,6 +79,7 @@ public:
 	bool doAutoAct();
 	void clearAutoAct();
    bool isAutoActing(); //reurns true if turn should be run
+   bool startLongWait(); //reurns true if turn should be run
 
    bool pickUpItem();
    void waitTurn();

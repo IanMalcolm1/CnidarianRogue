@@ -48,6 +48,11 @@ void ActorManager::destroyActor(ActorEntity* actor) {
       return;
    }
 
+   if (actor->description.name == "Gorgon") {
+      notifyListeners(EVENT_WIN);
+      return;
+   }
+
    for (int i=0; i<actorColiseum.getDirtySlots(); i++) {
       if (actorColiseum.getEntity(i)->isTargetting(actor)) {
          actorColiseum.getEntity(i)->setTarget(NULL);

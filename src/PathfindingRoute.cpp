@@ -30,3 +30,8 @@ TileCoords PathingRoute::endTile() {
    }
    return {-1,-1};
 }
+
+
+bool PathingRoute::started() {
+   return progress > 0;
+}

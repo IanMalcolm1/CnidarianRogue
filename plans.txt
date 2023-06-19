@@ -1,34 +1,8 @@
 _____________________________________________________________________________________________
-IMPORTANT:
-In an effort to ever finish this thing it would probably be best to define some hard limits
-on gameplay scope. The game loop should only consist of a single armor slot and a single
-weapon slot without a proper inventory that would require me to make an new dedicated UI
-screen. Stats should probably also be limited, though maybe there could be certain
-consumables that increase them on pickup. No main menu.
-
 TODOS:
 Current:
-Slightly better generation
-   - Generation for the three floors
-   - First rectangles (abandoned complex or inhabited cult), second caves, third bossfight
-   - Power-up fruit bushes and mushroom clusters in caves
-
-   Cultists eat corpses (put something about "...rumors of corpse-eating cultists..." in a
-   message upon level entry) and are symbiotes with Hydra clones (maybe they replace tongues?)
-
-   Boss is hydra. Stationary but spawns clones every 3 turns.
-
-Floor 1: Complete
-Floor 2: Complete
-Floor 3: In-Progress
 
 Next:
-Add winning
-Put player's health back at 18
-Figure out std::vector deallocation bug in LocalMap actors data member
-   Probably trying to modify the actors array in LocalMap beyond bounds sometimes. Maybe remove
-   direct actors[index] function and give the tilecoords one a bounds check
-   Did above. Seems to be fixed.
 
 Maybe in free time:
 Improve player-to-mouse path performance (A* implemenation)

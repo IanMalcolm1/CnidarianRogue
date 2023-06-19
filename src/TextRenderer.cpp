@@ -231,7 +231,7 @@ void TextRenderingSpecs::modifyFontSize(int modification) {
 
 void TextRenderingSpecs::setViewportWidth(int viewportWidth) {
    this->viewportWidth = viewportWidth;
-	maxLettersPerLine = (viewportWidth - 2 * margin) / fontSizePixels;
+	maxLettersPerLine = (viewportWidth - (2*margin)) / fontSizePixels;
 }
 
 

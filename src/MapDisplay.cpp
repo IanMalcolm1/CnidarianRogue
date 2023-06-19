@@ -2,7 +2,6 @@
 #include <cstdio>
 
 MapDisplay::~MapDisplay() {
-	printf("Buffer map destructor called\n");
 }
 
 int MapDisplay::getWidth() { return width; }

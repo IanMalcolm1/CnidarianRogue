@@ -17,13 +17,13 @@
 
 PlayerManager::PlayerManager(GameLog* gameLog) :
    actorMan(nullptr), player(nullptr), map(nullptr),
-   inputState(PLAYER_INPUT_MOVE), autoActing(false), 
+   inputState(PLAYER_INPUT_MOVE), autoActingState(PLAYER_AACT_NONE), 
    gameLog(gameLog) {
 
       playerArena = malloc(sizeof(ActorEntity) + 64);
       player = new(playerArena) ActorEntity(0, sizeof(ActorEntity), sizeof(ActorEntity)+64, true);
 
-      player->stats.maxHealth = 10000;
+      player->stats.maxHealth = 21;
       player->stats.health = player->stats.maxHealth;
 
       player->description.name = "Arta";
@@ -172,19 +172,22 @@ void PlayerManager::lookAtMouseTile() {
 }
 
 bool PlayerManager::doAutoAct() {
-   bool stillMoving = doAutoMovement();
+   switch (autoActingState) {
+   case PLAYER_AACT_MOVE:
+      return doAutoMovement();
 
-   if (stillMoving && player->canSeeHostile()) {
-      clearAutoAct();
-      gameLog->sendMessage("Auto move cancelled due to visible enemy.");
+   case PLAYER_AACT_WAIT:
+      return doLongWait();
+
+   case PLAYER_AACT_NONE:
+      return false;
    }
-
-   return stillMoving;
 }
 
 void PlayerManager::clearAutoAct() {
    autoMoveRoute.clear();
-   autoActing = false;
+   waitTurnsLeft = 0;
+   autoActingState = PLAYER_AACT_NONE;
 }
 
 void PlayerManager::startAutoMove() {
@@ -194,16 +197,24 @@ void PlayerManager::startAutoMove() {
    }
 
    autoMoveRoute = map->getHighlightedPath();
-   autoActing = true;
+   autoActingState = PLAYER_AACT_MOVE;
 }
 
 bool PlayerManager::doAutoMovement() {
+   //if route has no more tiles, just stop
    if (!autoMoveRoute.hasNextTile()) {
       clearAutoAct();
-      autoActing = false;
       return false;
    }
 
+   //only stop for hostile if already moved one tile along route
+   if (player->canSeeHostile() && autoMoveRoute.started()) {
+      clearAutoAct();
+      gameLog->sendMessage("Auto move cancelled due to visible enemy.");
+      return false;
+   }
+
+   bool moved;
    TileCoords newTile = autoMoveRoute.getNextTile();
 
    if (map->isTraversibleAt(newTile)) {
@@ -214,12 +225,38 @@ bool PlayerManager::doAutoMovement() {
    }
    else {
       clearAutoAct();
-      autoActing = false;
       return false;
    }
 }
 
-bool PlayerManager::isAutoActing() { return autoActing; }
+bool PlayerManager::startLongWait() {
+   gameLog->sendMessage("Waiting 10 turns...");
+   autoActingState = PLAYER_AACT_WAIT;
+   waitTurnsLeft = 10;
+   return doLongWait();
+}
+
+bool PlayerManager::doLongWait() {
+   if (waitTurnsLeft < 1) {
+      clearAutoAct();
+      return false;
+   }
+
+   if (player->canSeeHostile()) {
+      gameLog->sendMessage("Long wait cancelled due to visible enemy.");
+      clearAutoAct();
+      return false;
+   }
+
+   waitTurnsLeft--;
+   actorMan->addActorToTurnQueue(player, player->stats.speed);
+   return true;
+}
+
+
+bool PlayerManager::isAutoActing() {
+   return autoActingState != PLAYER_AACT_NONE;
+}
 
 
 
@@ -288,8 +325,8 @@ void PlayerManager::processEvent(EventType event) {
    if (event == EVENT_PLAYERDED) {
       clearAutoAct();
    }
-   else if (event == EVENT_PLAYERDAMAGED && autoActing) {
-      gameLog->sendMessage("Auto move cancelled due to damage taken.");
+   else if (event == EVENT_PLAYERDAMAGED && isAutoActing()) {
+      gameLog->sendMessage("Auto act cancelled due to damage taken.");
       clearAutoAct();
    }
 }

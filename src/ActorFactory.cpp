@@ -209,8 +209,8 @@ ActorEntity* ActorFactory::makeHydra(TileCoords location) {
    hydraStats->strength = 3;
    hydraStats->speed = FULL_TURN_TIME;
 
-   hydra->description.name = "Hydra";
-   hydra->description.desc = "A massive white worm sits embedded in the ground. Budding clones writhe along its exposed length.";
+   hydra->description.name = "Gorgon";
+   hydra->description.desc = "It seems as much worm as human. Gestating cnidas bud from its pale flesh.";
 
    hydra->display.symbol = ASYM_YEN;
    hydra->display.symbolColor = colorMap.getColor("offwhite");

@@ -6,6 +6,7 @@ enum EventType {
    EVENT_PLAYERDAMAGED,
    EVENT_QUIT_GAME,
    EVENT_RESTART_GAME,
+   EVENT_WIN,
 };
 
 class Listener {

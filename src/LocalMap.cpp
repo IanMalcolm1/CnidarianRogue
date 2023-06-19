@@ -210,7 +210,7 @@ bool LocalMap::isTraversibleAndSeen(TileCoords location) {
 /* Manipulation */
 
 void LocalMap::setPlayerLocation(ActorEntity* player, TileCoords newLocation) {
-   if (player->location.x != -1) {
+   if (isInMapBounds(player->location)) {
       setActorAt(player->location, nullptr);
    }
 

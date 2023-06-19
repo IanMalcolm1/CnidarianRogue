@@ -88,14 +88,19 @@ void Adventure::processCommand(PlayerCommand command, Uint16 modification) {
    }
 
    else if (command == PC_PICKUP) {
-      needToRunTurn = playerMan.pickUpItem();
-   }
-
-   else if (command == PC_WAIT) {
       if ((modification&KMOD_SHIFT)==KMOD_LSHIFT || (modification&KMOD_SHIFT) == KMOD_RSHIFT) {
          if (playerMan.attemptLevelChange() == true) {
             newScene();
          }
+      }
+      else {
+         needToRunTurn = playerMan.pickUpItem();
+      }
+   }
+
+   else if (command == PC_WAIT) {
+      if ((modification&KMOD_SHIFT)==KMOD_LSHIFT || (modification&KMOD_SHIFT) == KMOD_RSHIFT) {
+         needToRunTurn = playerMan.startLongWait();
       }
       else {
          playerMan.waitTurn();
