@@ -107,15 +107,6 @@ void GameWindow::update(int fps) {
 void GameWindow::updateWindowDimensions(int width, int height) {
 	screenDimensions.w = width;
 	screenDimensions.h = height;
-
-   int wWidthPixels, wHeightPixels;
-   int wWidthDots, wHeightDots;
-   int glWidth, glHeight;
-   SDL_GetRendererOutputSize(renderer, &wWidthPixels, &wHeightPixels);
-   SDL_GetWindowSize(window, &wWidthDots, &wHeightDots);
-   SDL_GL_GetDrawableSize(window, &glWidth, &glHeight);
-
-   printf("Actual: %ix%i || Dots: %ix%i || GL: %ix%i\n", wWidthPixels, wHeightPixels, wWidthDots, wHeightDots, glWidth, glHeight);
 }
 
 
