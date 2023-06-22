@@ -31,7 +31,7 @@ public:
 	bool hidden;
 
 	TwoButtonPopupUI(std::string mainText, std::string leftText,
-   std::string rightText, int fontSize = 4) : renderer(NULL), spritesheet(NULL),
+   std::string rightText, int fontSize = 2) : renderer(NULL), spritesheet(NULL),
    parentViewport(), leftButtonViewport(), rightButtonViewport(),
    screenViewport(), highlightLeftButton(false), highlightRightButton(false),
    textSpecs(fontSize), hidden(true) {
@@ -50,4 +50,5 @@ public:
 
 	void processMouseLocation(int x, int y);
 	void processMouseClick(int x, int y);
+	void processScroll(int x, int y, int offset, bool ctrlDown);
 };

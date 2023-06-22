@@ -43,10 +43,20 @@ void AdventureUI::processCursorMovement() {
    adventure->getScene()->getMap()->flagMouseMoved();
 }
 void AdventureUI::processScroll(int x, int y, int offset, bool ctrlDown) {
-   sceneUI.processScroll(x, y, offset);
-   messagesUI.processScroll(x, y, offset, ctrlDown);
-   playerUI.processScroll(x, y, offset);
-   lookUI.processScroll(x, y, offset);
+	SDL_Point point = { x,y };
+
+	if (SDL_PointInRect(&point, &viewports.map)) {
+      sceneUI.processScroll(x, y, offset);
+	}
+	if (SDL_PointInRect(&point, &viewports.messages)) {
+      messagesUI.processScroll(x, y, offset, ctrlDown);
+	}
+	if (SDL_PointInRect(&point, &viewports.player)) {
+      playerUI.processScroll(x, y, offset, ctrlDown);
+	}
+	if (SDL_PointInRect(&point, &viewports.look)) {
+      lookUI.processScroll(x, y, offset, ctrlDown);
+	}
 }
 void AdventureUI::processClick(int x, int y, bool isRightClick) {
    sceneUI.processClick(x, y, isRightClick);

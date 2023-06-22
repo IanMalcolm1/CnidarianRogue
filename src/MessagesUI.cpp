@@ -50,12 +50,6 @@ void MessagesUI::render(const SDL_Rect& viewport) {
 }
 
 void MessagesUI::processScroll(int x, int y, int offset, bool ctrlDown) {
-	SDL_Point point = { x,y };
-
-	if (!SDL_PointInRect(&point, &mainViewport)) {
-		return;
-	}
-
 	if (ctrlDown) {
 		textSpecs.modifyFontSize(offset);
 		makeFormattedMessages();

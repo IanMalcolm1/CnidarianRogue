@@ -31,12 +31,12 @@ private:
    GameText defaultText;
 
 public:
-	LookUI(int fontSize = 3) : map(nullptr), renderer(NULL), spritesheet(NULL),
+	LookUI(int fontSize = 2) : map(nullptr), renderer(NULL), spritesheet(NULL),
    textSpecs(fontSize), textSpecsTitle(fontSize+1) {};
 
 	void initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
 	void render(Scene* scene, const SDL_Rect& viewport);
 
-   void processScroll(int x, int y, int offset);
+   void processScroll(int x, int y, int offset, bool ctrlDown);
 };

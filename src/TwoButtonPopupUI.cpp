@@ -133,3 +133,15 @@ void TwoButtonPopupUI::calcDimensions(const SDL_Rect& viewport) {
 
 	leftButtonViewport.y = rightButtonViewport.y = screenViewport.y + screenViewport.h - (16 + leftButtonViewport.h);
 }
+
+void TwoButtonPopupUI::processScroll(int x, int y, int offset, bool ctrlDown) {
+	SDL_Point point = { x,y };
+	if (!SDL_PointInRect(&point, &screenViewport)) {
+      return;
+   }
+
+   if (ctrlDown) {
+      textSpecs.modifyFontSize(offset);
+      calcDimensions(parentViewport);
+   }
+}

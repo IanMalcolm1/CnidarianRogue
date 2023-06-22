@@ -34,11 +34,6 @@ void MapUI::setMaps(LocalMap* map) {
       mapDisplay = map->getMapDisplay();
       makeTexture();
    }
-
-   else {
-      this->map = map;
-      mapDisplay = map->getMapDisplay();
-   }
 }
 
 void MapUI::cleanUp() {

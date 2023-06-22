@@ -11,7 +11,7 @@ private:
    void onRightButtonSelect() override;
 
 public:
-	GameOverUI(int fontSize = 4) :
+	GameOverUI(int fontSize = 2) :
    TwoButtonPopupUI("Game Over", "Restart", "Quit", fontSize) {};
 
    void processKeyPress(SDL_Keycode keycode);

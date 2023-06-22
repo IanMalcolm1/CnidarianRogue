@@ -75,7 +75,14 @@ void PlayerUI::render(const SDL_Rect& viewport) {
 }
 
 
-
-void PlayerUI::processScroll(int x, int y, int offset) {
-   scroller.processScroll(x, y, offset);
+void PlayerUI::processScroll(int x, int y, int offset, bool ctrlDown) {
+   if (ctrlDown) {
+      if ((offset<0 && textSpecs.fontSize>1) || (offset>0 && textSpecsTitle.fontSize<10)) {
+         textSpecs.modifyFontSize(offset);
+         textSpecsTitle.modifyFontSize(offset);
+      }
+   }
+   else {
+      scroller.processScroll(x, y, offset);
+   }
 }

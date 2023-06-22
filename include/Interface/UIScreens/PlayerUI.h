@@ -26,12 +26,12 @@ private:
    GameText title, statsTitle, weaponTitle, armorTitle;
 
 public:
-	PlayerUI(int fontSize = 3) : playerMan(nullptr), renderer(NULL),
+	PlayerUI(int fontSize = 2) : playerMan(nullptr), renderer(NULL),
    spritesheet(NULL), textSpecsTitle(fontSize+1), textSpecs(fontSize) {};
 
 	void initialize(Adventure* adventure, SDL_Renderer* renderer, SDL_Texture* spritesheet);
 
 	void render(const SDL_Rect& viewport);
 
-   void processScroll(int x, int y, int offset);
+   void processScroll(int x, int y, int offset, bool ctrlDown);
 };

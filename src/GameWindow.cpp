@@ -4,6 +4,8 @@
 #include "Interface/UIScreens/FpsUI.h"
 #include "Interface/UIScreens/GameOverUI.h"
 #include "Interface/UIScreens/PlayerUI.h"
+#include "SDL_render.h"
+#include "SDL_video.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -50,8 +52,8 @@ bool GameWindow::initialize(Listener* gameListener) {
 	window = SDL_CreateWindow(
 		"A Simple Roguelike",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		screenDimensions.w, screenDimensions.h, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
-	);
+		screenDimensions.w, screenDimensions.h,
+      SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI );
 
 	if (window == NULL) {
 		printf("Couldn't make a window. Error: %s\n", SDL_GetError());
@@ -65,6 +67,7 @@ bool GameWindow::initialize(Listener* gameListener) {
 		printf("Couldn't find spritesheet, I guess. Error: %s\n", IMG_GetError());
 		success = false;
 	}
+
 
 	//UI screens
    adventureUI.initialize(renderer, spritesheet);
@@ -104,6 +107,15 @@ void GameWindow::update(int fps) {
 void GameWindow::updateWindowDimensions(int width, int height) {
 	screenDimensions.w = width;
 	screenDimensions.h = height;
+
+   int wWidthPixels, wHeightPixels;
+   int wWidthDots, wHeightDots;
+   int glWidth, glHeight;
+   SDL_GetRendererOutputSize(renderer, &wWidthPixels, &wHeightPixels);
+   SDL_GetWindowSize(window, &wWidthDots, &wHeightDots);
+   SDL_GL_GetDrawableSize(window, &glWidth, &glHeight);
+
+   printf("Actual: %ix%i || Dots: %ix%i || GL: %ix%i\n", wWidthPixels, wHeightPixels, wWidthDots, wHeightDots, glWidth, glHeight);
 }
 
 
@@ -138,7 +150,15 @@ void GameWindow::processClick(int x, int y, bool isRightClick) {
 }
 
 void GameWindow::processScroll(int x, int y, int scrollOffset, bool ctrlDown) {
-   adventureUI.processScroll(x, y, scrollOffset, ctrlDown);
+   if (!exitConfirmerUI.hidden) {
+      exitConfirmerUI.processScroll(x, y, scrollOffset, ctrlDown);
+   }
+   else if (!gameOverUI.hidden) {
+      gameOverUI.processScroll(x, y, scrollOffset, ctrlDown);
+   }
+   else {
+      adventureUI.processScroll(x, y, scrollOffset, ctrlDown);
+   }
 }
 
 void GameWindow::processKeyPress(SDL_Keycode keycode, SDL_Keymod modification) {
