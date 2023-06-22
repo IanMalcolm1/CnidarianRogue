@@ -49,4 +49,6 @@ public:
 	void processScroll(int x, int y, int offset, bool ctrlDown);
 	void processClick(int x, int y, bool isRightClick);
 	void processKeyPress(SDL_Keycode keycode);
+
+	void processWindowSizeChange();
 };

@@ -31,4 +31,6 @@ public:
 	void processCursorLocation(int x, int y);
 	void processScroll(int x, int y, int offset);
 	void processClick(int x, int y, bool isRightClick);
+
+	void processWindowSizeChange();
 };

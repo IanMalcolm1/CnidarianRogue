@@ -32,7 +32,7 @@ private:
 	void resetRenderer();
 
 public:
-	GameWindow(Adventure* adventure, int windowWidth = 1600, int windowHeight = 1200);
+	GameWindow(Adventure* adventure, int windowWidth = 800, int windowHeight = 400);
 	~GameWindow();
 
 	bool initialize(Listener* gameListener);

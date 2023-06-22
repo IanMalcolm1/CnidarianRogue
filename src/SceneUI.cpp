@@ -37,3 +37,9 @@ void SceneUI::processClick(int x, int y, bool isRightClick) {
       }
 	}
 }
+
+void SceneUI::processWindowSizeChange() {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+	mapUI.processWindowSizeChange();
+#endif
+}

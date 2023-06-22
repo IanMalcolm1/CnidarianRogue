@@ -11,7 +11,7 @@ private:
    void onRightButtonSelect() override;
 
 public:
-	ExitConfirmerUI(int fontSize = 4) :
+	ExitConfirmerUI(int fontSize = 2) :
    TwoButtonPopupUI("Quit Game?", "Yes", "No", fontSize) {};
 
    void processKeyPress(SDL_Keycode keycode);

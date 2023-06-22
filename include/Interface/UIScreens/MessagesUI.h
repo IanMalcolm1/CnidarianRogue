@@ -25,7 +25,7 @@ private:
 	void makeFormattedMessages();
 
 public:
-	MessagesUI(int fontSize = 3) : renderer(NULL), spritesheet(NULL),
+	MessagesUI(int fontSize = 2) : renderer(NULL), spritesheet(NULL),
    mainViewport({0,0,0,0}), totalHeight(0), log(nullptr),
 	textRenderer(), textSpecs(fontSize), startOffset(-textSpecs.margin) {};
 
