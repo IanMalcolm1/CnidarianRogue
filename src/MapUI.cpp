@@ -87,6 +87,22 @@ void MapUI::calculateMapRenderingData() {
 	rData.srcRect.y = rData.startTile.y * 8;
 	rData.srcRect.w = (1 + rData.endTile.x - rData.startTile.x) * 8;
 	rData.srcRect.h = (1 + rData.endTile.y - rData.startTile.y) * 8;
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+   //To handle texture being destroyed on resize... for some reason...
+   makeTexture();
+
+   for (int x=0; x<mapDisplay.getWidth(); x++) {
+      for (int y=0; y<mapDisplay.getHeight(); y++) {
+            int index = mapDisplay->getNextIndexFromRow(row);
+            dstrect.x = index%mapDisplay->getWidth() * 8;
+            dstrect.y = index/mapDisplay->getWidth() * 8;
+
+            renderTile(index, dstrect);
+      }
+   }
+
+#endif
 }
 
 
