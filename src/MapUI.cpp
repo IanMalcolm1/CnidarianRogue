@@ -51,15 +51,9 @@ void MapUI::render(LocalMap* map, const SDL_Rect& viewport) {
 
 	SDL_SetRenderTarget(renderer, mapTexture);
 
-	mainViewport.h = viewport.h;
-	mainViewport.w = viewport.w;
-	mainViewport.x = viewport.x;
-	mainViewport.y = viewport.y;
-
-	calculateMapRenderingData();
+	calculateMapRenderingData(viewport);
 
 	SDL_Rect dstrect = { 0,0, 8, 8 }; //for SDL_RenderCopy()
-	int index;
 
    for (int row = rData.startTile.y; row <= rData.endTile.y && row<mapDisplay->getHeight(); row++) {
          while (!mapDisplay->rowIsEmpty(row)) {
@@ -79,7 +73,12 @@ void MapUI::render(LocalMap* map, const SDL_Rect& viewport) {
 }
 
 
-void MapUI::calculateMapRenderingData() {
+void MapUI::calculateMapRenderingData(const SDL_Rect& viewport) {
+	mainViewport.h = viewport.h;
+	mainViewport.w = viewport.w;
+	mainViewport.x = viewport.x;
+	mainViewport.y = viewport.y;
+
 	calcDataForAxis(mainViewport, 'x');
 	calcDataForAxis(mainViewport, 'y');
 
@@ -87,22 +86,6 @@ void MapUI::calculateMapRenderingData() {
 	rData.srcRect.y = rData.startTile.y * 8;
 	rData.srcRect.w = (1 + rData.endTile.x - rData.startTile.x) * 8;
 	rData.srcRect.h = (1 + rData.endTile.y - rData.startTile.y) * 8;
-
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-   //To handle texture being destroyed on resize... for some reason...
-   makeTexture();
-
-   for (int x=0; x<mapDisplay.getWidth(); x++) {
-      for (int y=0; y<mapDisplay.getHeight(); y++) {
-            int index = mapDisplay->getNextIndexFromRow(row);
-            dstrect.x = index%mapDisplay->getWidth() * 8;
-            dstrect.y = index/mapDisplay->getWidth() * 8;
-
-            renderTile(index, dstrect);
-      }
-   }
-
-#endif
 }
 
 
@@ -270,6 +253,8 @@ void MapUI::processScroll(int x, int y, int offset) {
 	else if (rData.scale > 20) { rData.scale = 20; }
 
 	rData.scaleSize = rData.scale * 8;
+	SDL_Rect temp = mainViewport;
+	calculateMapRenderingData(temp);
 }
 
 void MapUI::processCursorLocation(int x, int y) {
@@ -324,4 +309,23 @@ void MapUI::renderReticle(int index, SDL_Rect dstrect) {
 		SDL_SetTextureAlphaMod(spritesheet, 255);
 
 		SDL_RenderCopy(renderer, spritesheet, &srcrect, &dstrect);
+}
+
+
+void MapUI::processWindowSizeChange() {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+	//To handle texture being destroyed on resize... for some reason...
+	makeTexture();
+
+	SDL_SetRenderTarget(renderer, mapTexture);
+	SDL_Rect dstrect = { 0,0, 8, 8 }; //for SDL_RenderCopy()
+	for (int index = 0; index < mapDisplay->getWidth() * mapDisplay->getHeight(); index++) {
+		dstrect.x = index % mapDisplay->getWidth() * 8;
+		dstrect.y = index / mapDisplay->getWidth() * 8;
+
+		renderTile(index, dstrect);
+	}
+	SDL_SetRenderTarget(renderer, NULL);
+
+#endif
 }

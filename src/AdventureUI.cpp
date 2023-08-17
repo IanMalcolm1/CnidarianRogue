@@ -108,3 +108,11 @@ void AdventureUI::resetRendererAndDrawBorder(SDL_Rect& currentViewport) {
 	SDL_SetTextureAlphaMod(spritesheet, 255);
 	SDL_SetTextureColorMod(spritesheet, 255, 255, 255);
 }
+
+
+
+void AdventureUI::processWindowSizeChange() {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+	sceneUI.processWindowSizeChange();
+#endif
+}

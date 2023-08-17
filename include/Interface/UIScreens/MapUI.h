@@ -32,7 +32,7 @@ private:
 
 	SDL_Rect mainViewport;
 
-	void calculateMapRenderingData();
+	void calculateMapRenderingData(const SDL_Rect& viewport);
 	void calcDataForAxis(const SDL_Rect& viewport, char axis); //as in x/y axis
 
 	void renderTile(int index, SDL_Rect dstrect);
@@ -56,4 +56,6 @@ public:
 	void processScroll(int x, int y, int offset); //changes scale
 	void processCursorLocation(int x, int y);
 	TileCoords findMapTileFromScreenCoords(int x, int y);
+
+	void processWindowSizeChange();
 };

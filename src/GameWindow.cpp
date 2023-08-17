@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 GameWindow::GameWindow(Adventure* adventure, int windowWidth, int windowHeight) :
-adventureUI(adventure), exitConfirmerUI(4), gameOverUI(4), fpsUI() {
+adventureUI(adventure), exitConfirmerUI(), gameOverUI(), fpsUI() {
 	screenDimensions.x = screenDimensions.y = 0;
 	screenDimensions.w = windowWidth;
 	screenDimensions.h = windowHeight;
@@ -107,6 +107,8 @@ void GameWindow::update(int fps) {
 void GameWindow::updateWindowDimensions(int width, int height) {
 	screenDimensions.w = width;
 	screenDimensions.h = height;
+
+	adventureUI.processWindowSizeChange();
 }
 
 

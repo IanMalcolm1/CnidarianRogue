@@ -9,3 +9,7 @@ Controls:
 - Use Stairs: < (shift+,)
 - Move N/S/E/W: Arrow Keys
 - Move NW/NE/SW/SE: y/u/h/j
+
+Most UI elements can be zoomed in/out by scrolling while depressing the ctrl key.
+
+Not tested on Mac
