@@ -12,4 +12,7 @@ Controls:
 
 Most UI elements can be zoomed in/out by scrolling while depressing the ctrl key.
 
-Not tested on Mac
+![Floor 1](/floor1.png)
+![Floor 2](/floor2.png)
+
+Not tested on Mac.
