@@ -1,4 +1,4 @@
-A short traditional roguelike I made to get some practice with C++ and making non--trivial programs. Uses SDL2 for graphics.
+A short traditional roguelike I made to get some practice with C++ and making non-trivial programs. Uses SDL2 for graphics.
 
 Controls:
 - Heal: f
